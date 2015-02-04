@@ -7,16 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		419AA50C1A828FE70015D195 /* ComMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5061A828FE70015D195 /* ComMessage.h */; };
+		419AA50D1A828FE70015D195 /* ComMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5071A828FE70015D195 /* ComMessage.m */; };
+		419AA50E1A828FE70015D195 /* ComMessageProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5081A828FE70015D195 /* ComMessageProtocol.m */; };
+		419AA50F1A828FE70015D195 /* ComMessageProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5091A828FE70015D195 /* ComMessageProtocol.h */; };
+		419AA5101A828FE70015D195 /* ComServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA50A1A828FE70015D195 /* ComServerConnection.h */; };
+		419AA5111A828FE70015D195 /* ComServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA50B1A828FE70015D195 /* ComServerConnection.m */; };
+		419AA51F1A828FF10015D195 /* SGSChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5121A828FF10015D195 /* SGSChannel.h */; };
+		419AA5201A828FF10015D195 /* SGSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5131A828FF10015D195 /* SGSChannel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		419AA5211A828FF10015D195 /* SGSConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5141A828FF10015D195 /* SGSConnection.h */; };
+		419AA5221A828FF10015D195 /* SGSConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5151A828FF10015D195 /* SGSConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		419AA5231A828FF10015D195 /* SGSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5161A828FF10015D195 /* SGSContext.h */; };
+		419AA5241A828FF10015D195 /* SGSContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5171A828FF10015D195 /* SGSContext.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		419AA5251A828FF10015D195 /* SGSId.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5181A828FF10015D195 /* SGSId.h */; };
+		419AA5261A828FF10015D195 /* SGSId.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5191A828FF10015D195 /* SGSId.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		419AA5271A828FF10015D195 /* SGSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA51A1A828FF10015D195 /* SGSMessage.h */; };
+		419AA5281A828FF10015D195 /* SGSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA51B1A828FF10015D195 /* SGSMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		419AA5291A828FF10015D195 /* SGSProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA51C1A828FF10015D195 /* SGSProtocol.h */; };
+		419AA52A1A828FF10015D195 /* SGSSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA51D1A828FF10015D195 /* SGSSession.h */; };
+		419AA52B1A828FF10015D195 /* SGSSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA51E1A828FF10015D195 /* SGSSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		419AA5311A82910E0015D195 /* BLDictionaryBasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA52F1A82910E0015D195 /* BLDictionaryBasedObject.h */; };
+		419AA5321A82910E0015D195 /* BLDictionaryBasedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5301A82910E0015D195 /* BLDictionaryBasedObject.m */; };
+		419AA5351A82963A0015D195 /* DateUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5331A82963A0015D195 /* DateUtils.h */; };
+		419AA5361A82963A0015D195 /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5341A82963A0015D195 /* DateUtils.m */; };
+		419AA53D1A829B680015D195 /* UserDefaultsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA53B1A829B680015D195 /* UserDefaultsManager.h */; };
+		419AA53E1A829B680015D195 /* UserDefaultsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA53C1A829B680015D195 /* UserDefaultsManager.m */; };
+		419AA5411A829C670015D195 /* SessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA53F1A829C670015D195 /* SessionManager.h */; };
+		419AA5421A829C670015D195 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5401A829C670015D195 /* SessionManager.m */; };
+		419AA5451A829C7B0015D195 /* BLUserExtended.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5431A829C7B0015D195 /* BLUserExtended.h */; };
+		419AA5461A829C7B0015D195 /* BLUserExtended.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5441A829C7B0015D195 /* BLUserExtended.m */; };
 		419CAAA81A80475800F68EB0 /* CriptextKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* CriptextKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		419CAAC91A8047A000F68EB0 /* RNCryptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAC01A8047A000F68EB0 /* RNCryptor.h */; };
-		419CAACA1A8047A000F68EB0 /* RNCryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAAC11A8047A000F68EB0 /* RNCryptor.m */; };
-		419CAACB1A8047A000F68EB0 /* RNDecryptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAC21A8047A000F68EB0 /* RNDecryptor.h */; };
-		419CAACC1A8047A000F68EB0 /* RNDecryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAAC31A8047A000F68EB0 /* RNDecryptor.m */; };
-		419CAACD1A8047A000F68EB0 /* RNEncryptor.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAC41A8047A000F68EB0 /* RNEncryptor.h */; };
-		419CAACE1A8047A000F68EB0 /* RNEncryptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAAC51A8047A000F68EB0 /* RNEncryptor.m */; };
-		419CAACF1A8047A000F68EB0 /* RNCryptorEngine.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAC61A8047A000F68EB0 /* RNCryptorEngine.h */; };
-		419CAAD01A8047A000F68EB0 /* RNCryptorEngine.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAAC71A8047A000F68EB0 /* RNCryptorEngine.m */; };
-		419CAAD11A8047A000F68EB0 /* RNCryptor+Private.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAC81A8047A000F68EB0 /* RNCryptor+Private.h */; };
 		419CAAD71A8047D900F68EB0 /* UICKeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAD31A8047D900F68EB0 /* UICKeyChainStore.h */; };
 		419CAAD81A8047D900F68EB0 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAAD41A8047D900F68EB0 /* UICKeyChainStore.m */; };
 		419CAAD91A8047D900F68EB0 /* SecurityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAD51A8047D900F68EB0 /* SecurityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -61,23 +81,45 @@
 		419CAB2F1A8123A000F68EB0 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 419CAB2D1A8123A000F68EB0 /* libssl.a */; };
 		419CAB491A81635D00F68EB0 /* Criptext.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB471A81635D00F68EB0 /* Criptext.h */; };
 		419CAB4A1A81635D00F68EB0 /* Criptext.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB481A81635D00F68EB0 /* Criptext.m */; };
+		419CAB4D1A81937600F68EB0 /* BBAES.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB4B1A81937600F68EB0 /* BBAES.h */; };
+		419CAB4E1A81937600F68EB0 /* BBAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB4C1A81937600F68EB0 /* BBAES.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		419AA5061A828FE70015D195 /* ComMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComMessage.h; sourceTree = "<group>"; };
+		419AA5071A828FE70015D195 /* ComMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComMessage.m; sourceTree = "<group>"; };
+		419AA5081A828FE70015D195 /* ComMessageProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComMessageProtocol.m; sourceTree = "<group>"; };
+		419AA5091A828FE70015D195 /* ComMessageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComMessageProtocol.h; sourceTree = "<group>"; };
+		419AA50A1A828FE70015D195 /* ComServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComServerConnection.h; sourceTree = "<group>"; };
+		419AA50B1A828FE70015D195 /* ComServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComServerConnection.m; sourceTree = "<group>"; };
+		419AA5121A828FF10015D195 /* SGSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSChannel.h; sourceTree = "<group>"; };
+		419AA5131A828FF10015D195 /* SGSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGSChannel.m; sourceTree = "<group>"; };
+		419AA5141A828FF10015D195 /* SGSConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSConnection.h; sourceTree = "<group>"; };
+		419AA5151A828FF10015D195 /* SGSConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGSConnection.m; sourceTree = "<group>"; };
+		419AA5161A828FF10015D195 /* SGSContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSContext.h; sourceTree = "<group>"; };
+		419AA5171A828FF10015D195 /* SGSContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGSContext.m; sourceTree = "<group>"; };
+		419AA5181A828FF10015D195 /* SGSId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSId.h; sourceTree = "<group>"; };
+		419AA5191A828FF10015D195 /* SGSId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGSId.m; sourceTree = "<group>"; };
+		419AA51A1A828FF10015D195 /* SGSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSMessage.h; sourceTree = "<group>"; };
+		419AA51B1A828FF10015D195 /* SGSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGSMessage.m; sourceTree = "<group>"; };
+		419AA51C1A828FF10015D195 /* SGSProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSProtocol.h; sourceTree = "<group>"; };
+		419AA51D1A828FF10015D195 /* SGSSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGSSession.h; sourceTree = "<group>"; };
+		419AA51E1A828FF10015D195 /* SGSSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGSSession.m; sourceTree = "<group>"; };
+		419AA52F1A82910E0015D195 /* BLDictionaryBasedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLDictionaryBasedObject.h; sourceTree = "<group>"; };
+		419AA5301A82910E0015D195 /* BLDictionaryBasedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLDictionaryBasedObject.m; sourceTree = "<group>"; };
+		419AA5331A82963A0015D195 /* DateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateUtils.h; sourceTree = "<group>"; };
+		419AA5341A82963A0015D195 /* DateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateUtils.m; sourceTree = "<group>"; };
+		419AA53B1A829B680015D195 /* UserDefaultsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaultsManager.h; sourceTree = "<group>"; };
+		419AA53C1A829B680015D195 /* UserDefaultsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaultsManager.m; sourceTree = "<group>"; };
+		419AA53F1A829C670015D195 /* SessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionManager.h; sourceTree = "<group>"; };
+		419AA5401A829C670015D195 /* SessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SessionManager.m; sourceTree = "<group>"; };
+		419AA5431A829C7B0015D195 /* BLUserExtended.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLUserExtended.h; sourceTree = "<group>"; };
+		419AA5441A829C7B0015D195 /* BLUserExtended.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLUserExtended.m; sourceTree = "<group>"; };
 		419CAAA21A80475800F68EB0 /* CriptextKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriptextKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		419CAAA61A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		419CAAA71A80475800F68EB0 /* CriptextKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CriptextKit.h; sourceTree = "<group>"; };
 		419CAAB31A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		419CAAB41A80475800F68EB0 /* CriptextKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CriptextKitTests.m; sourceTree = "<group>"; };
-		419CAAC01A8047A000F68EB0 /* RNCryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCryptor.h; sourceTree = "<group>"; };
-		419CAAC11A8047A000F68EB0 /* RNCryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCryptor.m; sourceTree = "<group>"; };
-		419CAAC21A8047A000F68EB0 /* RNDecryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNDecryptor.h; sourceTree = "<group>"; };
-		419CAAC31A8047A000F68EB0 /* RNDecryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNDecryptor.m; sourceTree = "<group>"; };
-		419CAAC41A8047A000F68EB0 /* RNEncryptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNEncryptor.h; sourceTree = "<group>"; };
-		419CAAC51A8047A000F68EB0 /* RNEncryptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNEncryptor.m; sourceTree = "<group>"; };
-		419CAAC61A8047A000F68EB0 /* RNCryptorEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNCryptorEngine.h; sourceTree = "<group>"; };
-		419CAAC71A8047A000F68EB0 /* RNCryptorEngine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNCryptorEngine.m; sourceTree = "<group>"; };
-		419CAAC81A8047A000F68EB0 /* RNCryptor+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RNCryptor+Private.h"; sourceTree = "<group>"; };
 		419CAAD31A8047D900F68EB0 /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICKeyChainStore.h; sourceTree = "<group>"; };
 		419CAAD41A8047D900F68EB0 /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICKeyChainStore.m; sourceTree = "<group>"; };
 		419CAAD51A8047D900F68EB0 /* SecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecurityManager.h; sourceTree = "<group>"; };
@@ -122,6 +164,8 @@
 		419CAB2D1A8123A000F68EB0 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		419CAB471A81635D00F68EB0 /* Criptext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Criptext.h; sourceTree = "<group>"; };
 		419CAB481A81635D00F68EB0 /* Criptext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Criptext.m; sourceTree = "<group>"; };
+		419CAB4B1A81937600F68EB0 /* BBAES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAES.h; sourceTree = "<group>"; };
+		419CAB4C1A81937600F68EB0 /* BBAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAES.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +182,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		419AA52C1A828FF90015D195 /* SGSRocketServerAPI */ = {
+			isa = PBXGroup;
+			children = (
+				419AA5121A828FF10015D195 /* SGSChannel.h */,
+				419AA5131A828FF10015D195 /* SGSChannel.m */,
+				419AA5141A828FF10015D195 /* SGSConnection.h */,
+				419AA5151A828FF10015D195 /* SGSConnection.m */,
+				419AA5161A828FF10015D195 /* SGSContext.h */,
+				419AA5171A828FF10015D195 /* SGSContext.m */,
+				419AA5181A828FF10015D195 /* SGSId.h */,
+				419AA5191A828FF10015D195 /* SGSId.m */,
+				419AA51A1A828FF10015D195 /* SGSMessage.h */,
+				419AA51B1A828FF10015D195 /* SGSMessage.m */,
+				419AA51C1A828FF10015D195 /* SGSProtocol.h */,
+				419AA51D1A828FF10015D195 /* SGSSession.h */,
+				419AA51E1A828FF10015D195 /* SGSSession.m */,
+			);
+			name = SGSRocketServerAPI;
+			sourceTree = "<group>";
+		};
+		419AA52D1A8290200015D195 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				419AA5061A828FE70015D195 /* ComMessage.h */,
+				419AA5071A828FE70015D195 /* ComMessage.m */,
+				419AA5081A828FE70015D195 /* ComMessageProtocol.m */,
+				419AA5091A828FE70015D195 /* ComMessageProtocol.h */,
+				419AA50A1A828FE70015D195 /* ComServerConnection.h */,
+				419AA50B1A828FE70015D195 /* ComServerConnection.m */,
+				419AA52C1A828FF90015D195 /* SGSRocketServerAPI */,
+			);
+			name = Socket;
+			sourceTree = "<group>";
+		};
+		419AA52E1A8290F50015D195 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				419AA52F1A82910E0015D195 /* BLDictionaryBasedObject.h */,
+				419AA5301A82910E0015D195 /* BLDictionaryBasedObject.m */,
+				419AA5431A829C7B0015D195 /* BLUserExtended.h */,
+				419AA5441A829C7B0015D195 /* BLUserExtended.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		419CAA981A80475800F68EB0 = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +247,7 @@
 		419CAAA41A80475800F68EB0 /* CriptextKit */ = {
 			isa = PBXGroup;
 			children = (
+				419AA52E1A8290F50015D195 /* Model */,
 				419CAB081A804ABC00F68EB0 /* Helpers */,
 				419CAADB1A80481B00F68EB0 /* Communication */,
 				419CAABE1A80477500F68EB0 /* Security */,
@@ -199,28 +289,12 @@
 				419CAB2D1A8123A000F68EB0 /* libssl.a */,
 				419CAAD51A8047D900F68EB0 /* SecurityManager.h */,
 				419CAAD61A8047D900F68EB0 /* SecurityManager.m */,
+				419CAB4F1A8193FE00F68EB0 /* AES */,
 				419CAB471A81635D00F68EB0 /* Criptext.h */,
 				419CAB481A81635D00F68EB0 /* Criptext.m */,
 				419CAAD21A8047C700F68EB0 /* KeychainManager */,
-				419CAABF1A80478A00F68EB0 /* RNCryptor */,
 			);
 			name = Security;
-			sourceTree = "<group>";
-		};
-		419CAABF1A80478A00F68EB0 /* RNCryptor */ = {
-			isa = PBXGroup;
-			children = (
-				419CAAC01A8047A000F68EB0 /* RNCryptor.h */,
-				419CAAC11A8047A000F68EB0 /* RNCryptor.m */,
-				419CAAC21A8047A000F68EB0 /* RNDecryptor.h */,
-				419CAAC31A8047A000F68EB0 /* RNDecryptor.m */,
-				419CAAC41A8047A000F68EB0 /* RNEncryptor.h */,
-				419CAAC51A8047A000F68EB0 /* RNEncryptor.m */,
-				419CAAC61A8047A000F68EB0 /* RNCryptorEngine.h */,
-				419CAAC71A8047A000F68EB0 /* RNCryptorEngine.m */,
-				419CAAC81A8047A000F68EB0 /* RNCryptor+Private.h */,
-			);
-			name = RNCryptor;
 			sourceTree = "<group>";
 		};
 		419CAAD21A8047C700F68EB0 /* KeychainManager */ = {
@@ -235,6 +309,7 @@
 		419CAADB1A80481B00F68EB0 /* Communication */ = {
 			isa = PBXGroup;
 			children = (
+				419AA52D1A8290200015D195 /* Socket */,
 				419CAB0D1A804AF000F68EB0 /* JSON */,
 				419CAAE11A80492600F68EB0 /* ASI */,
 				419CAADC1A80483700F68EB0 /* API */,
@@ -280,6 +355,12 @@
 		419CAB081A804ABC00F68EB0 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				419AA53B1A829B680015D195 /* UserDefaultsManager.h */,
+				419AA53C1A829B680015D195 /* UserDefaultsManager.m */,
+				419AA53F1A829C670015D195 /* SessionManager.h */,
+				419AA5401A829C670015D195 /* SessionManager.m */,
+				419AA5331A82963A0015D195 /* DateUtils.h */,
+				419AA5341A82963A0015D195 /* DateUtils.m */,
 				419CAB091A804ACC00F68EB0 /* NSData+Base64.h */,
 				419CAB0A1A804ACC00F68EB0 /* NSData+Base64.m */,
 			);
@@ -306,6 +387,15 @@
 			name = JSON;
 			sourceTree = "<group>";
 		};
+		419CAB4F1A8193FE00F68EB0 /* AES */ = {
+			isa = PBXGroup;
+			children = (
+				419CAB4B1A81937600F68EB0 /* BBAES.h */,
+				419CAB4C1A81937600F68EB0 /* BBAES.m */,
+			);
+			name = AES;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -316,31 +406,42 @@
 				419CAAF81A80493600F68EB0 /* ASICacheDelegate.h in Headers */,
 				419CAB1E1A804AFB00F68EB0 /* NSString+SBJSON.h in Headers */,
 				419CAB011A80493600F68EB0 /* ASIInputStream.h in Headers */,
-				419CAAC91A8047A000F68EB0 /* RNCryptor.h in Headers */,
-				419CAACD1A8047A000F68EB0 /* RNEncryptor.h in Headers */,
 				419CAB051A80493600F68EB0 /* ASIProgressDelegate.h in Headers */,
+				419AA5451A829C7B0015D195 /* BLUserExtended.h in Headers */,
 				419CAAD71A8047D900F68EB0 /* UICKeyChainStore.h in Headers */,
-				419CAAD11A8047A000F68EB0 /* RNCryptor+Private.h in Headers */,
+				419AA5101A828FE70015D195 /* ComServerConnection.h in Headers */,
 				419CAB031A80493600F68EB0 /* ASINetworkQueue.h in Headers */,
 				419CAB001A80493600F68EB0 /* ASIHTTPRequestDelegate.h in Headers */,
-				419CAACB1A8047A000F68EB0 /* RNDecryptor.h in Headers */,
 				419CAB1C1A804AFB00F68EB0 /* NSObject+SBJSON.h in Headers */,
-				419CAACF1A8047A000F68EB0 /* RNCryptorEngine.h in Headers */,
 				419CAAFD1A80493600F68EB0 /* ASIHTTPRequest.h in Headers */,
+				419AA5231A828FF10015D195 /* SGSContext.h in Headers */,
+				419AA51F1A828FF10015D195 /* SGSChannel.h in Headers */,
+				419AA5351A82963A0015D195 /* DateUtils.h in Headers */,
 				419CAB491A81635D00F68EB0 /* Criptext.h in Headers */,
 				419CAB201A804AFB00F68EB0 /* SBJSON.h in Headers */,
 				419CAB1B1A804AFB00F68EB0 /* JSON.h in Headers */,
+				419AA50F1A828FE70015D195 /* ComMessageProtocol.h in Headers */,
 				419CAAFF1A80493600F68EB0 /* ASIHTTPRequestConfig.h in Headers */,
 				419CAB241A804AFB00F68EB0 /* SBJsonParser.h in Headers */,
 				419CAAD91A8047D900F68EB0 /* SecurityManager.h in Headers */,
+				419AA5271A828FF10015D195 /* SGSMessage.h in Headers */,
 				419CAB0B1A804ACC00F68EB0 /* NSData+Base64.h in Headers */,
+				419AA5311A82910E0015D195 /* BLDictionaryBasedObject.h in Headers */,
 				419CAAA81A80475800F68EB0 /* CriptextKit.h in Headers */,
 				419CAB221A804AFB00F68EB0 /* SBJsonBase.h in Headers */,
 				419CAADF1A80485C00F68EB0 /* APIConnector.h in Headers */,
+				419AA5251A828FF10015D195 /* SGSId.h in Headers */,
+				419AA5211A828FF10015D195 /* SGSConnection.h in Headers */,
+				419AA52A1A828FF10015D195 /* SGSSession.h in Headers */,
+				419AA5411A829C670015D195 /* SessionManager.h in Headers */,
+				419AA53D1A829B680015D195 /* UserDefaultsManager.h in Headers */,
+				419CAB4D1A81937600F68EB0 /* BBAES.h in Headers */,
 				419CAAFB1A80493600F68EB0 /* ASIFormDataRequest.h in Headers */,
+				419AA5291A828FF10015D195 /* SGSProtocol.h in Headers */,
 				419CAB261A804AFB00F68EB0 /* SBJsonWriter.h in Headers */,
 				419CAAF41A80493600F68EB0 /* Reachability.h in Headers */,
 				419CAAF91A80493600F68EB0 /* ASIDownloadCache.h in Headers */,
+				419AA50C1A828FE70015D195 /* ComMessage.h in Headers */,
 				419CAAF61A80493600F68EB0 /* ASIAuthenticationDialog.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -412,20 +513,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				419AA5261A828FF10015D195 /* SGSId.m in Sources */,
 				419CAB211A804AFB00F68EB0 /* SBJSON.m in Sources */,
-				419CAACE1A8047A000F68EB0 /* RNEncryptor.m in Sources */,
 				419CAB021A80493600F68EB0 /* ASIInputStream.m in Sources */,
+				419AA5201A828FF10015D195 /* SGSChannel.m in Sources */,
 				419CAB0C1A804ACC00F68EB0 /* NSData+Base64.m in Sources */,
-				419CAAD01A8047A000F68EB0 /* RNCryptorEngine.m in Sources */,
 				419CAAFA1A80493600F68EB0 /* ASIDownloadCache.m in Sources */,
 				419CAAF51A80493600F68EB0 /* Reachability.m in Sources */,
+				419AA5461A829C7B0015D195 /* BLUserExtended.m in Sources */,
 				419CAB271A804AFB00F68EB0 /* SBJsonWriter.m in Sources */,
-				419CAACC1A8047A000F68EB0 /* RNDecryptor.m in Sources */,
+				419AA52B1A828FF10015D195 /* SGSSession.m in Sources */,
+				419AA5221A828FF10015D195 /* SGSConnection.m in Sources */,
+				419AA5421A829C670015D195 /* SessionManager.m in Sources */,
 				419CAB231A804AFB00F68EB0 /* SBJsonBase.m in Sources */,
+				419AA50E1A828FE70015D195 /* ComMessageProtocol.m in Sources */,
+				419AA5281A828FF10015D195 /* SGSMessage.m in Sources */,
+				419AA50D1A828FE70015D195 /* ComMessage.m in Sources */,
 				419CAAFE1A80493600F68EB0 /* ASIHTTPRequest.m in Sources */,
+				419AA5241A828FF10015D195 /* SGSContext.m in Sources */,
 				419CAAF71A80493600F68EB0 /* ASIAuthenticationDialog.m in Sources */,
+				419AA53E1A829B680015D195 /* UserDefaultsManager.m in Sources */,
 				419CAAD81A8047D900F68EB0 /* UICKeyChainStore.m in Sources */,
-				419CAACA1A8047A000F68EB0 /* RNCryptor.m in Sources */,
+				419AA5111A828FE70015D195 /* ComServerConnection.m in Sources */,
+				419AA5361A82963A0015D195 /* DateUtils.m in Sources */,
+				419CAB4E1A81937600F68EB0 /* BBAES.m in Sources */,
 				419CAB251A804AFB00F68EB0 /* SBJsonParser.m in Sources */,
 				419CAB041A80493600F68EB0 /* ASINetworkQueue.m in Sources */,
 				419CAADA1A8047D900F68EB0 /* SecurityManager.m in Sources */,
@@ -434,6 +545,7 @@
 				419CAB1D1A804AFB00F68EB0 /* NSObject+SBJSON.m in Sources */,
 				419CAB4A1A81635D00F68EB0 /* Criptext.m in Sources */,
 				419CAAE01A80485C00F68EB0 /* APIConnector.m in Sources */,
+				419AA5321A82910E0015D195 /* BLDictionaryBasedObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -595,6 +707,7 @@
 				419CAABA1A80475800F68EB0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

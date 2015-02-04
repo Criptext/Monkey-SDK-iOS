@@ -10,7 +10,7 @@
 @class ASIHTTPRequest;
 
 @protocol APIConnectorDelegate <NSObject>
-@required
+@optional
 -(void)onLoginOkWithSessionId:(NSString *)sessionId publicKey:(NSString *)publicKey;
 -(void)onLoginFail;
 -(void)onLoginWrong;

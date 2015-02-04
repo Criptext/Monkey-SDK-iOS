@@ -8,19 +8,16 @@
 
 #import "SecurityManager.h"
 #import "UICKeyChainStore.h"
-#import "RNCryptor.h"
 #import "NSData+Base64.h"
 #import "Criptext.h"
+#import "BBAES.h"
 
-#include <openssl/bn.h>
-#include <openssl/dsa.h>
-#include <openssl/rsa.h>
-#include <openssl/opensslv.h>
-#include <openssl/engine.h>
-#include <openssl/pem.h>
+#define LOGIN_PUBKEY   @"login_pubKey"
+#define MY_AESKEY      @"myAESKey"
 
 @interface SecurityManager ()
 @property (strong, nonatomic) UICKeyChainStore *keychainStore;
+@property (strong, nonatomic) NSMutableDictionary *loadedKeys;
 @end
 
 @implementation SecurityManager
@@ -63,7 +60,7 @@
 */
 #pragma mark - Keychain Services
 -(BOOL)storeKey:(NSString *)key withIdentifier:(NSString *)identifier{
-//    NSString *pemkey = [NSString stringWithFormat:@"%@%@%@", @"-----BEGIN PUBLIC KEY-----\n", key, @"-----END PUBLIC KEY-----\n"];
+//    NSString *pemkey = [NSString stringWithFormat:@"%@%@%@", @"-----BEGIN PUBLIC KEY-----\n", key, @"\n-----END PUBLIC KEY-----\n"];
 //    NSLog(@"pemkey: %@", pemkey);
 //    const char *charkey = [pemkey UTF8String];
 //    NSLog(@"charkey: %s",charkey);
@@ -88,35 +85,48 @@
 }
 
 -(NSString *)aesEncryptedKey{
+    NSLog(@"test: %@",self.keychainStore[@"firstShake"]);
     return [NSString stringWithFormat:@"%s", encriptarRSA([self.keychainStore[@"firstShake"] UTF8String], (unsigned char *) [(NSString *)self.keychainStore[@"myAESKey"] UTF8String]) ];
 }
 
 #pragma mark - RSA encryption
--(NSData *)rsaEncryptData:(NSData *)data withPublicKey:(NSString *)publicKey{
-    
-    return nil;
+-(NSString *)rsaEncryptBase64String:(NSString *)string withPublicKeyIdentifier:(NSString *)identifier{
+    NSString *pubKey = self.keychainStore[identifier];
+    NSLog(@"stringToEncrypt: %@", string);
+    return [NSString stringWithFormat:@"%s", encriptarRSA([pubKey UTF8String], (unsigned char *) [string UTF8String]) ];
 }
+
 #pragma mark - AES Key
-- (NSData*)generateSalt256 {
-    unsigned char salt[32];
-    for (int i=0; i<32; i++) {
-        salt[i] = (unsigned char)arc4random();
-    }
-    return [NSData dataWithBytes:salt length:32];
-}
-
-static const RNCryptorKeyDerivationSettings mySettings = {
-    .keySize = kCCKeySizeAES256,
-    .saltSize = 32,
-    .PBKDFAlgorithm = kCCPBKDF2,
-    .PRF = kCCPRFHmacAlgSHA1,
-    .rounds = 10000
-};
-
-- (NSData *)generateAESKey{
-    NSData *aesKey =[RNCryptor keyForPassword:@"testingpassword" salt:[self generateSalt256] settings:mySettings];
-    [self storeAESKey:aesKey withIdentifier:@"myAESKey"];
-    return aesKey;
+- (NSString *)generateAndEncryptAESKey{
+    NSData *salt = [BBAES randomDataWithLength:BBAESSaltDefaultLength];
+    NSData *aesKey = [BBAES keyBySaltingPassword:@"testingpassword" salt:salt keySize:BBAESKeySize256 numberOfIterations:BBAESPBKDF2DefaultIterationsCount];
+    NSData *iv = [BBAES randomIV];
+    NSLog(@"aeskey: %@", aesKey);
+    
+    [self storeAESKey:aesKey withIdentifier:MY_AESKEY];
+    
+    NSString *base64_aesKey = [aesKey base64EncodedString];
+    NSString *base64_iv = [iv base64EncodedString];
+    NSString *encrypted = [@"derp" bb_AESEncryptedStringForIV:iv key:aesKey options:BBAESEncryptionOptionsIncludeIV];
+    
+    NSString *stringToEncrypt = [NSString stringWithFormat:@"%@:%@:%@",base64_aesKey,base64_iv,encrypted];
+    
+    
+    
+    NSString *stringToSend = [self rsaEncryptBase64String:stringToEncrypt withPublicKeyIdentifier:LOGIN_PUBKEY];
+    
+    NSLog(@"stringToSend: %@", stringToSend);
+    
+//    NSString *base64encrypted = [BBAES encryptedStringFromData:[@"derp" dataUsingEncoding:NSUTF8StringEncoding] IV:iv key:aesKey options:BBAESEncryptionOptionsIncludeIV];
+    NSLog(@"encrypted: %@",encrypted);
+    
+//    NSString *decrypted = [encrypted bb_AESDecryptedStringForIV:nil key:aesKey];
+//    NSData *decryptedData=[BBAES decryptedDataFromString:base64encrypted IV:iv key:aesKey];
+    
+//    NSLog(@"decrypted: %@",decrypted);
+    
+    
+    return stringToSend;
 }
 
 @end

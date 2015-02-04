@@ -7,6 +7,15 @@
 //
 
 #import "Criptext.h"
+#include <openssl/bn.h>
+#include <openssl/dsa.h>
+#include <openssl/rsa.h>
+#include <openssl/opensslv.h>
+#include <openssl/engine.h>
+#include <openssl/pem.h>
+#include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #define PADDING RSA_PKCS1_PADDING
 
@@ -219,6 +228,7 @@ char *encriptarRSA(const char *b64_pKey,unsigned char* mensaje){
     int dataSize=240 ; // 128 for NO PADDING, __ANY SIZE UNDER 128 B__ for RSA_PKCS1_PADDING
     
     // LOAD PUBLIC KEY
+    
     RSA *pubKey = loadPUBLICKeyFromString( b64_pKey ) ;
     
     int asciiB64ELen ;

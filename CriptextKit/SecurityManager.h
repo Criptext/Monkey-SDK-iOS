@@ -18,7 +18,7 @@
 -(NSData *)rsaEncryptData:(NSData *)data withPublicKey:(NSString *)publicKey;
 -(NSString *)getObjectForIdentifier:(NSString *)identifier;
 -(NSData *)getAESKeyForIdentifier:(NSString *)identifier;
--(NSData *)generateAESKey;
+-(NSString *)generateAndEncryptAESKey;
 
 -(NSString *)aesEncryptedKey;
 @end
