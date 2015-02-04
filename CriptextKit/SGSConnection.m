@@ -330,11 +330,6 @@
 }
 
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-	//NSLog(@"memory warn in other");
-}
-
-
 - (void)resetBuffers {
 	[inBuf release];
 	[outBuf release];

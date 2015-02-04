@@ -36,12 +36,7 @@ static UserDefaultsManager *userDefaultsManagerInstance = nil;
 }
 
 - (NSUserDefaults *)myInstance{
-    
-    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0){
-        return [[NSUserDefaults alloc] initWithSuiteName:@"group.criptext.team"];
-    }
-    else
-        return [NSUserDefaults standardUserDefaults];
+    return [NSUserDefaults standardUserDefaults];
 }
 
 - (void)logErrorForKey:(UDKey)key {
