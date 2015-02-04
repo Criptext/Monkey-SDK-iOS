@@ -8,26 +8,22 @@
 #import "ComServerConnection.h"
 #import "SGSMessage.h"
 #import "SGSChannel.h"
-// Static shared instance
+#import "BLUserExtended.h"
+#import "JSON.h"
+#import "ComMessageProtocol.h"
+#import "SessionManager.h"
+#import "UserDefaultsManager.h"
 
 #import "AppDelegate.h"
 
 #import "MessagingManager.h"
-#import "JSON.h"
-#import "ComMessageProtocol.h"
-
-//#import "BLUpdateResult.h"
-
-#import "DBManager.h"
-#import "UsersManager.h"
-#import "BLUserExtended.h"
 
 #import "DateUtils.h"
 #import "AudioUtils.h"
-#import "SessionManager.h"
+
 #import "MenuViewController.h"
 #import "LoginMenuViewController.h"
-#import "UserDefaultsManager.h"
+
 #import "AlertsManager.h"
 #import "ImageCache.h"
 static ComServerConnection* sharedInstance_;
@@ -134,10 +130,8 @@ static ComServerConnection* sharedInstance_;
     if([SessionManager instance].userName==nil)
         return;
     
-	BLUserExtended *me = [UsersManager instance].me;
-	
-	self.connectionDelegate=conDelegate;
-	self.userId=me.userId;
+    self.connectionDelegate=conDelegate;
+    self.userId=[SessionManager instance].idUser;
     firstTime=isFirst;
 	
     //localhost server testing

@@ -54,7 +54,4 @@
 	return mess;
 }
 
-
-//+(BLMessage *) toBLMessage
-
 @end
