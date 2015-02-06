@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "BLDictionaryBasedObject.h"
+#import "utils.h"
 
 @class BLUserExtended;
 
@@ -134,7 +135,6 @@ typedef enum {
 - (NSString*)photoPath;
 - (NSString*)videoPath;
 - (NSString*)filePath;
-- (void)myLoadData;
 
 - (NSTimeInterval )getTimePassed;
 	

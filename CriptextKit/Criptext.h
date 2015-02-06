@@ -11,6 +11,7 @@
 #include <openssl/bn.h>
 #include <openssl/dsa.h>
 #include <openssl/rsa.h>
+#include <openssl/aes.h>
 #include <openssl/opensslv.h>
 #include <openssl/engine.h>
 #include <openssl/pem.h>

@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NSData_Conversion : NSData
+@interface NSData (NSData_Conversion)
+
+#pragma mark - String Conversion
+- (NSString *)hexadecimalString;
 
 @end

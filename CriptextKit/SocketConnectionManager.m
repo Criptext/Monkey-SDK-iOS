@@ -7,7 +7,34 @@
 //
 
 #import "SocketConnectionManager.h"
+#import "ComServerConnection.h"
+
+@interface SocketConnectionManager () <ComServerConnectionDelegate>
+
+@end
 
 @implementation SocketConnectionManager
+
+
+- (void) errorConnection:(NSString *)errorMessage{
+
+}
+- (void) disconnected{
+
+}
+- (void) loggedIn{
+
+}
+- (void) onLoadPendingMessages{
+
+}
+
+- (void) connect{
+
+}
+
+- (void) disconnect{
+
+}
 
 @end

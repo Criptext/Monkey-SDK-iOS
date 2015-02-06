@@ -7,13 +7,16 @@
 //
 //@required
 
-#import "SGSContext.h"
-#import "SGSConnection.h"
-#import "SGSChannel.h"
+#import <Foundation/Foundation.h>
 
-#import "BLMessage.h"
+@class SGSContext;
+@class SGSConnection;
+@class SGSChannel;
 
-@protocol ComConnectionDelegate
+@class BLMessage;
+
+
+@protocol ComServerConnectionDelegate
 
 @optional
 - (void) messagesRecived:(NSArray*)messages;
@@ -24,7 +27,8 @@
 
 @end
 
-@interface ComServerConnection : NSObject <SGSContextDelegate, SGSChannelDelegate>{
+@class UIViewController;
+@interface ComServerConnection : NSObject {
 	
 	NSString * userId;
 	int connectionRetry;
@@ -34,7 +38,7 @@
     
 	SGSConnection *connection;
 	BOOL connected;
-	UIViewController<ComConnectionDelegate> *connectionDelegate;
+	UIViewController<ComServerConnectionDelegate> *connectionDelegate;
 	
     BOOL calculatingLatency;
     
@@ -46,7 +50,7 @@
 }
 
 
-@property (nonatomic, retain) UIViewController<ComConnectionDelegate> *connectionDelegate;
+@property (nonatomic, retain) UIViewController<ComServerConnectionDelegate> *connectionDelegate;
 @property (nonatomic, strong) SGSConnection *connection;
 
 @property (nonatomic, retain) NSString *fb_id;
@@ -57,8 +61,8 @@
 + (ComServerConnection*) sharedInstance;
 
 -(void) deliverDisconnectionState;
-- (void)connectWithDelegate:(UIViewController<ComConnectionDelegate> *) conDelegate;
-- (void)connectWithDelegate:(UIViewController<ComConnectionDelegate> *) conDelegate isFirst:(Boolean)isFirst;
+- (void)connectWithDelegate:(UIViewController<ComServerConnectionDelegate> *) conDelegate;
+- (void)connectWithDelegate:(UIViewController<ComServerConnectionDelegate> *) conDelegate isFirst:(Boolean)isFirst;
 
 -(BOOL)sendMessage:(NSString *)jsonMessage;
 - (void)parseMessage:(NSDictionary *)message;

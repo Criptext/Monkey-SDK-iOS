@@ -8,6 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol SocketConnectionDelegate
+@optional
+- (void) errorConnection:(NSString *)errorMessage;
+- (void) disconnected;
+- (void) loggedIn;
+- (void) onLoadPendingMessages;
+
+@end
+
 @interface SocketConnectionManager : NSObject
+
+-(void)connect;
+-(void)disconnect;
 
 @end

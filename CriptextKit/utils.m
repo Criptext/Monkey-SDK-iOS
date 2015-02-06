@@ -11,7 +11,7 @@
 #import "BLMessage.h"
 
 //#import "BLInvite.h"
-#import "BLConversation.h"
+//#import "BLConversation.h"
 
 NSInteger sortAZF(id arg1, id arg2, void *arg3) {
 	BLUserExtended *user1 = arg1;
@@ -28,20 +28,20 @@ NSInteger timestampSort(id arg1, id arg2, void *arg3) {
 	return m1.timestamp > m2.timestamp ? 1 : -1;
 }
 
-NSInteger timeSort(id arg1, id arg2, void *arg3) {
-	BLConversation *m1 = arg1;
-	BLConversation *m2 = arg2;
-    
-    //NSLog(@"sorting conver %@- %@",m1.lastMessage.messageText,m2.lastMessage.messageText);
-    //NSLog(@"sorting conver %f - %f",m1.lastMessage.timestamp,m2.time);
-    //NSLog(@"sresult %i",m1.time < m2.time ? 1 : -1);
-    //antes m1.time en uno no cambi m1.lastMessage.timestamp
-	if (m1.timestamp == m2.timestamp) {
-		return 0;
-	}
-
-	return m1.timestamp < m2.timestamp ? 1 : -1;
-}
+//NSInteger timeSort(id arg1, id arg2, void *arg3) {
+//	BLConversation *m1 = arg1;
+//	BLConversation *m2 = arg2;
+//    
+//    //NSLog(@"sorting conver %@- %@",m1.lastMessage.messageText,m2.lastMessage.messageText);
+//    //NSLog(@"sorting conver %f - %f",m1.lastMessage.timestamp,m2.time);
+//    //NSLog(@"sresult %i",m1.time < m2.time ? 1 : -1);
+//    //antes m1.time en uno no cambi m1.lastMessage.timestamp
+//	if (m1.timestamp == m2.timestamp) {
+//		return 0;
+//	}
+//
+//	return m1.timestamp < m2.timestamp ? 1 : -1;
+//}
 
 
 

@@ -189,11 +189,14 @@ unsigned char* rsaEncrypt( RSA *pubKey, const unsigned char* str, int dataSize, 
     // (i.e., RSA_size(rsa)). RSA_private_decrypt()
     // returns the size of the recovered plaintext.
     *resultLen = RSA_public_encrypt( dataSize, (const unsigned char*)str, ed, pubKey, PADDING ) ;
+//    RSA_public_encrypt(<#int flen#>, <#const unsigned char *from#>, <#unsigned char *to#>, <#RSA *rsa#>, <#int padding#>)
+//    AES_cbc_encrypt(<#const unsigned char *in#>, <#unsigned char *out#>, <#size_t length#>, <#const AES_KEY *key#>, <#unsigned char *ivec#>, <#const int enc#>)
     if( *resultLen == -1 )
         printf("ERROR: RSA_public_encrypt: %s\n", ERR_error_string(ERR_get_error(), NULL));
     
     return ed ;
 }
+
 
 // You may need to encrypt several blocks of binary data (each has a maximum size
 // limited by pubKey).  You shoudn't try to encrypt more than
@@ -241,3 +244,27 @@ char *encriptarRSA(const char *b64_pKey,unsigned char* mensaje){
     return asciiB64E;
     
 }
+
+//char *encriptarAES(const char *b64_pKey,unsigned char* mensaje){
+//    
+//    ERR_load_crypto_strings();
+//    
+//    // String to encrypt, INCLUDING NULL TERMINATOR:
+//    int dataSize=240 ; // 128 for NO PADDING, __ANY SIZE UNDER 128 B__ for RSA_PKCS1_PADDING
+//    
+//    // LOAD PUBLIC KEY
+//    
+//    RSA *pubKey = loadPUBLICKeyFromString( b64_pKey ) ;
+//    //    AES_cbc_encrypt(<#const unsigned char *in#>, <#unsigned char *out#>, <#size_t length#>, <#const AES_KEY *key#>, <#unsigned char *ivec#>, <#const int enc#>)
+//
+//    
+//    int asciiB64ELen ;
+//    char* asciiB64E = rsaEncryptThenBase64( pubKey, mensaje, dataSize, &asciiB64ELen ) ;
+//    
+//    RSA_free( pubKey ) ; // free the public key when you are done all your encryption
+//    //free( asciiB64E ) ; // rxOverHTTP
+//    ERR_free_strings();
+//    
+//    return asciiB64E;
+//    
+//}

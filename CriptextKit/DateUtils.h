@@ -1,6 +1,6 @@
 //
 //  DateUtils.h
-//  8coupons
+//
 //
 //  Created by Y H on 12.10.10.
 //  Copyright 2010 neoviso. All rights reserved.

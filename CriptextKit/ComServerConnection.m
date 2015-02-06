@@ -14,18 +14,24 @@
 #import "SessionManager.h"
 #import "UserDefaultsManager.h"
 
-#import "AppDelegate.h"
+#import "SGSContext.h"
+#import "SGSConnection.h"
+#import "SGSChannel.h"
 
-#import "MessagingManager.h"
+#import "BLMessage.h"
+
+//#import "AppDelegate.h"
+
+//#import "MessagingManager.h"
 
 #import "DateUtils.h"
-#import "AudioUtils.h"
+//#import "AudioUtils.h"
 
-#import "MenuViewController.h"
-#import "LoginMenuViewController.h"
+//#import "MenuViewController.h"
+//#import "LoginMenuViewController.h"
 
-#import "AlertsManager.h"
-#import "ImageCache.h"
+//#import "AlertsManager.h"
+//#import "ImageCache.h"
 static ComServerConnection* sharedInstance_;
 
 
@@ -33,7 +39,7 @@ static ComServerConnection* sharedInstance_;
 #pragma mark Anonyms category
 
 // Anonymus category for some private methods
-@interface ComServerConnection()
+@interface ComServerConnection() <SGSContextDelegate, SGSChannelDelegate>
 
 @end
 
@@ -108,11 +114,11 @@ static ComServerConnection* sharedInstance_;
 }
 
 
-- (void)connectWithDelegate:(UIViewController<ComConnectionDelegate> *) conDelegate
+- (void)connectWithDelegate:(UIViewController<ComServerConnectionDelegate> *) conDelegate
 {
     [self connectWithDelegate:conDelegate isFirst:NO];
 }
-- (void)connectWithDelegate:(UIViewController<ComConnectionDelegate> *) conDelegate isFirst:(Boolean)isFirst
+- (void)connectWithDelegate:(UIViewController<ComServerConnectionDelegate> *) conDelegate isFirst:(Boolean)isFirst
 {
 	if(connection)
 	{
@@ -287,7 +293,7 @@ static ComServerConnection* sharedInstance_;
         case blMessageConversationOpen: case blMessageEmailOpen: case blMessageFriendRequest: case blMessageInviteAccepted: case blMessageInviteCanceled: case blMessageFriendDirect: case MessageNewContactRegistered: case WarningUserTookScreenShot: case MessageFriendActivate: case MessageremoteLogout: case EmailSendFailure: case MessageGroupCreate: case MessageGroupRemoveMember: case EmailUpdates: case blMessageTyping: case blMessageUntyping: case MessageAlert: case MessageUserGroupsUpdate: case MessageRecall: case MessagesUserOffline: case MessagesUserOnline:{
             
             BLMessage *msg = [[BLMessage alloc] initWithArgs:args];
-            [[MessagingManager instance] notify:msg withcommand:msg.type];
+//            [[MessagingManager instance] notify:msg withcommand:msg.type];
             break;
         }
         case MessagesUpdates:{
@@ -325,14 +331,14 @@ static ComServerConnection* sharedInstance_;
         case ForceAllowPush: //recieve to execute a code inside app
         {
             
-            [(AppDelegate *)[UIApplication sharedApplication].delegate registerForPushNotifications];
+//            [(AppDelegate *)[UIApplication sharedApplication].delegate registerForPushNotifications];
             
             break;
         }
 
         default:{
             BLMessage *msg = [[BLMessage alloc] initWithArgs:args];
-            [[MessagingManager instance] notify:msg withcommand:cmd];
+//            [[MessagingManager instance] notify:msg withcommand:cmd];
             
             break;
         }
@@ -354,14 +360,14 @@ static ComServerConnection* sharedInstance_;
                     break;
                 }
                 
-                [[MessagingManager instance] messageGot:msg];
+//                [[MessagingManager instance] messageGot:msg];
                 //esto debe ir en otro lado
-                [[AudioUtils instance] playReceived];
+//                [[AudioUtils instance] playReceived];
 				break;
 			}
             case blMessageConversationOpen: case blMessageEmailOpen: case blMessageFriendRequest: case blMessageInviteAccepted: case blMessageInviteCanceled: case blMessageDeleteFriend: case blMessageFriendDirect: case WarningUserTookScreenShot: case MessageNewContactRegistered: case MessageFriendActivate: case MessageremoteLogout: case EmailSendFailure: case MessageGroupCreate:case MessageGroupRemoveMember: case EmailUpdates: case blMessageTyping: case blMessageUntyping: case MessageAlert: case MessageUserGroupsUpdate: case MessageRecall: case MessagesUserOffline: case MessagesUserOnline:{
                 
-                [[MessagingManager instance] notify:msg withcommand:msg.type];
+//                [[MessagingManager instance] notify:msg withcommand:msg.type];
                 break;
             }
             case blMessageAvatar:
@@ -377,7 +383,7 @@ static ComServerConnection* sharedInstance_;
             case ForceAllowPush: //recieve to execute a code inside app
             {                
                 
-                [(AppDelegate *)[UIApplication sharedApplication].delegate registerForPushNotifications];
+//                [(AppDelegate *)[UIApplication sharedApplication].delegate registerForPushNotifications];
                 
                 break;
             }
@@ -397,20 +403,20 @@ static ComServerConnection* sharedInstance_;
     
     NSString *url=[NSString stringWithFormat:@"https://api.criptext.com/avatars/avatar_%@.png", msg.userIdFrom];
     
-    [[ImageCache instance] removeFileFromCache:url];
+//    [[ImageCache instance] removeFileFromCache:url];
     
     //reload tableview of messages
-    
-    MenuViewController *menuVC=[MenuViewController instance];
-    ConversationsViewController *conversationsVC=menuVC.conversationsVC;
-    if(conversationsVC!=nil)
-        [conversationsVC reloadTable];
+//    
+//    MenuViewController *menuVC=[MenuViewController instance];
+//    ConversationsViewController *conversationsVC=menuVC.conversationsVC;
+//    if(conversationsVC!=nil)
+//        [conversationsVC reloadTable];
 
     
 }
 -(void)delayedMessageGot:(BLMessage *)message {
-    [[MessagingManager instance] messageGot:message];
-    [[AudioUtils instance] playReceived];
+//    [[MessagingManager instance] messageGot:message];
+//    [[AudioUtils instance] playReceived];
 }
 
 -(void)sendSignalOpenConvMenu:(NSString *) id_user {
@@ -452,8 +458,8 @@ static ComServerConnection* sharedInstance_;
     [self sendMessage:[[ComMessageProtocol createSyncUpdatenMsg:[SessionManager instance].lastMessageId type:MessageUpdates ] json]];
     
     if([[SessionManager instance].lastMessageId isEqualToString:@"0"]){
-            [[MenuViewController instance] showNoNetwork:NO];
-            [[MenuViewController instance] showConnectings:NO];
+//            [[MenuViewController instance] showNoNetwork:NO];
+//            [[MenuViewController instance] showConnectings:NO];
         }
     //}
     
@@ -462,31 +468,31 @@ static ComServerConnection* sharedInstance_;
     
     
     //comment
-    [[MessagingManager instance] sendMessagesAgain];
+//    [[MessagingManager instance] sendMessagesAgain];
 }
 
 - (void)sgsContext:(SGSContext *)context loginFailed:(SGSSession *)session forConnection:(SGSConnection *)connection withMessage:(NSString *)message{
 	NSLog(@"disconnection login Failed");
     
     //LOGOUT SCREEN TO LOGIN
-    [AppDelegate logout];
+//    [AppDelegate logout];
     
     //ALERT your account is disabled
-    [AlertsManager alert:NSLocalizedString(@"avisoKey", @"") message:NSLocalizedString(@"revisaTuConexionKey", @"")];
+//    [AlertsManager alert:NSLocalizedString(@"avisoKey", @"") message:NSLocalizedString(@"revisaTuConexionKey", @"")];
 }
 
 #pragma mark -
 #pragma mark Memory management
 
-- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
-    /*
-     Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
-     */
-    
-//	[self logOut];
-	//[connection release];
-
-}
+//- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application {
+//    /*
+//     Free up as much memory as possible by purging cached data objects that can be recreated (or reloaded from disk) later.
+//     */
+//    
+////	[self logOut];
+//	//[connection release];
+//
+//}
 
 - (void)dealloc {
         NSLog(@"COMSERVERCONN TAMBIEEEEEN? te desaolcaste we");

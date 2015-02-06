@@ -11,11 +11,18 @@
 #import "ASIHTTPRequest.h"
 #import "JSON.h"
 #import "SecurityManager.h"
+#import "ComServerConnection.h"
+#import "SocketConnectionManager.h"
 
 //String identifiers
 #define LOGIN_SESSION_URL @"http://com.criptext.com:3030/user/session"
 #define LOGIN_CONNECT_URL @"http://com.criptext.com:3030/user/connect"
 #define LOGIN_PUBKEY      @"login_pubKey"
+
+@interface APIConnector () <ComServerConnectionDelegate>
+
+@end
+
 @implementation APIConnector
 typedef enum {
     responseCodeNoData = -4,
@@ -69,7 +76,7 @@ typedef struct {
 
 #pragma mark - Secure Login Request
 
-- (void)secureLoginWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id<APIConnectorDelegate>)delegate{
+- (void)secureLoginWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate{
     
     id requestObject = [self getSessionRequestObject:developerID password:password];
     SEL okSelector = @selector(onGetSessionOK:);
@@ -86,13 +93,14 @@ typedef struct {
     if (response.errorCode == responseCodeOk) {
         [[SecurityManager sharedInstance] storeKey:response.publicKey withIdentifier:LOGIN_PUBKEY];
         NSString *stringToSend = [[SecurityManager sharedInstance] generateAndEncryptAESKey];
+        
         NSLog(@"apiconnector: stringToSend: %@",stringToSend);
+        
         id requestObject = [self secureLoginRequestObject:response.sessionId aesKey:stringToSend];
         SEL okSelector = @selector(onSecureLoginOK:);
         SEL failSelector = @selector(onSecureLoginError:);
         
         [self sendGetRequestWithCustomDomainAndAuth:requestObject urlService:LOGIN_CONNECT_URL developerId:request.username password:request.password okSelector:okSelector failSelector:failSelector delegate:[self delegateForRequest:request]];
-        
         
     } else {
         NSLog(@"error: getSession failed");
@@ -110,6 +118,8 @@ typedef struct {
     
     if (response.errorCode == responseCodeOk) {
         NSLog(@"CONNECT to socket");
+        
+//        [[ComServerConnection sharedInstance] connectWithDelegate:[self delegateForRequest:request] isFirst:YES];
         [[self finalizeRequestAndGetDelegate:request] onLoginWithSessionId:response.sessionId publicKey:response.publicKey];
     } else {
         NSLog(@"error: securelogin failed");
@@ -123,12 +133,13 @@ typedef struct {
 }
 
 - (void)onGetSessionError:(ASIHTTPRequest *)request {
-    NSLog(@"REQ login error");
+    NSLog(@"REQ session error");
     [[self finalizeRequestAndGetDelegate:request] onLoginFail];
 }
 
 - (void)onSecureLoginError:(ASIHTTPRequest *)request{
-
+    NSLog(@"REQ login error");
+    [[self finalizeRequestAndGetDelegate:request] onLoginFail];
 }
 
 - (NSDictionary*)getSessionRequestObject:(NSString *)mail password:(NSString *)password  {

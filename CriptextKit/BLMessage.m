@@ -177,7 +177,7 @@ static NSDictionary *tagsDictionary = nil;
 		
 		self.timestamp = [self doubleFromDictionary:dictionary key:@"datetime"];
 		self.userIdFrom = [self stringFromDictionary:dictionary key:@"uid_sent"];
-		self.userIdTo = [UsersManager instance].me.userId;
+		self.userIdTo = [SessionManager instance].idUser;
 		self.messageId = [self integerFromDictionary:dictionary key:@"message_id"];
         self.oldMessageId = [self integerFromDictionary:dictionary key:@"old_id"];
 		self.readByUser = NO;
@@ -222,7 +222,7 @@ static NSDictionary *tagsDictionary = nil;
 		self.messageText = _messageText;
 		self.timestamp = _timestamp;
 		self.userIdFrom = _userId;
-		self.userIdTo = [UsersManager instance].me.userId;
+		self.userIdTo = [SessionManager instance].idUser;
 		self.messageId = _messageId;
 		self.readByUser = NO;
 		self.type = blMessageDefault;
@@ -244,7 +244,7 @@ static NSDictionary *tagsDictionary = nil;
         self.messageId = [[NSDate date] timeIntervalSince1970]* -1;
 		self.timestamp = [[NSDate date] timeIntervalSince1970];
 		self.userIdTo = _userId;
-		self.userIdFrom = [UsersManager instance].me.userId;
+		self.userIdFrom = [SessionManager instance].idUser;
 		//self.messageId = 0;
 		self.readByUser = NO;
 		self.type = blMessageDefault;
@@ -265,7 +265,7 @@ static NSDictionary *tagsDictionary = nil;
 		self.messageText = _messageText;
 		self.timestamp = [[NSDate date] timeIntervalSince1970];
 		self.userIdTo = _userId;
-		self.userIdFrom = [NSString stringWithFormat:@"-%@",[UsersManager instance].me.userId];
+		self.userIdFrom = [NSString stringWithFormat:@"-%@",[SessionManager instance].idUser];
 		self.messageId = 0;
 		self.readByUser = NO;
 		self.type = blMessageDefault;
@@ -290,7 +290,7 @@ static NSDictionary *tagsDictionary = nil;
 			break;
 		default: {
 			if (stringLength < 0) {
-				[self myLoadData];
+//				[self myLoadData];
 			}
 			return messageTextToShow;
 			break;
@@ -301,20 +301,20 @@ static NSDictionary *tagsDictionary = nil;
 							 
 - (float)stringLength {
 	if (stringLength < 0) {
-		[self myLoadData];
+//		[self myLoadData];
 	}
 	return stringLength;
 }
 
 - (int)stringsCount {
 	if (stringsCount < 0) {
-		[self myLoadData];
+//		[self myLoadData];
 	}
 	return stringsCount;
 }
 
 - (BOOL)isMessageFromMe {
-	return self.userIdFrom == [UsersManager instance].me.userId;
+	return self.userIdFrom == [SessionManager instance].idUser;
 }
 
 
@@ -443,27 +443,27 @@ static NSDictionary *tagsDictionary = nil;
         return [self photoPath];
 }
 
-- (NSString*)audioPath {
-    
-    if(filePathDesencriptado.length==0)
-        filePathDesencriptado=[NSString stringWithFormat:@"https://api.criptext.com/audio/%@.3gp",[MessageViewerViewController stripGarbage:desencriptar((char *) [self.messageText UTF8String])]];
-
-    return filePathDesencriptado;
-}
+//- (NSString*)audioPath {
+//    
+//    if(filePathDesencriptado.length==0)
+////        filePathDesencriptado=[NSString stringWithFormat:@"https://api.criptext.com/audio/%@.3gp",[MessageViewerViewController stripGarbage:desencriptar((char *) [self.messageText UTF8String])]];
+//
+//    return filePathDesencriptado;
+//}
 
 - (NSString*)audioPathFree {
     return [NSString stringWithFormat:@"https://api.criptext.com/audio/%@.3gp", self.messageText];
 }
 
-- (NSString*)photoPath {
-    //NSLog(@"antes:%@",[NSString stringWithFormat:@"http://api.criptext.com/files/%@.png",[NSString stringWithFormat:@"%s",desencriptar((char *) [self.messageText UTF8String])]]);
-    //NSLog(@"Descargando:%@",[NSString stringWithFormat:@"http://api.criptext.com/files/%@.png", [MessageViewerViewController stripGarbage:[NSString stringWithFormat:@"%s",desencriptar((char *) [self.messageText UTF8String])]]]);
-    
-    if(filePathDesencriptado.length==0)
-        filePathDesencriptado=[NSString stringWithFormat:@"https://api.criptext.com/files/%@.png", [MessageViewerViewController stripGarbage:desencriptar((char *) [self.messageText UTF8String])]];
-    
-    return filePathDesencriptado;
-}
+//- (NSString*)photoPath {
+//    //NSLog(@"antes:%@",[NSString stringWithFormat:@"http://api.criptext.com/files/%@.png",[NSString stringWithFormat:@"%s",desencriptar((char *) [self.messageText UTF8String])]]);
+//    //NSLog(@"Descargando:%@",[NSString stringWithFormat:@"http://api.criptext.com/files/%@.png", [MessageViewerViewController stripGarbage:[NSString stringWithFormat:@"%s",desencriptar((char *) [self.messageText UTF8String])]]]);
+//    
+//    if(filePathDesencriptado.length==0)
+////        filePathDesencriptado=[NSString stringWithFormat:@"https://api.criptext.com/files/%@.png", [MessageViewerViewController stripGarbage:desencriptar((char *) [self.messageText UTF8String])]];
+//    
+//    return filePathDesencriptado;
+//}
 
 - (NSString*)photoPathFree {
     return [NSString stringWithFormat:@"https://api.criptext.com/files/%@.png", self.messageText];

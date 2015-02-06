@@ -9,8 +9,11 @@
 #import "SecurityManager.h"
 #import "UICKeyChainStore.h"
 #import "NSData+Base64.h"
+#import "NSData+Conversion.h"
 #import "Criptext.h"
 #import "BBAES.h"
+
+#import <CommonCrypto/CommonCrypto.h>
 
 #define LOGIN_PUBKEY   @"login_pubKey"
 #define MY_AESKEY      @"myAESKey"
@@ -60,10 +63,6 @@
 */
 #pragma mark - Keychain Services
 -(BOOL)storeKey:(NSString *)key withIdentifier:(NSString *)identifier{
-//    NSString *pemkey = [NSString stringWithFormat:@"%@%@%@", @"-----BEGIN PUBLIC KEY-----\n", key, @"\n-----END PUBLIC KEY-----\n"];
-//    NSLog(@"pemkey: %@", pemkey);
-//    const char *charkey = [pemkey UTF8String];
-//    NSLog(@"charkey: %s",charkey);
     self.keychainStore[identifier] = key;
     return true;
 }
@@ -101,32 +100,29 @@
     NSData *salt = [BBAES randomDataWithLength:BBAESSaltDefaultLength];
     NSData *aesKey = [BBAES keyBySaltingPassword:@"testingpassword" salt:salt keySize:BBAESKeySize256 numberOfIterations:BBAESPBKDF2DefaultIterationsCount];
     NSData *iv = [BBAES randomIV];
-    NSLog(@"aeskey: %@", aesKey);
+    
+    NSData *encrypted = [BBAES encryptedDataFromData:[@"allyoop" dataUsingEncoding:NSUTF8StringEncoding] IV:iv key:aesKey options:0];
+    NSString *base64_encrypted = [encrypted base64EncodedString];
+
+    NSData *decrypted = [BBAES decryptedDataFromString:base64_encrypted IV:iv key:aesKey];
+    NSString *decrypted_string =[[NSString alloc] initWithData:decrypted encoding:NSUTF8StringEncoding];
+    
+    NSLog(@"test decrypted: %@", decrypted_string);
     
     [self storeAESKey:aesKey withIdentifier:MY_AESKEY];
     
     NSString *base64_aesKey = [aesKey base64EncodedString];
     NSString *base64_iv = [iv base64EncodedString];
-    NSString *encrypted = [@"derp" bb_AESEncryptedStringForIV:iv key:aesKey options:BBAESEncryptionOptionsIncludeIV];
-    
-    NSString *stringToEncrypt = [NSString stringWithFormat:@"%@:%@:%@",base64_aesKey,base64_iv,encrypted];
     
     
+    NSString *stringToEncrypt = [NSString stringWithFormat:@"%@:%@:%@",base64_aesKey,base64_iv,base64_encrypted];
+    
+    NSLog(@"stringToEncrypt: %@", stringToEncrypt);
     
     NSString *stringToSend = [self rsaEncryptBase64String:stringToEncrypt withPublicKeyIdentifier:LOGIN_PUBKEY];
     
-    NSLog(@"stringToSend: %@", stringToSend);
-    
-//    NSString *base64encrypted = [BBAES encryptedStringFromData:[@"derp" dataUsingEncoding:NSUTF8StringEncoding] IV:iv key:aesKey options:BBAESEncryptionOptionsIncludeIV];
-    NSLog(@"encrypted: %@",encrypted);
-    
-//    NSString *decrypted = [encrypted bb_AESDecryptedStringForIV:nil key:aesKey];
-//    NSData *decryptedData=[BBAES decryptedDataFromString:base64encrypted IV:iv key:aesKey];
-    
-//    NSLog(@"decrypted: %@",decrypted);
-    
-    
     return stringToSend;
+    
 }
 
 @end

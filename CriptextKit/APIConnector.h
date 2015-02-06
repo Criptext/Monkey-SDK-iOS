@@ -11,6 +11,10 @@
 
 @protocol APIConnectorDelegate <NSObject>
 @optional
+/**
+ * These callbacks must be
+ * @callback
+ */
 -(void)onLoginOkWithSessionId:(NSString *)sessionId publicKey:(NSString *)publicKey;
 -(void)onLoginFail;
 -(void)onLoginWrong;
@@ -22,6 +26,12 @@
     NSMutableArray *requests;
 }
 
-- (void)secureLoginWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id<APIConnectorDelegate>)delegate;
+/**
+ * Authenticate with Criptext Servers
+ * @param developerID	Token provided by Criptext
+ * @param password		Password provided by Criptext
+ * @callback
+ */
+- (void)secureLoginWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate;
 
 @end
