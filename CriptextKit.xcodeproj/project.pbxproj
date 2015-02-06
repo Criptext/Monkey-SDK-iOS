@@ -11,7 +11,7 @@
 		419AA50D1A828FE70015D195 /* ComMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5071A828FE70015D195 /* ComMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		419AA50E1A828FE70015D195 /* ComMessageProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5081A828FE70015D195 /* ComMessageProtocol.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		419AA50F1A828FE70015D195 /* ComMessageProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5091A828FE70015D195 /* ComMessageProtocol.h */; };
-		419AA5101A828FE70015D195 /* ComServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA50A1A828FE70015D195 /* ComServerConnection.h */; };
+		419AA5101A828FE70015D195 /* ComServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA50A1A828FE70015D195 /* ComServerConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419AA5111A828FE70015D195 /* ComServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA50B1A828FE70015D195 /* ComServerConnection.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		419AA51F1A828FF10015D195 /* SGSChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5121A828FF10015D195 /* SGSChannel.h */; };
 		419AA5201A828FF10015D195 /* SGSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5131A828FF10015D195 /* SGSChannel.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -32,7 +32,7 @@
 		419AA5361A82963A0015D195 /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5341A82963A0015D195 /* DateUtils.m */; };
 		419AA53D1A829B680015D195 /* UserDefaultsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA53B1A829B680015D195 /* UserDefaultsManager.h */; };
 		419AA53E1A829B680015D195 /* UserDefaultsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA53C1A829B680015D195 /* UserDefaultsManager.m */; };
-		419AA5411A829C670015D195 /* SessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA53F1A829C670015D195 /* SessionManager.h */; };
+		419AA5411A829C670015D195 /* SessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA53F1A829C670015D195 /* SessionManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419AA5421A829C670015D195 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5401A829C670015D195 /* SessionManager.m */; };
 		419AA5451A829C7B0015D195 /* BLUserExtended.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5431A829C7B0015D195 /* BLUserExtended.h */; };
 		419AA5461A829C7B0015D195 /* BLUserExtended.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5441A829C7B0015D195 /* BLUserExtended.m */; };
@@ -46,6 +46,8 @@
 		419AA55F1A8429490015D195 /* BBAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA55D1A8429490015D195 /* BBAES.m */; };
 		419AA5621A843F9B0015D195 /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5601A843F9B0015D195 /* NSData+Conversion.h */; };
 		419AA5631A843F9B0015D195 /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5611A843F9B0015D195 /* NSData+Conversion.m */; };
+		419AA5671A856EC80015D195 /* MessagingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5651A856EC80015D195 /* MessagingManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		419AA5681A856EC80015D195 /* MessagingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5661A856EC80015D195 /* MessagingManager.m */; };
 		419CAAA81A80475800F68EB0 /* CriptextKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* CriptextKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419CAAD71A8047D900F68EB0 /* UICKeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAD31A8047D900F68EB0 /* UICKeyChainStore.h */; };
 		419CAAD81A8047D900F68EB0 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAAD41A8047D900F68EB0 /* UICKeyChainStore.m */; };
@@ -133,6 +135,8 @@
 		419AA55D1A8429490015D195 /* BBAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAES.m; sourceTree = "<group>"; };
 		419AA5601A843F9B0015D195 /* NSData+Conversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
 		419AA5611A843F9B0015D195 /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
+		419AA5651A856EC80015D195 /* MessagingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagingManager.h; sourceTree = "<group>"; };
+		419AA5661A856EC80015D195 /* MessagingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagingManager.m; sourceTree = "<group>"; };
 		419CAAA21A80475800F68EB0 /* CriptextKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriptextKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		419CAAA61A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		419CAAA71A80475800F68EB0 /* CriptextKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CriptextKit.h; sourceTree = "<group>"; };
@@ -344,6 +348,8 @@
 				419CAB0D1A804AF000F68EB0 /* JSON */,
 				419CAAE11A80492600F68EB0 /* ASI */,
 				419CAADC1A80483700F68EB0 /* API */,
+				419AA5651A856EC80015D195 /* MessagingManager.h */,
+				419AA5661A856EC80015D195 /* MessagingManager.m */,
 			);
 			name = Communication;
 			sourceTree = "<group>";
@@ -450,6 +456,7 @@
 				419AA5231A828FF10015D195 /* SGSContext.h in Headers */,
 				419AA51F1A828FF10015D195 /* SGSChannel.h in Headers */,
 				419AA5351A82963A0015D195 /* DateUtils.h in Headers */,
+				419AA5671A856EC80015D195 /* MessagingManager.h in Headers */,
 				419AA5491A82C2350015D195 /* BLMessage.h in Headers */,
 				419CAB491A81635D00F68EB0 /* Criptext.h in Headers */,
 				419CAB201A804AFB00F68EB0 /* SBJSON.h in Headers */,
@@ -585,6 +592,7 @@
 				419CAB1D1A804AFB00F68EB0 /* NSObject+SBJSON.m in Sources */,
 				419CAB4A1A81635D00F68EB0 /* Criptext.m in Sources */,
 				419CAAE01A80485C00F68EB0 /* APIConnector.m in Sources */,
+				419AA5681A856EC80015D195 /* MessagingManager.m in Sources */,
 				419AA5321A82910E0015D195 /* BLDictionaryBasedObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

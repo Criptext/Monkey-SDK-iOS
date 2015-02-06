@@ -132,30 +132,20 @@ static ComServerConnection* sharedInstance_;
 	/*else{
 		NSLog(@"Connection obj NOT EXIST so Trying to connect .. ");
 	}*/
-
-    if([SessionManager instance].userName==nil)
-        return;
-    
     self.connectionDelegate=conDelegate;
-    self.userId=[SessionManager instance].idUser;
+    self.userId=[SessionManager sharedInstance].idUser;
     firstTime=isFirst;
-	
-    //localhost server testing
- // SGSContext *context = [[SGSContext alloc] initWithHostname:@"162.242.157.203" port:1139];
- // SGSContext *context = [[SGSContext alloc] initWithHostname:@"192.168.0.111" port:1139];
-  //SGSContext *context = [[SGSContext alloc] initWithHostname:@"10.1.0.220" port:1139];
     
-    SGSContext *context = [[SGSContext alloc] initWithHostname:[[UserDefaultsManager instance] objectForKeyFree:@"sdomain"] port:[[[UserDefaultsManager instance] objectForKeyFree:@"sport"] integerValue]];
+    SGSContext *context = [[SGSContext alloc] initWithHostname:@"central.criptext.com" port:[@"80" integerValue]];
 	context.delegate = self;
 	/*
 	 * Create a connection.  The connection will not actually connect to
 	 * the server until a call to loginWithUsername:password: is made. 
 	 * All connection messages are sent to the con5text delegate. */
-    
     connection = [[SGSConnection alloc] initWithContext:context];
-    //NSLog(@"verificacion6:%@",[[DBManager instance] getPassword]);
-    [connection loginWithUsername:[NSString stringWithFormat:@"201:%@",userId] password:[SessionManager instance].userPassword];
 
+    //NSLog(@"verificacion6:%@",[[DBManager instance] getPassword]);
+    [connection loginWithUsername:userId password:[SessionManager sharedInstance].userPassword];
 }
 
 
@@ -448,16 +438,16 @@ static ComServerConnection* sharedInstance_;
 		[self.connectionDelegate loggedIn];
     
     //sending update message for offline messages
-    if([SessionManager instance].lastMessageId==nil){
-        [[SessionManager instance] setLastMessageId:@"0"];
+    if([SessionManager sharedInstance].lastMessageId==nil){
+        [[SessionManager sharedInstance] setLastMessageId:@"0"];
     }
     
     //if(!firstTime)
     //{[SessionManager instance].lastMessageId
     
-    [self sendMessage:[[ComMessageProtocol createSyncUpdatenMsg:[SessionManager instance].lastMessageId type:MessageUpdates ] json]];
+    [self sendMessage:[[ComMessageProtocol createSyncUpdatenMsg:[SessionManager sharedInstance].lastMessageId type:MessageUpdates ] json]];
     
-    if([[SessionManager instance].lastMessageId isEqualToString:@"0"]){
+    if([[SessionManager sharedInstance].lastMessageId isEqualToString:@"0"]){
 //            [[MenuViewController instance] showNoNetwork:NO];
 //            [[MenuViewController instance] showConnectings:NO];
         }

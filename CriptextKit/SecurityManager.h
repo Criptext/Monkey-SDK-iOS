@@ -12,13 +12,20 @@
 
 +(instancetype)sharedInstance;
 
+-(BOOL)storeObject:(NSString *)object withIdentifier:(NSString *)identifier;
+-(NSString *)getObjectForIdentifier:(NSString *)identifier;
+
 -(BOOL)storeKey:(NSString *)key withIdentifier:(NSString *)identifier;
 -(BOOL)storeAESKey:(NSData *)aesKey withIdentifier:(NSString *)identifier;
--(BOOL)storeObject:(NSString *)object withIdentifier:(NSString *)identifier;
--(NSData *)rsaEncryptData:(NSData *)data withPublicKey:(NSString *)publicKey;
--(NSString *)getObjectForIdentifier:(NSString *)identifier;
 -(NSData *)getAESKeyForIdentifier:(NSString *)identifier;
+
+//possibly split generate and encrypt
 -(NSString *)generateAndEncryptAESKey;
+
+-(NSData *)rsaEncryptData:(NSData *)data withPublicKey:(NSString *)publicKey;
+
+
+
 
 -(NSString *)aesEncryptedKey;
 @end

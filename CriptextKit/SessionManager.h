@@ -23,7 +23,7 @@
 @property (nonatomic, strong) NSString *idUser;
 @property (nonatomic, strong) NSString *passCode;
 
-+ (SessionManager*)instance;
++ (SessionManager*)sharedInstance;
 - (void)logout;
 
 @end

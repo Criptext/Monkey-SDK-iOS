@@ -19,7 +19,6 @@
 @protocol ComServerConnectionDelegate
 
 @optional
-- (void) messagesRecived:(NSArray*)messages;
 - (void) errorConnection:(NSString *)errorMessage;
 - (void) disconnected;
 - (void) loggedIn;

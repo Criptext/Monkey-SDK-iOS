@@ -17,5 +17,7 @@ FOUNDATION_EXPORT const unsigned char CriptextKitVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <CriptextKit/PublicHeader.h>
 #import <CriptextKit/APIConnector.h>
 #import <CriptextKit/SecurityManager.h>
-//#import <CriptextKit/ComServerConnection.h>
+#import <CriptextKit/ComServerConnection.h>
+#import <CriptextKit/MessagingManager.h>
+#import <CriptextKit/SessionManager.h>
 

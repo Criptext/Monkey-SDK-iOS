@@ -14,7 +14,7 @@
 
 static SessionManager *sessionManagerInstance = nil;
 
-+ (SessionManager*)instance {
++ (SessionManager*)sharedInstance {
 	@synchronized (sessionManagerInstance) {
 		if (sessionManagerInstance == nil) {
 			sessionManagerInstance = [[SessionManager alloc] init];

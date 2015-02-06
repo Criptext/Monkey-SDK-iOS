@@ -34,7 +34,7 @@
     
     NSMutableDictionary * args=[[NSMutableDictionary alloc] init];
     [args setObject:[NSString stringWithFormat:@"%lli",message.messageId] forKey:@"id"];
-    [args setObject:message.userIdTo forKey:@"rid"];
+    [args setObject:[self identifierToUser:message.userIdTo] forKey:@"rid"];
     [args setObject:message.messageText  forKey:@"msg"];
     
     if(message.param!=nil)
@@ -101,6 +101,9 @@
 	return [ComMessage createMessageWithCommand:blMessageGroupMessage AndArgs:args];
 }
 
++(NSString *)identifierToUser:(NSString *) userId{
+    return [NSString stringWithFormat:@"201:%@", userId];
+}
 //	[ComMessageProtocol createBasicMsg:-1 ofType:type andMessage:@"poner mensaje" toGroup:-1]
 
 //[ComMessageProtocol createBasicMsg:ofType:andMessage:toGroup:andId:]:
@@ -246,7 +249,7 @@
     [[UserDefaultsManager instance]storeObjectFree:@"0" forKey:@"StreamDidChangeValue"];
 	[args setObject:last_message_id forKey:@"last_id"];//reciever id
     [args setObject:@"1.4.2" forKey:@"v"];//version del app
-    if([[SessionManager instance].lastMessageId isEqualToString:@"0"] || [[[UserDefaultsManager instance] objectForKeyFree:@"firstLogin"] isEqualToString:@"1"])
+    if([[SessionManager sharedInstance].lastMessageId isEqualToString:@"0"] || [[[UserDefaultsManager instance] objectForKeyFree:@"firstLogin"] isEqualToString:@"1"])
         [args setObject:@"1" forKey:@"g"];//Para que me devuelva los grupos
 	return [ComMessage createMessageWithCommand:type AndArgs:args];
 }

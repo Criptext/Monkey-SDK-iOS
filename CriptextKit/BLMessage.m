@@ -122,7 +122,7 @@ static NSDictionary *tagsDictionary = nil;
                 self.userIdTo=[self stringFromDictionary:dictionary key:@"uid_to"];
         }
         else
-            self.userIdTo = [SessionManager instance].idUser;
+            self.userIdTo = [SessionManager sharedInstance].idUser;
 		
 		self.messageId = [self integerFromDictionary:dictionary key:@"message_id"];
         if([dictionary objectForKey:@"idm"]!=nil)
@@ -177,7 +177,7 @@ static NSDictionary *tagsDictionary = nil;
 		
 		self.timestamp = [self doubleFromDictionary:dictionary key:@"datetime"];
 		self.userIdFrom = [self stringFromDictionary:dictionary key:@"uid_sent"];
-		self.userIdTo = [SessionManager instance].idUser;
+		self.userIdTo = [SessionManager sharedInstance].idUser;
 		self.messageId = [self integerFromDictionary:dictionary key:@"message_id"];
         self.oldMessageId = [self integerFromDictionary:dictionary key:@"old_id"];
 		self.readByUser = NO;
@@ -222,7 +222,7 @@ static NSDictionary *tagsDictionary = nil;
 		self.messageText = _messageText;
 		self.timestamp = _timestamp;
 		self.userIdFrom = _userId;
-		self.userIdTo = [SessionManager instance].idUser;
+		self.userIdTo = [SessionManager sharedInstance].idUser;
 		self.messageId = _messageId;
 		self.readByUser = NO;
 		self.type = blMessageDefault;
@@ -244,7 +244,7 @@ static NSDictionary *tagsDictionary = nil;
         self.messageId = [[NSDate date] timeIntervalSince1970]* -1;
 		self.timestamp = [[NSDate date] timeIntervalSince1970];
 		self.userIdTo = _userId;
-		self.userIdFrom = [SessionManager instance].idUser;
+		self.userIdFrom = [SessionManager sharedInstance].idUser;
 		//self.messageId = 0;
 		self.readByUser = NO;
 		self.type = blMessageDefault;
@@ -265,7 +265,7 @@ static NSDictionary *tagsDictionary = nil;
 		self.messageText = _messageText;
 		self.timestamp = [[NSDate date] timeIntervalSince1970];
 		self.userIdTo = _userId;
-		self.userIdFrom = [NSString stringWithFormat:@"-%@",[SessionManager instance].idUser];
+		self.userIdFrom = [NSString stringWithFormat:@"-%@",[SessionManager sharedInstance].idUser];
 		self.messageId = 0;
 		self.readByUser = NO;
 		self.type = blMessageDefault;
@@ -314,7 +314,7 @@ static NSDictionary *tagsDictionary = nil;
 }
 
 - (BOOL)isMessageFromMe {
-	return self.userIdFrom == [SessionManager instance].idUser;
+	return self.userIdFrom == [SessionManager sharedInstance].idUser;
 }
 
 

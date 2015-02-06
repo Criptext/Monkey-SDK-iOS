@@ -92,17 +92,18 @@
 }
 
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password {
-	
+	    NSLog(@"dentro de login antes de state connecting");
 	if(self.state==SGSConnectionStateConnecting)
 		return;
 	
-
+    
 	self.state=SGSConnectionStateConnecting;
-	
+	    NSLog(@"antes de host ref");
 	// Create the host ref
     if (context.hostname == [NSNull null]) {
         context.hostname = @"central.criptext.com";
     }
+        NSLog(@"despues de host ref");
 	CFStringRef hostname = CFStringCreateWithCString(kCFAllocatorDefault, [context.hostname UTF8String], kCFStringEncodingASCII);
 	CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, hostname);
 	

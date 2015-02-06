@@ -15,7 +15,7 @@
 
 #import <CommonCrypto/CommonCrypto.h>
 
-#define LOGIN_PUBKEY   @"login_pubKey"
+#define LOGIN_PUBKEY   @"authentication_pubKey"
 #define MY_AESKEY      @"myAESKey"
 
 @interface SecurityManager ()

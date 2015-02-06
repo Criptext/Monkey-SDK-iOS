@@ -15,9 +15,9 @@
  * These callbacks must be
  * @callback
  */
--(void)onLoginOkWithSessionId:(NSString *)sessionId publicKey:(NSString *)publicKey;
--(void)onLoginFail;
--(void)onLoginWrong;
+-(void)onAuthenticationOkWithSessionId:(NSString *)sessionId publicKey:(NSString *)publicKey;
+-(void)onAuthenticationFail;
+-(void)onAuthenticationWrong;
 
 
 @end
@@ -32,6 +32,8 @@
  * @param password		Password provided by Criptext
  * @callback
  */
-- (void)secureLoginWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate;
+- (void)secureAuthenticationWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate;
+
+//- (void)authenticateAndConnectWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate;
 
 @end
