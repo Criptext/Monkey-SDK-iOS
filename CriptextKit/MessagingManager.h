@@ -17,7 +17,7 @@
 - (void)groupMessageSent:(BLMessage*)msg;
 - (void)didGroupUpdate;
 - (void)userUpdated:(int)userId;
-- (void)notificationRecived:(BLMessage*)notificationMessage;
+- (void)notificationReceived:(BLMessage*)notificationMessage;
 @end
 
 @interface MessagingManager : NSObject
@@ -26,6 +26,8 @@
 -(void)sendString:(NSString *)plaintext toUser:(NSString *)userId;
 - (void)addReceiver:(id <MessageReceiver>)receiver;
 - (void)removeReceiver:(id <MessageReceiver>)receiver;
+- (void)messageGot:(BLMessage *)message;
+- (void)notify:(BLMessage *)message withcommand:(int)command;
 @end
 
 @interface ReceiverKeeper : NSObject <MessageReceiver> {

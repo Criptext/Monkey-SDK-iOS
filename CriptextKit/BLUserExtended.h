@@ -26,6 +26,7 @@ typedef enum {
 	NSString *phone;
 	NSString *firstName;
 	NSString *lastName;
+    NSString *iv;
 	NSString *session;
 	BOOL active;
     NSString *companyName;
@@ -38,6 +39,7 @@ typedef enum {
 @property (nonatomic, strong) NSString *phone;
 @property (nonatomic, strong) NSString *firstName;
 @property (nonatomic, strong) NSString *lastName;
+@property (nonatomic, strong) NSString *iv;
 @property (nonatomic, strong) NSString *session;
 @property BOOL active;
 @property (nonatomic, strong) NSString *companyName;

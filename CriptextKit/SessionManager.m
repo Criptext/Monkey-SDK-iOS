@@ -10,7 +10,7 @@
 #import "UserDefaultsManager.h"
 
 @implementation SessionManager
-@synthesize sessionKey,userName,userPassword,idUser,lastMessageId,passCode;
+@synthesize sessionKey,userName,userPassword,userId,lastMessageId,passCode;
 
 static SessionManager *sessionManagerInstance = nil;
 
@@ -26,7 +26,7 @@ static SessionManager *sessionManagerInstance = nil;
 - (id)init {
 	if (self = [super init]) {
 		self.sessionKey = [[UserDefaultsManager instance] loadSessionKey];
-        self.idUser = [[UserDefaultsManager instance] loadUserId];
+        self.userId = [[UserDefaultsManager instance] loadUserId];
         self.userName = [[UserDefaultsManager instance] loadUserName];
         self.userPassword = [[UserDefaultsManager instance] loadUserPassword];
         self.lastMessageId = [[UserDefaultsManager instance] loadLastMessageId];

@@ -19,6 +19,8 @@
 -(void)onAuthenticationFail;
 -(void)onAuthenticationWrong;
 
+-(void)onOpenConversationOK:(NSString *)key;
+-(void)onOpenConversationWrong;
 
 @end
 
@@ -32,7 +34,9 @@
  * @param password		Password provided by Criptext
  * @callback
  */
-- (void)secureAuthenticationWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate;
+-(void)secureAuthenticationWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate;
+
+-(void)openConversation:(NSString *)conversationId delegate:(id<APIConnectorDelegate>)delegate;
 
 //- (void)authenticateAndConnectWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate;
 

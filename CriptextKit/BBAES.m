@@ -240,6 +240,7 @@ NSUInteger const BBAESSaltDefaultLength = 16; //recommandations suggest at least
 }
 
 + (NSData *)decryptedDataFromData:(NSData *)data IV:(NSData *)iv key:(NSData *)key {
+    NSLog(@"key length: %lu", (unsigned long)key.length);
 	NSParameterAssert(data);
 	NSParameterAssert(key);
 	NSAssert(key.length==16 || key.length==24 || key.length==32, @"AES must have a key size of 128, 192, or 256 bits.");

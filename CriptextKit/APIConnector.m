@@ -16,9 +16,10 @@
 #import "SessionManager.h"
 
 //String identifiers
-#define AUTHENTICATION_SESSION_URL @"http://com.criptext.com:3030/user/session"
-#define AUTHENTICATION_CONNECT_URL @"http://com.criptext.com:3030/user/connect"
-#define AUTHENTICATION_PUBKEY      @"authentication_pubKey"
+#define AUTHENTICATION_SESSION_URL  @"http://com.criptext.com:3030/user/session"
+#define AUTHENTICATION_CONNECT_URL  @"http://com.criptext.com:3030/user/connect"
+#define AUTHENTICATION_PUBKEY       @"authentication_pubKey"
+#define OPEN_CONVERSATION			@"http://com.criptext.com:3030/user/openconversation"
 
 @interface APIConnector () <ComServerConnectionDelegate>
 
@@ -37,22 +38,44 @@ typedef enum {
     responseCodeNoFbAccessToken = 12,
 } ResponseCode;
 
+typedef enum{
+    request_login_authentication,
+    request_login_session,
+    request_open_conversation
+} requestType;
+
 typedef struct {
     NSString *sessionId;
-    NSString *publicKey;
+    NSString *sessionIdTo;
+    NSString *key;
     int errorCode;
     NSString *descriptionerror;
 } StructedResponse;
 
 #pragma mark - --- Create Requests ---
+- (NSDictionary*)getSessionRequestObject:(NSString *)mail password:(NSString *)password  {
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:mail, @"username", password, @"password", nil];
+}
+- (NSDictionary*)secureAuthenticationRequestObject:(NSString *)sessionId aesKey:(NSString *)aesKey  {
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:sessionId, @"session_id", aesKey, @"usk", nil];
+}
+- (void)sendGetRequestWithCustomDomainAndAuth:(id)requestObject urlService:(NSString*)urlService okSelector:(SEL)okSelecor failSelector:(SEL)failSelector delegate:(id<APIConnectorDelegate>)delegate {
+    [self sendGetRequestWithCustomDomainAndAuth:requestObject urlService:urlService developerId:nil password:nil okSelector:okSelecor failSelector:failSelector delegate:delegate];
+}
 
 - (void)sendGetRequestWithCustomDomainAndAuth:(id)requestObject urlService:(NSString*)urlService developerId:(NSString *)developerID password:(NSString *)password okSelector:(SEL)okSelecor failSelector:(SEL)failSelector delegate:(id<APIConnectorDelegate>)delegate {
     ASIFormDataRequest *request = [[ASIFormDataRequest alloc] initWithURL:[NSURL URLWithString:urlService]];
     request.delegate = self;
     
+    if (developerID != nil && password != nil) {
+        [request setUsername:developerID];
+        [request setPassword:password];
+    }
+    
     [request setRequestMethod:@"POST"];
-    [request setUsername:developerID];
-    [request setPassword:password];
+    
     SBJsonWriter *jsonWriter = [SBJsonWriter new];
     
     //NSLog(@"sendBlipRequest auth %@", [jsonWriter stringWithObject:requestObject]);
@@ -60,6 +83,7 @@ typedef struct {
     if(requestObject!=nil){
         [request addPostValue:[jsonWriter stringWithObject:requestObject] forKey:@"data"];
     }
+    
     [request setDidFinishSelector:okSelecor];
     [request setDidFailSelector:failSelector];
     
@@ -74,30 +98,22 @@ typedef struct {
 
 
 #pragma mark - --- Send Requests ---
+#pragma mark - Secure Session Request (first handshake)
 
-#pragma mark - Secure Authentication Request
-
-- (void)secureAuthenticationWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate{
-    
-    id requestObject = [self getSessionRequestObject:developerID password:password];
-    SEL okSelector = @selector(onGetSessionOK:);
-    SEL failSelector = @selector(onGetSessionError:);
-    
-    [self sendGetRequestWithCustomDomainAndAuth:requestObject urlService:AUTHENTICATION_SESSION_URL developerId:developerID password:password okSelector:okSelector failSelector:failSelector delegate:delegate];
-}
 
 - (void)onGetSessionOK:(ASIHTTPRequest *)request{
-    StructedResponse response = [self parseSecureAuthenticationResponse:request];
+    StructedResponse response = [self parseResponse:request withRequestType:request_login_session];
     
     //    NSLog(@"LOGIN data %@", response.data);
     
     if (response.errorCode == responseCodeOk) {
-        [[SecurityManager sharedInstance] storeKey:response.publicKey withIdentifier:AUTHENTICATION_PUBKEY];
+        [SessionManager sharedInstance].userPassword = request.password;
+                [SessionManager sharedInstance].userId = response.sessionId;
+//        [SessionManager sharedInstance].idUser = @"i5zxy8padjvy4pj1el2qpvi";
+        [[SecurityManager sharedInstance] storeKey:response.key withIdentifier:AUTHENTICATION_PUBKEY];
         NSString *stringToSend = [[SecurityManager sharedInstance] generateAndEncryptAESKey];
         
-        [SessionManager sharedInstance].userPassword = request.password;
-        
-        NSLog(@"apiconnector: stringToSend: %@",stringToSend);
+        NSLog(@"stringtosend: %@",stringToSend);
         
         id requestObject = [self secureAuthenticationRequestObject:response.sessionId aesKey:stringToSend];
         SEL okSelector = @selector(onSecureAuthenticationOK:);
@@ -116,18 +132,41 @@ typedef struct {
     }
 }
 
-- (void)onSecureAuthenticationOK:(ASIHTTPRequest *)request{
-    StructedResponse response = [self parseSecureAuthenticationResponse:request];
+- (void)onGetSessionError:(ASIHTTPRequest *)request {
+    NSLog(@"REQ session error");
+    [[self finalizeRequestAndGetDelegate:request] onAuthenticationFail];
+}
+
+#pragma mark - Secure Authentication Request (second handshake)
+
+
+- (void)secureAuthenticationWithDeveloperId:(NSString *)developerID password:(NSString *)password delegate:(id)delegate{
     
+    id requestObject = [self getSessionRequestObject:developerID password:password];
+    SEL okSelector = @selector(onGetSessionOK:);
+    SEL failSelector = @selector(onGetSessionError:);
+    
+    [self sendGetRequestWithCustomDomainAndAuth:requestObject urlService:AUTHENTICATION_SESSION_URL developerId:developerID password:password okSelector:okSelector failSelector:failSelector delegate:delegate];
+}
+
+
+
+- (void)onSecureAuthenticationOK:(ASIHTTPRequest *)request{
+    StructedResponse response = [self parseResponse:request withRequestType:request_login_authentication];
+    NSLog(@"response errorcode: %d", response.errorCode);
+    //        NSLog(@"response key: %@", response.key);
+    NSLog(@"response sessionId mio: %@", response.sessionId);
     if (response.errorCode == responseCodeOk) {
         NSLog(@"CONNECT to socket");
         
         [SessionManager sharedInstance].userName = response.sessionId;
-        [SessionManager sharedInstance].idUser = response.sessionId;
+//        [SessionManager sharedInstance].userName = @"i5zxy8padjvy4pj1el2qpvi";
+        [SessionManager sharedInstance].userId = response.sessionId;
+//        [SessionManager sharedInstance].idUser = @"i5zxy8padjvy4pj1el2qpvi";
+        NSLog(@"sessionid: %@", response.sessionId);
         
-        
-//        [[ComServerConnection sharedInstance] connectWithDelegate:[self delegateForRequest:request] isFirst:YES];
-        [[self finalizeRequestAndGetDelegate:request] onAuthenticationOkWithSessionId:response.sessionId publicKey:response.publicKey];
+        //        [[ComServerConnection sharedInstance] connectWithDelegate:[self delegateForRequest:request] isFirst:YES];
+        [[self finalizeRequestAndGetDelegate:request] onAuthenticationOkWithSessionId:response.sessionId publicKey:response.key];
     } else {
         NSLog(@"error: securelogin failed");
         switch (response.errorCode) {
@@ -139,32 +178,76 @@ typedef struct {
     
 }
 
-- (void)onGetSessionError:(ASIHTTPRequest *)request {
-    NSLog(@"REQ session error");
-    [[self finalizeRequestAndGetDelegate:request] onAuthenticationFail];
-}
+
 
 - (void)onSecureAuthenticationError:(ASIHTTPRequest *)request{
     NSLog(@"REQ login error");
     [[self finalizeRequestAndGetDelegate:request] onAuthenticationFail];
 }
 
-- (NSDictionary*)getSessionRequestObject:(NSString *)mail password:(NSString *)password  {
+
+
+
+
+
+
+
+#pragma mark - Open conversation
+- (NSDictionary*)openConversationRequestObject:(NSString *)mySessionid to:(NSString *)sessionId {
+    return [NSDictionary dictionaryWithObjectsAndKeys:mySessionid, @"session_id", sessionId, @"user_to", nil];
+}
+-(void)openConversation:(NSString *)conversationId delegate:(id<APIConnectorDelegate>)delegate{
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:mail, @"username", password, @"password", nil];
+    id requestObject = [self openConversationRequestObject:[[SessionManager sharedInstance] userId] to:conversationId];
+    SEL okSelector = @selector(onOpenConversationOK:);
+    SEL failSelector = @selector(onOpenConversationError:);
+    
+    [self sendGetRequestWithCustomDomainAndAuth:requestObject urlService:OPEN_CONVERSATION okSelector:okSelector failSelector:failSelector delegate:delegate];
 }
 
-- (NSDictionary*)secureAuthenticationRequestObject:(NSString *)sessionId aesKey:(NSString *)aesKey  {
+- (void)onOpenConversationOK:(ASIHTTPRequest *)request{
+    StructedResponse response = [self parseResponse:request withRequestType:request_open_conversation];
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:sessionId, @"session_id", aesKey, @"usk", nil];
+//    NSLog(@"response errorcode: %d", response.errorCode);
+//    NSLog(@"response key: %@", response.key);
+//    NSLog(@"response sessionIdTo: %@", response.sessionIdTo);
+    
+    if (response.errorCode == responseCodeOk) {
+        
+        NSLog(@"Ok open conversation");
+        NSLog(@"response key: %@", response.key);
+        NSString *decryptedKey = [[SecurityManager sharedInstance]aesDecryptAndStoreKeyFromStringBase64:response.key fromUser:response.sessionIdTo];
+
+        NSLog(@"checking session id: %@", response.sessionIdTo);
+        NSLog(@"decryptedkey:%@", decryptedKey);
+//        [[SecurityManager sharedInstance]storeBase64AESKeyAndIV:decryptedKey forUser:response.sessionIdTo];
+//        [[SecurityManager sharedInstance]storeBase64AESKeyAndIV:decryptedKey forUser:response.sessionIdTo];
+        NSLog(@"sessionidto: %@", response.sessionIdTo);
+        NSLog(@"stored aes: %@", [[SecurityManager sharedInstance]getAESbase64forUser:response.sessionIdTo]);
+        NSLog(@"stored iv: %@", [[SecurityManager sharedInstance]getIVbase64forUser:response.sessionIdTo]);
+        
+        [[self finalizeRequestAndGetDelegate:request] onOpenConversationOK: response.key];
+        
+        
+    } else {
+        NSLog(@"error: openconversation failed");
+        switch (response.errorCode) {
+            default:
+                [[self finalizeRequestAndGetDelegate:request] onOpenConversationWrong];
+                break;
+        }
+        
+    }
 }
 
+-(void)onOpenConversationError:(ASIHTTPRequest *)request{
+    NSLog(@"murió el open");
+}
 #pragma mark - --- Parsing Responses ---
-
-- (StructedResponse)parseSecureAuthenticationResponse:(ASIHTTPRequest*)request {
+- (StructedResponse)parseResponse:(ASIHTTPRequest*)request withRequestType:(requestType)requestType{
     StructedResponse response;
     response.sessionId = nil;
-    response.publicKey = nil;
+    response.key = nil;
     response.errorCode = responseCodeOk;
     if (request == nil) {
         response.errorCode = responseCodeNilRequest;
@@ -182,20 +265,33 @@ typedef struct {
         response.errorCode = responseCodeNotJsonFormat;
         return response;
     }
-    response.sessionId = [dictionary objectForKey:@"sessionId"];
-    response.publicKey = [dictionary objectForKey:@"publicKey"];
-    response.errorCode = [[dictionary objectForKey:@"error"] intValue];
+    
+    //extract data
+    switch (requestType) {
+        case request_login_authentication: case request_login_session:
+            response.sessionId = [dictionary objectForKey:@"sessionId"];
+            response.key = [dictionary objectForKey:@"publicKey"];
+            response.errorCode = [[dictionary objectForKey:@"error"] intValue];
+            break;
+            
+        case request_open_conversation:
+            response.sessionId = [dictionary objectForKey:@"sessionId"];
+            response.sessionIdTo = [dictionary objectForKey:@"session_to"];
+            response.key = [dictionary objectForKey:@"convKey"];
+            response.errorCode = [[dictionary objectForKey:@"error"] intValue];
+            break;
+        default:
+            break;
+    }
+    
     if (response.errorCode == 0) {
         if (response.sessionId == nil) {
             response.errorCode = responseCodeNoData;
         }
     } else {
         response.descriptionerror=[dictionary objectForKey:@"descriptionerror"];
-        //NSLog(@"description error:%@",[dictionary objectForKey:@"descriptionerror"]);
         switch (response.errorCode) {
             case responseCodeWrongSession:
-                //[[MainMenuViewController appController] logout];
-                //[BlipAppDelegate activityReset];
                 break;
             default:
                 break;
@@ -203,6 +299,8 @@ typedef struct {
     }
     
     return response;
+    
+
 }
 
 #pragma mark - --- General ---

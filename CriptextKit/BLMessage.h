@@ -75,6 +75,7 @@ typedef enum {
 @interface BLMessage : BLDictionaryBasedObject {
 	NSString *messageText;
 	NSString *messageTextToShow;
+    NSString *iv;
 	NSTimeInterval timestamp;
 	NSString * userIdTo;
 	NSString * userIdFrom;
@@ -93,6 +94,7 @@ typedef enum {
 
 @property (nonatomic, strong) NSString *messageText;
 @property (unsafe_unretained, nonatomic, readonly) NSString *messageTextToShow;
+@property (nonatomic, strong) NSString * iv;
 @property (nonatomic, assign) NSTimeInterval timestamp;
 @property (nonatomic, strong) NSString * userIdTo;
 @property (nonatomic, strong) NSString * userIdFrom;
@@ -117,7 +119,7 @@ typedef enum {
 - (id)initWithArgs:(NSDictionary*)dictionary;
 - (id)initWithDictionary:(NSDictionary*)dictionary;
 //- (id)initWithGroupDictionary:(NSDictionary*)dictionary;
-- (id)initWithMessage:(NSString*)messageText messageId:(BLMessageId)messageId timestamp:(NSTimeInterval)timestamp userId:(NSString *)userId;
+- (id)initWithMessage:(NSString*)_messageText messageId:(BLMessageId)_messageId  messageIV:(NSString *)_iv timestamp:(NSTimeInterval)_timestamp userId:(NSString *)_userId;
 - (id)initWithMyMessage:(NSString*)_messageText userTo:(NSString *)_userId;
 - (id)initWithMyMessageAnonymous:(NSString*)_messageText userTo:(NSString *)_userId;
 //- (id)initWithShareFriend:(BLUserExtended*)user toUser:(BLUserId)toUser;

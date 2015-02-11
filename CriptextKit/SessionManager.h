@@ -20,7 +20,7 @@
 @property (nonatomic, strong) NSString *sessionKey;
 @property (nonatomic, strong) NSString *userName;
 @property (nonatomic, strong) NSString *userPassword;
-@property (nonatomic, strong) NSString *idUser;
+@property (nonatomic, strong) NSString *userId;
 @property (nonatomic, strong) NSString *passCode;
 
 + (SessionManager*)sharedInstance;

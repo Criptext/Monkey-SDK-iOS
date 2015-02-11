@@ -20,4 +20,9 @@ FOUNDATION_EXPORT const unsigned char CriptextKitVersionString[];
 #import <CriptextKit/ComServerConnection.h>
 #import <CriptextKit/MessagingManager.h>
 #import <CriptextKit/SessionManager.h>
+#import <CriptextKit/DBManager.h>
+
+#import <CriptextKit/BLDictionaryBasedObject.h>
+#import <CriptextKit/utils.h>
+#import <CriptextKit/BLMessage.h>
 

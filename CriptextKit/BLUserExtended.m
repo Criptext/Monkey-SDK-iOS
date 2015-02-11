@@ -22,6 +22,7 @@ static BLUserExtended *defaultUser = nil;
 			defaultUser.firstName = NSLocalizedString(@"userDesconocido", @"");
 			defaultUser.lastName = @"";
 			defaultUser.userName = @"nn";
+            defaultUser.iv = @"";
 			defaultUser.userId = @"-10";
 			defaultUser.phone = @"";
 			defaultUser.session = @"";
@@ -43,7 +44,7 @@ static BLUserExtended *defaultUser = nil;
 		self.userId = [self stringFromDictionary:dictionary key:@"id"];
 		self.phone = [self stringFromDictionary:dictionary key:@"phone"];
 		self.firstName = [self stringFromDictionary:dictionary key:@"full_name"];
-        
+        self.iv = [self stringFromDictionary:dictionary key:@"iv"];
 		self.lastName = [self stringFromDictionary:dictionary key:@"last_name"];
         self.session = [self stringFromDictionary:dictionary key:@"session"];
         self.active = [self booleanFromDictionary:dictionary key:@"active"];

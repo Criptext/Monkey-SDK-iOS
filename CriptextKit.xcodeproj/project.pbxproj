@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		417FB8571A8BFA53006B391B /* BLConversation.h in Headers */ = {isa = PBXBuildFile; fileRef = 417FB8551A8BFA53006B391B /* BLConversation.h */; };
+		417FB8581A8BFA53006B391B /* BLConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FB8561A8BFA53006B391B /* BLConversation.m */; };
 		419AA50C1A828FE70015D195 /* ComMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5061A828FE70015D195 /* ComMessage.h */; };
 		419AA50D1A828FE70015D195 /* ComMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5071A828FE70015D195 /* ComMessage.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		419AA50E1A828FE70015D195 /* ComMessageProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5081A828FE70015D195 /* ComMessageProtocol.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -26,7 +28,7 @@
 		419AA5291A828FF10015D195 /* SGSProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA51C1A828FF10015D195 /* SGSProtocol.h */; };
 		419AA52A1A828FF10015D195 /* SGSSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA51D1A828FF10015D195 /* SGSSession.h */; };
 		419AA52B1A828FF10015D195 /* SGSSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA51E1A828FF10015D195 /* SGSSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		419AA5311A82910E0015D195 /* BLDictionaryBasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA52F1A82910E0015D195 /* BLDictionaryBasedObject.h */; };
+		419AA5311A82910E0015D195 /* BLDictionaryBasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA52F1A82910E0015D195 /* BLDictionaryBasedObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419AA5321A82910E0015D195 /* BLDictionaryBasedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5301A82910E0015D195 /* BLDictionaryBasedObject.m */; };
 		419AA5351A82963A0015D195 /* DateUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5331A82963A0015D195 /* DateUtils.h */; };
 		419AA5361A82963A0015D195 /* DateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5341A82963A0015D195 /* DateUtils.m */; };
@@ -36,10 +38,10 @@
 		419AA5421A829C670015D195 /* SessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5401A829C670015D195 /* SessionManager.m */; };
 		419AA5451A829C7B0015D195 /* BLUserExtended.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5431A829C7B0015D195 /* BLUserExtended.h */; };
 		419AA5461A829C7B0015D195 /* BLUserExtended.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5441A829C7B0015D195 /* BLUserExtended.m */; };
-		419AA5491A82C2350015D195 /* BLMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5471A82C2350015D195 /* BLMessage.h */; };
+		419AA5491A82C2350015D195 /* BLMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5471A82C2350015D195 /* BLMessage.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419AA54A1A82C2350015D195 /* BLMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5481A82C2350015D195 /* BLMessage.m */; };
 		419AA54D1A82C3B10015D195 /* utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA54B1A82C3B10015D195 /* utils.m */; };
-		419AA54E1A82C3B10015D195 /* utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA54C1A82C3B10015D195 /* utils.h */; };
+		419AA54E1A82C3B10015D195 /* utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA54C1A82C3B10015D195 /* utils.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419AA5521A83C8B00015D195 /* SocketConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5501A83C8B00015D195 /* SocketConnectionManager.h */; };
 		419AA5531A83C8B00015D195 /* SocketConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5511A83C8B00015D195 /* SocketConnectionManager.m */; };
 		419AA55E1A8429490015D195 /* BBAES.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA55C1A8429490015D195 /* BBAES.h */; };
@@ -48,6 +50,17 @@
 		419AA5631A843F9B0015D195 /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5611A843F9B0015D195 /* NSData+Conversion.m */; };
 		419AA5671A856EC80015D195 /* MessagingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5651A856EC80015D195 /* MessagingManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419AA5681A856EC80015D195 /* MessagingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5661A856EC80015D195 /* MessagingManager.m */; };
+		419AA5821A8AA9630015D195 /* DBManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5801A8AA9630015D195 /* DBManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		419AA5831A8AA9630015D195 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5811A8AA9630015D195 /* DBManager.m */; };
+		419AA58E1A8AC67D0015D195 /* User.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA58C1A8AC67D0015D195 /* User.h */; };
+		419AA58F1A8AC67D0015D195 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA58D1A8AC67D0015D195 /* User.m */; };
+		419AA5911A8AC7290015D195 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419AA5901A8AC7290015D195 /* Realm.framework */; };
+		419AA59B1A8AC8020015D195 /* Conversation.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5951A8AC8020015D195 /* Conversation.h */; };
+		419AA59C1A8AC8020015D195 /* Conversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5961A8AC8020015D195 /* Conversation.m */; };
+		419AA59D1A8AC8020015D195 /* Message.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5971A8AC8020015D195 /* Message.h */; };
+		419AA59E1A8AC8020015D195 /* Message.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5981A8AC8020015D195 /* Message.m */; };
+		419AA59F1A8AC8020015D195 /* Invite.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5991A8AC8020015D195 /* Invite.h */; };
+		419AA5A01A8AC8020015D195 /* Invite.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA59A1A8AC8020015D195 /* Invite.m */; };
 		419CAAA81A80475800F68EB0 /* CriptextKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* CriptextKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419CAAD71A8047D900F68EB0 /* UICKeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAD31A8047D900F68EB0 /* UICKeyChainStore.h */; };
 		419CAAD81A8047D900F68EB0 /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAAD41A8047D900F68EB0 /* UICKeyChainStore.m */; };
@@ -96,6 +109,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		417FB84B1A8BBCE3006B391B /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
+		417FB8551A8BFA53006B391B /* BLConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BLConversation.h; sourceTree = "<group>"; };
+		417FB8561A8BFA53006B391B /* BLConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BLConversation.m; sourceTree = "<group>"; };
 		419AA5061A828FE70015D195 /* ComMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ComMessage.h; sourceTree = "<group>"; };
 		419AA5071A828FE70015D195 /* ComMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComMessage.m; sourceTree = "<group>"; };
 		419AA5081A828FE70015D195 /* ComMessageProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ComMessageProtocol.m; sourceTree = "<group>"; };
@@ -137,6 +153,17 @@
 		419AA5611A843F9B0015D195 /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
 		419AA5651A856EC80015D195 /* MessagingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MessagingManager.h; sourceTree = "<group>"; };
 		419AA5661A856EC80015D195 /* MessagingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MessagingManager.m; sourceTree = "<group>"; };
+		419AA5801A8AA9630015D195 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		419AA5811A8AA9630015D195 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		419AA58C1A8AC67D0015D195 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		419AA58D1A8AC67D0015D195 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		419AA5901A8AC7290015D195 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
+		419AA5951A8AC8020015D195 /* Conversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Conversation.h; sourceTree = "<group>"; };
+		419AA5961A8AC8020015D195 /* Conversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Conversation.m; sourceTree = "<group>"; };
+		419AA5971A8AC8020015D195 /* Message.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Message.h; sourceTree = "<group>"; };
+		419AA5981A8AC8020015D195 /* Message.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Message.m; sourceTree = "<group>"; };
+		419AA5991A8AC8020015D195 /* Invite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Invite.h; sourceTree = "<group>"; };
+		419AA59A1A8AC8020015D195 /* Invite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Invite.m; sourceTree = "<group>"; };
 		419CAAA21A80475800F68EB0 /* CriptextKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CriptextKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		419CAAA61A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		419CAAA71A80475800F68EB0 /* CriptextKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CriptextKit.h; sourceTree = "<group>"; };
@@ -193,6 +220,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				419AA5911A8AC7290015D195 /* Realm.framework in Frameworks */,
 				419CAB2E1A8123A000F68EB0 /* libcrypto.a in Frameworks */,
 				419CAB071A804A8F00F68EB0 /* libz.1.2.5.dylib in Frameworks */,
 				419CAB2F1A8123A000F68EB0 /* libssl.a in Frameworks */,
@@ -241,12 +269,15 @@
 		419AA52E1A8290F50015D195 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				419AA5691A8AA7F80015D195 /* Database */,
 				419AA52F1A82910E0015D195 /* BLDictionaryBasedObject.h */,
 				419AA5301A82910E0015D195 /* BLDictionaryBasedObject.m */,
 				419AA5471A82C2350015D195 /* BLMessage.h */,
 				419AA5481A82C2350015D195 /* BLMessage.m */,
 				419AA5431A829C7B0015D195 /* BLUserExtended.h */,
 				419AA5441A829C7B0015D195 /* BLUserExtended.m */,
+				417FB8551A8BFA53006B391B /* BLConversation.h */,
+				417FB8561A8BFA53006B391B /* BLConversation.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -262,9 +293,28 @@
 			name = "Session Managers";
 			sourceTree = "<group>";
 		};
+		419AA5691A8AA7F80015D195 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				419AA5801A8AA9630015D195 /* DBManager.h */,
+				419AA5811A8AA9630015D195 /* DBManager.m */,
+				419AA58C1A8AC67D0015D195 /* User.h */,
+				419AA58D1A8AC67D0015D195 /* User.m */,
+				419AA5951A8AC8020015D195 /* Conversation.h */,
+				419AA5961A8AC8020015D195 /* Conversation.m */,
+				419AA5971A8AC8020015D195 /* Message.h */,
+				419AA5981A8AC8020015D195 /* Message.m */,
+				419AA5991A8AC8020015D195 /* Invite.h */,
+				419AA59A1A8AC8020015D195 /* Invite.m */,
+			);
+			name = Database;
+			sourceTree = "<group>";
+		};
 		419CAA981A80475800F68EB0 = {
 			isa = PBXGroup;
 			children = (
+				417FB84B1A8BBCE3006B391B /* libc++.dylib */,
+				419AA5901A8AC7290015D195 /* Realm.framework */,
 				419CAAA41A80475800F68EB0 /* CriptextKit */,
 				419CAAB11A80475800F68EB0 /* CriptextKitTests */,
 				419CAAA31A80475800F68EB0 /* Products */,
@@ -453,6 +503,7 @@
 				419CAB001A80493600F68EB0 /* ASIHTTPRequestDelegate.h in Headers */,
 				419CAB1C1A804AFB00F68EB0 /* NSObject+SBJSON.h in Headers */,
 				419CAAFD1A80493600F68EB0 /* ASIHTTPRequest.h in Headers */,
+				419AA58E1A8AC67D0015D195 /* User.h in Headers */,
 				419AA5231A828FF10015D195 /* SGSContext.h in Headers */,
 				419AA51F1A828FF10015D195 /* SGSChannel.h in Headers */,
 				419AA5351A82963A0015D195 /* DateUtils.h in Headers */,
@@ -461,10 +512,13 @@
 				419CAB491A81635D00F68EB0 /* Criptext.h in Headers */,
 				419CAB201A804AFB00F68EB0 /* SBJSON.h in Headers */,
 				419CAB1B1A804AFB00F68EB0 /* JSON.h in Headers */,
+				419AA59D1A8AC8020015D195 /* Message.h in Headers */,
 				419AA50F1A828FE70015D195 /* ComMessageProtocol.h in Headers */,
 				419CAAFF1A80493600F68EB0 /* ASIHTTPRequestConfig.h in Headers */,
 				419AA5621A843F9B0015D195 /* NSData+Conversion.h in Headers */,
+				419AA59F1A8AC8020015D195 /* Invite.h in Headers */,
 				419CAB241A804AFB00F68EB0 /* SBJsonParser.h in Headers */,
+				419AA5821A8AA9630015D195 /* DBManager.h in Headers */,
 				419CAAD91A8047D900F68EB0 /* SecurityManager.h in Headers */,
 				419AA5271A828FF10015D195 /* SGSMessage.h in Headers */,
 				419CAB0B1A804ACC00F68EB0 /* NSData+Base64.h in Headers */,
@@ -474,6 +528,7 @@
 				419CAADF1A80485C00F68EB0 /* APIConnector.h in Headers */,
 				419AA5251A828FF10015D195 /* SGSId.h in Headers */,
 				419AA5211A828FF10015D195 /* SGSConnection.h in Headers */,
+				417FB8571A8BFA53006B391B /* BLConversation.h in Headers */,
 				419AA54E1A82C3B10015D195 /* utils.h in Headers */,
 				419AA52A1A828FF10015D195 /* SGSSession.h in Headers */,
 				419AA5411A829C670015D195 /* SessionManager.h in Headers */,
@@ -486,6 +541,7 @@
 				419CAAF91A80493600F68EB0 /* ASIDownloadCache.h in Headers */,
 				419AA50C1A828FE70015D195 /* ComMessage.h in Headers */,
 				419CAAF61A80493600F68EB0 /* ASIAuthenticationDialog.h in Headers */,
+				419AA59B1A8AC8020015D195 /* Conversation.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -556,12 +612,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				419AA58F1A8AC67D0015D195 /* User.m in Sources */,
 				419AA5631A843F9B0015D195 /* NSData+Conversion.m in Sources */,
 				419AA5261A828FF10015D195 /* SGSId.m in Sources */,
 				419CAB211A804AFB00F68EB0 /* SBJSON.m in Sources */,
 				419CAB021A80493600F68EB0 /* ASIInputStream.m in Sources */,
 				419AA55F1A8429490015D195 /* BBAES.m in Sources */,
 				419AA5201A828FF10015D195 /* SGSChannel.m in Sources */,
+				419AA5831A8AA9630015D195 /* DBManager.m in Sources */,
 				419CAB0C1A804ACC00F68EB0 /* NSData+Base64.m in Sources */,
 				419CAAFA1A80493600F68EB0 /* ASIDownloadCache.m in Sources */,
 				419CAAF51A80493600F68EB0 /* Reachability.m in Sources */,
@@ -570,9 +628,11 @@
 				419CAB271A804AFB00F68EB0 /* SBJsonWriter.m in Sources */,
 				419AA54D1A82C3B10015D195 /* utils.m in Sources */,
 				419AA52B1A828FF10015D195 /* SGSSession.m in Sources */,
+				417FB8581A8BFA53006B391B /* BLConversation.m in Sources */,
 				419AA5221A828FF10015D195 /* SGSConnection.m in Sources */,
 				419AA5421A829C670015D195 /* SessionManager.m in Sources */,
 				419CAB231A804AFB00F68EB0 /* SBJsonBase.m in Sources */,
+				419AA5A01A8AC8020015D195 /* Invite.m in Sources */,
 				419AA50E1A828FE70015D195 /* ComMessageProtocol.m in Sources */,
 				419AA5531A83C8B00015D195 /* SocketConnectionManager.m in Sources */,
 				419AA5281A828FF10015D195 /* SGSMessage.m in Sources */,
@@ -585,6 +645,7 @@
 				419AA5111A828FE70015D195 /* ComServerConnection.m in Sources */,
 				419AA5361A82963A0015D195 /* DateUtils.m in Sources */,
 				419CAB251A804AFB00F68EB0 /* SBJsonParser.m in Sources */,
+				419AA59E1A8AC8020015D195 /* Message.m in Sources */,
 				419CAB041A80493600F68EB0 /* ASINetworkQueue.m in Sources */,
 				419CAADA1A8047D900F68EB0 /* SecurityManager.m in Sources */,
 				419CAB1F1A804AFB00F68EB0 /* NSString+SBJSON.m in Sources */,
@@ -594,6 +655,7 @@
 				419CAAE01A80485C00F68EB0 /* APIConnector.m in Sources */,
 				419AA5681A856EC80015D195 /* MessagingManager.m in Sources */,
 				419AA5321A82910E0015D195 /* BLDictionaryBasedObject.m in Sources */,
+				419AA59C1A8AC8020015D195 /* Conversation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -692,6 +754,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CriptextKit",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -718,6 +785,11 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/CriptextKit",
+					"$(PROJECT_DIR)",
+				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,

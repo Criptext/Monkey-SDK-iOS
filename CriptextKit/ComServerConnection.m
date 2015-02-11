@@ -22,7 +22,7 @@
 
 //#import "AppDelegate.h"
 
-//#import "MessagingManager.h"
+#import "MessagingManager.h"
 
 #import "DateUtils.h"
 //#import "AudioUtils.h"
@@ -133,7 +133,7 @@ static ComServerConnection* sharedInstance_;
 		NSLog(@"Connection obj NOT EXIST so Trying to connect .. ");
 	}*/
     self.connectionDelegate=conDelegate;
-    self.userId=[SessionManager sharedInstance].idUser;
+    self.userId=[SessionManager sharedInstance].userId;
     firstTime=isFirst;
     
     SGSContext *context = [[SGSContext alloc] initWithHostname:@"central.criptext.com" port:[@"80" integerValue]];
@@ -283,7 +283,7 @@ static ComServerConnection* sharedInstance_;
         case blMessageConversationOpen: case blMessageEmailOpen: case blMessageFriendRequest: case blMessageInviteAccepted: case blMessageInviteCanceled: case blMessageFriendDirect: case MessageNewContactRegistered: case WarningUserTookScreenShot: case MessageFriendActivate: case MessageremoteLogout: case EmailSendFailure: case MessageGroupCreate: case MessageGroupRemoveMember: case EmailUpdates: case blMessageTyping: case blMessageUntyping: case MessageAlert: case MessageUserGroupsUpdate: case MessageRecall: case MessagesUserOffline: case MessagesUserOnline:{
             
             BLMessage *msg = [[BLMessage alloc] initWithArgs:args];
-//            [[MessagingManager instance] notify:msg withcommand:msg.type];
+            [[MessagingManager sharedInstance] notify:msg withcommand:msg.type];
             break;
         }
         case MessagesUpdates:{
@@ -314,7 +314,7 @@ static ComServerConnection* sharedInstance_;
              BLMessage *msg = [[BLMessage alloc] initWithArgs:args];
             [self removeFromCache:msg];
             
-            [[SessionManager instance] setLastMessageId:[NSString stringWithFormat:@"%lli",msg.messageId]];
+            [[SessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msg.messageId]];
             
             break;
         }
@@ -328,7 +328,7 @@ static ComServerConnection* sharedInstance_;
 
         default:{
             BLMessage *msg = [[BLMessage alloc] initWithArgs:args];
-//            [[MessagingManager instance] notify:msg withcommand:cmd];
+            [[MessagingManager sharedInstance] notify:msg withcommand:cmd];
             
             break;
         }
@@ -350,7 +350,7 @@ static ComServerConnection* sharedInstance_;
                     break;
                 }
                 
-//                [[MessagingManager instance] messageGot:msg];
+                [[MessagingManager sharedInstance] messageGot:msg];
                 //esto debe ir en otro lado
 //                [[AudioUtils instance] playReceived];
 				break;
@@ -365,7 +365,7 @@ static ComServerConnection* sharedInstance_;
                 [self removeFromCache:msg];
                 
 
-                [[SessionManager instance] setLastMessageId:[NSString stringWithFormat:@"%lli",msg.messageId]];
+                [[SessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msg.messageId]];
                 
                 break;
             }
@@ -439,7 +439,7 @@ static ComServerConnection* sharedInstance_;
     
     //sending update message for offline messages
     if([SessionManager sharedInstance].lastMessageId==nil){
-        [[SessionManager sharedInstance] setLastMessageId:@"0"];
+        [[SessionManager sharedInstance] setLastMessageId:@"122899"];
     }
     
     //if(!firstTime)
