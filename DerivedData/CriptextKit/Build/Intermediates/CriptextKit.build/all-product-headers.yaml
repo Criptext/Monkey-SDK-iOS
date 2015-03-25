@@ -1,0 +1,88 @@
+{
+  'version': 0,
+  'case-sensitive': 'false',
+  'roots': [
+    {
+      'type': 'directory',
+      'name': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/DerivedData/CriptextKit/Build/Products/Debug-iphoneos/CriptextKit.framework/Headers",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "APIConnector.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/APIConnector.h"
+        },
+        {
+          'type': 'file',
+          'name': "BLDictionaryBasedObject.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/BLDictionaryBasedObject.h"
+        },
+        {
+          'type': 'file',
+          'name': "BLMessage.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/BLMessage.h"
+        },
+        {
+          'type': 'file',
+          'name': "BLUser.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/BLUser.h"
+        },
+        {
+          'type': 'file',
+          'name': "ComServerConnection.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/ComServerConnection.h"
+        },
+        {
+          'type': 'file',
+          'name': "CriptextKit-Swift.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/DerivedData/CriptextKit/Build/Products/Debug-iphoneos/CriptextKit.framework/Headers/CriptextKit-Swift.h"
+        },
+        {
+          'type': 'file',
+          'name': "CriptextKit.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/CriptextKit.h"
+        },
+        {
+          'type': 'file',
+          'name': "DBManager.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/DBManager.h"
+        },
+        {
+          'type': 'file',
+          'name': "MessagingManager.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/MessagingManager.h"
+        },
+        {
+          'type': 'file',
+          'name': "SGSConnection.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/SGSConnection.h"
+        },
+        {
+          'type': 'file',
+          'name': "SecurityManager.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/SecurityManager.h"
+        },
+        {
+          'type': 'file',
+          'name': "SessionManager.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/SessionManager.h"
+        },
+        {
+          'type': 'file',
+          'name': "utils.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/CriptextKit/utils.h"
+        }
+      ]
+    },
+    {
+      'type': 'directory',
+      'name': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/DerivedData/CriptextKit/Build/Products/Debug-iphoneos/CriptextKit.framework/Modules",
+      'contents': [
+        {
+          'type': 'file',
+          'name': "module.modulemap",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/CriptextKit/DerivedData/CriptextKit/Build/Products/Debug-iphoneos/CriptextKit.framework/Modules/module.modulemap"
+        }
+      ]
+    }
+  ]
+}

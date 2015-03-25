@@ -44,7 +44,7 @@ This is a category on NSString that adds methods for parsing the target string.
  
  @deprecated Given we bill ourselves as a "strict" JSON library, this method should be removed.
  */
-- (id)JSONFragmentValue;
+- (id)mok_JSONFragmentValue;
 
 /**
  @brief Returns the NSDictionary or NSArray represented by the current string's JSON representation.
@@ -53,6 +53,6 @@ This is a category on NSString that adds methods for parsing the target string.
 
  Returns the NSDictionary or NSArray represented by the current string's JSON representation.
  */
-- (id)JSONValue;
+- (id)mok_JSONValue;
 
 @end

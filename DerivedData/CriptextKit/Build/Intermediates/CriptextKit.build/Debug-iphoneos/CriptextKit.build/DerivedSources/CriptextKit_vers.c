@@ -1,0 +1,1 @@
+ const unsigned char CriptextKitVersionString[] __attribute__ ((used)) = "@(#)PROGRAM:CriptextKit  PROJECT:CriptextKit-1" "\n"; const double CriptextKitVersionNumber __attribute__ ((used)) = (double)1.;

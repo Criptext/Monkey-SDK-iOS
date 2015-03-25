@@ -1,0 +1,6 @@
+framework module MonkeyKit {
+  umbrella header "MonkeyKit.h"
+
+  export *
+  module * { export * }
+}

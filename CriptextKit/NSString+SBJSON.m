@@ -28,20 +28,20 @@
  */
 
 #import "NSString+SBJSON.h"
-#import "SBJsonParser.h"
+#import "MOKSBJsonParser.h"
 
 @implementation NSString (NSString_SBJSON)
 
-- (id)JSONFragmentValue
+- (id)mok_JSONFragmentValue
 {
-    SBJsonParser *jsonParser = [SBJsonParser new];    
+    MOKSBJsonParser *jsonParser = [MOKSBJsonParser new];
     id repr = [jsonParser fragmentWithString:self];    
     return repr;
 }
 
-- (id)JSONValue
+- (id)mok_JSONValue
 {
-    SBJsonParser *jsonParser = [SBJsonParser new];
+    MOKSBJsonParser *jsonParser = [MOKSBJsonParser new];
     id repr = [jsonParser objectWithString:self];
     return repr;
 }
