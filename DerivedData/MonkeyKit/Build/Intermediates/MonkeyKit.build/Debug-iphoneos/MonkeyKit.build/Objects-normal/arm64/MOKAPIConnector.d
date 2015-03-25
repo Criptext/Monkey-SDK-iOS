@@ -1,0 +1,27 @@
+dependencies: \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKAPIConnector.m \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKAPIConnector.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFHTTPSessionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLSessionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLResponseSerialization.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLRequestSerialization.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFSecurityPolicy.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFNetworkReachabilityManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKutils.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKJSON.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJSON.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonParser.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonBase.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonWriter.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSObject+SBJSON.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSString+SBJSON.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSecurityManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKComServerConnection.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSocketConnectionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSessionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKUser.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKDictionaryBasedObject.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFNetworking.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLConnectionOperation.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFHTTPRequestOperation.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFHTTPRequestOperationManager.h

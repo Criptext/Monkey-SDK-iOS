@@ -123,6 +123,8 @@
 		41A7E7AE1AC1E5A70069E77F /* MOKDBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A7E7AC1AC1E5A70069E77F /* MOKDBMessage.m */; };
 		41A7E7B11AC1E84D0069E77F /* MOKDBManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A7E7AF1AC1E84D0069E77F /* MOKDBManager.h */; };
 		41A7E7B21AC1E84D0069E77F /* MOKDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A7E7B01AC1E84D0069E77F /* MOKDBManager.m */; };
+		41ED547B1AC345B200D15578 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41ED547A1AC345B200D15578 /* Realm.framework */; };
+		41ED547C1AC345DD00D15578 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 417FB84B1A8BBCE3006B391B /* libc++.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -247,6 +249,7 @@
 		41A7E7AC1AC1E5A70069E77F /* MOKDBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBMessage.m; sourceTree = "<group>"; };
 		41A7E7AF1AC1E84D0069E77F /* MOKDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDBManager.h; sourceTree = "<group>"; };
 		41A7E7B01AC1E84D0069E77F /* MOKDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBManager.m; sourceTree = "<group>"; };
+		41ED547A1AC345B200D15578 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -254,6 +257,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41ED547C1AC345DD00D15578 /* libc++.dylib in Frameworks */,
+				41ED547B1AC345B200D15578 /* Realm.framework in Frameworks */,
 				416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */,
 				419CAB2E1A8123A000F68EB0 /* libcrypto.a in Frameworks */,
 				419CAB2F1A8123A000F68EB0 /* libssl.a in Frameworks */,
@@ -349,6 +354,7 @@
 			isa = PBXGroup;
 			children = (
 				417FB84B1A8BBCE3006B391B /* libc++.dylib */,
+				41ED547A1AC345B200D15578 /* Realm.framework */,
 				419CAAA41A80475800F68EB0 /* CriptextKit */,
 				419CAAB11A80475800F68EB0 /* CriptextKitTests */,
 				419CAAA31A80475800F68EB0 /* Products */,
