@@ -1,6 +1,0 @@
-framework module CriptextKit {
-  umbrella header "CriptextKit.h"
-
-  export *
-  module * { export * }
-}
