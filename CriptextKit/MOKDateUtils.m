@@ -36,7 +36,7 @@ static NSString *serverDateFormat = @"yyyy-MM-dd";
 
 - (id)init {
 	if (self = [super init]) {
-		self.gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+		self.gregorianCalendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
 //		self.gregorianCalendar;
 		[self reInit];
 	}
@@ -73,7 +73,7 @@ static NSString *serverDateFormat = @"yyyy-MM-dd";
 }
 
 - (BOOL)date:(NSDate*)date1 sameWithDate:(NSDate*)date2 {
-	unsigned units = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+	unsigned units = NSCalendarUnitYear | NSCalendarUnitMonth |  NSCalendarUnitDay;
 	NSDateComponents *comps1 = [gregorianCalendar components:units fromDate:date1];
 	NSDateComponents *comps2 = [gregorianCalendar components:units fromDate:date2];
 	return comps1.day == comps2.day && comps1.month == comps2.month && comps1.year == comps2.year;

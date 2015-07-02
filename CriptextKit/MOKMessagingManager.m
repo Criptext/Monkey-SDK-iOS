@@ -16,8 +16,14 @@
 #import "MOKUser.h"
 #import "MOKWatchdog.h"
 #import "NSData+Compression.h"
-#import "MOKAPIConnector.h"
 #import "MOKDBManager.h"
+#import "MOKSBJSON.h"
+#import "NSData+Base64.h"
+
+@interface MOKMessagingManager ()
+@property (nonatomic, strong) MOKSBJsonWriter *jsonWriter;
+@property (nonatomic, strong) MOKSBJsonParser *jsonParser;
+@end
 
 @implementation MOKMessagingManager
 
@@ -47,6 +53,8 @@
         //initialize property
         _receivers = [[NSMutableArray alloc]init];
         _shouldResendAutomatically = true;
+        self.jsonWriter = [MOKSBJsonWriter new];
+        self.jsonParser = [MOKSBJsonParser new];
     }
     return self;
 }
@@ -63,79 +71,163 @@
 - (void)removeReceiver:(id <MOKMessageReceiver>)receiver {
     @synchronized (self) {
         MOKReceiverKeeper *keeper = [MOKReceiverKeeper keeperWithReceiverAndRetain:receiver];
+        NSLog(@"removieng keeper: %@", keeper);
         [self.receivers removeObject:keeper];
         keeper = nil;
     }
 }
 
--(MOKMessage *)sendString:(NSString *)plaintext toUser:(NSString *)userId{
-    MOKMessage *message = [[MOKMessage alloc]initWithMyMessage:plaintext userTo:userId];
+-(MOKMessage *)sendString:(NSString *)plaintext toUser:(NSString *)sessionId{ 
+    MOKMessage *message = [[MOKMessage alloc]initWithMyMessage:plaintext userTo:sessionId];
     [[MOKSecurityManager sharedInstance]aesEncryptOutgoingMessage:message];
     return [self sendMessage:message];
 }
 
--(MOKMessage *)sendFileDataWithPath:(NSURL *)fileURL ofType:(MOKMessageType)moktype toUser:(NSString *)userId{
-    MOKMessage *message = [[MOKMessage alloc]initWithMyMessage:@"" userTo:userId];
-    message.type = moktype;
+-(MOKMessage *)sendFileWithURL:(NSURL *)fileURL ofType:(MOKFileType)documentType toUser:(NSString *)sessionId andParams:(NSDictionary *)params{
+    MOKMessage *message = [[MOKMessage alloc]initWithMyMessage:@"" userTo:sessionId];
+    message.protocolCommand = MOKProtocolMessage;
+    message.protocolType = MOKFile;
+
+    if (params == nil) {
+        NSDictionary *defaultparams = @{@"eph" : @"0",
+                                        @"encr" : @"1",
+                                        @"str" : @"0",
+                                        @"cmpr" : @"gzip",
+                                        @"device" : @"ios"
+                                        };
+        message.params = [defaultparams mutableCopy];
+    }else{
+        message.params = [params mutableCopy];
+    }
+
+    [message.params setObject:[NSNumber numberWithInt:documentType] forKey:@"file_type"];
+    
     NSString *tmp = [fileURL path];
     NSMutableString *newFileName = [tmp mutableCopy];
-    NSData *rawData = [NSData dataWithContentsOfURL:fileURL];
-    NSLog(@"antes compress: %lu",(unsigned long)[rawData length]);
-    NSData *compressedData = [rawData mok_gzipDeflate];
-    NSLog(@"despues compress: %lu",(unsigned long)[compressedData length]);
-    NSData *encryptedData = [[MOKSecurityManager sharedInstance]aesEncryptFileData:compressedData fromUser:[MOKSessionManager sharedInstance].userId];
-    [newFileName insertString:@"cdtest" atIndex:[newFileName rangeOfString:@".3gp"].location];
-    NSLog(@"nombre archivo: %@", newFileName);
+    
+    NSData *fileData = [NSData dataWithContentsOfURL:fileURL];
+    
+    //check if should compress
+    if ([message.params objectForKey:@"cmpr"]) {
+        NSLog(@"MONKEY - antes compress: %lu",(unsigned long)[fileData length]);
+        fileData = [fileData mok_gzipDeflate];
+        NSLog(@"MONKEY - despues compress: %lu",(unsigned long)[fileData length]);
+    }
+    
+    
+    [newFileName insertString:@"_mok" atIndex:[newFileName rangeOfString:@"."].location];
+    NSLog(@"MONKEY - nombre archivo: %@", newFileName);
+    
     [[NSFileManager defaultManager]createFileAtPath:newFileName contents:nil attributes:nil];
     NSFileHandle *fileHandler = [NSFileHandle fileHandleForWritingAtPath:newFileName];
-    [fileHandler writeData:encryptedData];
     
-    NSURL *newFileURL = [NSURL fileURLWithPath:newFileName];
+    //check if should encrypt
+    if([[message.params objectForKey:@"encr"] isEqualToString:@"1"]){
+        NSData *encryptedData = [[MOKSecurityManager sharedInstance]aesEncryptFileData:fileData fromUser:[MOKSessionManager sharedInstance].sessionId];
+        [fileHandler writeData:encryptedData];
+    }else{
+        [fileHandler writeData:fileData];
+    }
     
-    [[MOKAPIConnector sharedInstance]sendFileWithPath:newFileURL toUser:userId messageId:message.messageId ephemeral:@"0" andType:@"audio" delegate:nil];
-
+    message.encryptedText = newFileName;
+    
+    [[MOKWatchdog sharedInstance]mediaInTransit:message];
+    [[MOKDBManager sharedInstance]storeMessage:message];
+    [[MOKAPIConnector sharedInstance]sendFile:message delegate:self];
     
     return message;
-//    return [self sendMessage:message];
 }
+-(MOKMessage *)sendFile:(MOKMessage *)message ofType:(MOKFileType)documentType{
+    message.protocolType = MOKFile;
+    [message.params setObject:[NSNumber numberWithInt:documentType] forKey:@"file_type"];
+    
+    NSString *documentDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    documentDirectory = [documentDirectory stringByAppendingPathComponent:message.messageText];
+    NSData *fileData = [[NSFileManager defaultManager] contentsAtPath:documentDirectory];
+    NSLog(@"MONKEY - tamaño data: %lu",(unsigned long)[fileData length]);
+    NSMutableString *newFileName = [documentDirectory mutableCopy];
+    
+    //check if should compress
+    if ([message.params objectForKey:@"cmpr"]) {
+        NSLog(@"MONKEY - antes compress: %lu",(unsigned long)[fileData length]);
+        fileData = [fileData mok_gzipDeflate];
+        NSLog(@"MONKEY - despues compress: %lu",(unsigned long)[fileData length]);
+    }
+    
+    
+    [newFileName insertString:@"_mok" atIndex:[newFileName rangeOfString:@"."].location];
+    NSLog(@"MONKEY - nombre archivo: %@", newFileName);
+    
+    [[NSFileManager defaultManager]createFileAtPath:newFileName contents:nil attributes:nil];
+    NSFileHandle *fileHandler = [NSFileHandle fileHandleForWritingAtPath:newFileName];
+    
+    //check if should encrypt
+    if([[message.params objectForKey:@"encr"] isEqualToString:@"1"]){
+        NSData *encryptedData = [[MOKSecurityManager sharedInstance]aesEncryptFileData:fileData fromUser:[MOKSessionManager sharedInstance].sessionId];
+        [fileHandler writeData:encryptedData];
+    }else{
+        [fileHandler writeData:fileData];
+    }
+    
+    message.encryptedText = newFileName;
+    
+    [[MOKWatchdog sharedInstance]mediaInTransit:message];
+    [[MOKDBManager sharedInstance]storeMessage:message];
+    [[MOKAPIConnector sharedInstance]sendFile:message delegate:self];
+    
+    return message;
 
+}
 -(MOKMessage *)sendMessage:(MOKMessage *)message{
+    
+    //check if should encrypt
+    if ([[message.params objectForKey:@"encr"] isEqualToString:@"1"]) {
+        [[MOKSecurityManager sharedInstance]aesEncryptOutgoingMessage:message];
+    }
+    
+    message.protocolCommand = MOKProtocolMessage;
     message.isSending = true;
     message.needsResend = false;
     
-    [self sendMessageWithComServerFromBlMessage:message];
+    [[MOKWatchdog sharedInstance]messageInTransit:message];
+    [[MOKDBManager sharedInstance]storeMessage:message];
     
-    if([message.userIdTo rangeOfString:@","].location==NSNotFound){//for one-to-one
-        [self strip201fromMessage:message];
-
-    }
-    else{//for groups
-        NSMutableArray *userIds=[[NSMutableArray alloc] initWithArray:[message.userIdTo componentsSeparatedByString:@","]];
-        for (NSString *elid in userIds) {
-            MOKMessage *tmpMessage=[[MOKMessage alloc] initWithMyMessage:message.messageText userTo:elid];
-            tmpMessage.messageId=message.messageId;
-            tmpMessage.timestamp=message.timestamp;
-            tmpMessage.oldMessageId=message.oldMessageId;
-            tmpMessage.userIdTo=elid;
-            
-            [self strip201fromMessage:message];
-            
-            //TODO: msg add to conversation
-//            [[MenuViewController instance].conversationsVC addLastMessageToConversation:tmpMessage];
-        }
+    [self sendMessageCommandFromMessage:message];
     
-    }
     return message;
 }
 
-//-(void)sendTest:(NSString *)plaintext toUser:(NSString *)userId{
-//    BLMessage *message = [[BLMessage alloc]initWithMyMessage:plaintext userTo:userId];
-//    message.isSending = true;
-//    message.needsResend = false;
-//    message.messageId = [[NSDate date] timeIntervalSince1970]* -1;
-//    message.timestamp = [[NSDate date] timeIntervalSince1970];
-//    [self sendMessageWithComServerFromBlMessage:message];
-//}
+-(MOKMessage *)sendNotificationToUser:(NSString *)sessionId withParams:(NSDictionary *)params andPush:(NSString *)push{
+    MOKMessage *message = [[MOKMessage alloc]initWithMyMessage:@"" userTo:sessionId];
+    message.protocolCommand = MOKProtocolMessage;
+    message.protocolType = MOKNotif;
+    message.pushMessage = push;
+    message.params = [params mutableCopy];
+    [self sendMessageCommandFromMessage:message];
+    
+    return message;
+}
+
+-(MOKMessage *)sendTemporalNotificationToUser:(NSString *)sessionId withParams:(NSDictionary *)params andPush:(NSString *)push{
+    MOKMessage *message = [[MOKMessage alloc]initWithMyMessage:@"" userTo:sessionId];
+    message.protocolCommand = MOKProtocolMessage;
+    message.protocolType = MOKTempNote;
+    message.pushMessage = push;
+    message.params = [params mutableCopy];
+    [self sendMessageCommandFromMessage:message];
+    
+    return message;
+}
+
+-(MOKMessage *)sendAlertToUser:(NSString *)sessionId withParams:(NSDictionary *)params{
+    MOKMessage *message = [[MOKMessage alloc]initWithMyMessage:@"" userTo:sessionId];
+    message.protocolCommand = MOKProtocolMessage;
+    message.protocolType = MOKAlert;
+    message.params = [params mutableCopy];
+    [self sendMessageCommandFromMessage:message];
+    
+    return message;
+}
 
 -(void)strip201fromMessage:(MOKMessage *)message{
     if ([message.userIdTo rangeOfString:@":"].location != NSNotFound  && [message.userIdTo rangeOfString:@"G"].location==NSNotFound) {
@@ -143,75 +235,29 @@
     }
 }
 
+- (void)sendCommand:(MOKProtocolCommand)protocolCommand WithArgs:(NSDictionary *)args{
+    NSDictionary *messCom = @{@"cmd":[NSNumber numberWithInt:protocolCommand],
+                              @"args": args};
+    
+    [[MOKComServerConnection sharedInstance] sendMessage:[self.jsonWriter stringWithObject:messCom]];
+}
+-(void)sendCloseCommandToUser:(NSString *)sessionId{
+    [self sendCommand:MOKProtocolClose WithArgs:@{@"rid": sessionId}];
+}
+-(void)sendDeleteCommandForMessage:(MOKMessageId)messageId ToUser:(NSString *)sessionId{
+    
+    
+    [self sendCommand:MOKProtocolDelete WithArgs:@{@"id": [NSNumber numberWithLongLong:messageId],
+                                                   @"rid":sessionId}];
+}
 - (void)notify:(MOKMessage *)message withcommand:(int)command {
     
     //Tipos de menajes: invites, openConversation, isTyping.
     switch (command) {
-        case MOKMessageDelivered: case MOKMessageNotView: case MOKMessageNotDelivered:{
-            
-            NSString *tmp=message.userIdTo;
-            message.userIdTo=message.userIdFrom;
-            message.userIdFrom=tmp;
-            
+        case MOKProtocolMessage:
+            [[MOKDBManager sharedInstance]deleteMessageSent:message];
             [self sendMessagesAgain];
-            
             break;
-        }
-        case MOKMessageFriendRequest:{
-            
-            
-            break;
-        }
-        case MOKMessageDeleteFriend:{
-            
-            //NSString *userIdWithout=[[message.userIdFrom componentsSeparatedByString:@":"] objectAtIndex:1];
-            
-            //Borro la conversacion si existe en Conversations
-//            MenuViewController *menuVC=[MenuViewController instance];
-//            ConversationsViewController *conversationsVC=menuVC.conversationsVC;
-//            [conversationsVC deleteConversationFromFriendView:message.userIdFrom];
-            
-            
-            //Lo borro de la lista de amigos del view
-//            FriendsViewController *friendsVC=menuVC.friendsVC;
-//            [friendsVC deleteFriendFromOtherView:message.userIdFrom];
-            
-            
-            //eliminar de la base de datos al amigo
-//            [[DBManager instance] deleteUser:message.userIdFrom];
-            
-            //Para que me vuelva a aparecer como AddressBook friend
-            //            InvitationsViewController *inviteVC=menuVC.invitationsVC;
-            //            [inviteVC reloadContactsAndCompareWithFriends];
-            
-            break;
-        }
-        case MOKMessageInviteAccepted: case MOKMessageInviteCanceled:
-            
-//            [[DBManager instance] removeFromInvites:message.userIdFrom];
-            
-            break;
-            
-        case MOKMessageConversationOpen:
-            
-            message.timestamp = [[NSDate date] timeIntervalSince1970];
-//            [[DBManager instance] markAllMessagesReadOfConversation:message.userIdTo];
-            //      [[DBManager instance] markMessageAsRead:message];
-            
-            break;
-            
-        case MOKMessageNewContactRegistered:{
-            
-        }
-        case MOKMessageremoteLogout:{
-//            [AppDelegate logout];
-//            [AlertsManager alert:NSLocalizedString(@"avisoKey", @"") message:NSLocalizedString(@"rem", @"")];
-            break;
-        }
-        case MOKMessageAlert:{
-
-            break;
-        }
         default: {
             
             break;
@@ -221,6 +267,7 @@
     MOKMessageId msgId =message.messageId;
     if(msgId>0)
         [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msgId]];
+    
     
     if(self.receivers!=NULL){
         
@@ -236,9 +283,16 @@
             [self.receivers makeObjectsPerformSelector:@selector(notificationReceived:) withObject:message];
     }
 }
-- (void)messageGot:(MOKMessage *)message {
+- (void)incomingMessage:(MOKMessage *)message {
     MOKMessageId msgId =message.messageId;
-    [[MOKSecurityManager sharedInstance] aesDecryptIncomingMessage:message];
+    
+    //check if encrypted
+    if ([[message.params objectForKey:@"encr"] isEqualToString:@"1"]) {
+        [[MOKSecurityManager sharedInstance] aesDecryptIncomingMessage:message];
+    }else{
+        message.messageText = message.encryptedText;
+    }
+    
     
     if(msgId>0){
         [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msgId]];
@@ -247,7 +301,7 @@
 //    if([[DBManager sharedInstance] existMessage:msgId])
 //        return;
     
-    [[MOKDBManager sharedInstance]deleteMessageSent:message];
+    
     @synchronized (self) {
         
         [self.receivers makeObjectsPerformSelector:@selector(messageReceived:) withObject:message];
@@ -264,9 +318,9 @@
         
     }
 }
-- (void)fileGot:(MOKMessage *)message {
+
+- (void)fileReceivedNotification:(MOKMessage *)message {
     MOKMessageId msgId =message.messageId;
-    //    [[SecurityManager sharedInstance] aesDecryptIncomingMessage:message];
     
     if(msgId>0){
         [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msgId]];
@@ -274,22 +328,96 @@
     
     //    if([[DBManager sharedInstance] existMessage:msgId])
     //        return;
+    [[MOKAPIConnector sharedInstance]downloadFile:message withDelegate:self];
+    
+}
+-(void)acknowledgeNotification:(MOKMessage *)message{
+    
+    switch (message.protocolType) {
+        case MOKText: case MOKFile: case 50: case 51: case 52:
+            [[MOKDBManager sharedInstance]deleteMessageSent:message];
+            break;
+        default: {
+            
+            break;
+        }
+    }
     
     @synchronized (self) {
-        
+        [self.receivers makeObjectsPerformSelector:@selector(acknowledgeReceived:) withObject:message];
+    }
+}
+-(void)onDownloadFileOK:(MOKMessage *)message{
+    @autoreleasepool {
+        //check if should decrypt
+        if([[message.params objectForKey:@"encr"] isEqualToString:@"1"]){
+
+            //check if web
+            if ([[message.params objectForKey:@"device"] isEqualToString:@"web"]) {
+                NSLog(@"MONKEY - decriptando archivo de web");
+                
+                NSString *contenido = [NSString stringWithContentsOfFile:message.messageText encoding:NSUTF8StringEncoding error:nil];
+                
+                NSData *decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData mok_dataFromBase64String:contenido] fromUser:message.userIdFrom];
+                [decryptedData writeToFile:message.messageText atomically:YES];
+                
+                NSString *newcontenido = [NSString stringWithContentsOfFile:message.messageText encoding:NSUTF8StringEncoding error:nil];
+                newcontenido = [newcontenido substringFromIndex:[newcontenido rangeOfString:@","].location+1];
+                
+                NSData *newData = [NSData mok_dataFromBase64String:newcontenido];
+                
+                
+                //check for extension (and replace)
+                if ([message.params objectForKey:@"ext"] != nil) {
+                    NSFileManager *fileManager = [NSFileManager defaultManager];
+                    [fileManager removeItemAtPath:message.messageText error:NULL];
+                    message.messageText = [[message.messageText stringByDeletingPathExtension] stringByAppendingPathExtension:[message.params objectForKey:@"ext"]];
+                }
+
+                //check for file compression
+                if ([message.params objectForKey:@"cmpr"]) {
+                    newData = [newData mok_gzipInflate];
+                }
+                
+                [newData writeToFile:message.messageText atomically:YES];
+                
+            }else{
+                NSLog(@"MONKEY - decriptando archivo de movil");
+                
+                NSData *decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData dataWithContentsOfFile:message.messageText] fromUser:message.userIdFrom];
+                
+                //check for file compression
+                if ([message.params objectForKey:@"cmpr"]) {
+                    decryptedData = [decryptedData mok_gzipInflate];
+                }
+                
+                [decryptedData writeToFile:message.messageText atomically:YES];
+            }
+        }
+    }
+    
+    message.messageText = [message.messageText lastPathComponent];
+    @synchronized (self) {
         [self.receivers makeObjectsPerformSelector:@selector(messageReceived:) withObject:message];
         
-        /*Storing message*/
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
-            
-            //            if(message.messageId>0){
-            //                    [[DBManager sharedInstance] storeMessage:message];
-            //            }
-            
-        });
-        
-        
     }
+}
+-(void)onDownloadFileFail:(MOKMessage *)message{
+    NSLog(@"MONKEY - MONKEY - Download Fail");
+}
+-(void)onUploadFileOK:(MOKMessage *)message{
+    [[MOKDBManager sharedInstance] deleteMessageSent:message];
+    [[MOKWatchdog sharedInstance] removeMediaInTransitWithId:[NSString stringWithFormat:@"%lld", message.oldMessageId]];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:message.encryptedText error:NULL];
+    if (self.receivers != NULL) {
+        [self.receivers makeObjectsPerformSelector:@selector(acknowledgeReceived:) withObject:message];
+    }
+}
+-(void)onUploadFileFail:(MOKMessage *)message{
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    [fileManager removeItemAtPath:message.encryptedText error:NULL];
+    NSLog(@"MONKEY - MONKEY - Upload Fail");
 }
 - (void)sendMessagesAgain {
     if (!self.shouldResendAutomatically) {
@@ -299,41 +427,71 @@
 //    // allMessages = [allMessages arrayByAddingObjectsFromArray:[messagesWithAttach allValues]];
     MOKMessage *message= [[MOKDBManager sharedInstance] getOldestMessageNotSent];
     
+    if (message == nil) {
+        return;
+    }
     message.isSending = YES;
-    message.timestamp = [[NSDate date] timeIntervalSince1970];
+    message.timestampCreated = [[NSDate date] timeIntervalSince1970];
+    message.timestampOrder = message.timestampCreated;
     
-    [self sendMessage:message];
-////    NSLog(@"messages not sent are %lu",(unsigned long)[allMessages count]);
-//    
-//    //for(BLMessage *message in allMessages){
-//    if([allMessages count]>0){
-//        BLMessage *message=[allMessages objectAtIndex:0];
-//        //int typeResend=message.type;
-//        
-//        message.isSending = YES;
-//        message.timestamp = [[NSDate date] timeIntervalSince1970];
-//        //message.type = blMessageResend;
-//        if(![message isGroupMessage] && ![message isBroadcastMessage])
-//            message.userIdTo=[NSString stringWithFormat:@"201:%@",message.userIdTo];
-//        
-//        //NSLog(@"message type %i and text %@ and userrid %@ ",message.type,message.messageText,message.userIdTo);
-//        
-//        @synchronized (self.messagesToSend) {
-//            [self sendMessageWithComServerFromBlMessage:message];
-//        }
-//        
-//    }
+    switch (message.protocolType) {
+        case MOKText:
+            [self sendMessage:message];
+            break;
+        case MOKFile:
+            NSLog(@"MONKEY - MONKEY - file type resend: %@",[message.params objectForKey:@"file_type"]);
+            [self sendFile:message ofType:[[message.params objectForKey:@"file_type"] intValue]];
+//            [self sendFileWithURL:[NSURL fileURLWithPath:message.encryptedText] ofType:(MOKFileType)[message.params objectForKey:@"file_type"] toUser:message.userIdTo andParams:message.params];
+            break;
+            
+        default:
+            break;
+    }
     
 }
-- (void) sendMessageWithComServerFromBlMessage:(MOKMessage *)message{
-    MOKComMessage *messCOM=[MOKComMessageProtocol createMessageFromBlMessageAndReceiver:message];
-    [[MOKComServerConnection sharedInstance] sendMessage:[messCOM json]];
-    [[MOKWatchdog sharedInstance]messageInTransit:message];
+-(void)sendGetCommandWithArgs:(NSDictionary *)args{
+    [self sendCommand:MOKProtocolGet WithArgs:args];
 }
+-(void)sendOpenCommandToUser:(NSString *)sessionId{
+
+    [self sendCommand:MOKProtocolOpen WithArgs:@{@"rid" : sessionId}];
+
+}
+-(void)sendSetCommandWithArgs:(NSDictionary *)args{
+
+    [self sendCommand:MOKProtocolSet WithArgs:args];
+}
+- (void) sendMessageCommandFromMessage:(MOKMessage *)message{
+    
+    NSDictionary *args;
+    
+    if ([message.pushMessage isEqualToString:@""] || message.pushMessage == nil) {
+        args = @{@"id": [NSString stringWithFormat:@"%lli",message.messageId],
+                 @"sid": message.userIdFrom,
+                 @"rid": message.userIdTo,
+                 @"msg": message.encryptedText,
+                 @"type": [NSNumber numberWithInt:message.protocolType],
+                 @"params": [self.jsonWriter stringWithObject:message.params]
+                 };
+    }else{
+        args = @{@"id": [NSString stringWithFormat:@"%lli",message.messageId],
+                   @"sid": message.userIdFrom,
+                   @"rid": message.userIdTo,
+                   @"msg": message.encryptedText,
+                   @"type": [NSNumber numberWithInt:message.protocolType],
+                   @"params": [self.jsonWriter stringWithObject:message.params],
+                   @"push": message.pushMessage? message.pushMessage : @""
+                   };
+    }
+    
+    [self sendCommand:message.protocolCommand WithArgs:args];
+}
+
 - (void)notifyUpdatesToWatchdog{
     [[MOKWatchdog sharedInstance] updateFinished];
 }
 - (void)logout {
+        [self.receivers removeAllObjects];
 //    [connector cancelAllRequests];
 //    self.attachMessage = nil;
 //    [self.messagesToSend removeAllObjects];
@@ -349,6 +507,7 @@
     
     //dispatch_release(backgroundQueue);
 }
+
 @end
 
 
@@ -381,6 +540,11 @@
     [self.receiver notificationReceived:notificationMessage];
 }
 
+- (void)acknowledgeReceived:(MOKMessage *)ackMessage{
+    
+    [self.receiver acknowledgeReceived:ackMessage];
+}
+
 - (void)didGroupUpdate {
     [self.receiver didGroupUpdate];
 }
@@ -396,14 +560,14 @@
         return isEqual;
     }
     @catch(NSException *exception){
-        NSLog(@"Exception de recivers isEqual: %@", exception);
+        NSLog(@"MONKEY - Exception de recivers isEqual: %@", exception);
         return false;
     }
 }
 
 - (void)didUpdate {
-    
-    
 }
+
+
 
 @end

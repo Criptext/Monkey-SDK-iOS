@@ -22,7 +22,7 @@
 #define MY_IV			@"myIV"
 
 @interface MOKSecurityManager ()
-@property (strong, nonatomic) UICKeyChainStore *keychainStore;
+
 @property (strong, nonatomic) NSMutableDictionary *loadedKeys;
 @end
 
@@ -58,8 +58,6 @@
 }
 
 /*TODO
-> Decrypt with RSA
-> Encrypt with RSA
 > Generate AES Key
 > Store/Replace AES keys in keychain
 > Load Keys in memory in hash table
@@ -68,8 +66,9 @@
 -(BOOL)storeObject:(NSString *)key withIdentifier:(NSString *)identifier{
     NSError *error;
     [self.keychainStore setString:key forKey:identifier error:&error];
+
     if (error) {
-        NSLog(@"%@", error.localizedDescription);
+        NSLog(@"MONKEY - %@", error.localizedDescription);
         return false;
     }
     return true;
@@ -85,9 +84,10 @@
 //
 -(BOOL)storeAESKey:(NSData *)aesKey withIdentifier:(NSString *)identifier{
     NSError *error;
+    [aesKey base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     [self.keychainStore setString:[aesKey mok_base64EncodedString] forKey:identifier error:&error];
     if (error) {
-        NSLog(@"%@", error.localizedDescription);
+        NSLog(@"MONKEY - %@", error.localizedDescription);
         return false;
     }
     return true;
@@ -99,23 +99,31 @@
 //
 -(BOOL)storeBase64AESKeyAndIV:(NSString *)base64string forUser:(NSString *)userId{
     NSError *error;
-    [self.keychainStore setString:base64string forKey:userId error:&error];
+    NSRange range= [base64string rangeOfString:@"=" options:NSBackwardsSearch];
+    
+    NSString *finalbase64string = [base64string substringToIndex:range.location+range.length];
+    
+    [self.keychainStore setString:finalbase64string forKey:userId error:&error];
     if (error) {
-        NSLog(@"%@", error.localizedDescription);
+        NSLog(@"MONKEY - %@", error.localizedDescription);
         return false;
     }
     return true;
 }
 
 -(NSString *)getIVbase64forUser:(NSString *)userId{
-    NSString *aesandiv = self.keychainStore[userId];
-    NSArray *array = [aesandiv componentsSeparatedByString:@":"];
-    return [array lastObject];
+    NSString *aesAndiv = self.keychainStore[userId];
+    NSArray *arrays = [aesAndiv componentsSeparatedByString:@":"];
+    NSRange range= [[arrays lastObject] rangeOfString:@"=" options:NSBackwardsSearch];
+    
+    NSString *finalbase64string = [[arrays lastObject] substringToIndex:range.location+range.length];
+    NSLog(@"MONKEY - el iv: %@jojo", finalbase64string);
+    return finalbase64string;
 }
 
 -(NSString *)getAESbase64forUser:(NSString *)userId{
     NSString *aesandiv = self.keychainStore[userId];
-    NSLog(@"sacando el aes iv concatenado: %@", aesandiv);
+    NSLog(@"MONKEY - sacando el aes iv concatenado: %@ for sessionid: %@", aesandiv, userId);
     NSArray *array = [aesandiv componentsSeparatedByString:@":"];
     return [array firstObject];
 }
@@ -124,7 +132,7 @@
     NSError *error;
     [self.keychainStore setString:[data mok_base64EncodedString] forKey:identifier error:&error];
     if (error) {
-        NSLog(@"%@", error.localizedDescription);
+        NSLog(@"MONKEY - %@", error.localizedDescription);
         return false;
     }
     return true;
@@ -140,7 +148,7 @@
     NSError *error;
     [self.keychainStore setString:[iv mok_base64EncodedString] forKey:identifier error:&error];
     if (error) {
-        NSLog(@"%@", error.localizedDescription);
+        NSLog(@"MONKEY - %@", error.localizedDescription);
         return false;
     }
     return true;
@@ -159,21 +167,30 @@
 
 #pragma mark - AES encryption and decryption
 -(MOKMessage *)aesEncryptIncomingMessage:(MOKMessage *)message{
-    message.messageText = [self aesEncryptPlainText:message.messageText fromUser:message.userIdTo];
+    message.encryptedText = [self aesEncryptPlainText:message.messageText fromUser:message.userIdTo];
     return message;
 }
 -(MOKMessage *)aesEncryptOutgoingMessage:(MOKMessage *)message{
-    message.messageText = [self aesEncryptPlainText:message.messageText fromUser:message.userIdFrom];
+    NSLog(@"MONKEY - encriptando mensaje de: %@", message.userIdFrom);
+    NSLog(@"MONKEY - aes guardado de este user: %@", self.keychainStore[message.userIdFrom]);
+    NSLog(@"MONKEY - mensaje a encriptar: %@", message.messageText);
+    NSLog(@"MONKEY - iv en base64: %@", [self getIVbase64forUser:message.userIdFrom]);
+    NSString *ivtmp = [self getIVbase64forUser:message.userIdFrom];
+    NSData *data = [[NSData alloc]initWithBase64EncodedString:ivtmp options:0];
+    NSLog(@"MONKEY - iv en data: %@", data);
+    message.encryptedText = [self aesEncryptPlainText:message.messageText fromUser:message.userIdFrom];
     return message;
 }
 -(MOKMessage *)aesDecryptIncomingMessage:(MOKMessage *)message{
-    NSLog(@"decryptando mensaje de: %@", message.userIdFrom);
-    NSLog(@"aes guardado de este user: %@", self.keychainStore[message.userIdFrom]);
-    message.messageText = [self aesDecryptedStringFromStringBase64:message.messageText fromUser:message.userIdFrom];
+    NSLog(@"MONKEY - decryptando mensaje de: %@", message.userIdFrom);
+    NSLog(@"MONKEY - aes guardado de este user: %@", self.keychainStore[message.userIdFrom]);
+    NSLog(@"MONKEY - mensaje a decriptar: %@", message.messageText);
+    message.messageText = [self aesDecryptedStringFromStringBase64:message.encryptedText fromUser:message.userIdFrom];
+    NSLog(@"MONKEY - mensaje decriptado: %@", message.messageText);
     return message;
 }
 -(MOKMessage *)aesDecryptOutgoingMessage:(MOKMessage *)message{
-    message.messageText = [self aesDecryptedStringFromStringBase64:message.messageText fromUser:message.userIdTo];
+    message.messageText = [self aesDecryptedStringFromStringBase64:message.encryptedText fromUser:message.userIdTo];
     return message;
 }
 
@@ -189,7 +206,14 @@
     return [self aesDecryptData:dataToDecrypt withKey:[NSData mok_dataFromBase64String:[self getAESbase64forUser:userId]] andIV:[NSData mok_dataFromBase64String:[self getIVbase64forUser:userId]]];
 }
 -(NSString *)aesEncryptPlainText:(NSString *)stringToEncrypt fromUser:(NSString *)userId{
-    return [[self aesEncryptData:[stringToEncrypt dataUsingEncoding:NSUTF8StringEncoding] withKey:[NSData mok_dataFromBase64String:[self getAESbase64forUser:userId]] andIV:[NSData mok_dataFromBase64String:[self getIVbase64forUser:userId]]] mok_base64EncodedString];
+    NSString *aesbase64 = [self getAESbase64forUser:userId];
+    NSData *aesdata = [NSData mok_dataFromBase64String:aesbase64];
+    NSString *ivbase64 = [self getIVbase64forUser:userId];
+
+    NSData *ivdata = [[NSData alloc]initWithBase64EncodedString:ivbase64 options:0];
+//    NSData *ivdata = [NSData mok_dataFromBase64String:ivbase64];
+    
+    return [[self aesEncryptData:[stringToEncrypt dataUsingEncoding:NSUTF8StringEncoding] withKey:aesdata andIV:ivdata] mok_base64EncodedString];
 }
 
 -(NSString *)aesEncryptNSData:(NSData *)dataToEncrypt fromUser:(NSString *)userId{
@@ -199,12 +223,13 @@
     return [self aesDecryptData:[NSData mok_dataFromBase64String:encryptedString] withKey:[NSData mok_dataFromBase64String:[self getAESbase64forUser:userId]] andIV:[NSData mok_dataFromBase64String:[self getIVbase64forUser:userId]]];
 }
 -(NSString *)aesDecryptedStringFromStringBase64:(NSString *)encryptedString fromUser:(NSString *)userId{
-    NSLog(@"userid: %@", userId);
+    NSLog(@"MONKEY - userid: %@", userId);
+    
     return [[NSString alloc]initWithData:[self aesDecryptData:[NSData mok_dataFromBase64String:encryptedString] withKey:[NSData mok_dataFromBase64String:[self getAESbase64forUser:userId]] andIV:[NSData mok_dataFromBase64String:[self getIVbase64forUser:userId]]] encoding:NSUTF8StringEncoding];
 }
 
 -(NSString *)aesDecryptAndStoreKeyFromStringBase64:(NSString *)encryptedString fromUser:(NSString *)userId{
-    NSString *aesandiv = [self aesDecryptedStringFromStringBase64:encryptedString fromUser:[MOKSessionManager sharedInstance].userId];
+    NSString *aesandiv = [self aesDecryptedStringFromStringBase64:encryptedString fromUser:[MOKSessionManager sharedInstance].sessionId];
     [self storeBase64AESKeyAndIV:aesandiv forUser:userId];
     return aesandiv;
     
@@ -224,31 +249,33 @@
     NSData *salt = [BBAES randomDataWithLength:BBAESSaltDefaultLength];
     NSData *aesKey = [BBAES keyBySaltingPassword:@"testingpassword" salt:salt keySize:BBAESKeySize256 numberOfIterations:BBAESPBKDF2DefaultIterationsCount];
     NSData *iv = [BBAES randomIV];
-    
-    NSData *encrypted = [BBAES encryptedDataFromData:[@"allyoop" dataUsingEncoding:NSUTF8StringEncoding] IV:iv key:aesKey options:0];
-    NSString *base64_encrypted = [encrypted mok_base64EncodedString];
-//
-//    NSData *decrypted = [BBAES decryptedDataFromString:base64_encrypted IV:iv key:aesKey];
+    NSString *base64_iv = [iv mok_base64EncodedString];
+//    NSData *encrypted = [BBAES encryptedDataFromData:[@"allyoop" dataUsingEncoding:NSUTF8StringEncoding] IV:[NSData mok_dataFromBase64String:base64_iv] key:aesKey options:0];
+//    NSString *base64_encrypted = [encrypted mok_base64EncodedString];
+
+//    NSData *decrypted = [BBAES decryptedDataFromString:base64_encrypted IV:[NSData mok_dataFromBase64String:base64_iv] key:aesKey];
 //    NSString *decrypted_string =[[NSString alloc] initWithData:decrypted encoding:NSUTF8StringEncoding];
-//    
-//    NSLog(@"test decrypted: %@", decrypted_string);
+    
+//    NSLog(@"MONKEY - test decrypted: %@", decrypted_string);
     
     NSString *base64_aesKey = [aesKey mok_base64EncodedString];
-    NSString *base64_iv = [iv mok_base64EncodedString];
+//    NSString *base64_iv = [iv mok_base64EncodedString];
     
     NSString *aesandiv = [NSString stringWithFormat:@"%@:%@", base64_aesKey, base64_iv];
     
-    [self storeBase64AESKeyAndIV:aesandiv forUser:[MOKSessionManager sharedInstance].userId];
+    [self storeBase64AESKeyAndIV:aesandiv forUser:[MOKSessionManager sharedInstance].sessionId];
     
-    NSString *stringToEncrypt = [NSString stringWithFormat:@"%@:%@:%@",base64_aesKey,base64_iv,base64_encrypted];
+    NSString *stringToEncrypt = [NSString stringWithFormat:@"%@:%@",base64_aesKey,base64_iv];
     
-    NSLog(@"stringToEncrypt: %@", stringToEncrypt);
-//    NSLog(@"publickey: %@", self.keychainStore[AUTHENTICATION_PUBKEY]);
+    NSLog(@"MONKEY - stringToEncrypt: %@", stringToEncrypt);
+//    NSLog(@"MONKEY - publickey: %@", self.keychainStore[AUTHENTICATION_PUBKEY]);
     NSString *stringToSend = [self rsaEncryptBase64String:stringToEncrypt withPublicKeyIdentifier:AUTHENTICATION_PUBKEY];
     
     return stringToSend;
     
 }
+
+
 
 - (NSString *)decrypttest:(NSString *)stringtodecrypt{
     
@@ -256,15 +283,15 @@
     
     NSData *key = [NSData mok_dataFromBase64String:@"TjyBz8lG1p7bDsITh4Ro8S2S/HYjy6dkhpVQNM3DuZc="];
     
-//    NSLog(@"key quemado: %@", key);
-//    NSLog(@"aes quemado: %@",[[self getAESKeyForIdentifier:@"myAESKey"] base64EncodedString]);
-//    NSLog(@"key decodedbase64: %@", key);
+//    NSLog(@"MONKEY - key quemado: %@", key);
+//    NSLog(@"MONKEY - aes quemado: %@",[[self getAESKeyForIdentifier:@"myAESKey"] base64EncodedString]);
+//    NSLog(@"MONKEY - key decodedbase64: %@", key);
 //    
-//    NSLog(@"key decodedbase64 and data initwithbase64encodeddata: %@", [[NSData alloc]initWithBase64EncodedData:key options:NSDataBase64DecodingIgnoreUnknownCharacters]);
+//    NSLog(@"MONKEY - key decodedbase64 and data initwithbase64encodeddata: %@", [[NSData alloc]initWithBase64EncodedData:key options:NSDataBase64DecodingIgnoreUnknownCharacters]);
     
 //   unsigned char *bytePtr = (unsigned char *)[key bytes];
-//    NSLog(@"char: %s", bytePtr);
-//    NSLog(@"mi key: %@", [self getAESKeyForIdentifier:[[SessionManager sharedInstance] idUser]]);
+//    NSLog(@"MONKEY - char: %s", bytePtr);
+//    NSLog(@"MONKEY - mi key: %@", [self getAESKeyForIdentifier:[[SessionManager sharedInstance] idUser]]);
     
     
     NSData *string = [NSData mok_dataFromBase64String:stringtodecrypt];

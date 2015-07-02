@@ -1,5 +1,5 @@
 //
-//  BLMessage.h
+//  MOKMessage.h
 //  Blip
 //
 //  Created by G V on 12.04.11.
@@ -12,101 +12,58 @@
 
 @class MOKUser;
 
-typedef enum {
-	MOKMessageDefault = 0,
-	MOKMessageTyping = 2,
-	MOKMessageStatus = 3,
-	MOKMessageAvatar = 4,
-	MOKMessageGroupAdd = 5,
-	MOKMessageGroupRemove = 6,
-	MOKMessageGroupUpdate = 7,
-	MOKMessageGroupDelete = 8,
-	MOKMessageGroupMessage = 9,
-	MOKMessageDeleteFriend = 13,
-	MOKMessageAnonymous = 14,
-	MOKMessageConversationOpen = 15,
-	MOKMessageConversationClose = 16,
-    MOKMessageAudioAttach = 17,
-	MOKMessageAudioAttachNew = 54,
-	MOKMessagePhotoAttach = 18,
-    MOKMessagePhotoAttachNew = 55,
-	MOKMessageFile = 19,//19
-	MOKMessageUntyping=20,
-	MOKMessageNewContactRegistered=21,
-	MOKMessageOnline=22,
-    MOKEmailInbox=23,
-    MOKMessageUpdates=27,
-    MOKEmailUpdates=28,
-    MOKMessageResend=30,
-    MOKMessageFriendRequest = 31,
-    MOKMessageInviteAccepted = 32,
-	//blMessageInviteDenied = 33,
-    MOKMessageEmailOpen = 33,
-	MOKMessageInviteCanceled = 34,
-    MOKMessageFriendDirect = 36,
-    MOKMessageFriendActivate =37,
-    MOKMessageremoteLogout =38,
-//    MOKMessageEmailOpen=40,
-    MOKMessageGroupDefault=41,
-    MOKMessageGroupCreate=42,
-    MOKMessageGroupRemoveMember=43,
-    MOKMessageRecall=44,
-    MOKMessageAlert=45,
-    MOKMessageUserGroupsUpdate=46,
-    MOKMessagesUserOffline=47,
-    MOKMessagesUserOnline=48,
-    MOKMessageNotifyOpen=49,
-    MOKMessageNotDelivered = 50,
-	MOKMessageDelivered = 51,
-	MOKMessageNotView = 52,
-    MOKEmailSendFailure=53,
-    MOKWarningUserTookScreenShot = 60,
-    MOKCleanBadges=80,
-    MOKActivatePush=81,
-    MOKCodeExecution=82,
-    MOKOldBroadcastMessage=35,
-    MOKBroadcastMessage=39,
-    MOKJoinChannel=25,
-    MOKChannelMessage=61,
-    MOKForceAllowPush=83,
-    MOKblMessageOpenSession = 104
-	
+typedef enum{
+    MOKText = 1,
+    MOKFile = 2,
+    MOKTempNote = 3,
+    MOKNotif = 4,
+    MOKAlert = 5,
 } MOKMessageType;
 
-@interface MOKMessage : MOKDictionaryBasedObject {
-	NSString *messageText;
-	NSString *messageTextToShow;
-    NSString *iv;
-	NSTimeInterval timestamp;
-	NSString * userIdTo;
-	NSString * userIdFrom;
-	MOKMessageId messageId;
-	BOOL readByUser;
-	MOKMessageType type;
-	int stringsCount;
-	float stringLength;
-	BOOL isSending;
-	NSString *dateTimeAsString;
-	NSArray *__unsafe_unretained emoticons;	
-	int deliveredMessage;
-    NSString *param;
-    NSString *filePathDesencriptado;
-}
+typedef enum{
+    MOKProtocolMessage = 200,
+    MOKProtocolGet = 201,
+    MOKProtocolTransaction = 202,
+    MOKProtocolOpen = 203,
+    MOKProtocolSet = 204,
+    MOKProtocolACK = 205,
+    MOKProtocolDelete = 207,
+    MOKProtocolClose = 208
+} MOKProtocolCommand;
+
+typedef enum{
+    MOKAudio = 1,
+    MOKPhoto = 2,
+    MOKVideo = 3,
+    MOKArchive = 4
+} MOKFileType;
+
+typedef enum{
+    MOKGroupCreate = 1,
+    MOKGroupDelete = 2,
+    MOKGroupNewMember = 3,
+    MOKGroupRemoveMember = 4
+}MOKGroupActionType;
+
+@interface MOKMessage : MOKDictionaryBasedObject
 
 @property (nonatomic, strong) NSString *messageText;
+@property (nonatomic, strong) NSString *encryptedText;
 @property (unsafe_unretained, nonatomic, readonly) NSString *messageTextToShow;
 @property (nonatomic, strong) NSString * iv;
-@property (nonatomic, assign) NSTimeInterval timestamp;
+@property (nonatomic, assign) NSTimeInterval timestampCreated;
+@property (nonatomic, assign) NSTimeInterval timestampOrder;
 @property (nonatomic, strong) NSString * userIdTo;
 @property (nonatomic, strong) NSString * userIdFrom;
-@property (nonatomic, strong) NSString * param;
+@property (nonatomic, strong) NSMutableDictionary * params;
 @property (nonatomic, assign) MOKMessageId oldMessageId;
 @property (nonatomic, assign) MOKMessageId messageId;
-//@property (nonatomic, assign) BLMessageId groupMessageId;
 @property (nonatomic, assign) BOOL readByUser;
-@property (nonatomic, assign) MOKMessageType type;
-@property (nonatomic, readonly) int stringsCount;
-@property (nonatomic, readonly) float stringLength;
+@property (nonatomic, assign) MOKProtocolCommand protocolCommand;
+@property (nonatomic, assign) int protocolType;
+@property (nonatomic, assign) int monkeyActionType;
+@property (nonatomic, strong) NSString *pushMessage;
+
 @property (nonatomic, assign) BOOL isSending;
 @property (nonatomic, assign) BOOL needsResend;
 //@property (nonatomic, assign) BLGroupId groupId;
@@ -116,46 +73,28 @@ typedef enum {
 
 @property (nonatomic, assign) int deliveredMessage;
 
-- (id)initWithObjectStore:(NSDictionary*)dictionary;
 - (id)initWithArgs:(NSDictionary*)dictionary;
-- (id)initWithDictionary:(NSDictionary*)dictionary;
-//- (id)initWithGroupDictionary:(NSDictionary*)dictionary;
-- (id)initWithMessage:(NSString*)_messageText messageId:(MOKMessageId)_messageId  messageIV:(NSString *)_iv timestamp:(NSTimeInterval)_timestamp userId:(NSString *)_userId;
-- (id)initWithMyMessage:(NSString*)_messageText userTo:(NSString *)_userId;
-- (id)initWithMyMessageAnonymous:(NSString*)_messageText userTo:(NSString *)_userId;
-//- (id)initWithShareFriend:(BLUserExtended*)user toUser:(BLUserId)toUser;
-//- (id)initWithShareFriend:(BLUserExtended*)user toGroup:(BLGroupId)toGroup;
+- (id)initWithMessage:(NSString*)messageText
+      protocolCommand:(MOKProtocolCommand)cmd
+         protocolType:(int)protocolType
+     monkeyActionType:(int)monkeyActionType
+            messageId:(MOKMessageId)messageId
+         oldMessageId:(MOKMessageId)oldMessageId
+            messageIV:(NSString *)iv
+     timestampCreated:(NSTimeInterval)timestampCreated
+       timestampOrder:(NSTimeInterval)timestampOrder
+             fromUser:(NSString *)sessionIdFrom
+               toUser:(NSString *)sessionIdTo
+               params:(NSMutableDictionary *)params;
+- (id)initWithMyMessage:(NSString*)messageText userTo:(NSString *)sessionId;
+- (void)updateMessageIdFromACK;
 - (BOOL)isSending;
 - (BOOL)isMessageFromMe;
-//- (BOOL)isGroupMessage;
-//+ (BLMessage*)retainedMessage:(NSString*)messageText toGroup:(BLGroupId)groupId;
-//- (NSString*)shareAFriendText;
-//- (BLUserId)shareAFriendUserId;
-//- (void)checkForShareAFriend;
-//- (BOOL)isOpenEye;
-- (BOOL)haveAttach;
-- (NSString*)audioPath;
-- (NSString*)photoPath;
-- (NSString*)videoPath;
-- (NSString*)filePath;
-
-- (NSTimeInterval )getTimePassed;
-	
-+ (MOKMessageType)typeForString:(NSString*)str;
-
-//+(NSString *) getUniqueMessageId;
-
--(void) messageOn;
-
--(BOOL)isErrorSending;
-
-+ (NSString*)conversationTime:(NSTimeInterval)time;
+- (BOOL)isGroupMessage;
 
 -(id) mutableCopyWithZone: (NSZone *) zone;
 
-- (BOOL)isBroadcastMessage;
-- (BOOL)isGroupMessage;
-- (NSString *)getIdForConversation;
+
 
 @end
 

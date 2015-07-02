@@ -12,34 +12,22 @@
 #import "MOKJSON.h"
 #import "MOKComMessageProtocol.h"
 #import "MOKSessionManager.h"
-#import "MOKUserDefaultsManager.h"
-
+#import "UICKeyChainStore.h"
 #import "MOKSGSContext.h"
-#import "MOKSGSConnection.h"
 #import "MOKSGSChannel.h"
 
 #import "MOKMessage.h"
-
 //#import "AppDelegate.h"
 
 #import "MOKMessagingManager.h"
-
-#import "MOKDateUtils.h"
-//#import "AudioUtils.h"
-
-//#import "MenuViewController.h"
-//#import "LoginMenuViewController.h"
-
-//#import "AlertsManager.h"
-//#import "ImageCache.h"
-static MOKComServerConnection* sharedInstance_;
+#import "MOKSecurityManager.h"
 
 
 #pragma mark -
 #pragma mark Anonyms category
 
 // Anonymus category for some private methods
-@interface MOKComServerConnection() <MOKSGSContextDelegate, MOKSGSChannelDelegate>
+@interface MOKComServerConnection() <MOKSGSContextDelegate, MOKSGSChannelDelegate, MOKAPIConnectorDelegate>
 
 @end
 
@@ -52,38 +40,38 @@ static MOKComServerConnection* sharedInstance_;
 
 + (MOKComServerConnection*) sharedInstance
 {
+    static MOKComServerConnection* sharedInstance;
+    
 	@synchronized(self)
 	{
-		[[self alloc] init];
+        if (!sharedInstance) {
+            sharedInstance = [[self alloc] initPrivate];
+        }
 	}
 
-	return sharedInstance_;
+	return sharedInstance;
 }
 
-- (id) init
+- (instancetype)init
 {
-	self = [super init];
-	self.connectionDelegate=nil;
-	self.connectionRetry=-1;
-	self.connection=nil;
-    firstTime=NO;
-	return self;
-    
+    @throw [NSException exceptionWithName:@"Singleton"
+                                   reason:@"Use +[MOKComServerConnection sharedInstance]"
+                                 userInfo:nil];
+    return nil;
 }
 
-// Overwrite allocWithZone to be sure to 
-// allocate memory only once.
-+ (id)allocWithZone:(NSZone *)zone
+- (instancetype)initPrivate
 {
-	@synchronized(self) {//mutual exclusion
-		if (sharedInstance_ == nil) {
-			sharedInstance_ = [super allocWithZone:zone];
-			return sharedInstance_;
-		}
-	}
-	
-	return nil;
+    self = [super init];
+    if (self) {
+        self.connectionDelegate=nil;
+        self.connectionRetry=-1;
+        self.connection=nil;
+        firstTime=NO;
+    }
+    return self;
 }
+
 
 // Nobody should be able to copy 
 // the shared instance.
@@ -92,26 +80,26 @@ static MOKComServerConnection* sharedInstance_;
 	return self;
 }
 
-// Retaining the shared instance should not
-// effect the retain count.
-- (id)retain
-{
-	return self;
-}
-
-
-// Auto-releasing the shared instance should not
-// effect the retain count.
-- (id)autorelease
-{
-	return self;
-}
-
-// Retain count should not go to zero.
-- (NSUInteger)retainCount
-{
-	return NSUIntegerMax;
-}
+//// Retaining the shared instance should not
+//// effect the retain count.
+//- (id)retain
+//{
+//	return self;
+//}
+//
+//
+//// Auto-releasing the shared instance should not
+//// effect the retain count.
+//- (id)autorelease
+//{
+//	return self;
+//}
+//
+//// Retain count should not go to zero.
+//- (NSUInteger)retainCount
+//{
+//	return NSUIntegerMax;
+//}
 
 
 - (void)connectWithDelegate:(UIViewController<MOKComServerConnectionDelegate> *) conDelegate
@@ -125,18 +113,18 @@ static MOKComServerConnection* sharedInstance_;
 		
         if(connection.state!=MOKSGSConnectionStateDisconnected){
             [self logOut];
-            //NSLog(@"-------connection obj already exist, resetting OUT");
+            //NSLog(@"MONKEY - -------connection obj already exist, resetting OUT");
         }
 
 	}
 	/*else{
-		NSLog(@"Connection obj NOT EXIST so Trying to connect .. ");
+		NSLog(@"MONKEY - Connection obj NOT EXIST so Trying to connect .. ");
 	}*/
     self.connectionDelegate=conDelegate;
-    self.userId=[MOKSessionManager sharedInstance].userId;
+    self.userId=[MOKSessionManager sharedInstance].sessionId;
     firstTime=isFirst;
     
-    MOKSGSContext *context = [[MOKSGSContext alloc] initWithHostname:@"central.criptext.com" port:[@"80" integerValue]];
+    MOKSGSContext *context = [[MOKSGSContext alloc] initWithHostname:[MOKSessionManager sharedInstance].domain port:[[MOKSessionManager sharedInstance].port integerValue]];
 	context.delegate = self;
 	/*
 	 * Create a connection.  The connection will not actually connect to
@@ -144,32 +132,20 @@ static MOKComServerConnection* sharedInstance_;
 	 * All connection messages are sent to the con5text delegate. */
     connection = [[MOKSGSConnection alloc] initWithContext:context];
 
-    //NSLog(@"verificacion6:%@",[[DBManager instance] getPassword]);
-    [connection loginWithUsername:userId password:[MOKSessionManager sharedInstance].userPassword];
+    //NSLog(@"MONKEY - verificacion6:%@",[[DBManager instance] getPassword]);
+    [connection loginWithUsername:userId password:[NSString stringWithFormat:@"%@:%@", [MOKSessionManager sharedInstance].appId, [MOKSessionManager sharedInstance].appKey]];
 }
 
 
 
 -(BOOL) isConnected{
-    //NSLog(@"estado:%u",connection.state);
+    //NSLog(@"MONKEY - estado:%u",connection.state);
 	if(connection.state== MOKSGSConnectionStateConnected || connection.state==MOKSGSConnectionStateConnecting)
 		return YES;
 	else
         return NO;
     
 	//return [connection isConnectionAvailable];
-}
-
--(void)messageToSend:(int)id_temp_message withId:(long long int)messageId andType:(int)type{
-	
-	//converrt a BLMessaage to ComMeesage to send with id
-	//get from messageManager
-    /*
-    BLMessage *msgToSend=[[MessagingManager instance]sendingMessageById:id_temp_message];
-    [self sendMessage:[[ComMessageProtocol createMsgFromBlMessage:msgToSend ] json]];
-	*/
-	
-
 }
 
 -(NSTimeInterval)getLastLatency{
@@ -213,13 +189,13 @@ static MOKComServerConnection* sharedInstance_;
 -(BOOL)sendMessage:(NSString *)jsonMessage{
 
 	if (connection.state!= MOKSGSConnectionStateConnected) {
-		//NSLog(@"conexion no disponible");
+		//NSLog(@"MONKEY - conexion no disponible");
         /// si pasa esto debes llamar afuera a funcion desconectado
 		return NO;
 	}
 	@synchronized(connection) {
 		MOKSGSMessage *mess=[MOKSGSMessage  sessionMessage];
-        NSLog(@"msg a  %@",jsonMessage);
+        NSLog(@"MONKEY - msg a  %@",jsonMessage);
 		[mess appendString:jsonMessage];
 		[connection sendMessage:mess];
 		return YES;
@@ -228,7 +204,7 @@ static MOKComServerConnection* sharedInstance_;
 
 /** notifies that joins a channel. */
 - (void)sgsContext:(MOKSGSContext *)context channelJoined:(MOKSGSChannel *)channel forConnection:(MOKSGSConnection *)connection {
-	//NSLog(@"-----------------------------channel JOINING---------------------- %@",channel.name);
+	//NSLog(@"MONKEY - -----------------------------channel JOINING---------------------- %@",channel.name);
 	
 	/* To receive channel messages, we must set the channel delegate upon joining a
 	 * channel.  The channel delegate must implement the SGSChannelDelegate protocol
@@ -239,14 +215,14 @@ static MOKComServerConnection* sharedInstance_;
     [args setObject:@"hashchan" forKey:@"c"];
     [args setObject:@"testing"  forKey:@"msg"];
     [args setObject:[NSNumber numberWithShort:0] forKey:@"type"];
-    MOKComMessage *messCOM=[MOKComMessage createMessageWithCommand:MOKChannelMessage AndArgs:args];
+//    MOKMessage *messCOM=[MOKMessage createMessageWithCommand:MOKChannelMessage AndArgs:args];
     
-    [self sendMessage:[messCOM json]];
+//    [self sendMessage:[messCOM json]];
     
 }
 
 - (void)channelLeft:(MOKSGSChannel *)channel{
-	//	NSLog(@"-----------------------------leave the channel-----------------------");
+	//	NSLog(@"MONKEY - -----------------------------leave the channel-----------------------");
 }
 
 - (void)channelMessageReceived:(MOKSGSMessage *)message{
@@ -268,7 +244,8 @@ static MOKComServerConnection* sharedInstance_;
 	//handle the message in a manager th,at behaves as a proxy to the UI message
 
 	NSString *stringMes=[msg readString];
-	NSLog(@"Message recieved %@",stringMes);
+	NSLog(@"MONKEY - Message received %@",stringMes);
+//    NSLog(@"MONKEY - json value: %@", [stringMes mok_JSONValue]);
 	NSDictionary * parsedData = (NSDictionary *) ([stringMes mok_JSONValue]); //parse to NSDICtionary
 	[self parseMessage:parsedData];
 	
@@ -280,54 +257,56 @@ static MOKComServerConnection* sharedInstance_;
 	NSDictionary *args=[message objectForKey:@"args"];
     
     switch (cmd) {
-        case MOKMessageConversationOpen: case MOKMessageEmailOpen: case MOKMessageFriendRequest: case MOKMessageInviteAccepted: case MOKMessageInviteCanceled: case MOKMessageFriendDirect: case MOKMessageNewContactRegistered: case MOKWarningUserTookScreenShot: case MOKMessageFriendActivate: case MOKMessageremoteLogout: case MOKEmailSendFailure: case MOKMessageGroupCreate: case MOKMessageGroupRemoveMember: case MOKEmailUpdates: case MOKMessageTyping: case MOKMessageUntyping: case MOKMessageAlert: case MOKMessageUserGroupsUpdate: case MOKMessageRecall: case MOKMessagesUserOffline: case MOKMessagesUserOnline:{
-            
+        case MOKProtocolMessage:{
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
-            [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.type];
-            break;
-        }
-        case MessagesUpdates:{
-        
-            NSArray *messages=[args objectForKey:@"messages"];
-            [self processAllMessages:messages];
+            msg.protocolCommand = MOKProtocolMessage;
             
+            [self processMOKProtocolMessage:msg];
+
             if(self.connectionDelegate!=nil)
                 [self.connectionDelegate onLoadPendingMessages];
             
+            break;
+        }
+        case MOKProtocolACK:{
+            MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
+            msg.protocolCommand = MOKProtocolACK;
+            [self processMOKProtocolACK:msg];
+            
+            break;
+        }
+        case MOKProtocolGet:{
             [[MOKMessagingManager sharedInstance] notifyUpdatesToWatchdog];
+            NSArray *messages = [args objectForKey:@"messages"];
+            NSLog(@"MONKEY - llegó un get");
+            for (NSDictionary *msgdict in messages) {
+                MOKMessage *msg = [[MOKMessage alloc] initWithArgs:msgdict];
+                msg.protocolCommand = MOKProtocolMessage;
+                [self processMOKProtocolMessage:msg];
+            }
             
             break;
         }
-        case MOKMessageDefault: case MOKMessagePhotoAttach: case MOKMessagePhotoAttachNew: case MOKMessageAudioAttach: case MOKMessageAudioAttachNew: case MOKMessageFile: case MOKEmailInbox:{
-            
-            NSArray *messages=[[NSArray alloc] initWithObjects:args,nil];
-            [self processAllMessages:messages];
+        case MOKProtocolSet:{
+            MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
+            msg.protocolCommand = MOKProtocolSet;
+            NSLog(@"MONKEY - llegó un set");
             break;
         }
-        case MOKCodeExecution: //recieve to execute a code inside app
-        {
-            //BLMessage *msg = [[BLMessage alloc] initWithArgs:args];
-            
-            
-            break;
-        }
-        case MOKMessageAvatar:
-        {
-             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
-            [self removeFromCache:msg];
-            
-            [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msg.messageId]];
-            
-            break;
-        }
-        case MOKForceAllowPush: //recieve to execute a code inside app
-        {
-            
-//            [(AppDelegate *)[UIApplication sharedApplication].delegate registerForPushNotifications];
-            
-            break;
-        }
+        case MOKProtocolOpen:{
+            MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
+            msg.protocolCommand = MOKProtocolOpen;
 
+            [[MOKMessagingManager sharedInstance] notify:msg withcommand:cmd];
+            NSLog(@"MONKEY - llegó un open");
+            break;
+        }
+        case MOKProtocolTransaction:{
+            MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
+            msg.protocolCommand = MOKProtocolTransaction;
+            NSLog(@"MONKEY - llegó un ");
+            break;
+        }
         default:{
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
             [[MOKMessagingManager sharedInstance] notify:msg withcommand:cmd];
@@ -337,94 +316,90 @@ static MOKComServerConnection* sharedInstance_;
     }
 }
 
-- (void)processAllMessages:(NSArray *)messages {
-
+- (void)processMOKProtocolMessage:(MOKMessage *)msg {
+    NSLog(@"MONKEY - mensaje en proceso: %@, %lld, %d", msg.messageText,msg.messageId, msg.protocolType);
     
-    for (NSDictionary *dict in messages) {
-		MOKMessage *msg = [[MOKMessage alloc] initWithArgs:dict];
-        
-		switch (msg.type) {
-			case MOKMessageDefault: case MOKMessagePhotoAttach: case MOKMessagePhotoAttachNew: case MOKMessageAudioAttach: case MOKMessageAudioAttachNew:  case MOKEmailInbox:{
-                
-                if([msg.userIdFrom isEqualToString:@"1"])
-                {
-                    [self performSelector:@selector(delayedMessageGot:) withObject:msg afterDelay:2.5];
-                    break;
-                }
-                
-                [[MOKMessagingManager sharedInstance] messageGot:msg];
-                //esto debe ir en otro lado
-//                [[AudioUtils instance] playReceived];
-				break;
-			}
-            case MOKMessageFile:{
-                [[MOKMessagingManager sharedInstance] fileGot:msg];
-                break;
-            }
-            case MOKMessageConversationOpen: case MOKMessageEmailOpen: case MOKMessageFriendRequest: case MOKMessageInviteAccepted: case MOKMessageInviteCanceled: case MOKMessageDeleteFriend: case MOKMessageFriendDirect: case MOKWarningUserTookScreenShot: case MOKMessageNewContactRegistered: case MOKMessageFriendActivate: case MOKMessageremoteLogout: case MOKEmailSendFailure: case MOKMessageGroupCreate:case MOKMessageGroupRemoveMember: case MOKEmailUpdates: case MOKMessageTyping: case MOKMessageUntyping: case MOKMessageAlert: case MOKMessageUserGroupsUpdate: case MOKMessageRecall: case MOKMessagesUserOffline: case MOKMessagesUserOnline:{
-                
-//                [[MessagingManager instance] notify:msg withcommand:msg.type];
-                break;
-            }
-            case MOKMessageAvatar:
-            {
-                [self removeFromCache:msg];
-                
-
-                [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msg.messageId]];
-                
-                break;
-            }
-
-            case MOKForceAllowPush: //recieve to execute a code inside app
-            {                
-                
-//                [(AppDelegate *)[UIApplication sharedApplication].delegate registerForPushNotifications];
-                
-                break;
-            }
-                
-		}
-        
-	}
+    if (!([[MOKSecurityManager sharedInstance].keychainStore stringForKey:msg.userIdFrom].length>2)) {
+        [[MOKAPIConnector sharedInstance]keyExchangeWith:msg.userIdFrom delegate:self];
+        [self performSelector:@selector(processMOKProtocolMessage:) withObject:msg afterDelay:2];
+        return;
+    }
+    
+    switch (msg.protocolType) {
+        case MOKText:{
+            //Check if we have the user key
+            [[MOKMessagingManager sharedInstance] incomingMessage:msg];
+            
+            break;
+        }
+        case MOKFile:{
+            msg.messageText = msg.encryptedText;
+            [[MOKMessagingManager sharedInstance] fileReceivedNotification:msg];
+            break;
+        }
+        case MOKNotif:
+            NSLog(@"MONKEY - monkey action: %d", msg.monkeyActionType);
+            [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolType];
+            break;
+        case MOKProtocolDelete:{
+            msg.protocolType = MOKProtocolDelete;
+            [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolType];
+        }
+        default:
+            [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolType];
+            break;
+            
+    }
+    
     
 }
 
+- (void)processMOKProtocolGet:(MOKMessage *)message {
 
--(void)removeFromCache:(MOKMessage *)msg {
-    
-    ///the one that sends is the one the that needs to clean avatar
-    
-    //NSLog(@"deleting cache image %@",msg.userIdFrom);
-    
-    NSString *url=[NSString stringWithFormat:@"https://api.criptext.com/avatars/avatar_%@.png", msg.userIdFrom];
-    
-//    [[ImageCache instance] removeFileFromCache:url];
-    
-    //reload tableview of messages
-//    
-//    MenuViewController *menuVC=[MenuViewController instance];
-//    ConversationsViewController *conversationsVC=menuVC.conversationsVC;
-//    if(conversationsVC!=nil)
-//        [conversationsVC reloadTable];
-
-    
-}
--(void)delayedMessageGot:(MOKMessage *)message {
-    [[MOKMessagingManager sharedInstance] messageGot:message];
-//    [[AudioUtils instance] playReceived];
 }
 
--(void)sendSignalOpenConvMenu:(NSString *) id_user {
-	/*
-    MainMenuViewController *controller=(MainMenuViewController *)self.connectionDelegate;
-	[controller updateMessagesAsDeliveredFrom:id_user];*/
+- (void)processMOKProtocolTransaction:(MOKMessage *)message {
+    
+}
+
+- (void)processMOKProtocolOpen:(MOKMessage *)message {
+    
+}
+
+- (void)processMOKProtocolSet:(MOKMessage *)message {
+    
+}
+
+- (void)processMOKProtocolACK:(MOKMessage *)message {
+    
+    switch (message.protocolType) {
+        case MOKProtocolMessage: case 50: case 51: case 52:
+            [message updateMessageIdFromACK];
+            
+            break;
+        case MOKProtocolOpen:
+            
+            break;
+        default:
+            break;
+    }
+    
+    [[MOKMessagingManager sharedInstance] acknowledgeNotification:message];
+}
+-(void)processDelayedMessage:(MOKMessage *)msg{
+    [[MOKMessagingManager sharedInstance] incomingMessage:msg];
+}
+-(void)onOpenConversationOK:(NSString *)key{
+    
+}
+-(void)onOpenConversationWrong{
+
 }
 
 
 - (void)sgsContext:(MOKSGSContext *)context disconnected:(MOKSGSConnection *)connection{
     
-    NSLog(@"--------- disconnected callback ---------");
+    NSLog(@"MONKEY - --------- disconnected callback ---------");
 	
     [self performSelector:@selector(deliverDisconnectionState) withObject:nil afterDelay:0.5];
 }
@@ -436,7 +411,7 @@ static MOKComServerConnection* sharedInstance_;
 }
 
 - (void)sgsContext:(MOKSGSContext *)context loggedIn:(MOKSGSSession *)session forConnection:(MOKSGSConnection *)connection{
-	NSLog(@"-----------------------------already in-----------------------");
+	NSLog(@"MONKEY - -----------------------------already in-----------------------");
     
     
     //aqui va lo de loading da server release dialog
@@ -445,13 +420,13 @@ static MOKComServerConnection* sharedInstance_;
     
     //sending update message for offline messages
     if([MOKSessionManager sharedInstance].lastMessageId==nil){
-        [[MOKSessionManager sharedInstance] setLastMessageId:@"122899"];
+        [[MOKSessionManager sharedInstance] setLastMessageId:@"0"];
     }
     
     //if(!firstTime)
     //{[SessionManager instance].lastMessageId
     
-    [self sendMessage:[[MOKComMessageProtocol createSyncUpdatenMsg:[MOKSessionManager sharedInstance].lastMessageId type:MOKMessageUpdates ] json]];
+//    [self sendMessage:[[MOKComMessageProtocol createSyncUpdatenMsg:[[MOKSessionManager sharedInstance].lastMessageId longLongValue] type:27 ] json]];
     
     if([[MOKSessionManager sharedInstance].lastMessageId isEqualToString:@"0"]){
 //            [[MenuViewController instance] showNoNetwork:NO];
@@ -469,7 +444,7 @@ static MOKComServerConnection* sharedInstance_;
 }
 
 - (void)sgsContext:(MOKSGSContext *)context loginFailed:(MOKSGSSession *)session forConnection:(MOKSGSConnection *)connection withMessage:(NSString *)message{
-	NSLog(@"disconnection login Failed");
+	NSLog(@"MONKEY - disconnection login Failed: %@", message);
     
     //LOGOUT SCREEN TO LOGIN
 //    [AppDelegate logout];
@@ -492,8 +467,8 @@ static MOKComServerConnection* sharedInstance_;
 //}
 
 - (void)dealloc {
-        NSLog(@"COMSERVERCONN TAMBIEEEEEN? te desaolcaste we");
-  //  [super dealloc];
+        NSLog(@"MONKEY - COMSERVERCONN TAMBIEEEEEN? te desaolcaste we");
+//    [super dealloc];
 	//[connection dealloc];
 }
 

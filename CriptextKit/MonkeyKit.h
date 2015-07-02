@@ -18,6 +18,7 @@ FOUNDATION_EXPORT const unsigned char CriptextKitVersionString[];
 #import <MonkeyKit/MOKAPIConnector.h>
 #import <MonkeyKit/MOKSecurityManager.h>
 #import <MonkeyKit/MOKComServerConnection.h>
+#import <MonkeyKit/MOKComMessageProtocol.h>
 #import <MonkeyKit/MOKMessagingManager.h>
 #import <MonkeyKit/MOKSessionManager.h>
 
@@ -26,8 +27,11 @@ FOUNDATION_EXPORT const unsigned char CriptextKitVersionString[];
 #import <MonkeyKit/MOKMessage.h>
 #import <MonkeyKit/MOKUser.h>
 #import <MonkeyKit/MOKSGSConnection.h>
+#import <MonkeyKit/MOKWatchdog.h>
 
 #import <MonkeyKit/AFHTTPSessionManager.h>
 #import <MonkeyKit/NSData+Compression.h>
+#import <MonkeyKit/NSData+Base64.h>
+#import <MonkeyKit/MOKUserDictionary.h>
 
 

@@ -14,8 +14,10 @@
 @property NSInteger oldmessageId;
 @property NSString *userIdFrom;
 @property NSString *userIdTo;
-@property NSInteger type;
-@property double timestamp;
+@property NSInteger protocolCommand;
+@property NSInteger protocolType;
+@property double timestampCreated;
+@property double timestampOrder;
 @property NSString *messageText;
 @property BOOL readByUser;
 @property NSString *param;

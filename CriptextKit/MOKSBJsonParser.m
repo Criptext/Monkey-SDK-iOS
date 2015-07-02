@@ -270,7 +270,7 @@ static int myCount = 0;
 			myCount ++;
 		}
         if (![self scanValue:&v]) {
-			//NSLog(@"mycount: %d", myCount);
+			//NSLog(@"MONKEY - mycount: %d", myCount);
             NSString *string = [NSString stringWithFormat:@"Object value expected for key: %@", k];
             [self addErrorWithCode:EPARSE description: string];
             return NO;
@@ -354,7 +354,7 @@ static int myCount = 0;
             return NO;
             
         } else {
-            //NSLog(@"should not be able to get here");
+            //NSLog(@"MONKEY - should not be able to get here");
         }
     } while (*c);
     

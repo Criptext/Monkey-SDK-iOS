@@ -11,7 +11,7 @@
 #import "MOKSGSSession.h"
 #import "MOKSGSMessage.h"
 #import "MOKSGSProtocol.h"
-#import "MOKUserDefaultsManager.h"
+#import "MOKSessionManager.h"
 
 #import <CFNetwork/CFNetwork.h>
 
@@ -64,7 +64,7 @@
 }
 
 - (void)disconnect {
-    NSLog(@"???disconnect FUnction called por aca habian releases?");
+    NSLog(@"MONKEY - ???disconnect FUnction called por aca habian releases?");
 	[self closeStreams];
 	expectingDisconnect = NO;
 	state = MOKSGSConnectionStateDisconnected;
@@ -92,18 +92,24 @@
 }
 
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password {
-	    NSLog(@"dentro de login antes de state connecting, username: %@ password: %@", username, password);
+//	    NSLog(@"MONKEY - dentro de login antes de state connecting, username: %@ password: %@, hostname: %@, port: %ld", username, password, context.hostname, (long)context.port);
+//    username = [NSString stringWithFormat:@"201:%@", username];
+//    password = [NSString stringWithFormat:@"%@:%@",username,password];
+    NSLog(@"MONKEY - login credentials, username: %@ password: %@, hostname: %@, port: %ld", username, password, context.hostname, (long)context.port);
+//    NSLog(@"MONKEY - dentro de login antes de state connecting, username: %@ password: %@", username, password);
 	if(self.state==MOKSGSConnectionStateConnecting)
 		return;
 	
     
 	self.state=MOKSGSConnectionStateConnecting;
-	    NSLog(@"antes de host ref");
+//	    NSLog(@"MONKEY - antes de host ref");
 	// Create the host ref
-    if (context.hostname == [NSNull null]) {
-        context.hostname = @"central.criptext.com";
-    }
-        NSLog(@"despues de host ref");
+//    if (context.hostname == [NSNull null]) {
+//        context.hostname = @"central.criptext.com";
+//    }
+//    context.port = 1139;
+//    context.hostname = @"secure.criptext.com";
+//        NSLog(@"MONKEY - despues de host ref");
 	CFStringRef hostname = CFStringCreateWithCString(kCFAllocatorDefault, [context.hostname UTF8String], kCFStringEncodingASCII);
 	CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, hostname);
 	
@@ -114,6 +120,7 @@
 	CFReadStreamRef readStream = NULL;
 	CFWriteStreamRef writeStream = NULL;
 	
+    
 	CFStreamCreatePairWithSocketToCFHost(kCFAllocatorDefault, host, context.port, &readStream, &writeStream);
 	if(readStream && writeStream) {
 		CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
@@ -153,7 +160,7 @@
 #pragma mark NSStreamDelegate Impl
 
 - (void) stream:(NSStream*)stream handleEvent:(NSStreamEvent)eventCode {
-    //NSLog(@"STREAM handleEvent has bytes comming");
+    //NSLog(@"MONKEY - STREAM handleEvent has bytes comming");
     
 	switch (eventCode) {
 		case NSStreamEventOpenCompleted:
@@ -206,7 +213,7 @@
 //            NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
 //            
 //            if (nil != output) {
-//                NSLog(@"server said: %@", output);
+//                NSLog(@"MONKEY - server said: %@", output);
 //            }
 //        }
 //    }
@@ -227,14 +234,14 @@
                 if(amount>0)
                     [inBuf appendBytes:buf length:amount];
                 
-                //NSLog(@"new *** Opcode : 0x%x", buf[2]);
+                //NSLog(@"MONKEY - new *** Opcode : 0x%x", buf[2]);
             }//end while
             
             
            
             
         } else {
-            NSLog(@"ELSE inputStream not available APPEND -- bbuffer");
+            NSLog(@"MONKEY - ELSE inputStream not available APPEND -- bbuffer");
             // We have a reference to the buffer
             // copy the buffer over to our input buffer and begin processing
             [inBuf appendBytes:buffer length:ilen];
@@ -242,17 +249,17 @@
         
         
         //NSString *outputString = [[NSString alloc] initWithBytes:buf length:amount encoding:NSASCIIStringEncoding];
-//        NSLog(@"BUffer size %i String collected %@",amount,outputString);
+//        NSLog(@"MONKEY - BUffer size %i String collected %@",amount,outputString);
         }
         do {} while([self processIncomingBytes]);
         
         
     }@catch (MOKCustomException *ce){
-        if ([[[MOKUserDefaultsManager instance] objectForKeyFree:@"StreamDidChangeValue"] isEqualToString:@"0"]) {
-            [[MOKUserDefaultsManager instance]storeObjectFree:@"1" forKey:@"StreamDidChangeValue"];
+        if (![MOKSessionManager sharedInstance].streamChanged) {
+            [MOKSessionManager sharedInstance].streamChanged = true;
         
-            int streamDelayTime = [[[MOKUserDefaultsManager instance] objectForKeyFree:@"StreamDelayTime"] intValue];
-            int streamPortions = [[[MOKUserDefaultsManager instance] objectForKeyFree:@"StreamPortions"] intValue];
+            int streamDelayTime = [[MOKSessionManager sharedInstance].delay intValue];
+            int streamPortions = [[MOKSessionManager sharedInstance].portions intValue];
             
             
             streamDelayTime = streamDelayTime + 1;
@@ -266,19 +273,22 @@
             if (streamDelayTime >5) {
                 streamDelayTime = 5;
             }
-            [[MOKUserDefaultsManager instance]storeObjectFree:[NSString stringWithFormat:@"%d",streamDelayTime] forKey:@"StreamDelayTime"];
-            [[MOKUserDefaultsManager instance]storeObjectFree:[NSString stringWithFormat:@"%d",streamPortions] forKey:@"StreamPortions"];
-            NSLog(@"incrementado delay a:%d y decrementado porciones a:%d", streamDelayTime, streamPortions);
+            
+            [MOKSessionManager sharedInstance].delay = [NSString stringWithFormat:@"%d",streamDelayTime];
+            [MOKSessionManager sharedInstance].portions = [NSString stringWithFormat:@"%d",streamPortions];
+            
+            NSLog(@"MONKEY - incrementado delay a:%d y decrementado porciones a:%d", streamDelayTime, streamPortions);
             
             // Delay execution of my block for 10 seconds.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [[MOKUserDefaultsManager instance]storeObjectFree:[NSString stringWithFormat:@"%d",2] forKey:@"StreamDelayTime"];
-                [[MOKUserDefaultsManager instance]storeObjectFree:[NSString stringWithFormat:@"%d",15] forKey:@"StreamPortions"];
+                [MOKSessionManager sharedInstance].delay = @"2";
+                [MOKSessionManager sharedInstance].portions = @"15";
+                [MOKSessionManager sharedInstance].streamChanged = false;
             });
         }
     }
     @catch (NSException *e) {
-        NSLog(@"gettin disconnect %@",e);
+        NSLog(@"MONKEY - gettin disconnect %@",e);
         [self disconnect];
         [self notifyConnectionClosed];
         
@@ -337,7 +347,7 @@
 	inBuf = [[NSMutableData alloc] init];
 	outBuf = [[NSMutableData alloc] init];
 	
-	NSLog(@"________reseting buffers___");
+	NSLog(@"MONKEY - ________reseting buffers___");
 }
 
 - (BOOL)isConnectionAvailable {
@@ -352,7 +362,7 @@
 - (BOOL)processOutgoingBytes {
 	
 	if(![outputStream hasSpaceAvailable]) {
-        NSLog(@"NO SPACE AVAILABLE TO GO");
+        NSLog(@"MONKEY - NO SPACE AVAILABLE TO GO");
 		return NO;
 	}
 	
@@ -383,7 +393,7 @@
         
         NSString *output = [[NSString alloc] initWithBytes:inBuf length:ilen encoding:NSUTF8StringEncoding];
         
-        NSLog(@"server said: %@", output);
+        NSLog(@"MONKEY - server said: %@", output);
         
 
         
@@ -410,14 +420,14 @@
         
         if(len>[inBuf length])//el LEN calculado es mayor al que tiene el buffer realmente
         {
-            //NSLog(@"COMPARA LEN %lu con ILEN %i Y MLEN %i ", len,ilen,mlen);
+            //NSLog(@"MONKEY - COMPARA LEN %lu con ILEN %i Y MLEN %i ", len,ilen,mlen);
             
 //            messageBuffer = [NSMutableData dataWithLength:ilen];
             
             // copia al messageBuffer lo de inBuf
 //            memcpy([messageBuffer mutableBytes], [inBuf bytes], ilen);
             
-//            NSLog(@"ESTAMOS MAL MOVE LEN %lu  [inBuf length] - len= %lu; el ilen es %lu =? %lu", len,([inBuf length] - len),ilen,[inBuf length]);
+//            NSLog(@"MONKEY - ESTAMOS MAL MOVE LEN %lu  [inBuf length] - len= %lu; el ilen es %lu =? %lu", len,([inBuf length] - len),ilen,[inBuf length]);
             
             //move the pointer to the next message in the inbuf buffer, has several messages in the buffer
 //            memmove([inBuf mutableBytes], [inBuf bytes] + ilen, [inBuf length] - ilen);
@@ -433,7 +443,7 @@
             
             // copia al messageBuffer lo de inBuf
             memcpy([messageBuffer mutableBytes], [inBuf bytes], len);
-            NSLog(@"ESTAMOS BIEN MOVE LEN %lu  COUNT %lu , MLEN es %i", len,[inBuf length] - len,mlen);
+            NSLog(@"MONKEY - ESTAMOS BIEN MOVE LEN %lu  COUNT %lu , MLEN es %i", len,[inBuf length] - len,mlen);
             //estoy copiando moviendo los bytesINBUF a mutable en la posicion +len
             memmove([inBuf mutableBytes], [inBuf bytes] + len, [inBuf length] - len);
             

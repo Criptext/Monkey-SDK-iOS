@@ -31,7 +31,7 @@
 }
 
 - (void)dealloc {
-    NSLog(@"SESSIon TAMBIEEEEEN? te desaolcaste we");
+    NSLog(@"MONKEY - SESSIon TAMBIEEEEEN? te desaolcaste we");
 	[reconnectKey release];
 	[channels release];
 	[login release];
@@ -42,7 +42,7 @@
 
 - (void)receiveMessage:(MOKSGSMessage *)message {
 	// Get the opcode from the message
-	
+    NSLog(@"MONKEY - nivel opcode = %@", message);
 	MOKSGSOpcode opcode = [message readOpcode];
 
 	switch (opcode) {
@@ -150,7 +150,7 @@
 			
 			SGSChannel *channel = [channels objectForKey:sgsId];
 			if(!channel) {
-				NSLog(@"Channel Leave Request Failed. Not member of channel.");
+				NSLog(@"MONKEY - Channel Leave Request Failed. Not member of channel.");
 				return;
 			}
 			
@@ -168,7 +168,7 @@
 			//NSData *sgsData = [message readBytes];
 			//SGSId *sgsId = [SGSId idWithData:sgsData];
 			
-//			NSLog(@"Channel comming message ");
+//			NSLog(@"MONKEY - Channel comming message ");
 			
 	//			NSString *name = [message readString];
 			
@@ -179,7 +179,7 @@
 	/*
 			
 			if(!channel) {
-				NSLog(@"Channel message dropped.  Channel not found. %@",channel.name);
+				NSLog(@"MONKEY - Channel message dropped.  Channel not found. %@",channel.name);
 				
 								
 				return;
@@ -205,7 +205,7 @@
 			break;
 		}
 		default:
-			NSLog(@"Unknown opcode received.");
+			NSLog(@"MONKEY - Unknown opcode received.");
 			break;
 	}
 }

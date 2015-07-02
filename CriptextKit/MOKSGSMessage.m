@@ -189,7 +189,7 @@
 	int i;
 	
 	for (i =3; i < [data length]; i++){
-		//NSLog(@"Character %d is '%c'\n", i, bytes[i]);
+		//NSLog(@"MONKEY - Character %d is '%c'\n", i, bytes[i]);
 		[resultado appendFormat:@"%c",bytes[i]];
 	}
 	
@@ -198,7 +198,7 @@
 	
 	NSString *decodedString = [NSString stringWithUTF8String:[resultado cStringUsingEncoding:[NSString defaultCStringEncoding]]];
 	
-	//NSLog(@"Modified string is UTF8 '%@' \n", decodedString);
+	//NSLog(@"MONKEY - Modified string is UTF8 '%@' \n", decodedString);
 	
 
 	return decodedString;

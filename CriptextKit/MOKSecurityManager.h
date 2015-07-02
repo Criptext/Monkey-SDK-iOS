@@ -8,8 +8,10 @@
 
 #import <Foundation/Foundation.h>
 @class MOKMessage;
+@class UICKeyChainStore;
 
 @interface MOKSecurityManager : NSObject
+@property (strong, nonatomic) UICKeyChainStore *keychainStore;
 
 +(instancetype)sharedInstance;
 
@@ -28,6 +30,7 @@
 - (NSString *)decrypttest:(NSString *)stringtodecrypt;
 
 //encryption and decryption
+-(NSString *)rsaEncryptBase64String:(NSString *)string withPublicKeyIdentifier:(NSString *)identifier;
 -(MOKMessage *)aesEncryptIncomingMessage:(MOKMessage *)message;
 -(MOKMessage *)aesEncryptOutgoingMessage:(MOKMessage *)message;
 -(MOKMessage *)aesDecryptIncomingMessage:(MOKMessage *)message;

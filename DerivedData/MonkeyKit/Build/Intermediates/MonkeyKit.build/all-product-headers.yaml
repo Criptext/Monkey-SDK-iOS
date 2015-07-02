@@ -9,37 +9,42 @@
         {
           'type': 'file',
           'name': "AFHTTPSessionManager.h",
-          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFHTTPSessionManager.h"
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFHTTPSessionManager.h"
         },
         {
           'type': 'file',
           'name': "AFNetworkReachabilityManager.h",
-          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFNetworkReachabilityManager.h"
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworkReachabilityManager.h"
         },
         {
           'type': 'file',
           'name': "AFSecurityPolicy.h",
-          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFSecurityPolicy.h"
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFSecurityPolicy.h"
         },
         {
           'type': 'file',
           'name': "AFURLRequestSerialization.h",
-          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLRequestSerialization.h"
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFURLRequestSerialization.h"
         },
         {
           'type': 'file',
           'name': "AFURLResponseSerialization.h",
-          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLResponseSerialization.h"
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFURLResponseSerialization.h"
         },
         {
           'type': 'file',
           'name': "AFURLSessionManager.h",
-          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLSessionManager.h"
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFURLSessionManager.h"
         },
         {
           'type': 'file',
           'name': "MOKAPIConnector.h",
           'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKAPIConnector.h"
+        },
+        {
+          'type': 'file',
+          'name': "MOKComMessageProtocol.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKComMessageProtocol.h"
         },
         {
           'type': 'file',
@@ -83,6 +88,16 @@
         },
         {
           'type': 'file',
+          'name': "MOKUserDictionary.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKUserDictionary.h"
+        },
+        {
+          'type': 'file',
+          'name': "MOKWatchdog.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKWatchdog.h"
+        },
+        {
+          'type': 'file',
           'name': "MOKutils.h",
           'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKutils.h"
         },
@@ -98,6 +113,11 @@
         },
         {
           'type': 'file',
+          'name': "NSData+Base64.h",
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSData+Base64.h"
+        },
+        {
+          'type': 'file',
           'name': "NSData+Compression.h",
           'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSData+Compression.h"
         }
@@ -110,7 +130,7 @@
         {
           'type': 'file',
           'name': "module.modulemap",
-          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/DerivedData/MonkeyKit/Build/Products/Debug-iphoneos/MonkeyKit.framework/Modules/module.modulemap"
+          'external-contents': "/Users/Gianni/Desktop/MonkeySDK/MonkeyKit/DerivedData/MonkeyKit/Build/Intermediates/MonkeyKit.build/Debug-iphoneos/MonkeyKit.build/module.modulemap"
         }
       ]
     }

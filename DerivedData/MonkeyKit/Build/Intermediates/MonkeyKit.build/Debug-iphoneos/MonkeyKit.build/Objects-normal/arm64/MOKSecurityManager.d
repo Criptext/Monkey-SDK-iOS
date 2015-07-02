@@ -2,6 +2,7 @@ dependencies: \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSecurityManager.m \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSecurityManager.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSessionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKUserDictionary.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/UICKeyChainStore.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSData+Base64.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSData+Conversion.h \

@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSMutableDictionary *mediasInTransit;
 @property (nonatomic) BOOL isCheckingConnectivity;
 @property (nonatomic) BOOL isUpdateFinished;
+@property (nonatomic) BOOL isLogout;
 @end
 
 @implementation MOKWatchdog
@@ -48,10 +49,10 @@
         _mediasInTransit = [[NSMutableDictionary alloc] init];
         _isCheckingConnectivity = false;
         _isUpdateFinished = false;
+        _isLogout = false;
     }
     return self;
 }
-
 #pragma mark - txt related methods
 -(void)checkConnectivity{
     if(self.isCheckingConnectivity){
@@ -59,29 +60,30 @@
     }
     
     self.isCheckingConnectivity = true;
-    NSLog(@"check connectivity in 15segs WOOF!");
+    NSLog(@"MONKEY - check connectivity in 15segs WOOF!");
     
     [self performSelector:@selector(resetConnectivity) withObject:nil afterDelay:15.0];
 }
 
 -(void)resetConnectivity{
-    if ([MOKComServerConnection sharedInstance].connection.state != MOKSGSConnectionStateConnected || !self.isUpdateFinished) {
-        NSLog(@"reset conenctivity WOOF!");
+    if (([MOKComServerConnection sharedInstance].connection.state != MOKSGSConnectionStateConnected || !self.isUpdateFinished) && !self.isLogout) {
+        NSLog(@"MONKEY - reset conenctivity WOOF!");
         [[MOKComServerConnection sharedInstance] logOut];
         self.isCheckingConnectivity = false;
         self.isUpdateFinished = false;
         //reconnect
-//        [[MenuViewController instance] connect:NO];
+        UIViewController<MOKComServerConnectionDelegate> *delegate = [MOKComServerConnection sharedInstance].connectionDelegate;
+        [[MOKComServerConnection sharedInstance]connectWithDelegate:delegate isFirst:NO];
         return;
     }
     
     self.isCheckingConnectivity = false;
     self.isUpdateFinished = false;
-    NSLog(@"finish checking connectivity WOOF!");
+    NSLog(@"MONKEY - finish checking connectivity WOOF!");
 }
 -(void)messageInTransit:(MOKMessage *)message{
     @synchronized(self.messagesInTransit){
-        [self.messagesInTransit addObject:[message mutableCopyWithZone:nil]];
+        [self.messagesInTransit addObject:message];
     }
 //    [self.messagesInTransit addObject:message];
     [self performSelector:@selector(checkMessages) withObject:nil afterDelay:12.0];
@@ -97,15 +99,16 @@
         
         if (msg == nil) {
             [self.messagesInTransit removeObjectAtIndex:0];
-            //            NSLog(@"Todo tuenti en el watchdog!");
+            //            NSLog(@"MONKEY - Todo tuenti en el watchdog!");
             return;
         }
         
         [self.messagesInTransit removeAllObjects];
-        //        NSLog(@"Pum! removimos todos los objetos y forzamos reconección");
+        //        NSLog(@"MONKEY - Pum! removimos todos los objetos y forzamos reconección");
         [[MOKComServerConnection sharedInstance] logOut];
 //        recconnect
-//        [[MenuViewController instance] connect:NO];
+        UIViewController<MOKComServerConnectionDelegate> *delegate = [MOKComServerConnection sharedInstance].connectionDelegate;
+        [[MOKComServerConnection sharedInstance]connectWithDelegate:delegate isFirst:NO];
         
     }
 }
@@ -133,5 +136,11 @@
 }
 -(void)updateFinished{
     self.isUpdateFinished = true;
+}
+-(void)logout{
+    self.isLogout = true;
+}
+-(void)login{
+    self.isLogout = false;
 }
 @end

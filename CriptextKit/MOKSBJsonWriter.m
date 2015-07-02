@@ -118,7 +118,7 @@ static NSMutableCharacterSet *kEscapeChars;
         
     } else {
         [self addErrorWithCode:EUNSUPPORTED description:[NSString stringWithFormat:@"JSON serialisation not supported for %@", [fragment class]]];
-        NSLog(@"capaz entra aqui");
+        NSLog(@"MONKEY - capaz entra aqui");
         return NO;
     }
     return YES;

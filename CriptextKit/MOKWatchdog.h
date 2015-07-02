@@ -17,5 +17,8 @@
 -(void)mediaInTransit:(MOKMessage *)message;
 -(void)removeMediaInTransitWithId:(NSString *)id_message;
 -(MOKMessage *)getMediaInTransitWithId:(NSString *)id_message;
+-(void)checkConnectivity;
 -(void)updateFinished;
+-(void)login;
+-(void)logout;
 @end

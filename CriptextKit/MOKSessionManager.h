@@ -7,16 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MOKUserDictionary.h"
 
-@class MOKUser;
 @interface MOKSessionManager : NSObject
 @property (nonatomic, strong) NSString *lastMessageId;
-@property (nonatomic, strong) NSString *sessionKey;
-@property (nonatomic, strong) NSString *userName;
-@property (nonatomic, strong) NSString *userPassword;
-@property (nonatomic, strong) NSString *userId;
-@property (nonatomic, strong) NSString *passCode;
-@property (nonatomic, strong) MOKUser *me;
+@property (nonatomic, strong) NSString *sessionId;
+@property (nonatomic, strong) NSString *appId;
+@property (nonatomic, strong) NSString *appKey;
+@property (nonatomic, strong) MOKUserDictionary *user;
+
+@property (nonatomic, strong) NSString *domain;
+@property (nonatomic, strong) NSString *port;
+
+@property (nonatomic) BOOL streamChanged;
+@property (nonatomic, strong) NSString *delay;
+@property (nonatomic, strong) NSString *portions;
 
 + (MOKSessionManager*)sharedInstance;
 - (void)logout;

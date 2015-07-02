@@ -28,4 +28,13 @@ dependencies: \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/Realm.framework/Headers/RLMCollection.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/Realm.framework/Headers/RLMArray.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/Realm.framework/Headers/Realm.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/Realm.framework/Modules/module.modulemap
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/Realm.framework/Modules/module.modulemap \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKDBSession.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKUserDictionary.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKJSON.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJSON.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonParser.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonBase.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonWriter.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSObject+SBJSON.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSString+SBJSON.h

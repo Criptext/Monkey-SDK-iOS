@@ -4,7 +4,6 @@ dependencies: \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKDictionaryBasedObject.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKutils.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKUser.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKDateUtils.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKJSON.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJSON.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonParser.h \
@@ -13,6 +12,7 @@ dependencies: \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSObject+SBJSON.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSString+SBJSON.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSessionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKUserDictionary.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKCriptext.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/include/openssl/bn.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/include/openssl/e_os2.h \

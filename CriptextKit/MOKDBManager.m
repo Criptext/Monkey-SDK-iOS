@@ -9,7 +9,15 @@
 #import "MOKDBManager.h"
 #import "MOKMessage.h"
 #import "MOKDBMessage.h"
+#import "MOKDBSession.h"
+#import "MOKUserDictionary.h"
+#import "MOKJSON.h"
 #import <Realm/Realm.h>
+
+@interface MOKDBManager ()
+@property (nonatomic, strong) MOKSBJsonWriter *jsonWriter;
+@property (nonatomic, strong) MOKSBJsonParser *jsonParser;
+@end
 
 @implementation MOKDBManager
 #pragma mark - initialization
@@ -37,6 +45,9 @@
     self = [super init];
     if (self) {
         //init properties
+        self.jsonWriter = [MOKSBJsonWriter new];
+        self.jsonParser = [MOKSBJsonParser new];
+        [self setDatabaseSchema];
         [RLMRealm setEncryptionKey:[self getKey] forRealmsAtPath:[self getCustomRealm]];
     }
     return self;
@@ -48,6 +59,28 @@
     NSString *customRealmPath = [documentsDirectory stringByAppendingString:@".realm"];
     return customRealmPath;
 }
+
+- (void)setDatabaseSchema{
+    [RLMRealm setSchemaVersion:5 forRealmAtPath:[self getCustomRealm] withMigrationBlock:^(RLMMigration *migration, NSUInteger oldSchemaVersion) {
+        if (oldSchemaVersion < 1) {
+            [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+                newObject[@"timestampCreated"] = oldObject[@"timestamp"];
+                newObject[@"timestampOrder"] = oldObject[@"timestamp"];
+            }];
+        }
+        if (oldSchemaVersion < 2) {
+            [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+                newObject[@"protocolCommand"] = [NSNumber numberWithInt:200];
+                if ((int)oldObject[@"type"] == 54 || (int)oldObject[@"type"] == 55) {
+                    newObject[@"protocolType"] = [NSNumber numberWithInt:2];
+                }else{
+                    newObject[@"protocolType"] = [NSNumber numberWithInt:1];
+                }
+            }];
+        }
+    }];
+}
+
 - (NSData *)getKey {
     // Identifier for our keychain entry - should be unique for your application
     static const uint8_t kKeychainIdentifier[] = "com.criptext.monkeykit";
@@ -87,19 +120,22 @@
 - (void)storeMessage:(MOKMessage *)msg{
     
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
-    NSLog(@"%@", msg);
+    NSLog(@"MONKEY - MONKEY - params saved: %@", msg.params);
     
     [realm beginWriteTransaction];
     NSDictionary *object = @{
                              @"messageId": @(msg.messageId),
+                             @"oldmessageId": @(msg.oldMessageId),
                              @"userIdFrom": msg.userIdFrom,
                              @"userIdTo": msg.userIdTo,
-                             @"type": @(msg.type),
-                             @"timestamp": @(msg.timestamp),
+                             @"protocolCommand": @(msg.protocolCommand),
+                             @"protocolType": @(msg.protocolType),
+                             @"timestampCreated": @(msg.timestampCreated),
+                             @"timestampOrder": @(msg.timestampOrder),
                              @"messageText": msg.messageText,
-                             @"iv": msg.iv,
+                             @"iv": msg.iv ? msg.iv : @"0",
                              @"readByUser": @(msg.readByUser),
-                             @"param": msg.param ? msg.param : @"0"
+                             @"param": [self.jsonWriter stringWithObject:msg.params]
                              };
     
     
@@ -117,14 +153,16 @@
     if (msg !=nil) {
         MOKMessage *mensaje = [[MOKMessage alloc]init];
         mensaje.messageText = msg.messageText;
-        mensaje.type = msg.type;
-        mensaje.timestamp = msg.timestamp;
+        mensaje.protocolCommand = (int)msg.protocolCommand;
+        mensaje.protocolType = (int)msg.protocolType;
+        mensaje.timestampCreated = msg.timestampCreated;
+        mensaje.timestampOrder = msg.timestampOrder;
         mensaje.messageId = msg.messageId;
         mensaje.userIdFrom = msg.userIdFrom;
         mensaje.userIdTo = msg.userIdTo;
         mensaje.readByUser = msg.readByUser;
         mensaje.oldMessageId = msg.oldmessageId;
-        mensaje.param = msg.param;
+        mensaje.params = [self.jsonParser objectWithString:msg.param];
         return mensaje;
     }else{
         return nil;
@@ -146,20 +184,115 @@
 - (MOKMessage *)getOldestMessageNotSent{
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
     for (MOKDBMessage *msg in [MOKDBMessage allObjectsInRealm:realm]) {
-        if (msg.messageId<0 && msg.type != MOKMessageAudioAttachNew && msg.type != MOKMessagePhotoAttachNew && msg.type != MOKMessageAudioAttach && msg.type != MOKMessagePhotoAttach) {
+        if (msg.messageId<0) {
             MOKMessage *message = [[MOKMessage alloc]init];
             message.messageId = msg.messageId;
             message.userIdTo = msg.userIdTo;
             message.userIdFrom = msg.userIdFrom;
-            message.type = msg.type;
-            message.timestamp = msg.timestamp;
+            message.protocolCommand = (int)msg.protocolCommand;
+            message.protocolType = (int)msg.protocolType;
+            message.timestampCreated = msg.timestampCreated;
+            message.timestampOrder = msg.timestampOrder;
             message.messageText = msg.messageText;
             message.readByUser = msg.readByUser;
-            message.param = msg.param;
+            message.params = [self.jsonParser objectWithString:msg.param];
+            if (message.params == nil) {
+                message.params = [@{@"eph":@"0"} mutableCopy];
+            }
             message.oldMessageId = msg.oldmessageId;
             return message;
         }
     }
     return nil;
+}
+
+- (MOKDBSession *)checkSession:(RLMRealm *)realm{
+    RLMResults *sessionresults = [MOKDBSession allObjectsInRealm:realm];
+    MOKDBSession *session;
+    
+    if(sessionresults.count == 0){
+        session = [[MOKDBSession alloc]init];
+    }else{
+        session = sessionresults.firstObject;
+    }
+    return session;
+}
+
+//- (MOKDBSession *)loadSessionFromDB{
+//    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+//    MOKDBSession *session = [self checkSession:realm];
+//    
+//    return session;
+//}
+//- (void)storeSession{
+//    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+//    MOKDBSession *session = [self checkSession:realm];
+//    
+//    
+//    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+//}
+
+- (void)storeSessionId:(NSString *)sessionId{
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBSession *session = [self checkSession:realm];
+    
+    [realm beginWriteTransaction];
+    session.sessionId = sessionId;
+    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+    [realm commitWriteTransaction];
+}
+- (NSString *)loadSessionId{
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBSession *session = [self checkSession:realm];
+    
+    return session.sessionId;
+
+}
+- (void)storeAppId:(NSString *)appId{
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBSession *session = [self checkSession:realm];
+    
+    [realm beginWriteTransaction];
+    session.appId = appId;
+    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+    [realm commitWriteTransaction];
+}
+- (NSString *)loadAppId{
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBSession *session = [self checkSession:realm];
+    
+    return session.appId;
+}
+- (void)storeAppKey:(NSString *)appKey{
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBSession *session = [self checkSession:realm];
+    
+    [realm beginWriteTransaction];
+    session.appKey = appKey;
+    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+    [realm commitWriteTransaction];
+}
+- (NSString *)loadAppKey{
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBSession *session = [self checkSession:realm];
+    
+    return session.appKey;
+}
+- (void)storeUser:(MOKUserDictionary *)user{
+    NSLog(@"MONKEY - store user");
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBSession *session = [self checkSession:realm];
+    
+    [realm beginWriteTransaction];
+    session.user = [self.jsonWriter stringWithObject:user];
+    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+    [realm commitWriteTransaction];
+}
+- (MOKUserDictionary *)loadUser{
+    NSLog(@"MONKEY - loading user");
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBSession *session = [self checkSession:realm];
+    MOKUserDictionary *user = [self.jsonParser objectWithString:session.user];
+    return user;
 }
 @end

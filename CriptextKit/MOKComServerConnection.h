@@ -8,9 +8,8 @@
 //@required
 
 #import <Foundation/Foundation.h>
-
+#import "MOKSGSConnection.h"
 @class MOKSGSContext;
-@class MOKSGSConnection;
 @class MOKSGSChannel;
 
 @class MOKMessage;
@@ -65,13 +64,10 @@
 
 -(BOOL)sendMessage:(NSString *)jsonMessage;
 - (void)parseMessage:(NSDictionary *)message;
-- (void)processAllMessages:(NSArray *)messages;
 
 -(void)logOut;
 
 -(void)resetConnection;
-
--(void)sendSignalOpenConvMenu:(NSString *) userId;
 
 -(BOOL) isConnected;
 

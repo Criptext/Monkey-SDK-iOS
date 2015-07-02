@@ -261,16 +261,22 @@ char *NewBase64Encode(
 //
 // returns the autoreleased NSData representation of the base64 string
 //
+//+ (NSData *)mok_dataFromBase64String:(NSString *)aString
+//{
+//    NSData *data = [[NSData alloc]init];
+//	data = [aString dataUsingEncoding:NSASCIIStringEncoding];
+//	size_t outputLength;
+//	void *outputBuffer = NewBase64Decode([data bytes], [data length], &outputLength);
+//	NSData *result = [NSData dataWithBytes:outputBuffer length:outputLength];
+//	free(outputBuffer);
+//	return result;
+//}
+
 + (NSData *)mok_dataFromBase64String:(NSString *)aString
 {
-	NSData *data = [aString dataUsingEncoding:NSASCIIStringEncoding];
-	size_t outputLength;
-	void *outputBuffer = NewBase64Decode([data bytes], [data length], &outputLength);
-	NSData *result = [NSData dataWithBytes:outputBuffer length:outputLength];
-	free(outputBuffer);
-	return result;
+    NSData *data = [[NSData alloc]initWithBase64EncodedString:aString options:0];
+    return data;
 }
-
 //
 // base64EncodedString
 //
@@ -280,20 +286,25 @@ char *NewBase64Encode(
 // returns an autoreleased NSString being the base 64 representation of the
 //	receiver.
 //
+//- (NSString *)mok_base64EncodedString
+//{
+//	size_t outputLength;
+//	char *outputBuffer =
+//		NewBase64Encode([self bytes], [self length], true, &outputLength);
+//	
+//	NSString *result =
+//		[[NSString alloc]
+//			initWithBytes:outputBuffer
+//			length:outputLength
+//			encoding:NSASCIIStringEncoding];
+//    result = [result stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
+//	free(outputBuffer);
+//	return result;
+//}
 - (NSString *)mok_base64EncodedString
 {
-	size_t outputLength;
-	char *outputBuffer =
-		NewBase64Encode([self bytes], [self length], true, &outputLength);
-	
-	NSString *result =
-		[[NSString alloc]
-			initWithBytes:outputBuffer
-			length:outputLength
-			encoding:NSASCIIStringEncoding];
+    NSString *result = [self base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
     result = [result stringByReplacingOccurrencesOfString:@"\r\n" withString:@""];
-	free(outputBuffer);
-	return result;
+    return result;
 }
-
 @end

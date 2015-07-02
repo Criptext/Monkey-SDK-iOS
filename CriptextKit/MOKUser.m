@@ -7,7 +7,6 @@
 //
 
 #import "MOKUser.h"
-#import "MOKDateUtils.h"
 
 @implementation MOKUser
 @synthesize params = _params;

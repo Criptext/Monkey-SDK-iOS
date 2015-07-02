@@ -4,27 +4,26 @@ dependencies: \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKMessage.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKDictionaryBasedObject.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKutils.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKAPIConnector.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFHTTPSessionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFURLSessionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFURLResponseSerialization.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFURLRequestSerialization.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFSecurityPolicy.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworkReachabilityManager.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKComMessageProtocol.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKJSON.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJSON.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonParser.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonBase.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonWriter.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSObject+SBJSON.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSString+SBJSON.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKComMessage.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKComServerConnection.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSGSConnection.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSecurityManager.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSessionManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKUserDictionary.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKAlertsManager.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKUser.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKWatchdog.h \
   /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSData+Compression.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKAPIConnector.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFHTTPSessionManager.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLSessionManager.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLResponseSerialization.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFURLRequestSerialization.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFSecurityPolicy.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/AFNetworking/AFNetworkReachabilityManager.h \
-  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKDBManager.h
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKDBManager.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJSON.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonParser.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonBase.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/MOKSBJsonWriter.h \
+  /Users/Gianni/Desktop/MonkeySDK/MonkeyKit/CriptextKit/NSData+Base64.h
