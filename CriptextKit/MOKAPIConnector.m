@@ -107,10 +107,16 @@
             [MOKSessionManager sharedInstance].sessionId = [responseDict objectForKey:@"sessionId"];
             stringToSend = [[MOKSecurityManager sharedInstance] generateAndEncryptAESKey];
         }else{
+//                if (!([[MOKSecurityManager sharedInstance].keychainStore stringForKey:msg.userIdFrom].length>2)) {
             NSLog(@"MONKEY - my session: %@", [MOKSessionManager sharedInstance].sessionId);
             NSLog(@"MONKEY - my keys: %@", [[MOKSecurityManager sharedInstance].keychainStore stringForKey:[MOKSessionManager sharedInstance].sessionId]);
-            stringToSend =[[MOKSecurityManager sharedInstance]rsaEncryptBase64String:[[MOKSecurityManager sharedInstance].keychainStore stringForKey:[MOKSessionManager sharedInstance].sessionId] withPublicKeyIdentifier:AUTHENTICATION_PUBKEY];
+            NSString *mygeneratedKeys = [[MOKSecurityManager sharedInstance].keychainStore stringForKey:[MOKSessionManager sharedInstance].sessionId];
             
+            if (!(mygeneratedKeys.length >2)) {
+                stringToSend = [[MOKSecurityManager sharedInstance] generateAndEncryptAESKey];
+            }else{
+                stringToSend =[[MOKSecurityManager sharedInstance]rsaEncryptBase64String:[[MOKSecurityManager sharedInstance].keychainStore stringForKey:[MOKSessionManager sharedInstance].sessionId] withPublicKeyIdentifier:AUTHENTICATION_PUBKEY];
+            }
         }
         
         NSDictionary * requestConnectObject = @{@"session_id": [MOKSessionManager sharedInstance].sessionId,
