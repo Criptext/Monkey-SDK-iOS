@@ -258,6 +258,10 @@
             [[MOKDBManager sharedInstance]deleteMessageSent:message];
             [self sendMessagesAgain];
             break;
+        case MOKProtocolGet:
+            [self.receivers makeObjectsPerformSelector:@selector(notificationReceived:) withObject:message];
+            return;
+            break;
         default: {
             
             break;

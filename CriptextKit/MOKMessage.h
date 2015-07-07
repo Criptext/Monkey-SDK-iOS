@@ -42,7 +42,8 @@ typedef enum{
     MOKGroupCreate = 1,
     MOKGroupDelete = 2,
     MOKGroupNewMember = 3,
-    MOKGroupRemoveMember = 4
+    MOKGroupRemoveMember = 4,
+    MOKGroupsJoined = 5
 }MOKGroupActionType;
 
 @interface MOKMessage : MOKDictionaryBasedObject

@@ -277,12 +277,30 @@
         }
         case MOKProtocolGet:{
             [[MOKMessagingManager sharedInstance] notifyUpdatesToWatchdog];
-            NSArray *messages = [args objectForKey:@"messages"];
-            NSLog(@"MONKEY - llegó un get");
-            for (NSDictionary *msgdict in messages) {
-                MOKMessage *msg = [[MOKMessage alloc] initWithArgs:msgdict];
-                msg.protocolCommand = MOKProtocolMessage;
-                [self processMOKProtocolMessage:msg];
+
+            
+            NSDecimalNumber *type = [args objectForKey:@"type"];
+            
+            switch ([type intValue]) {
+                case 1:{
+                    NSLog(@"MONKEY - llegó un get de mensajes");
+                    NSArray *messages = [args objectForKey:@"messages"];
+                    [self processGetMessages:messages];
+                    break;
+                }
+                case 2:{
+                    NSLog(@"MONKEY - llegó un get de grupos");
+                    MOKMessage *msg = [[MOKMessage alloc] init];
+                    msg.protocolCommand = MOKProtocolGet;
+                    msg.protocolType = MOKNotif;
+                    msg.monkeyActionType = MOKGroupsJoined;
+                    msg.messageText = [args objectForKey:@"messages"];
+                    [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolCommand];
+                    
+                    break;
+                }
+                default:
+                    break;
             }
             
             break;
@@ -315,7 +333,13 @@
         }
     }
 }
-
+- (void)processGetMessages:(NSArray *)messages{
+    for (NSDictionary *msgdict in messages) {
+        MOKMessage *msg = [[MOKMessage alloc] initWithArgs:msgdict];
+        msg.protocolCommand = MOKProtocolMessage;
+        [self processMOKProtocolMessage:msg];
+    }
+}
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {
     NSLog(@"MONKEY - mensaje en proceso: %@, %lld, %d", msg.messageText,msg.messageId, msg.protocolType);
     
