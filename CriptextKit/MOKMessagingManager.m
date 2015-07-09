@@ -276,15 +276,10 @@
     if(self.receivers!=NULL){
         
         if([message.userIdTo rangeOfString:@","].location!=NSNotFound){
-            NSMutableArray *userIds=[[NSMutableArray alloc] initWithArray:[message.userIdTo componentsSeparatedByString:@","]];
-            for (NSString *elid in userIds) {
-                MOKMessage *tmpMessage=message;
-                tmpMessage.userIdTo=elid;
-                [self.receivers makeObjectsPerformSelector:@selector(notificationReceived:) withObject:tmpMessage];
-            }
+            message.userIdTo = [MOKSessionManager sharedInstance].sessionId;
         }
-        else
-            [self.receivers makeObjectsPerformSelector:@selector(notificationReceived:) withObject:message];
+        
+        [self.receivers makeObjectsPerformSelector:@selector(notificationReceived:) withObject:message];
     }
 }
 - (void)incomingMessage:(MOKMessage *)message {

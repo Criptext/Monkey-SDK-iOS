@@ -145,7 +145,7 @@
 }
 
 - (BOOL)isGroupMessage {
-    return [self.userIdTo rangeOfString:@"G"].location!=NSNotFound;
+    return [self.userIdTo rangeOfString:@"G:"].location!=NSNotFound;
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone
