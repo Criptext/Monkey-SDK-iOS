@@ -211,7 +211,7 @@
     
     NSDictionary *requestObject =@{@"sid":message.userIdFrom,
                                    @"rid":message.userIdTo,
-                                   @"params":message.params};
+                                   @"props":message.mkProperties};
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     NSLog(@"MONKEY - parameters del send file: %@", parameters);

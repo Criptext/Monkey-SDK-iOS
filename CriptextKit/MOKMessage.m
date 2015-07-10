@@ -18,10 +18,21 @@
 	
 	if (self = [super init]) {
 		self.messageText = @"";
-        self.params = [NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"params"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+        if ([dictionary objectForKey:@"props"]) {
+            self.mkProperties = [NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"props"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+        }else{
+            self.mkProperties = [@{} mutableCopy];
+        }
+        
+        if ([dictionary objectForKey:@"params"]) {
+            self.params = [NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"params"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+        }else{
+            self.params = [@{}mutableCopy];
+        }
+        
         self.encryptedText = [self stringFromDictionary:dictionary key:@"msg"];
         self.protocolType  = [self integerFromDictionary:dictionary key:@"type"];
-        self.monkeyActionType = [self integerFromDictionary:self.params key:@"monkey_action"];
+        self.monkeyActionType = [self integerFromDictionary:self.mkProperties key:@"monkey_action"];
         self.iv = [self stringFromDictionary:dictionary key:@"iv"];
 		
 		self.timestampCreated = [self doubleFromDictionary:dictionary key:@"datetime"];
@@ -60,7 +71,10 @@
                        messageIV:nil
                        timestampCreated:[[NSDate date] timeIntervalSince1970]
                   timestampOrder:[[NSDate date] timeIntervalSince1970]
-                        fromUser:nil toUser:nil params:nil];
+                        fromUser:nil
+                          toUser:nil
+                    mkProperties:[@{@"encr": @"1"} mutableCopy]
+                          params:nil];
 }
 
 - (id)initWithMessage:(NSString*)messageText
@@ -74,6 +88,7 @@
             timestampOrder:(NSTimeInterval)timestampOrder
              fromUser:(NSString *)sessionIdFrom
                toUser:(NSString *)sessionIdTo
+         mkProperties:(NSMutableDictionary *)mkprops
                params:(NSMutableDictionary *)params
 {
     if (self = [super init]) {
@@ -92,6 +107,7 @@
         self.monkeyActionType = monkeyActionType;
         self.isSending = NO;
         self.needsResend = NO;
+        self.mkProperties = mkprops;
         self.params = params;
         self.deliveredMessage=-1;
     }
@@ -117,11 +133,12 @@
         self.monkeyActionType = 0;
         self.isSending = NO;
         self.needsResend = NO;
-        self.params = [@{@"eph":@"0",
-                        @"str":@"0",
-                         @"type":@"0",
-                         @"device":@"ios",
-                        @"encr":@"1"} mutableCopy];
+        self.mkProperties = [@{@"eph":@"0",
+                               @"str":@"0",
+                               @"type":@"0",
+                               @"device":@"ios",
+                               @"encr":@"1"} mutableCopy];
+        self.params = [@{} mutableCopy];
         self.pushMessage = @"";
         
         self.deliveredMessage=-1;
@@ -130,10 +147,10 @@
 }
 
 - (void)updateMessageIdFromACK{
-    self.messageId = [self integerFromDictionary:self.params key:@"message_id"];
-    if([self.params objectForKey:@"new_id"]!=nil || [((NSString *)[self.params objectForKey:@"new_id"]) isEqualToString:@"null"])
-        self.messageId = [self integerFromDictionary:self.params key:@"new_id"];
-    self.oldMessageId = [self integerFromDictionary:self.params key:@"old_id"];
+    self.messageId = [self integerFromDictionary:self.mkProperties key:@"message_id"];
+    if([self.mkProperties objectForKey:@"new_id"]!=nil || [((NSString *)[self.mkProperties objectForKey:@"new_id"]) isEqualToString:@"null"])
+        self.messageId = [self integerFromDictionary:self.mkProperties key:@"new_id"];
+    self.oldMessageId = [self integerFromDictionary:self.mkProperties key:@"old_id"];
 }
 
 - (NSString*)messageTextToShow {
@@ -163,6 +180,7 @@
     messCopy.readByUser=self.readByUser;
     messCopy.oldMessageId=self.oldMessageId;
     messCopy.params = self.params;
+    messCopy.mkProperties = self.mkProperties;
     
     return messCopy;
 }

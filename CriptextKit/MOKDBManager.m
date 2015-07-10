@@ -61,7 +61,7 @@
 }
 
 - (void)setDatabaseSchema{
-    [RLMRealm setSchemaVersion:5 forRealmAtPath:[self getCustomRealm] withMigrationBlock:^(RLMMigration *migration, NSUInteger oldSchemaVersion) {
+    [RLMRealm setSchemaVersion:6 forRealmAtPath:[self getCustomRealm] withMigrationBlock:^(RLMMigration *migration, NSUInteger oldSchemaVersion) {
         if (oldSchemaVersion < 1) {
             [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
                 newObject[@"timestampCreated"] = oldObject[@"timestamp"];
@@ -76,6 +76,12 @@
                 }else{
                     newObject[@"protocolType"] = [NSNumber numberWithInt:1];
                 }
+            }];
+        }
+        
+        if (oldSchemaVersion < 13) {
+            [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+                newObject[@"mkprops"] = oldObject[@"param"];
             }];
         }
     }];
@@ -120,7 +126,7 @@
 - (void)storeMessage:(MOKMessage *)msg{
     
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
-    NSLog(@"MONKEY - MONKEY - params saved: %@", msg.params);
+    NSLog(@"MONKEY - MONKEY - params saved: %@", msg.mkProperties);
     
     [realm beginWriteTransaction];
     NSDictionary *object = @{
@@ -135,6 +141,7 @@
                              @"messageText": msg.messageText,
                              @"iv": msg.iv ? msg.iv : @"0",
                              @"readByUser": @(msg.readByUser),
+                             @"mkprops": [self.jsonWriter stringWithObject:msg.mkProperties],
                              @"param": [self.jsonWriter stringWithObject:msg.params]
                              };
     
@@ -163,6 +170,7 @@
         mensaje.readByUser = msg.readByUser;
         mensaje.oldMessageId = msg.oldmessageId;
         mensaje.params = [self.jsonParser objectWithString:msg.param];
+        mensaje.mkProperties = [self.jsonParser objectWithString:msg.mkprops];
         return mensaje;
     }else{
         return nil;
@@ -197,7 +205,11 @@
             message.readByUser = msg.readByUser;
             message.params = [self.jsonParser objectWithString:msg.param];
             if (message.params == nil) {
-                message.params = [@{@"eph":@"0"} mutableCopy];
+                message.params = [@{} mutableCopy];
+            }
+            message.mkProperties = [self.jsonParser objectWithString:msg.mkprops];
+            if (message.mkProperties == nil) {
+                message.mkProperties = [@{@"eph":@"0"} mutableCopy];
             }
             message.oldMessageId = msg.oldmessageId;
             return message;

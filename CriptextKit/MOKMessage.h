@@ -57,6 +57,7 @@ typedef enum{
 @property (nonatomic, strong) NSString * userIdTo;
 @property (nonatomic, strong) NSString * userIdFrom;
 @property (nonatomic, strong) NSMutableDictionary * params;
+@property (nonatomic, strong) NSMutableDictionary *mkProperties;
 @property (nonatomic, assign) MOKMessageId oldMessageId;
 @property (nonatomic, assign) MOKMessageId messageId;
 @property (nonatomic, assign) BOOL readByUser;
@@ -86,6 +87,7 @@ typedef enum{
        timestampOrder:(NSTimeInterval)timestampOrder
              fromUser:(NSString *)sessionIdFrom
                toUser:(NSString *)sessionIdTo
+         mkProperties:(NSMutableDictionary *)mkprops
                params:(NSMutableDictionary *)params;
 - (id)initWithMyMessage:(NSString*)messageText userTo:(NSString *)sessionId;
 - (void)updateMessageIdFromACK;

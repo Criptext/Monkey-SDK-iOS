@@ -343,11 +343,11 @@
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {
     NSLog(@"MONKEY - mensaje en proceso: %@, %lld, %d", msg.messageText,msg.messageId, msg.protocolType);
     
-    if (!([[MOKSecurityManager sharedInstance].keychainStore stringForKey:msg.userIdFrom].length>2)) {
-        [[MOKAPIConnector sharedInstance]keyExchangeWith:msg.userIdFrom delegate:self];
-        [self performSelector:@selector(processMOKProtocolMessage:) withObject:msg afterDelay:2];
-        return;
-    }
+//    if (!([[MOKSecurityManager sharedInstance].keychainStore stringForKey:msg.userIdFrom].length>2)) {
+//        [[MOKAPIConnector sharedInstance]keyExchangeWith:msg.userIdFrom delegate:self];
+//        [self performSelector:@selector(processMOKProtocolMessage:) withObject:msg afterDelay:2];
+//        return;
+//    }
     
     switch (msg.protocolType) {
         case MOKText:{

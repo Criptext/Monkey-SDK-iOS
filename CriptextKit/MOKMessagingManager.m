@@ -7,6 +7,7 @@
 //
 
 #import "MOKMessagingManager.h"
+#import "MOKAPIConnector.h"
 #import "MOKMessage.h"
 #import "MOKComMessageProtocol.h"
 #import "MOKComServerConnection.h"
@@ -95,12 +96,12 @@
                                         @"cmpr" : @"gzip",
                                         @"device" : @"ios"
                                         };
-        message.params = [defaultparams mutableCopy];
+        message.mkProperties = [defaultparams mutableCopy];
     }else{
-        message.params = [params mutableCopy];
+        message.mkProperties = [params mutableCopy];
     }
 
-    [message.params setObject:[NSNumber numberWithInt:documentType] forKey:@"file_type"];
+    [message.mkProperties setObject:[NSNumber numberWithInt:documentType] forKey:@"file_type"];
     
     NSString *tmp = [fileURL path];
     NSMutableString *newFileName = [tmp mutableCopy];
@@ -108,7 +109,7 @@
     NSData *fileData = [NSData dataWithContentsOfURL:fileURL];
     
     //check if should compress
-    if ([message.params objectForKey:@"cmpr"]) {
+    if ([message.mkProperties objectForKey:@"cmpr"]) {
         NSLog(@"MONKEY - antes compress: %lu",(unsigned long)[fileData length]);
         fileData = [fileData mok_gzipDeflate];
         NSLog(@"MONKEY - despues compress: %lu",(unsigned long)[fileData length]);
@@ -122,7 +123,7 @@
     NSFileHandle *fileHandler = [NSFileHandle fileHandleForWritingAtPath:newFileName];
     
     //check if should encrypt
-    if([[message.params objectForKey:@"encr"] isEqualToString:@"1"]){
+    if([[message.mkProperties objectForKey:@"encr"] intValue]==1){
         NSData *encryptedData = [[MOKSecurityManager sharedInstance]aesEncryptFileData:fileData fromUser:[MOKSessionManager sharedInstance].sessionId];
         [fileHandler writeData:encryptedData];
     }else{
@@ -139,16 +140,22 @@
 }
 -(MOKMessage *)sendFile:(MOKMessage *)message ofType:(MOKFileType)documentType{
     message.protocolType = MOKFile;
-    [message.params setObject:[NSNumber numberWithInt:documentType] forKey:@"file_type"];
+    [message.mkProperties setObject:[NSNumber numberWithInt:documentType] forKey:@"file_type"];
     
     NSString *documentDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
     documentDirectory = [documentDirectory stringByAppendingPathComponent:message.messageText];
     NSData *fileData = [[NSFileManager defaultManager] contentsAtPath:documentDirectory];
+    
+    if (fileData == nil) {
+        [[MOKDBManager sharedInstance]deleteMessageSent:message];
+        return nil;
+    }
+    
     NSLog(@"MONKEY - tamaño data: %lu",(unsigned long)[fileData length]);
     NSMutableString *newFileName = [documentDirectory mutableCopy];
     
     //check if should compress
-    if ([message.params objectForKey:@"cmpr"]) {
+    if ([message.mkProperties objectForKey:@"cmpr"]) {
         NSLog(@"MONKEY - antes compress: %lu",(unsigned long)[fileData length]);
         fileData = [fileData mok_gzipDeflate];
         NSLog(@"MONKEY - despues compress: %lu",(unsigned long)[fileData length]);
@@ -162,7 +169,7 @@
     NSFileHandle *fileHandler = [NSFileHandle fileHandleForWritingAtPath:newFileName];
     
     //check if should encrypt
-    if([[message.params objectForKey:@"encr"] isEqualToString:@"1"]){
+    if([[message.mkProperties objectForKey:@"encr"] intValue]==1){
         NSData *encryptedData = [[MOKSecurityManager sharedInstance]aesEncryptFileData:fileData fromUser:[MOKSessionManager sharedInstance].sessionId];
         [fileHandler writeData:encryptedData];
     }else{
@@ -181,7 +188,7 @@
 -(MOKMessage *)sendMessage:(MOKMessage *)message{
     
     //check if should encrypt
-    if ([[message.params objectForKey:@"encr"] isEqualToString:@"1"]) {
+    if ([[message.mkProperties objectForKey:@"encr"] intValue]==1) {
         [[MOKSecurityManager sharedInstance]aesEncryptOutgoingMessage:message];
     }
     
@@ -286,8 +293,15 @@
     MOKMessageId msgId =message.messageId;
     
     //check if encrypted
-    if ([[message.params objectForKey:@"encr"] isEqualToString:@"1"]) {
+    if ([[message.mkProperties objectForKey:@"encr"] intValue] ==1) {
         [[MOKSecurityManager sharedInstance] aesDecryptIncomingMessage:message];
+        
+        if (message.messageText == nil) {
+            NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
+            [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
+            [self performSelector:@selector(incomingMessage:) withObject:message afterDelay:2];
+            return;
+        }
     }else{
         message.messageText = message.encryptedText;
     }
@@ -349,15 +363,19 @@
 -(void)onDownloadFileOK:(MOKMessage *)message{
     @autoreleasepool {
         //check if should decrypt
-        if([[message.params objectForKey:@"encr"] isEqualToString:@"1"]){
-
+        if([[message.mkProperties objectForKey:@"encr"] intValue] ==1){
+            NSData *decryptedData;
             //check if web
-            if ([[message.params objectForKey:@"device"] isEqualToString:@"web"]) {
+            if ([[message.mkProperties objectForKey:@"device"] isEqualToString:@"web"]) {
                 NSLog(@"MONKEY - decriptando archivo de web");
                 
                 NSString *contenido = [NSString stringWithContentsOfFile:message.messageText encoding:NSUTF8StringEncoding error:nil];
                 
-                NSData *decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData mok_dataFromBase64String:contenido] fromUser:message.userIdFrom];
+                decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData mok_dataFromBase64String:contenido] fromUser:message.userIdFrom];
+                if (decryptedData == nil) {
+                    [self requestNewKeysForMessage:message];
+                    return;
+                }
                 [decryptedData writeToFile:message.messageText atomically:YES];
                 
                 NSString *newcontenido = [NSString stringWithContentsOfFile:message.messageText encoding:NSUTF8StringEncoding error:nil];
@@ -367,14 +385,14 @@
                 
                 
                 //check for extension (and replace)
-                if ([message.params objectForKey:@"ext"] != nil) {
+                if ([message.mkProperties objectForKey:@"ext"] != nil) {
                     NSFileManager *fileManager = [NSFileManager defaultManager];
                     [fileManager removeItemAtPath:message.messageText error:NULL];
-                    message.messageText = [[message.messageText stringByDeletingPathExtension] stringByAppendingPathExtension:[message.params objectForKey:@"ext"]];
+                    message.messageText = [[message.messageText stringByDeletingPathExtension] stringByAppendingPathExtension:[message.mkProperties objectForKey:@"ext"]];
                 }
 
                 //check for file compression
-                if ([message.params objectForKey:@"cmpr"]) {
+                if ([message.mkProperties objectForKey:@"cmpr"]) {
                     newData = [newData mok_gzipInflate];
                 }
                 
@@ -384,9 +402,12 @@
                 NSLog(@"MONKEY - decriptando archivo de movil");
                 
                 NSData *decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData dataWithContentsOfFile:message.messageText] fromUser:message.userIdFrom];
-                
+                if (decryptedData == nil) {
+                    [self requestNewKeysForMessage:message];
+                    return;
+                }
                 //check for file compression
-                if ([message.params objectForKey:@"cmpr"]) {
+                if ([message.mkProperties objectForKey:@"cmpr"]) {
                     decryptedData = [decryptedData mok_gzipInflate];
                 }
                 
@@ -400,6 +421,17 @@
         [self.receivers makeObjectsPerformSelector:@selector(messageReceived:) withObject:message];
         
     }
+}
+- (void)requestNewKeysForMessage:(MOKMessage *)message{
+    NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
+    [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
+    [self performSelector:@selector(onDownloadFileOK:) withObject:message afterDelay:2];
+}
+-(void)onOpenConversationOK:(NSString *)key{
+    
+}
+-(void)onOpenConversationWrong{
+    
 }
 -(void)onDownloadFileFail:(MOKMessage *)message{
     NSLog(@"MONKEY - MONKEY - Download Fail");
@@ -438,8 +470,8 @@
             [self sendMessage:message];
             break;
         case MOKFile:
-            NSLog(@"MONKEY - MONKEY - file type resend: %@",[message.params objectForKey:@"file_type"]);
-            [self sendFile:message ofType:[[message.params objectForKey:@"file_type"] intValue]];
+            NSLog(@"MONKEY - MONKEY - file type resend: %@",[message.mkProperties objectForKey:@"file_type"]);
+            [self sendFile:message ofType:[[message.mkProperties objectForKey:@"file_type"] intValue]];
 //            [self sendFileWithURL:[NSURL fileURLWithPath:message.encryptedText] ofType:(MOKFileType)[message.params objectForKey:@"file_type"] toUser:message.userIdTo andParams:message.params];
             break;
             
@@ -470,16 +502,18 @@
                  @"rid": message.userIdTo,
                  @"msg": message.encryptedText,
                  @"type": [NSNumber numberWithInt:message.protocolType],
+                 @"props": [self.jsonWriter stringWithObject:message.mkProperties],
                  @"params": [self.jsonWriter stringWithObject:message.params]
                  };
     }else{
         args = @{@"id": [NSString stringWithFormat:@"%lli",message.messageId],
-                   @"sid": message.userIdFrom,
-                   @"rid": message.userIdTo,
-                   @"msg": message.encryptedText,
-                   @"type": [NSNumber numberWithInt:message.protocolType],
-                   @"params": [self.jsonWriter stringWithObject:message.params],
-                   @"push": message.pushMessage? message.pushMessage : @""
+                 @"sid": message.userIdFrom,
+                 @"rid": message.userIdTo,
+                 @"msg": message.encryptedText,
+                 @"type": [NSNumber numberWithInt:message.protocolType],
+                 @"props": [self.jsonWriter stringWithObject:message.mkProperties],
+                 @"params": [self.jsonWriter stringWithObject:message.params],
+                 @"push": message.pushMessage? message.pushMessage : @""
                    };
     }
     

@@ -20,6 +20,7 @@
 @property double timestampOrder;
 @property NSString *messageText;
 @property BOOL readByUser;
+@property NSString *mkprops;
 @property NSString *param;
 
 @end
