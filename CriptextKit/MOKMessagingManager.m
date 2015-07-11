@@ -294,7 +294,15 @@
     
     //check if encrypted
     if ([[message.mkProperties objectForKey:@"encr"] intValue] ==1) {
+        @try {
         [[MOKSecurityManager sharedInstance] aesDecryptIncomingMessage:message];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
+            [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
+            [self performSelector:@selector(incomingMessage:) withObject:message afterDelay:2];
+            return;
+        }
         
         if (message.messageText == nil) {
             NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
@@ -338,9 +346,7 @@
     if(msgId>0){
         [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msgId]];
     }
-    
-    //    if([[DBManager sharedInstance] existMessage:msgId])
-    //        return;
+
     [[MOKAPIConnector sharedInstance]downloadFile:message withDelegate:self];
     
 }
@@ -371,7 +377,15 @@
                 
                 NSString *contenido = [NSString stringWithContentsOfFile:message.messageText encoding:NSUTF8StringEncoding error:nil];
                 
-                decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData mok_dataFromBase64String:contenido] fromUser:message.userIdFrom];
+                
+                @try {
+                    decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData mok_dataFromBase64String:contenido] fromUser:message.userIdFrom];
+                }
+                @catch (NSException *exception) {
+                    [self requestNewKeysForMessage:message];
+                    return;
+                }
+                
                 if (decryptedData == nil) {
                     [self requestNewKeysForMessage:message];
                     return;
@@ -400,8 +414,15 @@
                 
             }else{
                 NSLog(@"MONKEY - decriptando archivo de movil");
+            
+                @try {
+                    decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData dataWithContentsOfFile:message.messageText] fromUser:message.userIdFrom];
+                }
+                @catch (NSException *exception) {
+                    [self requestNewKeysForMessage:message];
+                    return;
+                }
                 
-                NSData *decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData dataWithContentsOfFile:message.messageText] fromUser:message.userIdFrom];
                 if (decryptedData == nil) {
                     [self requestNewKeysForMessage:message];
                     return;
