@@ -222,7 +222,7 @@
         NSLog(@"MONKEY - %@ %@", task, responseObject);
         NSDictionary *responseDict = responseObject;
         message.oldMessageId = message.messageId;
-        message.messageId = [[responseDict objectForKey:@"messageId"] integerValue];
+        message.messageId = [[responseDict objectForKey:@"messageId"] stringValue];
         [delegate onUploadFileOK:message];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"MONKEY - Error: %@", error);

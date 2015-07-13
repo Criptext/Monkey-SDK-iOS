@@ -101,7 +101,10 @@
     NSError *error;
     NSRange range= [base64string rangeOfString:@"=" options:NSBackwardsSearch];
     
-    NSString *finalbase64string = [base64string substringToIndex:range.location+range.length];
+    //stripping the garbage at the end
+    NSString *finalbase64string = [base64string substringToIndex:range.location+1];
+    finalbase64string = [NSString stringWithUTF8String:[finalbase64string UTF8String]];
+    NSLog(@"MONKEY - final base 64 key and IV: %@jojo", finalbase64string);
     
     [self.keychainStore setString:finalbase64string forKey:userId error:&error];
     if (error) {
@@ -114,11 +117,15 @@
 -(NSString *)getIVbase64forUser:(NSString *)userId{
     NSString *aesAndiv = self.keychainStore[userId];
     NSArray *arrays = [aesAndiv componentsSeparatedByString:@":"];
-    NSRange range= [[arrays lastObject] rangeOfString:@"=" options:NSBackwardsSearch];
     
-    NSString *finalbase64string = [[arrays lastObject] substringToIndex:range.location+range.length];
-    NSLog(@"MONKEY - el iv: %@jojo", finalbase64string);
-    return finalbase64string;
+//    NSRange range= [[arrays lastObject] rangeOfString:@"=" options:NSBackwardsSearch];
+    
+//    NSString *finalbase64string = [[arrays lastObject] substringToIndex:range.location+1];
+
+//    finalbase64string = [NSString stringWithUTF8String:[finalbase64string UTF8String]];
+    NSLog(@"MONKEY - el iv: %@jojo", [arrays lastObject]);
+//    return finalbase64string;
+    return [arrays lastObject];
 }
 
 -(NSString *)getAESbase64forUser:(NSString *)userId{

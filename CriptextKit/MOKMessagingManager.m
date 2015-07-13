@@ -9,7 +9,6 @@
 #import "MOKMessagingManager.h"
 #import "MOKAPIConnector.h"
 #import "MOKMessage.h"
-#import "MOKComMessageProtocol.h"
 #import "MOKComServerConnection.h"
 #import "MOKSecurityManager.h"
 #import "MOKSessionManager.h"
@@ -226,10 +225,11 @@
     return message;
 }
 
--(MOKMessage *)sendAlertToUser:(NSString *)sessionId withParams:(NSDictionary *)params{
+-(MOKMessage *)sendAlertToUser:(NSString *)sessionId withParams:(NSDictionary *)params andPush:(NSString *)push{
     MOKMessage *message = [[MOKMessage alloc]initWithMyMessage:@"" userTo:sessionId];
     message.protocolCommand = MOKProtocolMessage;
     message.protocolType = MOKAlert;
+    message.pushMessage = push;
     message.params = [params mutableCopy];
     [self sendMessageCommandFromMessage:message];
     
@@ -251,10 +251,10 @@
 -(void)sendCloseCommandToUser:(NSString *)sessionId{
     [self sendCommand:MOKProtocolClose WithArgs:@{@"rid": sessionId}];
 }
--(void)sendDeleteCommandForMessage:(MOKMessageId)messageId ToUser:(NSString *)sessionId{
+-(void)sendDeleteCommandForMessage:(NSString *)messageId ToUser:(NSString *)sessionId{
     
     
-    [self sendCommand:MOKProtocolDelete WithArgs:@{@"id": [NSNumber numberWithLongLong:messageId],
+    [self sendCommand:MOKProtocolDelete WithArgs:@{@"id": messageId,
                                                    @"rid":sessionId}];
 }
 - (void)notify:(MOKMessage *)message withcommand:(int)command {
@@ -275,9 +275,9 @@
         }
     }
     
-    MOKMessageId msgId =message.messageId;
+    NSString * msgId =message.messageId;
     if(msgId>0)
-        [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msgId]];
+        [[MOKSessionManager sharedInstance] setLastMessageId:msgId];
     
     
     if(self.receivers!=NULL){
@@ -290,7 +290,7 @@
     }
 }
 - (void)incomingMessage:(MOKMessage *)message {
-    MOKMessageId msgId =message.messageId;
+    NSString * msgId =message.messageId;
     
     //check if encrypted
     if ([[message.mkProperties objectForKey:@"encr"] intValue] ==1) {
@@ -316,7 +316,7 @@
     
     
     if(msgId>0){
-        [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msgId]];
+        [[MOKSessionManager sharedInstance] setLastMessageId:msgId];
     }
     
 //    if([[DBManager sharedInstance] existMessage:msgId])
@@ -341,10 +341,10 @@
 }
 
 - (void)fileReceivedNotification:(MOKMessage *)message {
-    MOKMessageId msgId =message.messageId;
+    NSString * msgId =message.messageId;
     
     if(msgId>0){
-        [[MOKSessionManager sharedInstance] setLastMessageId:[NSString stringWithFormat:@"%lli",msgId]];
+        [[MOKSessionManager sharedInstance] setLastMessageId:msgId];
     }
 
     [[MOKAPIConnector sharedInstance]downloadFile:message withDelegate:self];
@@ -354,6 +354,7 @@
     
     switch (message.protocolType) {
         case MOKText: case MOKFile: case 50: case 51: case 52:
+            NSLog(@"deleting from base");
             [[MOKDBManager sharedInstance]deleteMessageSent:message];
             break;
         default: {
@@ -459,7 +460,7 @@
 }
 -(void)onUploadFileOK:(MOKMessage *)message{
     [[MOKDBManager sharedInstance] deleteMessageSent:message];
-    [[MOKWatchdog sharedInstance] removeMediaInTransitWithId:[NSString stringWithFormat:@"%lld", message.oldMessageId]];
+    [[MOKWatchdog sharedInstance] removeMediaInTransitWithId:message.oldMessageId];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtPath:message.encryptedText error:NULL];
     if (self.receivers != NULL) {
@@ -518,7 +519,7 @@
     NSDictionary *args;
     
     if ([message.pushMessage isEqualToString:@""] || message.pushMessage == nil) {
-        args = @{@"id": [NSString stringWithFormat:@"%lli",message.messageId],
+        args = @{@"id": message.messageId,
                  @"sid": message.userIdFrom,
                  @"rid": message.userIdTo,
                  @"msg": message.encryptedText,
@@ -527,7 +528,7 @@
                  @"params": [self.jsonWriter stringWithObject:message.params]
                  };
     }else{
-        args = @{@"id": [NSString stringWithFormat:@"%lli",message.messageId],
+        args = @{@"id": message.messageId,
                  @"sid": message.userIdFrom,
                  @"rid": message.userIdTo,
                  @"msg": message.encryptedText,

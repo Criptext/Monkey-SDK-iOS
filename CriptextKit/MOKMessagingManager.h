@@ -40,7 +40,7 @@
 //type: 4
 -(MOKMessage *)sendTemporalNotificationToUser:(NSString *)sessionId withParams:(NSDictionary *)params andPush:(NSString *)push;
 //type: 5
--(MOKMessage *)sendAlertToUser:(NSString *)sessionId withParams:(NSDictionary *)params;
+-(MOKMessage *)sendAlertToUser:(NSString *)sessionId withParams:(NSDictionary *)params andPush:(NSString *)push;
 
 //201
 -(void)sendGetCommandWithArgs:(NSDictionary *)args;
@@ -55,12 +55,12 @@
 -(void)sendCommand:(MOKProtocolCommand)protocolCommand WithArgs:(NSDictionary *)args;
 
 //207
--(void)sendDeleteCommandForMessage:(MOKMessageId)messageId ToUser:(NSString *)sessionId;
+-(void)sendDeleteCommandForMessage:(NSString *)messageId ToUser:(NSString *)sessionId;
 
 //208
 -(void)sendCloseCommandToUser:(NSString *)sessionId;
 
--(void)sendOneMessageAgain:(MOKMessageId)messageId;
+-(void)sendOneMessageAgain:(NSString *)messageId;
 
 -(void)sendAttachComplete:(NSDictionary *)param msgId:(MOKMessage *)msg toids:(NSString *)ids;
 -(void)forceNotificationRecived:(MOKMessage *)message;

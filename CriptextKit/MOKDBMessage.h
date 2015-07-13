@@ -10,8 +10,8 @@
 
 @interface MOKDBMessage : RLMObject
 
-@property NSInteger messageId;
-@property NSInteger oldmessageId;
+@property NSString *messageId;
+@property NSString *oldmessageId;
 @property NSString *userIdFrom;
 @property NSString *userIdTo;
 @property NSInteger protocolCommand;

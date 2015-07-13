@@ -58,8 +58,8 @@ typedef enum{
 @property (nonatomic, strong) NSString * userIdFrom;
 @property (nonatomic, strong) NSMutableDictionary * params;
 @property (nonatomic, strong) NSMutableDictionary *mkProperties;
-@property (nonatomic, assign) MOKMessageId oldMessageId;
-@property (nonatomic, assign) MOKMessageId messageId;
+@property (nonatomic, strong) NSString *oldMessageId;
+@property (nonatomic, strong) NSString *messageId;
 @property (nonatomic, assign) BOOL readByUser;
 @property (nonatomic, assign) MOKProtocolCommand protocolCommand;
 @property (nonatomic, assign) int protocolType;
@@ -80,8 +80,8 @@ typedef enum{
       protocolCommand:(MOKProtocolCommand)cmd
          protocolType:(int)protocolType
      monkeyActionType:(int)monkeyActionType
-            messageId:(MOKMessageId)messageId
-         oldMessageId:(MOKMessageId)oldMessageId
+            messageId:(NSString *)messageId
+         oldMessageId:(NSString *)oldMessageId
             messageIV:(NSString *)iv
      timestampCreated:(NSTimeInterval)timestampCreated
        timestampOrder:(NSTimeInterval)timestampOrder

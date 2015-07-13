@@ -52,8 +52,6 @@
 		41976B051AC9BC1200D53B22 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 41976AF41AC9BC1200D53B22 /* UIRefreshControl+AFNetworking.m */; };
 		41976B061AC9BC1200D53B22 /* UIWebView+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 41976AF51AC9BC1200D53B22 /* UIWebView+AFNetworking.h */; };
 		41976B071AC9BC1200D53B22 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 41976AF61AC9BC1200D53B22 /* UIWebView+AFNetworking.m */; };
-		419AA50E1A828FE70015D195 /* MOKComMessageProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA5081A828FE70015D195 /* MOKComMessageProtocol.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		419AA50F1A828FE70015D195 /* MOKComMessageProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5091A828FE70015D195 /* MOKComMessageProtocol.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419AA5101A828FE70015D195 /* MOKComServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA50A1A828FE70015D195 /* MOKComServerConnection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419AA5111A828FE70015D195 /* MOKComServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 419AA50B1A828FE70015D195 /* MOKComServerConnection.m */; };
 		419AA51F1A828FF10015D195 /* MOKSGSChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 419AA5121A828FF10015D195 /* MOKSGSChannel.h */; };
@@ -172,8 +170,6 @@
 		41976AF41AC9BC1200D53B22 /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		41976AF51AC9BC1200D53B22 /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		41976AF61AC9BC1200D53B22 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
-		419AA5081A828FE70015D195 /* MOKComMessageProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKComMessageProtocol.m; sourceTree = "<group>"; };
-		419AA5091A828FE70015D195 /* MOKComMessageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKComMessageProtocol.h; sourceTree = "<group>"; };
 		419AA50A1A828FE70015D195 /* MOKComServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKComServerConnection.h; sourceTree = "<group>"; };
 		419AA50B1A828FE70015D195 /* MOKComServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKComServerConnection.m; sourceTree = "<group>"; };
 		419AA5121A828FF10015D195 /* MOKSGSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSChannel.h; sourceTree = "<group>"; };
@@ -356,8 +352,6 @@
 		419AA52D1A8290200015D195 /* Socket */ = {
 			isa = PBXGroup;
 			children = (
-				419AA5091A828FE70015D195 /* MOKComMessageProtocol.h */,
-				419AA5081A828FE70015D195 /* MOKComMessageProtocol.m */,
 				419AA50A1A828FE70015D195 /* MOKComServerConnection.h */,
 				419AA50B1A828FE70015D195 /* MOKComServerConnection.m */,
 				419AA52C1A828FF90015D195 /* SGSRocketServerAPI */,
@@ -589,7 +583,6 @@
 				419CAB201A804AFB00F68EB0 /* MOKSBJSON.h in Headers */,
 				419CAB1B1A804AFB00F68EB0 /* MOKJSON.h in Headers */,
 				41976AD31AC9BBE000D53B22 /* AFHTTPRequestOperationManager.h in Headers */,
-				419AA50F1A828FE70015D195 /* MOKComMessageProtocol.h in Headers */,
 				41976AF91AC9BC1200D53B22 /* UIActivityIndicatorView+AFNetworking.h in Headers */,
 				41976B061AC9BC1200D53B22 /* UIWebView+AFNetworking.h in Headers */,
 				419AA5621A843F9B0015D195 /* NSData+Conversion.h in Headers */,
@@ -721,7 +714,6 @@
 				41C775141B26493400EAAD2E /* MOKUserDictionary.m in Sources */,
 				419CAB231A804AFB00F68EB0 /* MOKSBJsonBase.m in Sources */,
 				41976AFC1AC9BC1200D53B22 /* UIAlertView+AFNetworking.m in Sources */,
-				419AA50E1A828FE70015D195 /* MOKComMessageProtocol.m in Sources */,
 				41976AF81AC9BC1200D53B22 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				41976AFE1AC9BC1200D53B22 /* UIButton+AFNetworking.m in Sources */,
 				41976AD41AC9BBE000D53B22 /* AFHTTPRequestOperationManager.m in Sources */,

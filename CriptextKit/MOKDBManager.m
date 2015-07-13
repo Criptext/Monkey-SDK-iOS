@@ -61,7 +61,7 @@
 }
 
 - (void)setDatabaseSchema{
-    [RLMRealm setSchemaVersion:6 forRealmAtPath:[self getCustomRealm] withMigrationBlock:^(RLMMigration *migration, NSUInteger oldSchemaVersion) {
+    [RLMRealm setSchemaVersion:7 forRealmAtPath:[self getCustomRealm] withMigrationBlock:^(RLMMigration *migration, NSUInteger oldSchemaVersion) {
         if (oldSchemaVersion < 1) {
             [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
                 newObject[@"timestampCreated"] = oldObject[@"timestamp"];
@@ -130,8 +130,8 @@
     
     [realm beginWriteTransaction];
     NSDictionary *object = @{
-                             @"messageId": @(msg.messageId),
-                             @"oldmessageId": @(msg.oldMessageId),
+                             @"messageId": msg.messageId,
+                             @"oldmessageId": msg.oldMessageId,
                              @"userIdFrom": msg.userIdFrom,
                              @"userIdTo": msg.userIdTo,
                              @"protocolCommand": @(msg.protocolCommand),
@@ -149,13 +149,13 @@
     [MOKDBMessage createOrUpdateInRealm:realm withObject:object];
     [realm commitWriteTransaction];
 }
-- (BOOL)existMessage:(MOKMessageId)messageId{
+- (BOOL)existMessage:(NSString *)messageId{
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
-    return [MOKDBMessage objectInRealm:realm forPrimaryKey:[NSNumber numberWithLongLong:messageId]] != nil;
+    return [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId] != nil;
 }
-- (MOKMessage *)getMessageById:(MOKMessageId )messageId{
+- (MOKMessage *)getMessageById:(NSString *)messageId{
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
-    MOKDBMessage *msg = [MOKDBMessage objectInRealm:realm forPrimaryKey:[NSNumber numberWithLongLong:messageId]];
+    MOKDBMessage *msg = [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId];
     
     if (msg !=nil) {
         MOKMessage *mensaje = [[MOKMessage alloc]init];
@@ -178,8 +178,9 @@
 }
 - (void)deleteMessageSent:(MOKMessage *)msg{
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
-    MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:[NSNumber numberWithLongLong:msg.oldMessageId]];
+    MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:msg.oldMessageId];
     if (!mensaje) {
+        NSLog(@"message not found");
         return;
     }
     [realm beginWriteTransaction];
@@ -192,7 +193,7 @@
 - (MOKMessage *)getOldestMessageNotSent{
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
     for (MOKDBMessage *msg in [MOKDBMessage allObjectsInRealm:realm]) {
-        if (msg.messageId<0) {
+        if ([msg.messageId intValue]<0) {
             MOKMessage *message = [[MOKMessage alloc]init];
             message.messageId = msg.messageId;
             message.userIdTo = msg.userIdTo;

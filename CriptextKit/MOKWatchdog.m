@@ -95,7 +95,8 @@
             return;
         }
         
-        MOKMessage *msg = [[MOKDBManager sharedInstance]getMessageById:[(MOKMessage *)[self.messagesInTransit objectAtIndex:0] messageId]];
+        MOKMessage *message = [self.messagesInTransit objectAtIndex:0];
+        MOKMessage *msg = [[MOKDBManager sharedInstance]getMessageById:message.messageId];
         
         if (msg == nil) {
             [self.messagesInTransit removeObjectAtIndex:0];
@@ -117,7 +118,7 @@
 
 -(void)mediaInTransit:(MOKMessage *)message{
     @synchronized(self.mediasInTransit){
-        [self.mediasInTransit setObject:message forKey:[NSString stringWithFormat:@"%lld", message.messageId]];
+        [self.mediasInTransit setObject:message forKey:message.messageId];
     }
     
 }

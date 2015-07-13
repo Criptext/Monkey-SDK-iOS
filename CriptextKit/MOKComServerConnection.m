@@ -10,7 +10,6 @@
 #import "MOKSGSChannel.h"
 #import "MOKUser.h"
 #import "MOKJSON.h"
-#import "MOKComMessageProtocol.h"
 #import "MOKSessionManager.h"
 #import "UICKeyChainStore.h"
 #import "MOKSGSContext.h"
@@ -341,7 +340,7 @@
     }
 }
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {
-    NSLog(@"MONKEY - mensaje en proceso: %@, %lld, %d", msg.messageText,msg.messageId, msg.protocolType);
+    NSLog(@"MONKEY - mensaje en proceso: %@, %@, %d", msg.messageText,msg.messageId, msg.protocolType);
     
 //    if (!([[MOKSecurityManager sharedInstance].keychainStore stringForKey:msg.userIdFrom].length>2)) {
 //        [[MOKAPIConnector sharedInstance]keyExchangeWith:msg.userIdFrom delegate:self];

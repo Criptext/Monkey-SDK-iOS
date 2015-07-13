@@ -16,8 +16,8 @@
 
 //ongoing msgs
 - (void)storeMessage:(MOKMessage *)msg;
-- (BOOL)existMessage:(MOKMessageId)messageId;
-- (MOKMessage *)getMessageById:(MOKMessageId )messageId;
+- (BOOL)existMessage:(NSString *)messageId;
+- (MOKMessage *)getMessageById:(NSString *)messageId;
 - (void)deleteMessageSent:(MOKMessage *)msg;
 - (MOKMessage *)getOldestMessageNotSent;
 

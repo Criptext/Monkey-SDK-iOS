@@ -15,7 +15,6 @@ typedef long long int BLLong;
 typedef int MOKUserId;
 typedef int MOKGroupId;
 typedef int MOKUpdateStamp;
-typedef BLLong MOKMessageId;
 typedef BLLong MOKInviteId;
 NSInteger sortAZF(id arg1, id arg2, void *arg3);
 NSInteger timestampSort(id arg1, id arg2, void *arg3);

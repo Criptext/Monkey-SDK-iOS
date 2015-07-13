@@ -46,7 +46,7 @@
             self.userIdTo = [MOKSessionManager sharedInstance].sessionId;
 		
 		
-        self.messageId = [self integerFromDictionary:dictionary key:@"id"];
+        self.messageId = [self stringFromDictionary:dictionary key:@"id"];
         
 		self.readByUser = NO;
 		
@@ -66,8 +66,8 @@
                  protocolCommand:MOKProtocolMessage
                     protocolType:MOKText
                 monkeyActionType:0
-                       messageId:([[NSDate date] timeIntervalSince1970]* -1)
-                    oldMessageId:0
+                       messageId:[NSString stringWithFormat:@"%lld",(long long)([[NSDate date] timeIntervalSince1970]* -1)]
+                    oldMessageId:@"0"
                        messageIV:nil
                        timestampCreated:[[NSDate date] timeIntervalSince1970]
                   timestampOrder:[[NSDate date] timeIntervalSince1970]
@@ -81,8 +81,8 @@
       protocolCommand:(MOKProtocolCommand)cmd
          protocolType:(int)protocolType
      monkeyActionType:(int)monkeyActionType
-            messageId:(MOKMessageId)messageId
-         oldMessageId:(MOKMessageId)oldMessageId
+            messageId:(NSString *)messageId
+         oldMessageId:(NSString *)oldMessageId
             messageIV:(NSString *)iv
      timestampCreated:(NSTimeInterval)timestampCreated
             timestampOrder:(NSTimeInterval)timestampOrder
@@ -121,7 +121,7 @@
         
         self.messageText = messageText;
         self.encryptedText = @"";
-        self.messageId = [[NSDate date] timeIntervalSince1970]* -1;
+        self.messageId = [NSString stringWithFormat:@"%lld",(long long)([[NSDate date] timeIntervalSince1970]* -1)];
         self.oldMessageId = self.messageId;
         self.timestampCreated = [[NSDate date] timeIntervalSince1970];
         self.timestampOrder = self.timestampCreated;
@@ -147,10 +147,11 @@
 }
 
 - (void)updateMessageIdFromACK{
-    self.messageId = [self integerFromDictionary:self.mkProperties key:@"message_id"];
-    if([self.mkProperties objectForKey:@"new_id"]!=nil || [((NSString *)[self.mkProperties objectForKey:@"new_id"]) isEqualToString:@"null"])
-        self.messageId = [self integerFromDictionary:self.mkProperties key:@"new_id"];
-    self.oldMessageId = [self integerFromDictionary:self.mkProperties key:@"old_id"];
+    self.messageId = [self.mkProperties objectForKey:@"message_id"];
+    if([self.mkProperties objectForKey:@"new_id"]!=nil){
+        self.messageId = [self.mkProperties objectForKey:@"new_id"];
+    }
+    self.oldMessageId = [self.mkProperties objectForKey:@"old_id"];
 }
 
 - (NSString*)messageTextToShow {
