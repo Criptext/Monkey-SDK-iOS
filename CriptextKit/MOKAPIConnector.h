@@ -20,8 +20,8 @@
  * @callback
  */
 
--(void)onDownloadFileOK:(MOKMessage *)message;
--(void)onDownloadFileFail:(MOKMessage *)message;
+-(void)onDownloadFileOK;
+-(void)onDownloadFileFail:(NSString *)error;
 
 -(void)onUploadFileOK:(MOKMessage *)message;
 -(void)onUploadFileFail:(MOKMessage *)message;
@@ -52,7 +52,7 @@
 
 @interface MOKAPIConnector : AFHTTPSessionManager
 @property (nonatomic, strong) MOKSBJsonWriter *jsonWriter;
-
+@property (nonatomic, strong) NSString *baseurl;
 +(MOKAPIConnector *)sharedInstance;
 /**
  * Authenticate with Criptext Servers
@@ -71,17 +71,28 @@
 -(void)keyExchangeWith:(NSString *)sessionId delegate:(id<MOKAPIConnectorDelegate>)delegate;
 //-(void)openConversation:(NSString *)conversationId delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
--(void)openServiceTicket:(NSString *)conversationId to:(NSString *)companyid delegate:(id<MOKAPIConnectorDelegate>)delegate;
+//-(void)openServiceTicket:(NSString *)conversationId to:(NSString *)companyid delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 -(void)sendFile:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
--(void)downloadFile:(MOKMessage *)message withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
+//-(void)downloadFile:(MOKMessage *)message withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
+-(void)downloadFile:(NSString *)name
+           fromUser:(NSString *)userIdFrom
+  folderDestination:(NSString *)folderName
+          encrypted:(BOOL)encrypted
+         compressed:(BOOL)compressed
+       withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 -(void)createGroupWithMembers:(NSArray *)members
-     andParams:(NSDictionary *)params
-          delegate:(id<MOKAPIConnectorDelegate>)delegate;
+                   withParams:(NSDictionary *)params
+                      andPush:(NSString *)push
+                     delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
-- (void)addMember:(NSString *)sessionId toGroup:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate;
+- (void)addMember:(NSString *)sessionId
+          toGroup:(NSString *)groupId
+withPushToNewMember:(NSString *)pushNewMember
+andPushToAllMembers:(NSString *)pushAllMembers
+         delegate:(id <MOKAPIConnectorDelegate>)delegate;
 
 - (void)removeMember:(NSString *)sessionId fromGroup:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate;
 

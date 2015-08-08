@@ -13,14 +13,6 @@
 @class MOKUser;
 
 typedef enum{
-    MOKText = 1,
-    MOKFile = 2,
-    MOKTempNote = 3,
-    MOKNotif = 4,
-    MOKAlert = 5,
-} MOKMessageType;
-
-typedef enum{
     MOKProtocolMessage = 200,
     MOKProtocolGet = 201,
     MOKProtocolTransaction = 202,
@@ -32,11 +24,24 @@ typedef enum{
 } MOKProtocolCommand;
 
 typedef enum{
+    MOKText = 1,
+    MOKFile = 2,
+    MOKTempNote = 3,
+    MOKNotif = 4,
+    MOKAlert = 5,
+} MOKMessageType;
+
+typedef enum{
     MOKAudio = 1,
     MOKPhoto = 2,
     MOKVideo = 3,
     MOKArchive = 4
 } MOKFileType;
+
+typedef enum{
+    MOKMessagesHistory = 1,
+    MOKGroupsString = 2
+} MOKGetType;
 
 typedef enum{
     MOKGroupCreate = 1,
@@ -48,56 +53,151 @@ typedef enum{
 
 @interface MOKMessage : MOKDictionaryBasedObject
 
-@property (nonatomic, strong) NSString *messageText;
-@property (nonatomic, strong) NSString *encryptedText;
-@property (unsafe_unretained, nonatomic, readonly) NSString *messageTextToShow;
-@property (nonatomic, strong) NSString * iv;
+
+/*!
+ @property messageId
+ @abstract The string identifier that uniquely identifies the current message
+ @discussion If the message is still sending, then the message will have a negative id,
+ otherwise the message will have a positive id.
+ */
+@property (nonatomic, copy) NSString *messageId;
+
+/*!
+ @property oldMessageId
+ @discussion If the message is already sent, this field contains the old message Id, otherwise it's an empty string
+ */
+@property (nonatomic, copy) NSString *oldMessageId;
+
+/*!
+ @property messageText
+ @abstract Returns the decrypted text of the message
+ */
+@property (nonatomic, copy) NSString *messageText;
+
+/*!
+ @property encryptedText
+ @abstract Returns the encrypted text of the message
+ */
+@property (nonatomic, copy) NSString *encryptedText;
+
+/*!
+ @property timestampCreated
+ @abstract Timestamp that refers to when the message was created
+ @discussion For outgoing messages, 'timestampCreated' will be the same to 'timestampOrder'
+ */
 @property (nonatomic, assign) NSTimeInterval timestampCreated;
+
+/*!
+ @property timestampOrder
+ @abstract Timestamp that refers to when the message was sent/received
+ @discussion For outgoing messages, 'timestampCreated' will be the same to 'timestampOrder'
+ */
 @property (nonatomic, assign) NSTimeInterval timestampOrder;
-@property (nonatomic, strong) NSString * userIdTo;
-@property (nonatomic, strong) NSString * userIdFrom;
+
+/*!
+ @property userIdTo
+ @abstract Session id of the recipient
+ @discussion This could be a string of session ids separated by commas (Broadcast)
+ */
+@property (nonatomic, copy) NSString * userIdTo;
+
+/*!
+ @property userIdFrom
+ @abstract Session id of the sender
+ */
+@property (nonatomic, copy) NSString * userIdFrom;
+
+/*!
+ @property props
+ @abstract Monkey-reserved parameters
+ */
+@property (nonatomic, readonly) NSMutableDictionary *props;
+
+/*!
+ @property params
+ @abstract Dictionary for the use of developers
+ */
 @property (nonatomic, strong) NSMutableDictionary * params;
-@property (nonatomic, strong) NSMutableDictionary *mkProperties;
-@property (nonatomic, strong) NSString *oldMessageId;
-@property (nonatomic, strong) NSString *messageId;
+
+/*!
+ @property readByUser
+ @abstract Specifies whether the message has been read or not
+ */
 @property (nonatomic, assign) BOOL readByUser;
+
+/*!
+ @property protocolCommand
+ @abstract Protocol command of the message
+ */
 @property (nonatomic, assign) MOKProtocolCommand protocolCommand;
+
+/*!
+ @property protocolType
+ @abstract Protocol type of the message
+ */
 @property (nonatomic, assign) int protocolType;
-@property (nonatomic, assign) int monkeyActionType;
-@property (nonatomic, strong) NSString *pushMessage;
 
-@property (nonatomic, assign) BOOL isSending;
+/*!
+ @property monkeyType
+ @abstract Int reserved for some specific monkey actions
+ */
+@property (nonatomic, assign) int monkeyType;
+
+/*!
+ @property pushMessage
+ @abstract JSON string
+ */
+@property (nonatomic, copy) NSString *pushMessage;
+
+/*!
+ @property needsResend
+ @abstract Specifies whether the message needs to be re-sent
+ */
 @property (nonatomic, assign) BOOL needsResend;
-//@property (nonatomic, assign) BLGroupId groupId;
-@property (unsafe_unretained, nonatomic, readonly) NSString *dateTimeAsString;
-@property (unsafe_unretained, nonatomic, readonly) NSString *conversationTime;
-//@property (unsafe_unretained, nonatomic, readonly) NSArray *emoticons;
-
-@property (nonatomic, assign) int deliveredMessage;
 
 - (id)initWithArgs:(NSDictionary*)dictionary;
+- (id)initWithMyMessage:(NSString*)messageText userTo:(NSString *)sessionId;
+
+- (NSMutableDictionary *)props;
+- (void)setProps:(NSMutableDictionary *)newProps;
+
+- (void)setEncrypted:(BOOL)encrypted;
+- (BOOL)isEncrypted;
+
+- (void)setCompression:(BOOL)compressed;
+- (BOOL)isCompressed;
+
+- (void)setAsPrivateMessage:(BOOL)flag;
+- (BOOL)isPrivateMessage;
+
+- (void)updateMessageIdFromACK;
+
+/*
+ */
+- (BOOL)isMessageFromMe;
+/*
+ */
+- (BOOL)isGroupMessage;
+/*
+ */
+- (BOOL)isBroadCastMessage;
+
+- (BOOL)needsDownload;
+
+-(id) mutableCopyWithZone: (NSZone *) zone;
+
 - (id)initWithMessage:(NSString*)messageText
       protocolCommand:(MOKProtocolCommand)cmd
          protocolType:(int)protocolType
-     monkeyActionType:(int)monkeyActionType
+           monkeyType:(int)monkeyType
             messageId:(NSString *)messageId
          oldMessageId:(NSString *)oldMessageId
-            messageIV:(NSString *)iv
      timestampCreated:(NSTimeInterval)timestampCreated
        timestampOrder:(NSTimeInterval)timestampOrder
              fromUser:(NSString *)sessionIdFrom
                toUser:(NSString *)sessionIdTo
          mkProperties:(NSMutableDictionary *)mkprops
                params:(NSMutableDictionary *)params;
-- (id)initWithMyMessage:(NSString*)messageText userTo:(NSString *)sessionId;
-- (void)updateMessageIdFromACK;
-- (BOOL)isSending;
-- (BOOL)isMessageFromMe;
-- (BOOL)isGroupMessage;
-
--(id) mutableCopyWithZone: (NSZone *) zone;
-
-
 
 @end
 

@@ -270,6 +270,7 @@
         case MOKProtocolACK:{
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
             msg.protocolCommand = MOKProtocolACK;
+            msg.monkeyType = [[msg.props objectForKey:@"status"] intValue];
             [self processMOKProtocolACK:msg];
             
             break;
@@ -281,18 +282,18 @@
             NSDecimalNumber *type = [args objectForKey:@"type"];
             
             switch ([type intValue]) {
-                case 1:{
+                case MOKMessagesHistory:{
                     NSLog(@"MONKEY - llegó un get de mensajes");
                     NSArray *messages = [args objectForKey:@"messages"];
                     [self processGetMessages:messages];
                     break;
                 }
-                case 2:{
+                case MOKGroupsString:{
                     NSLog(@"MONKEY - llegó un get de grupos");
                     MOKMessage *msg = [[MOKMessage alloc] init];
                     msg.protocolCommand = MOKProtocolGet;
                     msg.protocolType = MOKNotif;
-                    msg.monkeyActionType = MOKGroupsJoined;
+                    msg.monkeyType = MOKGroupsJoined;
                     msg.messageText = [args objectForKey:@"messages"];
                     [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolCommand];
                     
@@ -342,12 +343,6 @@
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {
     NSLog(@"MONKEY - mensaje en proceso: %@, %@, %d", msg.messageText,msg.messageId, msg.protocolType);
     
-//    if (!([[MOKSecurityManager sharedInstance].keychainStore stringForKey:msg.userIdFrom].length>2)) {
-//        [[MOKAPIConnector sharedInstance]keyExchangeWith:msg.userIdFrom delegate:self];
-//        [self performSelector:@selector(processMOKProtocolMessage:) withObject:msg afterDelay:2];
-//        return;
-//    }
-    
     switch (msg.protocolType) {
         case MOKText:{
             //Check if we have the user key
@@ -361,7 +356,7 @@
             break;
         }
         case MOKNotif:
-            NSLog(@"MONKEY - monkey action: %d", msg.monkeyActionType);
+            NSLog(@"MONKEY - monkey action: %d", msg.monkeyType);
             [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolType];
             break;
         case MOKProtocolDelete:{
@@ -396,7 +391,7 @@
 - (void)processMOKProtocolACK:(MOKMessage *)message {
     
     switch (message.protocolType) {
-        case MOKProtocolMessage: case 50: case 51: case 52:
+        case MOKProtocolMessage: case MOKText:
             [message updateMessageIdFromACK];
             
             break;
@@ -441,20 +436,11 @@
     if(self.connectionDelegate!=nil)
 		[self.connectionDelegate loggedIn];
     
-    //sending update message for offline messages
-    if([MOKSessionManager sharedInstance].lastMessageId==nil){
-        [[MOKSessionManager sharedInstance] setLastMessageId:@"0"];
-    }
-    
     //if(!firstTime)
     //{[SessionManager instance].lastMessageId
     
 //    [self sendMessage:[[MOKComMessageProtocol createSyncUpdatenMsg:[[MOKSessionManager sharedInstance].lastMessageId longLongValue] type:27 ] json]];
     
-    if([[MOKSessionManager sharedInstance].lastMessageId isEqualToString:@"0"]){
-//            [[MenuViewController instance] showNoNetwork:NO];
-//            [[MenuViewController instance] showConnectings:NO];
-        }
     //}
     
     //testing channels join

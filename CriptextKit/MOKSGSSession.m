@@ -41,10 +41,10 @@
 }
 
 - (void)receiveMessage:(MOKSGSMessage *)message {
-	// Get the opcode from the message
-    NSLog(@"MONKEY - nivel opcode = %@", message);
+    // Get the opcode from the message
+    
 	MOKSGSOpcode opcode = [message readOpcode];
-
+    NSLog(@"MONKEY - nivel opcode = %d", opcode);
 	switch (opcode) {
 		case MOKSGSOpcodeLoginSuccess:
 		{

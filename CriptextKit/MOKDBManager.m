@@ -61,7 +61,7 @@
 }
 
 - (void)setDatabaseSchema{
-    [RLMRealm setSchemaVersion:7 forRealmAtPath:[self getCustomRealm] withMigrationBlock:^(RLMMigration *migration, NSUInteger oldSchemaVersion) {
+    [RLMRealm setSchemaVersion:8 forRealmAtPath:[self getCustomRealm] withMigrationBlock:^(RLMMigration *migration, NSUInteger oldSchemaVersion) {
         if (oldSchemaVersion < 1) {
             [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
                 newObject[@"timestampCreated"] = oldObject[@"timestamp"];
@@ -76,12 +76,6 @@
                 }else{
                     newObject[@"protocolType"] = [NSNumber numberWithInt:1];
                 }
-            }];
-        }
-        
-        if (oldSchemaVersion < 13) {
-            [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
-                newObject[@"mkprops"] = oldObject[@"param"];
             }];
         }
     }];
@@ -126,7 +120,6 @@
 - (void)storeMessage:(MOKMessage *)msg{
     
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
-    NSLog(@"MONKEY - MONKEY - params saved: %@", msg.mkProperties);
     
     [realm beginWriteTransaction];
     NSDictionary *object = @{
@@ -139,9 +132,8 @@
                              @"timestampCreated": @(msg.timestampCreated),
                              @"timestampOrder": @(msg.timestampOrder),
                              @"messageText": msg.messageText,
-                             @"iv": msg.iv ? msg.iv : @"0",
                              @"readByUser": @(msg.readByUser),
-                             @"mkprops": [self.jsonWriter stringWithObject:msg.mkProperties],
+                             @"mkprops": [self.jsonWriter stringWithObject:msg.props],
                              @"param": [self.jsonWriter stringWithObject:msg.params]
                              };
     
@@ -170,7 +162,7 @@
         mensaje.readByUser = msg.readByUser;
         mensaje.oldMessageId = msg.oldmessageId;
         mensaje.params = [self.jsonParser objectWithString:msg.param];
-        mensaje.mkProperties = [self.jsonParser objectWithString:msg.mkprops];
+        mensaje.props = [self.jsonParser objectWithString:msg.mkprops];
         return mensaje;
     }else{
         return nil;
@@ -179,8 +171,7 @@
 - (void)deleteMessageSent:(MOKMessage *)msg{
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
     MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:msg.oldMessageId];
-    if (!mensaje) {
-        NSLog(@"message not found");
+    if (mensaje == nil) {
         return;
     }
     [realm beginWriteTransaction];
@@ -208,9 +199,9 @@
             if (message.params == nil) {
                 message.params = [@{} mutableCopy];
             }
-            message.mkProperties = [self.jsonParser objectWithString:msg.mkprops];
-            if (message.mkProperties == nil) {
-                message.mkProperties = [@{@"eph":@"0"} mutableCopy];
+            message.props = [self.jsonParser objectWithString:msg.mkprops];
+            if (message.props == nil) {
+                message.props = [@{@"eph":@"0"} mutableCopy];
             }
             message.oldMessageId = msg.oldmessageId;
             return message;
@@ -230,20 +221,6 @@
     }
     return session;
 }
-
-//- (MOKDBSession *)loadSessionFromDB{
-//    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
-//    MOKDBSession *session = [self checkSession:realm];
-//    
-//    return session;
-//}
-//- (void)storeSession{
-//    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
-//    MOKDBSession *session = [self checkSession:realm];
-//    
-//    
-//    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
-//}
 
 - (void)storeSessionId:(NSString *)sessionId{
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];

@@ -21,14 +21,8 @@
 - (void)deleteMessageSent:(MOKMessage *)msg;
 - (MOKMessage *)getOldestMessageNotSent;
 
-//session
-- (MOKDBSession *)loadSessionFromDB;
-- (void)storeSessionFromDB;
-
 - (void)storeSessionId:(NSString *)sessionId;
 - (NSString *)loadSessionId;
-- (void)storeLastMessageId:(NSString *)messageId;
-- (NSString *)loadLastMessageId;
 - (void)storeAppId:(NSString *)appId;
 - (NSString *)loadAppId;
 - (void)storeAppKey:(NSString *)appKey;

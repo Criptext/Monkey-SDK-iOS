@@ -11,17 +11,21 @@
 #import "MOKJSON.h"
 #import "MOKSessionManager.h"
 #include "MOKCriptext.h"
+@interface MOKMessage()
+
+@end
 
 @implementation MOKMessage
+@synthesize props = _props;
 
 - (id)initWithArgs:(NSDictionary*)dictionary{
 	
 	if (self = [super init]) {
 		self.messageText = @"";
         if ([dictionary objectForKey:@"props"]) {
-            self.mkProperties = [NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"props"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+            self.props = [NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"props"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
         }else{
-            self.mkProperties = [@{} mutableCopy];
+            self.props = [@{} mutableCopy];
         }
         
         if ([dictionary objectForKey:@"params"]) {
@@ -32,8 +36,7 @@
         
         self.encryptedText = [self stringFromDictionary:dictionary key:@"msg"];
         self.protocolType  = [self integerFromDictionary:dictionary key:@"type"];
-        self.monkeyActionType = [self integerFromDictionary:self.mkProperties key:@"monkey_action"];
-        self.iv = [self stringFromDictionary:dictionary key:@"iv"];
+        self.monkeyType = [self integerFromDictionary:self.props key:@"monkey_action"];
 		
 		self.timestampCreated = [self doubleFromDictionary:dictionary key:@"datetime"];
         self.timestampOrder = [[NSDate date] timeIntervalSince1970];
@@ -49,26 +52,22 @@
         self.messageId = [self stringFromDictionary:dictionary key:@"id"];
         
 		self.readByUser = NO;
-		
-		self.isSending = NO;
         
         self.needsResend = NO;
-				
-		self.deliveredMessage=-1;
 
 	}
 	
 	return self;
 	
 }
+
 - (id)init {
     return [self initWithMessage:nil
                  protocolCommand:MOKProtocolMessage
                     protocolType:MOKText
-                monkeyActionType:0
+                      monkeyType:0
                        messageId:[NSString stringWithFormat:@"%lld",(long long)([[NSDate date] timeIntervalSince1970]* -1)]
                     oldMessageId:@"0"
-                       messageIV:nil
                        timestampCreated:[[NSDate date] timeIntervalSince1970]
                   timestampOrder:[[NSDate date] timeIntervalSince1970]
                         fromUser:nil
@@ -80,10 +79,9 @@
 - (id)initWithMessage:(NSString*)messageText
       protocolCommand:(MOKProtocolCommand)cmd
          protocolType:(int)protocolType
-     monkeyActionType:(int)monkeyActionType
+           monkeyType:(int)monkeyType
             messageId:(NSString *)messageId
          oldMessageId:(NSString *)oldMessageId
-            messageIV:(NSString *)iv
      timestampCreated:(NSTimeInterval)timestampCreated
             timestampOrder:(NSTimeInterval)timestampOrder
              fromUser:(NSString *)sessionIdFrom
@@ -97,19 +95,16 @@
         self.timestampCreated = timestampCreated;
         self.timestampOrder = timestampOrder;
         self.userIdFrom = sessionIdFrom;
-        self.iv = iv;
         self.userIdTo = sessionIdTo;
         self.messageId = messageId;
         self.oldMessageId = oldMessageId;
         self.readByUser = NO;
         self.protocolCommand = cmd;
         self.protocolType = protocolType;
-        self.monkeyActionType = monkeyActionType;
-        self.isSending = NO;
+        self.monkeyType = monkeyType;
         self.needsResend = NO;
-        self.mkProperties = mkprops;
+        self.props = mkprops;
         self.params = params;
-        self.deliveredMessage=-1;
     }
     return self;
 }
@@ -117,8 +112,6 @@
 
 - (id)initWithMyMessage:(NSString*)messageText userTo:(NSString *)sessionId {
     if (self = [super init]) {
-        //NSLog(@"MONKEY - modo2");
-        
         self.messageText = messageText;
         self.encryptedText = @"";
         self.messageId = [NSString stringWithFormat:@"%lld",(long long)([[NSDate date] timeIntervalSince1970]* -1)];
@@ -130,28 +123,25 @@
         self.readByUser = NO;
         self.protocolCommand = MOKProtocolMessage;
         self.protocolType = MOKText;
-        self.monkeyActionType = 0;
-        self.isSending = NO;
+        self.monkeyType = 0;
         self.needsResend = NO;
-        self.mkProperties = [@{@"eph":@"0",
+        self.props = [@{@"eph":@"0",
                                @"str":@"0",
                                @"type":@"0",
                                @"device":@"ios",
                                @"encr":@"1"} mutableCopy];
         self.params = [@{} mutableCopy];
         self.pushMessage = @"";
-        
-        self.deliveredMessage=-1;
     }
     return self;
 }
 
 - (void)updateMessageIdFromACK{
-    self.messageId = [self.mkProperties objectForKey:@"message_id"];
-    if([self.mkProperties objectForKey:@"new_id"]!=nil){
-        self.messageId = [self.mkProperties objectForKey:@"new_id"];
+    self.messageId = [self.props objectForKey:@"message_id"];
+    if([self.props objectForKey:@"new_id"]!=nil){
+        self.messageId = [self.props objectForKey:@"new_id"];
     }
-    self.oldMessageId = [self.mkProperties objectForKey:@"old_id"];
+    self.oldMessageId = [self.props objectForKey:@"old_id"];
 }
 
 - (NSString*)messageTextToShow {
@@ -163,7 +153,10 @@
 }
 
 - (BOOL)isGroupMessage {
-    return [self.userIdTo rangeOfString:@"G:"].location!=NSNotFound;
+    return ([self.userIdTo rangeOfString:@"G:"].location!=NSNotFound || [self.userIdFrom rangeOfString:@"G:"].location!=NSNotFound);
+}
+- (BOOL)isBroadCastMessage {
+    return ([self.userIdTo rangeOfString:@","].location!=NSNotFound || [self.userIdFrom rangeOfString:@","].location!=NSNotFound);
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone
@@ -174,17 +167,48 @@
     messCopy.userIdFrom=self.userIdFrom;
     messCopy.messageId=self.messageId;
     messCopy.messageText=self.messageText;
-    
     messCopy.timestampCreated=self.timestampCreated;
     messCopy.timestampOrder = self.timestampOrder;
     messCopy.protocolType=self.protocolType;
     messCopy.readByUser=self.readByUser;
     messCopy.oldMessageId=self.oldMessageId;
     messCopy.params = self.params;
-    messCopy.mkProperties = self.mkProperties;
+    messCopy.props = self.props;
     
     return messCopy;
 }
 
+-(NSMutableDictionary *)props{
+    return _props;
+}
+-(void)setProps:(NSMutableDictionary *)newProps{
+    _props = newProps;
+}
+- (void)setEncrypted:(BOOL)shouldEncrypt{
+    [self.props setObject:shouldEncrypt?@"1":@"0" forKey:@"encr"];
+}
+- (BOOL)isEncrypted{
+    return [[self.props objectForKey:@"encr"] intValue] ==1;
+}
 
+- (void)setCompression:(BOOL)shouldCompress{
+    if (shouldCompress) {
+        [self.props setObject:@"gzip" forKey:@"cmpr"];
+    }
+}
+- (BOOL)isCompressed{
+    NSString *compressed = [self.props objectForKey:@"cmpr"];
+    
+    if ([compressed isEqualToString:@"gzip"]) {
+        return true;
+    }
+    
+    return false;
+}
+- (void)setAsPrivateMessage:(BOOL)flag{
+    [self.props setObject:flag?@"1":@"0" forKey:@"eph"];
+}
+- (BOOL)isPrivateMessage{
+    return [[self.props objectForKey:@"eph"] intValue] ==1;
+}
 @end

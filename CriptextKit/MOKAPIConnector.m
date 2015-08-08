@@ -18,23 +18,12 @@
 #import "MOKMessage.h"
 #import "AFNetworking.h"
 #import "NSData+Base64.h"
+#import "NSData+Compression.h"
 
 
 //String identifiers
-#define BASE_URL					@"http://secure.criptext.com"
-#define OLD_BASE_URL				@"https://api.criptext.com/"
-#define SEND_FILE_URL				@"http://secure.criptext.com/file/new"
-#define DOWNLOAD_FILE_URL			@"http://secure.criptext.com/file/open/%@"
-#define AUTHENTICATION_SESSION_URL  @"http://secure.criptext.com/user/session"
-#define AUTHENTICATION_CONNECT_URL  @"http://secure.criptext.com/user/connect"
-#define CREATE_GROUP_URL			@"http://secure.criptext.com/group/create"
-#define ADD_MEMBER_GROUP_URL		@"http://secure.criptext.com/group/addmember"
-#define REMOVE_MEMBER_GROUP_URL		@"http://secure.criptext.com/group/delete"
-#define GET_GROUP_INFO_URL			@"http://secure.criptext.com/group/info"
-
-
 #define AUTHENTICATION_PUBKEY       @"authentication_pubKey"
-#define OPEN_CONVERSATION			@"http://secure.criptext.com/user/open/secure"
+
 #define OPEN_TICKET					@"http://secure.criptext.com/user/call"
 
 @interface MOKAPIConnector () <MOKComServerConnectionDelegate>
@@ -96,7 +85,7 @@
 
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     NSLog(@"MONKEY - first handshake parameters: %@", parameters);
-    [self POST:AUTHENTICATION_SESSION_URL parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/session"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = responseObject;
         NSLog(@"MONKEY - response first handshake: %@", responseObject);
         [[MOKSecurityManager sharedInstance] storeObject:[responseDict objectForKey:@"publicKey"] withIdentifier:AUTHENTICATION_PUBKEY];
@@ -107,7 +96,6 @@
             [MOKSessionManager sharedInstance].sessionId = [responseDict objectForKey:@"sessionId"];
             stringToSend = [[MOKSecurityManager sharedInstance] generateAndEncryptAESKey];
         }else{
-//                if (!([[MOKSecurityManager sharedInstance].keychainStore stringForKey:msg.userIdFrom].length>2)) {
             NSLog(@"MONKEY - my session: %@", [MOKSessionManager sharedInstance].sessionId);
             NSLog(@"MONKEY - my keys: %@", [[MOKSecurityManager sharedInstance].keychainStore stringForKey:[MOKSessionManager sharedInstance].sessionId]);
             NSString *mygeneratedKeys = [[MOKSecurityManager sharedInstance].keychainStore stringForKey:[MOKSessionManager sharedInstance].sessionId];
@@ -127,7 +115,7 @@
         NSDictionary *secondparameters = @{@"data": [self.jsonWriter stringWithObject:requestConnectObject]};
         
         NSLog(@"MONKEY - second handshake parameters: %@", secondparameters);
-        [self POST:AUTHENTICATION_CONNECT_URL parameters:secondparameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/connect"] parameters:secondparameters success:^(NSURLSessionDataTask *task, id responseObject) {
             NSDictionary *responseDict2 = responseObject;
             NSLog(@"MONKEY - second handshake response: %@", responseDict2);
             [MOKSessionManager sharedInstance].sessionId = [responseDict2 objectForKey:@"sessionId"];
@@ -155,18 +143,16 @@
     NSDictionary *requestObject = @{@"session_id": [MOKSessionManager sharedInstance].sessionId,
                                     @"user_to": sessionId
                                     };
-//    id requestObject = [self openConversationRequestObject:[[MOKSessionManager sharedInstance] sessionId] withMyName:[MOKSessionManager sharedInstance].userName to:sessionId];
     
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
-//    [self sendGetRequestWithCustomDomainAndAuth:requestObject urlService:OPEN_CONVERSATION okSelector:okSelector failSelector:failSelector delegate:delegate];
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     
     NSLog(@"MONKEY - parameters key exchange: %@", parameters);
     
-    [self POST:OPEN_CONVERSATION parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/open/secure"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = responseObject;
-        if([[responseDict objectForKey:@"error"] intValue] != 0){
+        if([[responseDict objectForKey:@"error"] intValue] != 0 && delegate != nil){
             [delegate onOpenConversationWrong];
             return;
         }
@@ -180,10 +166,14 @@
         NSLog(@"MONKEY - stored aes: %@", [[MOKSecurityManager sharedInstance]getAESbase64forUser:[responseDict objectForKey:@"session_to"]]);
         NSLog(@"MONKEY - stored iv: %@", [[MOKSecurityManager sharedInstance]getIVbase64forUser:[responseDict objectForKey:@"session_to"]]);
         
-        [delegate onOpenConversationOK:[responseDict objectForKey:@"convKey"]];
+        if (delegate != nil) {
+            [delegate onOpenConversationOK:[responseDict objectForKey:@"convKey"]];
+        }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"MONKEY - Error: %@", error);
-        [delegate onOpenConversationWrong];
+        if (delegate != nil) {
+            [delegate onOpenConversationWrong];
+        }
     }];
     
 }
@@ -209,14 +199,16 @@
 #pragma mark - Send File
 -(void)sendFile:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate{
     
-    NSDictionary *requestObject =@{@"sid":message.userIdFrom,
+    NSDictionary *requestObject =@{@"id":message.userIdTo,
+                                   @"sid":message.userIdFrom,
                                    @"rid":message.userIdTo,
-                                   @"props":message.mkProperties};
+                                   @"props":message.props,
+                                   @"push":message.pushMessage};
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     NSLog(@"MONKEY - parameters del send file: %@", parameters);
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
-    [self POST:SEND_FILE_URL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/file/new"] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:message.encryptedText] name:@"file" error:nil];
     } success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"MONKEY - %@ %@", task, responseObject);
@@ -237,9 +229,8 @@
 }
 
 #pragma mark - Download File
--(void)downloadFile:(MOKMessage *)message withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
-    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:DOWNLOAD_FILE_URL,[message.messageText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:URL];  atFilePath:(NSString *)filePath
+-(void)downloadFile:(NSString *)name fromUser:(NSString *)userIdFrom folderDestination:(NSString *)folderName encrypted:(BOOL)encrypted compressed:(BOOL)compressed withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:[self.baseurl stringByAppendingPathComponent:@"/file/open/%@"],[name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSLog(@"MONKEY - url %@", URL);
     NSMutableString *loginString = (NSMutableString*)[@"" stringByAppendingFormat:@"%@:%@", [MOKSessionManager sharedInstance].appId, [MOKSessionManager sharedInstance].appKey];
     
@@ -255,47 +246,194 @@
     [requestM addValue:authHeader forHTTPHeaderField:@"Authorization"];
     
     NSURLSessionDownloadTask *downloadTask = [self downloadTaskWithRequest:requestM progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-        NSLog(@"MONKEY - destination block");
         NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
-        
-        NSURL *folderPath;
-        NSURL *documentsAndFilename;
-        if ([message isGroupMessage]) {
-            folderPath = [documentsDirectoryURL URLByAppendingPathComponent:message.userIdTo];
-            documentsAndFilename = [documentsDirectoryURL URLByAppendingPathComponent:[message.userIdTo stringByAppendingPathComponent:[response suggestedFilename]]];
-        }else{
-            folderPath = [documentsDirectoryURL URLByAppendingPathComponent:message.userIdFrom];
-            documentsAndFilename = [documentsDirectoryURL URLByAppendingPathComponent:[message.userIdFrom stringByAppendingPathComponent:[response suggestedFilename]]];
-        }
-        
+        NSURL *folderPath = [documentsDirectoryURL URLByAppendingPathComponent:folderName];
         
         [[NSFileManager defaultManager] createDirectoryAtURL:folderPath withIntermediateDirectories:YES attributes:nil error:nil];
         
+        NSURL *documentsAndFilename = [documentsDirectoryURL URLByAppendingPathComponent:[folderName stringByAppendingPathComponent:[response suggestedFilename]]];
         
         return documentsAndFilename;
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
         
-        NSLog(@"MONKEY - Response: %@", response);
-        NSLog(@"MONKEY - Error: %@", error);
-        NSLog(@"MONKEY - File downloaded to: %@", filePath);
         if (error) {
-            [delegate onDownloadFileFail:message];
+            NSLog(@"MONKEY - Error: %@", error);
+            [delegate onDownloadFileFail:@"error"];
+//            [delegate onDownloadFileFail:fileURL];
         }else{
-            message.messageText = [filePath path];
-            [delegate onDownloadFileOK:message];
+            NSLog(@"MONKEY - File downloaded to: %@", filePath);
+            //            message.messageText = [filePath path];
+            [self decryptDownloadedFile:[filePath path] fromUser:userIdFrom encrypted:encrypted compressed:compressed withDelegate:delegate];
         }
         
     }];
-
+    
     [downloadTask resume];
+}
+//-(void)downloadEncrypted:(BOOL)encrypted
+//       andCompressedFile:(BOOL)compressed
+//                fromUser:(NSString *)userIdFrom
+//             fromURLPath:(NSString *)fileURL
+//            saveToFolder:(NSString *)destinationPath withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+//    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:DOWNLOAD_FILE_URL,[fileURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+//    NSLog(@"MONKEY - url %@", URL);
+//    NSMutableString *loginString = (NSMutableString*)[@"" stringByAppendingFormat:@"%@:%@", [MOKSessionManager sharedInstance].appId, [MOKSessionManager sharedInstance].appKey];
+//    
+//    // employ the Base64 encoding above to encode the authentication tokens
+//    NSString *encodedLoginData = [[loginString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
+//    
+//    // create the contents of the header
+//    NSString *authHeader = [@"Basic " stringByAppendingFormat:@"%@", encodedLoginData];
+//    
+//    NSMutableURLRequest *requestM = [NSMutableURLRequest requestWithURL:URL];
+//    
+//    
+//    [requestM addValue:authHeader forHTTPHeaderField:@"Authorization"];
+//    
+//    NSURLSessionDownloadTask *downloadTask = [self downloadTaskWithRequest:requestM progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+//        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+//        NSURL *folderPath = [documentsDirectoryURL URLByAppendingPathComponent:destinationPath];
+//
+//        [[NSFileManager defaultManager] createDirectoryAtURL:folderPath withIntermediateDirectories:YES attributes:nil error:nil];
+//        
+//        NSURL *documentsAndFilename = [folderPath URLByAppendingPathComponent:[response suggestedFilename]];
+//        
+//        return documentsAndFilename;
+//    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+//        
+//        if (error) {
+//            NSLog(@"MONKEY - Error: %@", error);
+//            [delegate onDownloadFileFail:fileURL];
+//        }else{
+//            NSLog(@"MONKEY - File downloaded to: %@", filePath);
+////            message.messageText = [filePath path];
+//            [self decryptDownloadedFile:[filePath path] fromUser:userIdFrom encrypted:encrypted compressed:compressed withDelegate:delegate];
+//        }
+//        
+//    }];
+//    
+//    [downloadTask resume];
+//}
+//-(void)downloadFile:(MOKMessage *)message withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+//    NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:DOWNLOAD_FILE_URL,[message.messageText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
+//    NSLog(@"MONKEY - url %@", URL);
+//    NSMutableString *loginString = (NSMutableString*)[@"" stringByAppendingFormat:@"%@:%@", [MOKSessionManager sharedInstance].appId, [MOKSessionManager sharedInstance].appKey];
+//    
+//    // employ the Base64 encoding above to encode the authentication tokens
+//    NSString *encodedLoginData = [[loginString dataUsingEncoding:NSUTF8StringEncoding] base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithCarriageReturn];
+//    
+//    // create the contents of the header
+//    NSString *authHeader = [@"Basic " stringByAppendingFormat:@"%@", encodedLoginData];
+//    
+//    NSMutableURLRequest *requestM = [NSMutableURLRequest requestWithURL:URL];
+//    
+//    
+//    [requestM addValue:authHeader forHTTPHeaderField:@"Authorization"];
+//    
+//    NSURLSessionDownloadTask *downloadTask = [self downloadTaskWithRequest:requestM progress:nil destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+//        NSURL *documentsDirectoryURL = [[NSFileManager defaultManager] URLForDirectory:NSDocumentDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+//        
+//        NSURL *folderPath;
+//        NSURL *documentsAndFilename;
+//        if ([message isGroupMessage]) {
+//            folderPath = [documentsDirectoryURL URLByAppendingPathComponent:message.userIdTo];
+//            documentsAndFilename = [documentsDirectoryURL URLByAppendingPathComponent:[message.userIdTo stringByAppendingPathComponent:[response suggestedFilename]]];
+//        }else{
+//            folderPath = [documentsDirectoryURL URLByAppendingPathComponent:message.userIdFrom];
+//            documentsAndFilename = [documentsDirectoryURL URLByAppendingPathComponent:[message.userIdFrom stringByAppendingPathComponent:[response suggestedFilename]]];
+//        }
+//        
+//        [[NSFileManager defaultManager] createDirectoryAtURL:folderPath withIntermediateDirectories:YES attributes:nil error:nil];
+//        
+//        
+//        return documentsAndFilename;
+//    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+//        
+//        if (error) {
+//            NSLog(@"MONKEY - Error: %@", error);
+//            [delegate onDownloadFileFail:message];
+//        }else{
+//            NSLog(@"MONKEY - File downloaded to: %@", filePath);
+//            message.messageText = [filePath path];
+//            
+//            [self decryptDownloadedFile:message withDelegate:delegate];
+//        }
+//        
+//    }];
+//
+//    [downloadTask resume];
+//}
+
+-(void)decryptDownloadedFile:(NSString *)filePath fromUser:(NSString *)userIdFrom encrypted:(BOOL)encrypted compressed:(BOOL)compressed withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+    @autoreleasepool {
+        //check if should decrypt
+        if(encrypted){
+            NSData *decryptedData;
+            //check if we
+            NSLog(@"MONKEY - decriptando archivo de movil");
+            NSLog(@"MONKEY - filePath: %@", filePath);
+            NSLog(@"MONKEY - fromUser: %@", userIdFrom);
+            
+            @try {
+                long encryptedDataLength = (unsigned long)[[NSData dataWithContentsOfFile:filePath] length];
+                NSLog(@"MONKEY - encryptedData: %lu",encryptedDataLength);
+                decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData dataWithContentsOfFile:filePath] fromUser:userIdFrom];
+                
+                long decryptedDataLength = (unsigned long)[decryptedData length];
+                NSLog(@"MONKEY - decryptedData: %lu",decryptedDataLength);
+                
+                if (encryptedDataLength == decryptedDataLength) {
+                    [delegate onDownloadFileOK];
+                    return;
+                }
+            }
+            @catch (NSException *exception) {
+                [self requestNewKeysForUser:userIdFrom filePath:filePath encrypted:encrypted compressed:compressed withDelegate:delegate];
+                return;
+            }
+            
+            if (decryptedData == nil) {
+                [self requestNewKeysForUser:userIdFrom filePath:filePath encrypted:encrypted compressed:compressed withDelegate:delegate];
+                return;
+            }
+            //check for file compression
+            if (compressed) {
+                decryptedData = [decryptedData mok_gzipInflate];
+                NSLog(@"MONKEY - compressedData: %lu",(unsigned long)[decryptedData length]);
+            }
+            if (decryptedData != nil) {
+                [decryptedData writeToFile:filePath atomically:YES];
+            }
+            
+        }
+    }
+    
+//    message.messageText = [message.messageText lastPathComponent];
+    [delegate onDownloadFileOK];
+
+}
+- (void)requestNewKeysForUser:(NSString *)userIdFrom filePath:(NSString *)filePath encrypted:(BOOL)encrypted compressed:(BOOL)compressed withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+    NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
+    [self keyExchangeWith:userIdFrom delegate:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self decryptDownloadedFile:filePath fromUser:userIdFrom encrypted:encrypted compressed:compressed withDelegate:delegate];
+    });
+}
+-(void)onOpenConversationOK:(NSString *)key{
+    
+}
+-(void)onOpenConversationWrong{
+    
 }
 #pragma mark - Groups
 -(void)createGroupWithMembers:(NSArray *)members
-     andParams:(NSDictionary *)params
+                   withParams:(NSDictionary *)params
+                      andPush:(NSString *)push
           delegate:(id<MOKAPIConnectorDelegate>)delegate{
     NSDictionary *requestObject = @{@"session_id" : [MOKSessionManager sharedInstance].sessionId,
                                     @"members": [members componentsJoinedByString:@","],
-                                    @"info":params? params : @{}
+                                    @"info":params? params : @{},
+                                    @"push_all_members":push
                                     };
 
     
@@ -304,7 +442,7 @@
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
     
     NSLog(@"MONKEY - parameters de crear grupo: %@", parameters);
-    [self POST:CREATE_GROUP_URL parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/create"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = [responseObject objectForKey:@"resp"];
         NSLog(@"MONKEY - response: %@", responseObject);
         NSLog(@"MONKEY - error: %ld", (long)[[responseObject objectForKey:@"error"] integerValue]);
@@ -321,18 +459,20 @@
     }];
 }
 
-- (void)addMember:(NSString *)sessionId toGroup:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate{
+- (void)addMember:(NSString *)sessionId toGroup:(NSString *)groupId withPushToNewMember:(NSString *)pushNewMember andPushToAllMembers:(NSString *)pushAllMembers delegate:(id <MOKAPIConnectorDelegate>)delegate{
     
     NSDictionary *requestObject = @{@"session_id" : [MOKSessionManager sharedInstance].sessionId,
                                     @"new_member": sessionId,
-                                    @"group_id":groupId
+                                    @"group_id":groupId,
+                                    @"push_new_member":pushNewMember,
+                                    @"push_all_members":pushAllMembers
                                     };
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
     
-    [self POST:ADD_MEMBER_GROUP_URL parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/addmember"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = responseObject;
         
         if ([[responseDict objectForKey:@"error"] intValue] != 0) {//wrong login
@@ -355,7 +495,7 @@
     
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
     
-    [self POST:REMOVE_MEMBER_GROUP_URL parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/delete"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = responseObject;
         
         if ([[responseDict objectForKey:@"error"] intValue] != 0) {//wrong login
@@ -377,7 +517,7 @@
     NSLog(@"MONKEY - getGroupinfo parameters: %@", parameters);
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
     
-    [self POST:GET_GROUP_INFO_URL parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/info"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"MONKEY - get group response: %@", responseObject);
         NSDictionary *responseDict = responseObject;
         
@@ -414,6 +554,7 @@
     self = [super initWithBaseURL:url];
     
     if (self) {
+        self.baseurl = @"http://secure.criptext.com";
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [self.responseSerializer.acceptableContentTypes setByAddingObject:@"application/octet-stream"];
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
