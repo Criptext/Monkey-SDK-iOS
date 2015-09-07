@@ -86,8 +86,15 @@
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     NSLog(@"MONKEY - first handshake parameters: %@", parameters);
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/session"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *responseDict = responseObject;
+        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
         NSLog(@"MONKEY - response first handshake: %@", responseObject);
+        
+        if ([[responseObject objectForKey:@"status"] intValue] != 0) {
+            NSLog(@"MONKEY - fail first handshake");
+            [delegate onAuthenticationWrong];
+            return;
+        }
+        
         [[MOKSecurityManager sharedInstance] storeObject:[responseDict objectForKey:@"publicKey"] withIdentifier:AUTHENTICATION_PUBKEY];
         
         NSString *stringToSend;
@@ -107,6 +114,7 @@
             }
         }
         
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
         NSDictionary * requestConnectObject = @{@"session_id": [MOKSessionManager sharedInstance].sessionId,
                                                 @"usk": stringToSend,
                                                 @"session_name": [[MOKSessionManager sharedInstance].user getDictionary]
@@ -116,8 +124,25 @@
         
         NSLog(@"MONKEY - second handshake parameters: %@", secondparameters);
         [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/connect"] parameters:secondparameters success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSDictionary *responseDict2 = responseObject;
+            NSDictionary *responseDict2 = [responseObject objectForKey:@"data"];
             NSLog(@"MONKEY - second handshake response: %@", responseDict2);
+            
+            if ([[responseObject objectForKey:@"status"] intValue] != 0) {
+                NSLog(@"MONKEY - fail second handshake");
+                [delegate onAuthenticationWrong];
+                return;
+            }
+            
+            NSString *storedLastMessageId = [responseDict2 objectForKey:@"last_message_id"];
+            
+            if (storedLastMessageId == [NSNull null]) {
+                storedLastMessageId = @"0";
+            }
+            
+            if ([storedLastMessageId intValue] > [[MOKSessionManager sharedInstance].lastMessageId intValue]) {
+                [MOKSessionManager sharedInstance].lastMessageId = storedLastMessageId;
+            }
+            
             [MOKSessionManager sharedInstance].sessionId = [responseDict2 objectForKey:@"sessionId"];
             [MOKSessionManager sharedInstance].domain = [responseDict2 objectForKey:@"sdomain"];
             [MOKSessionManager sharedInstance].port = [responseDict2 objectForKey:@"sport"];
@@ -151,8 +176,8 @@
     NSLog(@"MONKEY - parameters key exchange: %@", parameters);
     
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/open/secure"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *responseDict = responseObject;
-        if([[responseDict objectForKey:@"error"] intValue] != 0 && delegate != nil){
+        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        if([[responseObject objectForKey:@"status"] intValue] != 0 && delegate != nil){
             [delegate onOpenConversationWrong];
             return;
         }
@@ -199,7 +224,7 @@
 #pragma mark - Send File
 -(void)sendFile:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate{
     
-    NSDictionary *requestObject =@{@"id":message.userIdTo,
+    NSDictionary *requestObject =@{@"id":message.messageId,
                                    @"sid":message.userIdFrom,
                                    @"rid":message.userIdTo,
                                    @"props":message.props,
@@ -207,12 +232,21 @@
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     NSLog(@"MONKEY - parameters del send file: %@", parameters);
+
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
+//    [self.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/file/new"] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         [formData appendPartWithFileURL:[NSURL fileURLWithPath:message.encryptedText] name:@"file" error:nil];
+        
     } success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"MONKEY - %@ %@", task, responseObject);
-        NSDictionary *responseDict = responseObject;
+        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] != 0) {
+            [delegate onUploadFileFail:message];
+            return;
+        }
+        
         message.oldMessageId = message.messageId;
         message.messageId = [[responseDict objectForKey:@"messageId"] stringValue];
         [delegate onUploadFileOK:message];
@@ -443,11 +477,12 @@
     
     NSLog(@"MONKEY - parameters de crear grupo: %@", parameters);
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/create"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *responseDict = [responseObject objectForKey:@"resp"];
+        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
         NSLog(@"MONKEY - response: %@", responseObject);
         NSLog(@"MONKEY - error: %ld", (long)[[responseObject objectForKey:@"error"] integerValue]);
         NSLog(@"MONKEY - group id: %@", [responseDict objectForKey:@"group_id"]);
-        if ([[responseObject objectForKey:@"error"] integerValue] != 0) {
+        
+        if ([[responseObject objectForKey:@"status"] integerValue] != 0) {
             [delegate onCreateGroupFail:@"fail"];
             return;
         }
@@ -475,7 +510,7 @@
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/addmember"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = responseObject;
         
-        if ([[responseDict objectForKey:@"error"] intValue] != 0) {//wrong login
+        if ([[responseObject objectForKey:@"status"] intValue] != 0) {//wrong login
             [delegate onAddMemberToGroupFail:@"error"];
             return;
         }
@@ -498,7 +533,7 @@
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/delete"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = responseObject;
         
-        if ([[responseDict objectForKey:@"error"] intValue] != 0) {//wrong login
+        if ([[responseObject objectForKey:@"status"] intValue] != 0) {//wrong login
             [delegate onRemoveMemberFromGroupFail:@"error"];
             return;
         }
@@ -519,16 +554,15 @@
     
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/info"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSLog(@"MONKEY - get group response: %@", responseObject);
-        NSDictionary *responseDict = responseObject;
+        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
         
-        if ([[responseDict objectForKey:@"error"] intValue] != 0) {//wrong login
+        if ([[responseObject objectForKey:@"status"] intValue] != 0) {//wrong login
             [delegate onGetGroupInfoFail:@"error"];
             return;
         }
-        NSDictionary *response = [responseDict objectForKey:@"resp"];
         
-        NSArray *members=[response objectForKey:@"members"];
-        NSDictionary *groupinfo=(NSDictionary *)[response objectForKey:@"group_info"];
+        NSArray *members=[responseDict objectForKey:@"members"];
+        NSDictionary *groupinfo=(NSDictionary *)[responseDict objectForKey:@"group_info"];
         
         [delegate onGetGroupInfoOK:groupinfo andMembers:members];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

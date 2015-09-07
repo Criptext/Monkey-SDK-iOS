@@ -362,6 +362,7 @@
         case MOKProtocolDelete:{
             msg.protocolType = MOKProtocolDelete;
             [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolType];
+            break;
         }
         default:
             [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolType];
@@ -404,9 +405,7 @@
     
     [[MOKMessagingManager sharedInstance] acknowledgeNotification:message];
 }
--(void)processDelayedMessage:(MOKMessage *)msg{
-    [[MOKMessagingManager sharedInstance] incomingMessage:msg];
-}
+
 -(void)onOpenConversationOK:(NSString *)key{
     
 }

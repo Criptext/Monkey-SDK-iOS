@@ -54,6 +54,8 @@
 		self.readByUser = NO;
         
         self.needsResend = NO;
+        
+        self.pushMessage = @"";
 
 	}
 	
@@ -105,6 +107,7 @@
         self.needsResend = NO;
         self.props = mkprops;
         self.params = params;
+        self.pushMessage = @"";
     }
     return self;
 }

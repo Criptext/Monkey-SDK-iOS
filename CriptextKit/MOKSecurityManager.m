@@ -191,7 +191,7 @@
 -(MOKMessage *)aesDecryptIncomingMessage:(MOKMessage *)message{
     NSLog(@"MONKEY - decryptando mensaje de: %@", message.userIdFrom);
     NSLog(@"MONKEY - aes guardado de este user: %@", self.keychainStore[message.userIdFrom]);
-    NSLog(@"MONKEY - mensaje a decriptar: %@", message.messageText);
+    NSLog(@"MONKEY - mensaje a decriptar: %@", message.encryptedText);
     message.messageText = [self aesDecryptedStringFromStringBase64:message.encryptedText fromUser:message.userIdFrom];
     NSLog(@"MONKEY - mensaje decriptado: %@", message.messageText);
     return message;

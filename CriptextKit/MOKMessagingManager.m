@@ -292,7 +292,7 @@
     //check if encrypted
     if ([message isEncrypted]) {
         @try {
-        [[MOKSecurityManager sharedInstance] aesDecryptIncomingMessage:message];
+            [[MOKSecurityManager sharedInstance] aesDecryptIncomingMessage:message];
         }
         @catch (NSException *exception) {
             NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
@@ -483,7 +483,7 @@
             break;
         case MOKFile:
             NSLog(@"MONKEY - file type resend: %@",[message.props objectForKey:@"file_type"]);
-            [self sendFile:message ofType:[[message.props objectForKey:@"file_type"] intValue]];
+            [self sendFile:message ofType:[message.props objectForKey:@"file_type"]];
 //            [self sendFileWithURL:[NSURL fileURLWithPath:message.encryptedText] ofType:(MOKFileType)[message.params objectForKey:@"file_type"] toUser:message.userIdTo andParams:message.params];
             break;
             
