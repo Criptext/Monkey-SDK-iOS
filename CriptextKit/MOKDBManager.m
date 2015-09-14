@@ -168,6 +168,19 @@
         return nil;
     }
 }
+- (void)deleteMessageSentWithId:(NSString *)messageId{
+    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId];
+    if (mensaje == nil) {
+        return;
+    }
+    [realm beginWriteTransaction];
+    
+    [realm deleteObject:mensaje];
+    
+    [realm commitWriteTransaction];
+    
+}
 - (void)deleteMessageSent:(MOKMessage *)msg{
     RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
     MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:msg.oldMessageId];

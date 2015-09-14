@@ -19,6 +19,7 @@
 - (BOOL)existMessage:(NSString *)messageId;
 - (MOKMessage *)getMessageById:(NSString *)messageId;
 - (void)deleteMessageSent:(MOKMessage *)msg;
+- (void)deleteMessageSentWithId:(NSString *)messageId;
 - (MOKMessage *)getOldestMessageNotSent;
 
 - (void)storeSessionId:(NSString *)sessionId;

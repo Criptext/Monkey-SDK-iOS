@@ -177,7 +177,7 @@
     message.encryptedText = newFileName;
     
     [[MOKWatchdog sharedInstance]mediaInTransit:message];
-    [[MOKDBManager sharedInstance]storeMessage:message];
+//    [[MOKDBManager sharedInstance]storeMessage:message];
     [[MOKAPIConnector sharedInstance]sendFile:message delegate:self];
     
     return message;

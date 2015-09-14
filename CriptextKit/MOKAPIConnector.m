@@ -19,6 +19,7 @@
 #import "AFNetworking.h"
 #import "NSData+Base64.h"
 #import "NSData+Compression.h"
+#import "MOKDBManager.h"
 
 
 //String identifiers
@@ -249,6 +250,8 @@
         
         message.oldMessageId = message.messageId;
         message.messageId = [[responseDict objectForKey:@"messageId"] stringValue];
+        [[MOKDBManager sharedInstance]deleteMessageSent:message];
+        
         [delegate onUploadFileOK:message];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"MONKEY - Error: %@", error);
