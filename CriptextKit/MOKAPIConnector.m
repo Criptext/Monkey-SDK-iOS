@@ -224,7 +224,9 @@
 
 #pragma mark - Send File
 -(void)sendFile:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate{
+    NSString *fileExtension = message.encryptedText.pathExtension;
     
+    [message.props setObject:fileExtension forKey:@"ext"];
     NSDictionary *requestObject =@{@"id":message.messageId,
                                    @"sid":message.userIdFrom,
                                    @"rid":message.userIdTo,
@@ -266,7 +268,13 @@
 }
 
 #pragma mark - Download File
--(void)downloadFile:(NSString *)name fromUser:(NSString *)userIdFrom folderDestination:(NSString *)folderName encrypted:(BOOL)encrypted compressed:(BOOL)compressed withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+-(void)downloadFile:(NSString *)name
+      fileExtension:(NSString *)extension
+           fromUser:(NSString *)userIdFrom
+  folderDestination:(NSString *)folderName
+          encrypted:(BOOL)encrypted
+         compressed:(BOOL)compressed
+       withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:[self.baseurl stringByAppendingPathComponent:@"/file/open/%@"],[name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     NSLog(@"MONKEY - url %@", URL);
     NSMutableString *loginString = (NSMutableString*)[@"" stringByAppendingFormat:@"%@:%@", [MOKSessionManager sharedInstance].appId, [MOKSessionManager sharedInstance].appKey];
@@ -288,7 +296,11 @@
         
         [[NSFileManager defaultManager] createDirectoryAtURL:folderPath withIntermediateDirectories:YES attributes:nil error:nil];
         
-        NSURL *documentsAndFilename = [documentsDirectoryURL URLByAppendingPathComponent:[folderName stringByAppendingPathComponent:[response suggestedFilename]]];
+        NSString *suggestedfilename = [[response suggestedFilename] stringByDeletingPathExtension];
+        
+        [suggestedfilename stringByAppendingPathExtension:extension];
+        
+        NSURL *documentsAndFilename = [documentsDirectoryURL URLByAppendingPathComponent:[folderName stringByAppendingPathComponent:[suggestedfilename stringByAppendingPathExtension:extension]]];
         
         return documentsAndFilename;
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {

@@ -77,6 +77,7 @@
 
 //-(void)downloadFile:(MOKMessage *)message withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
 -(void)downloadFile:(NSString *)name
+      fileExtension:(NSString *)extension
            fromUser:(NSString *)userIdFrom
   folderDestination:(NSString *)folderName
           encrypted:(BOOL)encrypted
