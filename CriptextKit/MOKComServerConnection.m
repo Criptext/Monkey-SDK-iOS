@@ -116,9 +116,7 @@
         }
 
 	}
-	/*else{
-		NSLog(@"MONKEY - Connection obj NOT EXIST so Trying to connect .. ");
-	}*/
+
     self.connectionDelegate=conDelegate;
     self.userId=[MOKSessionManager sharedInstance].sessionId;
     firstTime=isFirst;
@@ -131,14 +129,12 @@
 	 * All connection messages are sent to the con5text delegate. */
     connection = [[MOKSGSConnection alloc] initWithContext:context];
 
-    //NSLog(@"MONKEY - verificacion6:%@",[[DBManager instance] getPassword]);
     [connection loginWithUsername:userId password:[NSString stringWithFormat:@"%@:%@", [MOKSessionManager sharedInstance].appId, [MOKSessionManager sharedInstance].appKey]];
 }
 
 
 
 -(BOOL) isConnected{
-    //NSLog(@"MONKEY - estado:%u",connection.state);
 	if(connection.state== MOKSGSConnectionStateConnected || connection.state==MOKSGSConnectionStateConnecting)
 		return YES;
 	else
@@ -188,13 +184,14 @@
 -(BOOL)sendMessage:(NSString *)jsonMessage{
 
 	if (connection.state!= MOKSGSConnectionStateConnected) {
-		//NSLog(@"MONKEY - conexion no disponible");
         /// si pasa esto debes llamar afuera a funcion desconectado
 		return NO;
 	}
 	@synchronized(connection) {
 		MOKSGSMessage *mess=[MOKSGSMessage  sessionMessage];
+        #ifdef DEBUG
         NSLog(@"MONKEY - msg a  %@",jsonMessage);
+		#endif
 		[mess appendString:jsonMessage];
 		[connection sendMessage:mess];
 		return YES;
@@ -243,7 +240,9 @@
 	//handle the message in a manager th,at behaves as a proxy to the UI message
 
 	NSString *stringMes=[msg readString];
+    #ifdef DEBUG
 	NSLog(@"MONKEY - Message received %@",stringMes);
+	#endif
 //    NSLog(@"MONKEY - json value: %@", [stringMes mok_JSONValue]);
 	NSDictionary * parsedData = (NSDictionary *) ([stringMes mok_JSONValue]); //parse to NSDICtionary
 	[self parseMessage:parsedData];
@@ -283,14 +282,18 @@
             
             switch ([type intValue]) {
                 case MOKMessagesHistory:{
-                    NSLog(@"MONKEY - llegó un get de mensajes");
+                    #ifdef DEBUG
+                    NSLog(@"MONKEY - ******** GET Command Message History ********");
+					#endif
                     NSArray *messages = [args objectForKey:@"messages"];
                     NSString *remaining = [args objectForKey:@"remaining_messages"];
                     [self processGetMessages:messages withRemaining:remaining];
                     break;
                 }
                 case MOKGroupsString:{
-                    NSLog(@"MONKEY - llegó un get de grupos");
+                    #ifdef DEBUG
+                    NSLog(@"MONKEY - ******** GET Command Groups ********");
+					#endif
                     MOKMessage *msg = [[MOKMessage alloc] init];
                     msg.protocolCommand = MOKProtocolGet;
                     msg.protocolType = MOKNotif;
@@ -309,7 +312,9 @@
         case MOKProtocolSet:{
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
             msg.protocolCommand = MOKProtocolSet;
-            NSLog(@"MONKEY - llegó un set");
+            #ifdef DEBUG
+            NSLog(@"MONKEY - ******** SET Command ********");
+			#endif
             break;
         }
         case MOKProtocolOpen:{
@@ -317,13 +322,17 @@
             msg.protocolCommand = MOKProtocolOpen;
 
             [[MOKMessagingManager sharedInstance] notify:msg withcommand:cmd];
-            NSLog(@"MONKEY - llegó un open");
+            #ifdef DEBUG
+            NSLog(@"MONKEY - ******** OPEN Command ********");
+			#endif
             break;
         }
         case MOKProtocolTransaction:{
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
             msg.protocolCommand = MOKProtocolTransaction;
-            NSLog(@"MONKEY - llegó un ");
+            #ifdef DEBUG
+            NSLog(@"MONKEY - ******** TRANSACTION Command ********");
+			#endif
             break;
         }
         default:{
@@ -346,8 +355,9 @@
     }
 }
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {
-    NSLog(@"MONKEY - mensaje en proceso: %@, %@, %d", msg.messageText,msg.messageId, msg.protocolType);
-    
+    #ifdef DEBUG
+    NSLog(@"MONKEY - Message in process: %@, %@, %d", msg.messageText,msg.messageId, msg.protocolType);
+	#endif
     switch (msg.protocolType) {
         case MOKText:{
             //Check if we have the user key
@@ -361,7 +371,9 @@
             break;
         }
         case MOKNotif:
+            #ifdef DEBUG
             NSLog(@"MONKEY - monkey action: %d", msg.monkeyType);
+			#endif
             [[MOKMessagingManager sharedInstance] notify:msg withcommand:msg.protocolType];
             break;
         case MOKProtocolDelete:{
@@ -480,7 +492,7 @@
 //}
 
 - (void)dealloc {
-        NSLog(@"MONKEY - COMSERVERCONN TAMBIEEEEEN? te desaolcaste we");
+        NSLog(@"MONKEY - COMSERVERCONN dealloc");
 //    [super dealloc];
 	//[connection dealloc];
 }

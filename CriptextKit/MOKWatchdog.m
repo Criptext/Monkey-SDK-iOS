@@ -60,14 +60,18 @@
     }
     
     self.isCheckingConnectivity = true;
-    NSLog(@"MONKEY - check connectivity in 15segs WOOF!");
+    #ifdef DEBUG
+    NSLog(@"MONKEY - check connectivity in 15secs WOOF!");
+	#endif
     
     [self performSelector:@selector(resetConnectivity) withObject:nil afterDelay:15.0];
 }
 
 -(void)resetConnectivity{
     if (([MOKComServerConnection sharedInstance].connection.state != MOKSGSConnectionStateConnected || !self.isUpdateFinished) && !self.isLogout) {
+        #ifdef DEBUG
         NSLog(@"MONKEY - reset conenctivity WOOF!");
+		#endif
         [[MOKComServerConnection sharedInstance] logOut];
         self.isCheckingConnectivity = false;
         self.isUpdateFinished = false;
@@ -79,7 +83,9 @@
     
     self.isCheckingConnectivity = false;
     self.isUpdateFinished = false;
+    #ifdef DEBUG
     NSLog(@"MONKEY - finish checking connectivity WOOF!");
+	#endif
 }
 -(void)messageInTransit:(MOKMessage *)message{
     @synchronized(self.messagesInTransit){

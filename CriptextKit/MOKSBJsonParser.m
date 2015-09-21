@@ -270,7 +270,6 @@ static int myCount = 0;
 			myCount ++;
 		}
         if (![self scanValue:&v]) {
-			//NSLog(@"MONKEY - mycount: %d", myCount);
             NSString *string = [NSString stringWithFormat:@"Object value expected for key: %@", k];
             [self addErrorWithCode:EPARSE description: string];
             return NO;
@@ -353,8 +352,6 @@ static int myCount = 0;
             [self addErrorWithCode:ECTRL description: [NSString stringWithFormat:@"Unescaped control character '0x%x'", *c]];
             return NO;
             
-        } else {
-            //NSLog(@"MONKEY - should not be able to get here");
         }
     } while (*c);
     

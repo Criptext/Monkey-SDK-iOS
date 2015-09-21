@@ -92,11 +92,10 @@
 }
 
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password {
-//	    NSLog(@"MONKEY - dentro de login antes de state connecting, username: %@ password: %@, hostname: %@, port: %ld", username, password, context.hostname, (long)context.port);
-//    username = [NSString stringWithFormat:@"201:%@", username];
-//    password = [NSString stringWithFormat:@"%@:%@",username,password];
+    #ifdef DEBUG
     NSLog(@"MONKEY - login credentials, username: %@ password: %@, hostname: %@, port: %ld", username, password, context.hostname, (long)context.port);
-//    NSLog(@"MONKEY - dentro de login antes de state connecting, username: %@ password: %@", username, password);
+	#endif
+
 	if(self.state==MOKSGSConnectionStateConnecting)
 		return;
 	
@@ -241,7 +240,9 @@
            
             
         } else {
+            #ifdef DEBUG
             NSLog(@"MONKEY - ELSE inputStream not available APPEND -- bbuffer");
+			#endif
             // We have a reference to the buffer
             // copy the buffer over to our input buffer and begin processing
             [inBuf appendBytes:buffer length:ilen];
@@ -276,9 +277,10 @@
             
 //            [MOKSessionManager sharedInstance].delay = [NSString stringWithFormat:@"%d",streamDelayTime];
             [MOKSessionManager sharedInstance].portions = [NSString stringWithFormat:@"%d",streamPortions];
-            
+            #ifdef DEBUG
 //            NSLog(@"MONKEY - incrementado delay a:%d y decrementado porciones a:%d", streamDelayTime, streamPortions);
             NSLog(@"MONKEY - decrementado porciones a:%d", streamPortions);
+			#endif
             // Delay execution of my block for 10 seconds.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
 //                [MOKSessionManager sharedInstance].delay = @"2";
@@ -362,7 +364,7 @@
 - (BOOL)processOutgoingBytes {
 	
 	if(![outputStream hasSpaceAvailable]) {
-        NSLog(@"MONKEY - NO SPACE AVAILABLE TO GO");
+//        NSLog(@"MONKEY - NO SPACE AVAILABLE TO GO");
 		return NO;
 	}
 	
@@ -393,7 +395,7 @@
         
         NSString *output = [[NSString alloc] initWithBytes:inBuf length:ilen encoding:NSUTF8StringEncoding];
         
-        NSLog(@"MONKEY - server said: %@", output);
+//        NSLog(@"MONKEY - server said: %@", output);
         
 
         
@@ -443,7 +445,7 @@
             
             // copia al messageBuffer lo de inBuf
             memcpy([messageBuffer mutableBytes], [inBuf bytes], len);
-            NSLog(@"MONKEY - ESTAMOS BIEN MOVE LEN %lu  COUNT %lu , MLEN es %i", len,[inBuf length] - len,mlen);
+//            NSLog(@"MONKEY - ESTAMOS BIEN MOVE LEN %lu  COUNT %lu , MLEN es %i", len,[inBuf length] - len,mlen);
             //estoy copiando moviendo los bytesINBUF a mutable en la posicion +len
             memmove([inBuf mutableBytes], [inBuf bytes] + len, [inBuf length] - len);
             

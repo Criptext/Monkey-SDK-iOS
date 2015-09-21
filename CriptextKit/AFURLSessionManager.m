@@ -769,7 +769,6 @@ static NSString * const AFNSURLSessionTaskDidSuspendNotification = @"com.alamofi
 #pragma mark -
 
 - (void)setDownloadTaskDidFinishDownloadingBlock:(NSURL * (^)(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, NSURL *location))block {
-    NSLog(@"MONKEY - se asigna el bloque");
     self.downloadTaskDidFinishDownloading = block;
 }
 

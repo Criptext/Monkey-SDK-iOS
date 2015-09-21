@@ -209,17 +209,16 @@ NSUInteger const BBAESSaltDefaultLength = 16; //recommandations suggest at least
 #pragma mark - AES Crypting
 
 + (NSData *)encryptedDataFromData:(NSData *)data IV:(NSData *)iv key:(NSData *)key options:(BBAESEncryptionOptions)options {
+    #ifdef DEBUG
     NSLog(@"MONKEY - key length: %lu", (unsigned long)key.length);
     NSLog(@"MONKEY - iv length: %lu", (unsigned long)iv.length);
+	#endif
+    
 	NSParameterAssert(data);
 	NSParameterAssert(key);
 	NSParameterAssert(iv);
 	NSAssert(key.length==16 || key.length==24 || key.length==32, @"AES must have a key size of 128, 192, or 256 bits.");
 	NSAssert1(iv.length==kCCBlockSizeAES128, @"AES must have a fixed IV size of %d-bytes regardless key size.",kCCBlockSizeAES128);
-	
-	//NSLog(@"MONKEY - data %@",hexStringFromData(data));
-	//NSLog(@"MONKEY - key %@",hexStringFromData(key));
-	//NSLog(@"MONKEY - iv %@",hexStringFromData(iv));
 	
 	NSData *encryptedData = [BBAES bb_runAES128CryptorWithOperation:kCCEncrypt data:data iv:iv key:key];
 	NSData *retValue;
@@ -242,8 +241,11 @@ NSUInteger const BBAESSaltDefaultLength = 16; //recommandations suggest at least
 }
 
 + (NSData *)decryptedDataFromData:(NSData *)data IV:(NSData *)iv key:(NSData *)key {
+    #ifdef DEBUG
     NSLog(@"MONKEY - key length: %lu", (unsigned long)key.length);
     NSLog(@"MONKEY - iv length: %lu", (unsigned long)iv.length);
+	#endif
+    
 	NSParameterAssert(data);
 	NSParameterAssert(key);
 	NSAssert(key.length==16 || key.length==24 || key.length==32, @"AES must have a key size of 128, 192, or 256 bits.");

@@ -286,7 +286,6 @@
     return session.appKey;
 }
 - (void)storeUser:(MOKUserDictionary *)user{
-    NSLog(@"MONKEY - store user");
     RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     
@@ -296,7 +295,6 @@
     [realm commitWriteTransaction];
 }
 - (MOKUserDictionary *)loadUser{
-    NSLog(@"MONKEY - loading user");
     RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     MOKUserDictionary *user = [self.jsonParser objectWithString:session.user];

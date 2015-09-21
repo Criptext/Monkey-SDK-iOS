@@ -108,14 +108,20 @@
     
     //check if should compress
     if ([message.props objectForKey:@"cmpr"]) {
+        #ifdef DEBUG
         NSLog(@"MONKEY - antes compress: %lu",(unsigned long)[fileData length]);
+		#endif
         fileData = [fileData mok_gzipDeflate];
+        #ifdef DEBUG
         NSLog(@"MONKEY - despues compress: %lu",(unsigned long)[fileData length]);
+		#endif
     }
     
     
     [newFileName insertString:@"_mok" atIndex:[newFileName rangeOfString:@"."].location];
+    #ifdef DEBUG
     NSLog(@"MONKEY - nombre archivo: %@", newFileName);
+	#endif
     
     [[NSFileManager defaultManager]createFileAtPath:newFileName contents:nil attributes:nil];
     NSFileHandle *fileHandler = [NSFileHandle fileHandleForWritingAtPath:newFileName];
@@ -148,20 +154,27 @@
         [[MOKDBManager sharedInstance]deleteMessageSent:message];
         return nil;
     }
-    
-    NSLog(@"MONKEY - tamaño data: %lu",(unsigned long)[fileData length]);
+    #ifdef DEBUG
+    NSLog(@"MONKEY - data size: %lu",(unsigned long)[fileData length]);
+	#endif
     NSMutableString *newFileName = [documentDirectory mutableCopy];
     
     //check if should compress
     if ([message.props objectForKey:@"cmpr"]) {
-        NSLog(@"MONKEY - antes compress: %lu",(unsigned long)[fileData length]);
+        #ifdef DEBUG
+        NSLog(@"MONKEY - before compression: %lu",(unsigned long)[fileData length]);
+		#endif
         fileData = [fileData mok_gzipDeflate];
-        NSLog(@"MONKEY - despues compress: %lu",(unsigned long)[fileData length]);
+        #ifdef DEBUG
+        NSLog(@"MONKEY - after compression: %lu",(unsigned long)[fileData length]);
+		#endif
     }
     
     
     [newFileName insertString:@"_mok" atIndex:[newFileName rangeOfString:@"."].location];
-    NSLog(@"MONKEY - nombre archivo: %@", newFileName);
+    #ifdef DEBUG
+    NSLog(@"MONKEY - file name: %@", newFileName);
+	#endif
     
     [[NSFileManager defaultManager]createFileAtPath:newFileName contents:nil attributes:nil];
     NSFileHandle *fileHandler = [NSFileHandle fileHandleForWritingAtPath:newFileName];
@@ -366,7 +379,9 @@
             NSData *decryptedData;
             //check if web
             if ([[message.props objectForKey:@"device"] isEqualToString:@"web"]) {
-                NSLog(@"MONKEY - decriptando archivo de web");
+                #ifdef DEBUG
+                NSLog(@"MONKEY - decrypting web file");
+				#endif
                 
                 NSString *contenido = [NSString stringWithContentsOfFile:message.messageText encoding:NSUTF8StringEncoding error:nil];
                 
@@ -482,7 +497,9 @@
             [self sendMessage:message];
             break;
         case MOKFile:
+            #ifdef DEBUG
             NSLog(@"MONKEY - file type resend: %@",[message.props objectForKey:@"file_type"]);
+			#endif
             [self sendFile:message ofType:[message.props objectForKey:@"file_type"]];
 //            [self sendFileWithURL:[NSURL fileURLWithPath:message.encryptedText] ofType:(MOKFileType)[message.params objectForKey:@"file_type"] toUser:message.userIdTo andParams:message.params];
             break;
@@ -618,7 +635,7 @@
         return isEqual;
     }
     @catch(NSException *exception){
-        NSLog(@"MONKEY - Exception de recivers isEqual: %@", exception);
+        NSLog(@"MONKEY - Exception receivers isEqual: %@", exception);
         return false;
     }
 }
