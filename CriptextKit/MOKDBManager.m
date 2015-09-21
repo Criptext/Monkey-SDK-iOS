@@ -60,9 +60,9 @@
         self.config.path = self.privateRealmPath;
         self.config.objectClasses = @[MOKDBSession.class, MOKDBMessage.class];
         self.config.schemaVersion = 8;
-        
-//        self.config.encryptionKey = [self getKey];
-        
+        #ifndef DEBUG
+        self.config.encryptionKey = [self getKey];
+		#endif
         self.config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
             if (oldSchemaVersion < 1) {
                 [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {

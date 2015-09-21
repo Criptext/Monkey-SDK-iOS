@@ -108,3 +108,6 @@ DerivedData
 
 Carthage/Build
 
+
+Builds/
+MonkeyKit.framework/MonkeyKit

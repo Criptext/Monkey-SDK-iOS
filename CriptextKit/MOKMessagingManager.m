@@ -273,7 +273,7 @@
     switch (command) {
         case MOKProtocolMessage:
             [[MOKDBManager sharedInstance]deleteMessageSent:message];
-            [self sendMessagesAgain];
+            
             break;
         case MOKProtocolGet:
             [self.receivers makeObjectsPerformSelector:@selector(notificationReceived:) withObject:message];
@@ -357,6 +357,7 @@
     switch (message.protocolType) {
         case MOKText: case 50: case 51: case 52:
             [[MOKDBManager sharedInstance]deleteMessageSent:message];
+            [self sendMessagesAgain];
             break;
         case MOKFile:
             message.messageId = [message.props objectForKey:@"new_id"];

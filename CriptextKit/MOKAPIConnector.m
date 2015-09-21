@@ -49,7 +49,7 @@
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     
-    [self POST:@"http://secure.criptext.com/push/subscribe" parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/push/subscribe"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         #ifdef DEBUG
         NSLog(@"MONKEY - %@", responseObject);
 		#endif
