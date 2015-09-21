@@ -17,6 +17,8 @@
 @interface MOKDBManager ()
 @property (nonatomic, strong) MOKSBJsonWriter *jsonWriter;
 @property (nonatomic, strong) MOKSBJsonParser *jsonParser;
+@property (nonatomic, strong) RLMRealmConfiguration *config;
+@property (nonatomic, strong) NSString *privateRealmPath;
 @end
 
 @implementation MOKDBManager
@@ -47,38 +49,40 @@
         //init properties
         self.jsonWriter = [MOKSBJsonWriter new];
         self.jsonParser = [MOKSBJsonParser new];
-        [self setDatabaseSchema];
-        [RLMRealm setEncryptionKey:[self getKey] forRealmsAtPath:[self getCustomRealm]];
+        
+        NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        documentsDirectory = [documentsDirectory stringByAppendingPathComponent:@"private_MOKdb"];
+        self.privateRealmPath = [documentsDirectory stringByAppendingString:@".realm"];
+        
+        
+        
+        self.config = [RLMRealmConfiguration defaultConfiguration];
+        self.config.path = self.privateRealmPath;
+        self.config.objectClasses = @[MOKDBSession.class, MOKDBMessage.class];
+        self.config.schemaVersion = 8;
+        
+        self.config.encryptionKey = [self getKey];
+        
+        self.config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
+            if (oldSchemaVersion < 1) {
+                [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+                    newObject[@"timestampCreated"] = oldObject[@"timestamp"];
+                    newObject[@"timestampOrder"] = oldObject[@"timestamp"];
+                }];
+            }
+            if (oldSchemaVersion < 2) {
+                [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
+                    newObject[@"protocolCommand"] = [NSNumber numberWithInt:200];
+                    if ((int)oldObject[@"type"] == 54 || (int)oldObject[@"type"] == 55) {
+                        newObject[@"protocolType"] = [NSNumber numberWithInt:2];
+                    }else{
+                        newObject[@"protocolType"] = [NSNumber numberWithInt:1];
+                    }
+                }];
+            }
+        };
     }
     return self;
-}
-
-- (NSString *)getCustomRealm{
-    NSString *documentsDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    documentsDirectory = [documentsDirectory stringByAppendingPathComponent:@"private_MOKdb"];
-    NSString *customRealmPath = [documentsDirectory stringByAppendingString:@".realm"];
-    return customRealmPath;
-}
-
-- (void)setDatabaseSchema{
-    [RLMRealm setSchemaVersion:8 forRealmAtPath:[self getCustomRealm] withMigrationBlock:^(RLMMigration *migration, NSUInteger oldSchemaVersion) {
-        if (oldSchemaVersion < 1) {
-            [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
-                newObject[@"timestampCreated"] = oldObject[@"timestamp"];
-                newObject[@"timestampOrder"] = oldObject[@"timestamp"];
-            }];
-        }
-        if (oldSchemaVersion < 2) {
-            [migration enumerateObjects:MOKDBMessage.className block:^(RLMObject *oldObject, RLMObject *newObject) {
-                newObject[@"protocolCommand"] = [NSNumber numberWithInt:200];
-                if ((int)oldObject[@"type"] == 54 || (int)oldObject[@"type"] == 55) {
-                    newObject[@"protocolType"] = [NSNumber numberWithInt:2];
-                }else{
-                    newObject[@"protocolType"] = [NSNumber numberWithInt:1];
-                }
-            }];
-        }
-    }];
 }
 
 - (NSData *)getKey {
@@ -119,7 +123,7 @@
 #pragma mark - Messages
 - (void)storeMessage:(MOKMessage *)msg{
     
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     
     [realm beginWriteTransaction];
     NSDictionary *object = @{
@@ -138,15 +142,15 @@
                              };
     
     
-    [MOKDBMessage createOrUpdateInRealm:realm withObject:object];
+    [MOKDBMessage createOrUpdateInRealm:realm withValue:object];
     [realm commitWriteTransaction];
 }
 - (BOOL)existMessage:(NSString *)messageId{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     return [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId] != nil;
 }
 - (MOKMessage *)getMessageById:(NSString *)messageId{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBMessage *msg = [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId];
     
     if (msg !=nil) {
@@ -169,7 +173,7 @@
     }
 }
 - (void)deleteMessageSentWithId:(NSString *)messageId{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId];
     if (mensaje == nil) {
         return;
@@ -182,7 +186,7 @@
     
 }
 - (void)deleteMessageSent:(MOKMessage *)msg{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:msg.oldMessageId];
     if (mensaje == nil) {
         return;
@@ -195,7 +199,7 @@
     
 }
 - (MOKMessage *)getOldestMessageNotSent{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     for (MOKDBMessage *msg in [MOKDBMessage allObjectsInRealm:realm]) {
         if ([msg.messageId intValue]<0) {
             MOKMessage *message = [[MOKMessage alloc]init];
@@ -236,64 +240,64 @@
 }
 
 - (void)storeSessionId:(NSString *)sessionId{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     
     [realm beginWriteTransaction];
     session.sessionId = sessionId;
-    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+    [MOKDBSession createOrUpdateInRealm:realm withValue:session];
     [realm commitWriteTransaction];
 }
 - (NSString *)loadSessionId{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     
     return session.sessionId;
 
 }
 - (void)storeAppId:(NSString *)appId{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     
     [realm beginWriteTransaction];
     session.appId = appId;
-    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+    [MOKDBSession createOrUpdateInRealm:realm withValue:session];
     [realm commitWriteTransaction];
 }
 - (NSString *)loadAppId{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     
     return session.appId;
 }
 - (void)storeAppKey:(NSString *)appKey{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     
     [realm beginWriteTransaction];
     session.appKey = appKey;
-    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+    [MOKDBSession createOrUpdateInRealm:realm withValue:session];
     [realm commitWriteTransaction];
 }
 - (NSString *)loadAppKey{
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     
     return session.appKey;
 }
 - (void)storeUser:(MOKUserDictionary *)user{
     NSLog(@"MONKEY - store user");
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     
     [realm beginWriteTransaction];
     session.user = [self.jsonWriter stringWithObject:user];
-    [MOKDBSession createOrUpdateInRealm:realm withObject:session];
+    [MOKDBSession createOrUpdateInRealm:realm withValue:session];
     [realm commitWriteTransaction];
 }
 - (MOKUserDictionary *)loadUser{
     NSLog(@"MONKEY - loading user");
-    RLMRealm *realm = [RLMRealm realmWithPath:[self getCustomRealm]];
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
     MOKDBSession *session = [self checkSession:realm];
     MOKUserDictionary *user = [self.jsonParser objectWithString:session.user];
     return user;
