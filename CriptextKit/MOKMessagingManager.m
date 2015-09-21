@@ -495,6 +495,20 @@
 -(void)sendGetCommandWithArgs:(NSDictionary *)args{
     [self sendCommand:MOKProtocolGet WithArgs:args];
 }
+
+-(void)getMessages:(NSString *)maxNumber since:(NSString *)lastMessageId  andGetGroups:(BOOL)flag{
+    NSDictionary *args = flag?
+    //ask for groups
+    @{@"messages_since" : lastMessageId,
+      @"qty" : maxNumber,
+      @"groups" : @"1"} :
+    //don't ask for groups
+    @{@"messages_since" : lastMessageId,
+      @"qty" : maxNumber};
+    
+    [self sendCommand:MOKProtocolGet WithArgs:args];
+}
+
 -(void)sendOpenCommandToUser:(NSString *)sessionId{
 
     [self sendCommand:MOKProtocolOpen WithArgs:@{@"rid" : sessionId}];

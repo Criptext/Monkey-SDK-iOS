@@ -258,30 +258,30 @@
         if (![MOKSessionManager sharedInstance].streamChanged) {
             [MOKSessionManager sharedInstance].streamChanged = true;
         
-            int streamDelayTime = [[MOKSessionManager sharedInstance].delay intValue];
+//            int streamDelayTime = [[MOKSessionManager sharedInstance].delay intValue];
             int streamPortions = [[MOKSessionManager sharedInstance].portions intValue];
             
             
-            streamDelayTime = streamDelayTime + 1;
+//            streamDelayTime = streamDelayTime + 1;
             streamPortions = streamPortions - 1;
-            if (streamPortions < 10 ) {
-                streamPortions = 10;
+            if (streamPortions < 5 ) {
+                streamPortions = 5;
             }
-            if (streamDelayTime <2 ) {
-                streamDelayTime = 2;
-            }
-            if (streamDelayTime >5) {
-                streamDelayTime = 5;
-            }
+//            if (streamDelayTime <2 ) {
+//                streamDelayTime = 2;
+//            }
+//            if (streamDelayTime >5) {
+//                streamDelayTime = 5;
+//            }
             
-            [MOKSessionManager sharedInstance].delay = [NSString stringWithFormat:@"%d",streamDelayTime];
+//            [MOKSessionManager sharedInstance].delay = [NSString stringWithFormat:@"%d",streamDelayTime];
             [MOKSessionManager sharedInstance].portions = [NSString stringWithFormat:@"%d",streamPortions];
             
-            NSLog(@"MONKEY - incrementado delay a:%d y decrementado porciones a:%d", streamDelayTime, streamPortions);
-            
+//            NSLog(@"MONKEY - incrementado delay a:%d y decrementado porciones a:%d", streamDelayTime, streamPortions);
+            NSLog(@"MONKEY - decrementado porciones a:%d", streamPortions);
             // Delay execution of my block for 10 seconds.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-                [MOKSessionManager sharedInstance].delay = @"2";
+//                [MOKSessionManager sharedInstance].delay = @"2";
                 [MOKSessionManager sharedInstance].portions = @"15";
                 [MOKSessionManager sharedInstance].streamChanged = false;
             });

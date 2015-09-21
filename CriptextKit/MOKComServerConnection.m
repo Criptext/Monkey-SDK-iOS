@@ -285,7 +285,8 @@
                 case MOKMessagesHistory:{
                     NSLog(@"MONKEY - llegó un get de mensajes");
                     NSArray *messages = [args objectForKey:@"messages"];
-                    [self processGetMessages:messages];
+                    NSString *remaining = [args objectForKey:@"remaining_messages"];
+                    [self processGetMessages:messages withRemaining:remaining];
                     break;
                 }
                 case MOKGroupsString:{
@@ -333,11 +334,15 @@
         }
     }
 }
-- (void)processGetMessages:(NSArray *)messages{
+- (void)processGetMessages:(NSArray *)messages withRemaining:(NSString *)numberOfRemaining{
     for (NSDictionary *msgdict in messages) {
         MOKMessage *msg = [[MOKMessage alloc] initWithArgs:msgdict];
         msg.protocolCommand = MOKProtocolMessage;
         [self processMOKProtocolMessage:msg];
+    }
+    //check if there are still pending messages
+    if (![numberOfRemaining isEqualToString:@"0"]) {
+        [[MOKMessagingManager sharedInstance]getMessages:@"15" since:[MOKSessionManager sharedInstance].lastMessageId andGetGroups:false];
     }
 }
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {

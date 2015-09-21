@@ -61,7 +61,7 @@
         self.config.objectClasses = @[MOKDBSession.class, MOKDBMessage.class];
         self.config.schemaVersion = 8;
         
-        self.config.encryptionKey = [self getKey];
+//        self.config.encryptionKey = [self getKey];
         
         self.config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
             if (oldSchemaVersion < 1) {

@@ -43,6 +43,7 @@
 -(MOKMessage *)sendAlertToUser:(NSString *)sessionId withParams:(NSDictionary *)params andPush:(NSString *)push;
 
 //201
+-(void)getMessages:(NSString *)maxNumber since:(NSString *)lastMessageId  andGetGroups:(BOOL)flag;
 -(void)sendGetCommandWithArgs:(NSDictionary *)args;
 
 //203
@@ -50,6 +51,7 @@
 
 //204
 -(void)sendSetCommandWithArgs:(NSDictionary *)args;
+
 
 //201 and 204
 -(void)sendCommand:(MOKProtocolCommand)protocolCommand WithArgs:(NSDictionary *)args;
