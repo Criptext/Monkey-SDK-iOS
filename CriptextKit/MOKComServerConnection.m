@@ -189,9 +189,9 @@
 	}
 	@synchronized(connection) {
 		MOKSGSMessage *mess=[MOKSGSMessage  sessionMessage];
-        #ifdef DEBUG
-        NSLog(@"MONKEY - msg a  %@",jsonMessage);
-		#endif
+        
+        NSLog(@"MONKEY - msg to  %@",jsonMessage);
+        
 		[mess appendString:jsonMessage];
 		[connection sendMessage:mess];
 		return YES;
@@ -240,9 +240,9 @@
 	//handle the message in a manager th,at behaves as a proxy to the UI message
 
 	NSString *stringMes=[msg readString];
-    #ifdef DEBUG
+
 	NSLog(@"MONKEY - Message received %@",stringMes);
-	#endif
+
 //    NSLog(@"MONKEY - json value: %@", [stringMes mok_JSONValue]);
 	NSDictionary * parsedData = (NSDictionary *) ([stringMes mok_JSONValue]); //parse to NSDICtionary
 	[self parseMessage:parsedData];
