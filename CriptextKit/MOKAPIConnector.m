@@ -195,14 +195,12 @@
         NSLog(@"MONKEY - %@", responseObject);
 		#endif
         NSString *decryptedKey = [[MOKSecurityManager sharedInstance]aesDecryptAndStoreKeyFromStringBase64:[responseDict objectForKey:@"convKey"] fromUser:[responseDict objectForKey:@"session_to"]];
-        #ifdef DEBUG
         NSLog(@"MONKEY - checking session id: %@", [responseDict objectForKey:@"session_to"]);
         NSLog(@"MONKEY - decryptedkey:%@", decryptedKey);
         
         NSLog(@"MONKEY - sessionidto: %@", [responseDict objectForKey:@"session_to"]);
         NSLog(@"MONKEY - stored aes: %@", [[MOKSecurityManager sharedInstance]getAESbase64forUser:[responseDict objectForKey:@"session_to"]]);
         NSLog(@"MONKEY - stored iv: %@", [[MOKSecurityManager sharedInstance]getIVbase64forUser:[responseDict objectForKey:@"session_to"]]);
-		#endif
         if (delegate != nil) {
             [delegate onOpenConversationOK:[responseDict objectForKey:@"convKey"]];
         }

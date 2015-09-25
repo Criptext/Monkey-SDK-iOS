@@ -113,6 +113,7 @@
     query = @{(__bridge id)kSecClass: (__bridge id)kSecClassKey,
               (__bridge id)kSecAttrApplicationTag: tag,
               (__bridge id)kSecAttrKeySizeInBits: @512,
+              (__bridge id)kSecAttrAccessible: (__bridge id)kSecAttrAccessibleAfterFirstUnlock,
               (__bridge id)kSecValueData: keyData};
     
     status = SecItemAdd((__bridge CFDictionaryRef)query, NULL);
