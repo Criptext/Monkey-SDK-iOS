@@ -24,7 +24,8 @@
 
 //String identifiers
 #define AUTHENTICATION_PUBKEY       @"authentication_pubKey"
-
+#define SYNC_PUBKEY                 @"mok_sync_pubKey"
+#define SYNC_PRIVKEY                @"mok_sync_privKey"
 #define OPEN_TICKET					@"http://secure.criptext.com/user/call"
 
 @interface MOKAPIConnector () <MOKComServerConnectionDelegate>
@@ -122,7 +123,7 @@
             }
         }
         
-        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        /************************************ Starting Second Request ****************************************/
         NSDictionary * requestConnectObject = @{@"session_id": [MOKSessionManager sharedInstance].sessionId,
                                                 @"usk": stringToSend,
                                                 @"session_name": [[MOKSessionManager sharedInstance].user getDictionary]
@@ -168,6 +169,41 @@
     }];
 }
 
+-(void)getRegisteredAESkeysForSessionId:(NSString *)sessionId delegate:(id<MOKAPIConnectorDelegate>)delegate{
+    NSDictionary *requestObject = @{@"session_id" : sessionId,
+                                    @"public_key" : [[MOKSecurityManager sharedInstance] getObjectForIdentifier:SYNC_PUBKEY]
+                                    };
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/sync"] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        NSLog(@"MONKEY - old Key response: %@", responseObject);
+        if([[responseObject objectForKey:@"status"] intValue] != 0){
+            [delegate onAuthenticationWrong];
+            return;
+        }
+        
+        NSString *encryptedKeys = [responseDict objectForKey:@"keys"];
+
+        NSString *decryptedKeys = [[MOKSecurityManager sharedInstance]rsaDecryptBase64String:encryptedKeys withPrivateKeyIdentifier:SYNC_PRIVKEY];
+        
+        NSLog(@"MONKEY - decrypted old keys: %@", decryptedKeys);
+        
+        [[MOKSecurityManager sharedInstance] storeBase64AESKeyAndIV:decryptedKeys forUser:sessionId];
+        
+        NSString *storedLastMessageId = [responseDict objectForKey:@"last_message_received"];
+        
+        if (storedLastMessageId == [NSNull null]) {
+            storedLastMessageId = @"0";
+        }
+        
+        if ([storedLastMessageId intValue] > [[MOKSessionManager sharedInstance].lastMessageId intValue]) {
+            [MOKSessionManager sharedInstance].lastMessageId = storedLastMessageId;
+        }
+        
+        [delegate onAuthenticationOkWithSessionId:sessionId publicKey:nil];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [delegate onAuthenticationFail];
+    }];
+}
 
 #pragma mark - Open conversation
 - (NSDictionary*)openConversationRequestObject:(NSString *)mySessionid withMyName:(NSString *)fullname to:(NSString *)sessionId {

@@ -21,5 +21,5 @@
 
 //char *encriptar(unsigned char* mensaje);
 char *encriptarRSA(const char *b64_pKey,unsigned char* mensaje);
+NSString *decriptarRSA(const char *b64priv_key,unsigned char* base64_mensaje);
 char *encriptarAES(NSString *aesKey,unsigned char* mensaje);
-NSString *desencriptar(char* mensaje);

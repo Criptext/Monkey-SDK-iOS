@@ -18,6 +18,8 @@
 #import <CommonCrypto/CommonCrypto.h>
 
 #define AUTHENTICATION_PUBKEY   @"authentication_pubKey"
+#define SYNC_PUBKEY   @"mok_sync_pubKey"
+#define SYNC_PRIVKEY   @"mok_sync_privKey"
 #define MY_AESKEY      @"myAESKey"
 #define MY_IV			@"myIV"
 
@@ -27,6 +29,45 @@
 @end
 
 @implementation MOKSecurityManager
+const char *sync_publicKey = "-----BEGIN PUBLIC KEY-----\n"
+"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvF6h6ev2VHSzfd8QR4ek\n"
+"O7qbBGdxaKgT5hylD9te9sggXIyVv8aiNHmecaJocyRXYP6DkoimkKq0K84OImpU\n"
+"VcfmX73I3mNJFLmWuDxFvuzOIdHx1y70ltrj63ETscMC+Zp2Comr3cz1LqAcnJzX\n"
+"LEOf9YFp8AsQD8dc9YH2igc4U3JrJWXKOxkDgjaiDNLw1v6FRXbJirNbU3GrJiXj\n"
+"nKmPE7l8UbpPYSAibsijM8ZsUHe9Wms34BZsj2a3I8tB5lubIXmIh0AgBlrMt+1l\n"
+"Tc43LSLtilzX2xsz3iJOjVnib2DaeqQ8OVDTmJqesgV/lhx6ZnqC/n5Ixi9i8CW0\n"
+"fQIDAQAB\n"
+"-----END PUBLIC KEY-----\n";
+
+// private key
+const char *sync_privkey = "-----BEGIN RSA PRIVATE KEY-----\n"
+"MIIEpgIBAAKCAQEAvF6h6ev2VHSzfd8QR4ekO7qbBGdxaKgT5hylD9te9sggXIyV\n"
+"v8aiNHmecaJocyRXYP6DkoimkKq0K84OImpUVcfmX73I3mNJFLmWuDxFvuzOIdHx\n"
+"1y70ltrj63ETscMC+Zp2Comr3cz1LqAcnJzXLEOf9YFp8AsQD8dc9YH2igc4U3Jr\n"
+"JWXKOxkDgjaiDNLw1v6FRXbJirNbU3GrJiXjnKmPE7l8UbpPYSAibsijM8ZsUHe9\n"
+"Wms34BZsj2a3I8tB5lubIXmIh0AgBlrMt+1lTc43LSLtilzX2xsz3iJOjVnib2Da\n"
+"eqQ8OVDTmJqesgV/lhx6ZnqC/n5Ixi9i8CW0fQIDAQABAoIBAQCObXs9lSXHDApf\n"
+"hRcZDq2WX+0wMkrk2Blbp5MC31r5e65EbCQaQkWJKeAsiaEyVmsfMrInTN2sivX6\n"
+"HS5AxWcJCUHeaHCF/kpWulEE8sXFq+XcWpLiomVb3xvwfKpogUwxkKHqK9hgt8U3\n"
+"QOcBX/GuTV+YUQbZ8nNtis917pOMHscjArKNdqdNEDuS2jUqCvYCAvHumVFK2eN/\n"
+"HgY02A0sZn3AmB7NkjeG8+fJ7Qjo2IESSVlmhTqnz4c2BA4Y8hEuLFusLVBA3De3\n"
+"RvBMiiGC6DH3W+fCAOh/AAHSS3uyy7rHPZNdjOxfC9NTvU3GTbtiT8VY/giM4GaG\n"
+"HcWSy0J9AoGBAOOjtzaL5xu2stG5RIA6gnxNTMQQFgZvMx4SQduTQ5SEJ/HIE/mX\n"
+"MQnR7TyTZRyPGSbMVX/EHcb0r5AGdei2EjxSpMony67So7rXHoizBWlEbLRJ4DVf\n"
+"v9R5HfTec5pBFdWwmtOsxH5FNGK9DI/B79qAJx+Z+dUl2Bz8HyFU6f5PAoGBANPW\n"
+"c+N2vFYQLt8lbUXyh6vQ8lZmZLmkYMp46BOg7KQo6SI4lCu/R1cg8eyRmIwgDbWL\n"
+"xGdR+0rsCp0rOYPBrXWO2Zc4Qda383U/sQYQVOHdUz+DPMXDqyE7xGdJzNVhdzPP\n"
+"4yUuQ2ChuZQrtyHNNc5VFqHAoPhZKybaWdhTsVlzAoGBAJfT9vvzneY3GdeVqSGZ\n"
+"ZLSBXiUa0YXjHwX8iV5pP1bMOlQh7Wi4NaXmFUQkzviYXN8qxA/efznWs03tcTEQ\n"
+"VuNS/8QxfMGSjk+s8RmdxYsrbxFkgJ04ypptWdSbliEZLfYDv5BVGA1cHQ+KJdmw\n"
+"MUjb1rxWF3LZteXHJwA1QYgzAoGBAJ0Eazfh7a2ZJzTtp/Zd06ROJyJVmTllFv1c\n"
+"6yCJen4feNaNu35FtJpnaAqizMCojaDQbY7r3GjnVuKyhFod9/WYIb6Ny3ddOA7j\n"
+"W9KTzmbwR2FfZG9uHm1uwKCSuko7iUCVSddoWDbLCSRD1uUuF0DOHw1cG7SZW3vc\n"
+"AxZuypjzAoGBAN0/7w/C1xxMWG6z6MciUbjpDyBWgcqQcqTl+td9FxlRHI4sspAp\n"
+"FEsZP+bbER+pKFcHSwevRHGOwzoxSFLQ3bLe0AKbSaNhHe+b2BXXgqo+jGITrrWM\n"
+"dAAFMAWf/JsKdnI/9gRh9JM6mw9GZio0HDu209EjNAcvc2lnWJaIZbwC\n"
+"-----END RSA PRIVATE KEY-----\n";
+
 
 #pragma mark initialization
 + (instancetype)sharedInstance
@@ -53,6 +94,8 @@
     self = [super init];
     if (self) {
         _keychainStore = [UICKeyChainStore keyChainStoreWithService:@"com.criptextkit.app"];
+        [self storeObject:[NSString stringWithUTF8String:sync_publicKey] withIdentifier:SYNC_PUBKEY];
+        [self storeObject:[NSString stringWithUTF8String:sync_privkey] withIdentifier:SYNC_PRIVKEY];
     }
     return self;
 }
@@ -166,11 +209,43 @@
 
 
 #pragma mark - RSA encryption
+-(NSString *)stripGarbage:(NSString *)s {
+    
+    //NSLog(@"antes:%@",s);
+    NSString *sb=@"";
+    for (int i = 0; i < [s length]; i++) {
+        char ch = [s characterAtIndex:i];
+        if ((ch >= 'A' && ch <= 'Z') ||
+            (ch >= 'a' && ch <= 'z') ||
+            (ch >= '0' && ch <= '9') ||
+            ch == '%' || ch == '_' ||
+            ch == '-' || ch == '!' ||
+            ch == '.' || ch == '~' ||
+            ch == '(' || ch == ')' ||
+            ch == '*' || ch == '\'' ||
+            ch == ';' || ch == '/' ||
+            ch == '?' || ch == ':' ||
+            ch == '@' || ch == '=' ||
+            ch == '&' || ch == '$' ||
+            ch == ',' || ch == '+') {
+            sb=[NSString stringWithFormat:@"%@%c",sb,ch];
+        }
+        else
+            break;
+    }
+    //NSLog(@"despues:%@",sb);
+    
+    return [sb stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+}
+
 -(NSString *)rsaEncryptBase64String:(NSString *)string withPublicKeyIdentifier:(NSString *)identifier{
     NSString *pubKey = self.keychainStore[identifier];
     return [NSString stringWithFormat:@"%s", encriptarRSA([pubKey UTF8String], (unsigned char *) [string UTF8String]) ];
 }
-
+-(NSString *)rsaDecryptBase64String:(NSString *)string withPrivateKeyIdentifier:(NSString *)identifier{
+    NSString *privKey = self.keychainStore[identifier];
+    return [self stripGarbage:decriptarRSA([privKey UTF8String], (unsigned char *) [string UTF8String])];
+}
 #pragma mark - AES encryption and decryption
 -(MOKMessage *)aesEncryptIncomingMessage:(MOKMessage *)message{
     message.encryptedText = [self aesEncryptPlainText:message.messageText fromUser:message.userIdTo];

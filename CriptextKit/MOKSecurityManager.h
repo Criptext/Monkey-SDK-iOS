@@ -31,6 +31,8 @@
 
 //encryption and decryption
 -(NSString *)rsaEncryptBase64String:(NSString *)string withPublicKeyIdentifier:(NSString *)identifier;
+-(NSString *)rsaDecryptBase64String:(NSString *)string withPrivateKeyIdentifier:(NSString *)identifier;
+
 -(MOKMessage *)aesEncryptIncomingMessage:(MOKMessage *)message;
 -(MOKMessage *)aesEncryptOutgoingMessage:(MOKMessage *)message;
 -(MOKMessage *)aesDecryptIncomingMessage:(MOKMessage *)message;

@@ -7,15 +7,7 @@
 //
 
 #import "MOKCriptext.h"
-#include <openssl/bn.h>
-#include <openssl/dsa.h>
-#include <openssl/rsa.h>
-#include <openssl/opensslv.h>
-#include <openssl/engine.h>
-#include <openssl/pem.h>
-#include <ctype.h>
-#include <stdio.h>
-#include <stdlib.h>
+
 
 #define PADDING RSA_PKCS1_PADDING
 
@@ -180,6 +172,19 @@ RSA* loadPUBLICKeyFromString( const char* publicKeyStr )
     return rsaPubKey ;
 }
 
+RSA* loadPRIVATEKeyFromString( const char* privateKeyStr )
+{
+    BIO *bio = BIO_new_mem_buf( (void*)privateKeyStr, -1 );
+    //BIO_set_flags( bio, BIO_FLAGS_BASE64_NO_NL ) ; // NO NL
+    RSA* rsaPrivKey = PEM_read_bio_RSAPrivateKey( bio, NULL, NULL, NULL ) ;
+    
+    if ( !rsaPrivKey )
+        printf("ERROR: Could not load PRIVATE KEY!  PEM_read_bio_RSAPrivateKey FAILED: %s\n", ERR_error_string(ERR_get_error(), NULL));
+    
+    BIO_free( bio ) ;
+    return rsaPrivKey ;
+}
+
 unsigned char* rsaEncrypt( RSA *pubKey, const unsigned char* str, int dataSize, int *resultLen )
 {
     int rsaLen = RSA_size( pubKey ) ;
@@ -197,6 +202,17 @@ unsigned char* rsaEncrypt( RSA *pubKey, const unsigned char* str, int dataSize, 
     return ed ;
 }
 
+unsigned char* rsaDecrypt( RSA *privKey, const unsigned char* encryptedData, int *resultLen )
+{
+    int rsaLen = RSA_size( privKey ) ; // That's how many bytes the decrypted data would be
+    
+    unsigned char *decryptedBin = (unsigned char*)malloc( rsaLen ) ;
+    *resultLen = RSA_private_decrypt( RSA_size(privKey), encryptedData, decryptedBin, privKey, PADDING ) ;
+    if( *resultLen == -1 )
+        printf( "ERROR: RSA_private_decrypt: %s\n", ERR_error_string(ERR_get_error(), NULL) ) ;
+    
+    return decryptedBin ;
+}
 
 // You may need to encrypt several blocks of binary data (each has a maximum size
 // limited by pubKey).  You shoudn't try to encrypt more than
@@ -223,6 +239,18 @@ char* rsaEncryptThenBase64( RSA *pubKey, unsigned char* binaryData, int binaryDa
     return asciiBase64Enc ;
 }
 
+unsigned char* rsaDecryptThisBase64( RSA *privKey, char* base64String, int *outLen )
+{
+    int encBinLen ;
+    unsigned char* encBin = hash_unbase64( base64String, (int)strlen( base64String ), &encBinLen ) ;
+    
+    // rsaDecrypt assumes length of encBin based on privKey
+    unsigned char *decryptedBin = rsaDecrypt( privKey, encBin, outLen ) ;
+    free( encBin ) ;
+    
+    return decryptedBin ;
+}
+
 char *encriptarRSA(const char *b64_pKey,unsigned char* mensaje){
     
     ERR_load_crypto_strings();
@@ -243,4 +271,26 @@ char *encriptarRSA(const char *b64_pKey,unsigned char* mensaje){
     
     return asciiB64E;
     
+}
+
+NSString *decriptarRSA(const char *b64priv_key, unsigned char* base64_mensaje){
+    
+    // Now decrypt this very string with the private key
+    RSA *privKey = loadPRIVATEKeyFromString( b64priv_key ) ;
+    
+    // Now we got the data at the server.  Time to decrypt it.
+    int rBinLen;
+    unsigned char* rBin = rsaDecryptThisBase64( privKey, base64_mensaje, &rBinLen ) ;
+    
+    RSA_free(privKey);
+    //free( str ) ;
+    // free( rBin ) ;
+    ERR_free_strings();
+    
+    rBin[rBinLen]='\0';
+    NSString *strtmp=[NSString stringWithFormat:@"%s",rBin];
+    free(rBin);
+    
+    //NSLog(@"DESCEPCTITANDO***************************X:%@",strtmp);
+    return strtmp;
 }
