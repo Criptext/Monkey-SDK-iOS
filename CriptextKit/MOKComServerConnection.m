@@ -277,6 +277,8 @@
         case MOKProtocolGet:{
             [[MOKMessagingManager sharedInstance] notifyUpdatesToWatchdog];
 
+            if(self.connectionDelegate!=nil)
+                [self.connectionDelegate onLoadPendingMessages];
             
             NSDecimalNumber *type = [args objectForKey:@"type"];
             

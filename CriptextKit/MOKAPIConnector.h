@@ -68,7 +68,7 @@
                         andExpiration:(BOOL)expires
                              delegate:(id)delegate;
 
--(void)getRegisteredAESkeysForSessionId:(NSString *)sessionId delegate:(id<MOKAPIConnectorDelegate>)delegate;
+-(void)getRegisteredAESkeysForSessionId:(NSString *)sessionId withAppId:(NSString *)appId andAppKey:(NSString *)appKey delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 -(void)keyExchangeWith:(NSString *)sessionId delegate:(id<MOKAPIConnectorDelegate>)delegate;
 //-(void)openConversation:(NSString *)conversationId delegate:(id<MOKAPIConnectorDelegate>)delegate;

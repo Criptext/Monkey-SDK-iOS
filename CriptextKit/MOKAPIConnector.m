@@ -169,11 +169,20 @@
     }];
 }
 
--(void)getRegisteredAESkeysForSessionId:(NSString *)sessionId delegate:(id<MOKAPIConnectorDelegate>)delegate{
+-(void)getRegisteredAESkeysForSessionId:(NSString *)sessionId withAppId:(NSString *)appId andAppKey:(NSString *)appKey delegate:(id<MOKAPIConnectorDelegate>)delegate{
+    
+    [MOKSessionManager sharedInstance].appId = appId;
+    [MOKSessionManager sharedInstance].appKey = appKey;
+    
     NSDictionary *requestObject = @{@"session_id" : sessionId,
                                     @"public_key" : [[MOKSecurityManager sharedInstance] getObjectForIdentifier:SYNC_PUBKEY]
                                     };
-    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/sync"] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    
+    NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
+    
+    [self.requestSerializer setAuthorizationHeaderFieldWithUsername:appId password:appKey];
+    
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/sync"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = [responseObject objectForKey:@"data"];
         NSLog(@"MONKEY - old Key response: %@", responseObject);
         if([[responseObject objectForKey:@"status"] intValue] != 0){
@@ -198,6 +207,9 @@
         if ([storedLastMessageId intValue] > [[MOKSessionManager sharedInstance].lastMessageId intValue]) {
             [MOKSessionManager sharedInstance].lastMessageId = storedLastMessageId;
         }
+        
+        [MOKSessionManager sharedInstance].domain = @"secure.criptext.com";
+        [MOKSessionManager sharedInstance].port = @"1139";
         
         [delegate onAuthenticationOkWithSessionId:sessionId publicKey:nil];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

@@ -121,10 +121,23 @@
     
     return keyData;
 }
+
+-(RLMRealm *)getRealmWithMyConfiguration:(RLMRealmConfiguration *)config{
+    NSError *error;
+    RLMRealm *realm = [RLMRealm realmWithConfiguration:config error:&error];
+    
+    if (error) {
+        NSLog(@"error:%@", [error localizedDescription]);
+        [[NSFileManager defaultManager] removeItemAtPath:self.config.path error:nil];
+        return [self getRealmWithMyConfiguration:self.config];
+    }
+    
+    return realm;
+}
 #pragma mark - Messages
 - (void)storeMessage:(MOKMessage *)msg{
     
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     
     [realm beginWriteTransaction];
     NSDictionary *object = @{
@@ -147,11 +160,11 @@
     [realm commitWriteTransaction];
 }
 - (BOOL)existMessage:(NSString *)messageId{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     return [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId] != nil;
 }
 - (MOKMessage *)getMessageById:(NSString *)messageId{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBMessage *msg = [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId];
     
     if (msg !=nil) {
@@ -174,7 +187,7 @@
     }
 }
 - (void)deleteMessageSentWithId:(NSString *)messageId{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:messageId];
     if (mensaje == nil) {
         return;
@@ -187,7 +200,7 @@
     
 }
 - (void)deleteMessageSent:(MOKMessage *)msg{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBMessage *mensaje = [MOKDBMessage objectInRealm:realm forPrimaryKey:msg.oldMessageId];
     if (mensaje == nil) {
         return;
@@ -200,7 +213,7 @@
     
 }
 - (MOKMessage *)getOldestMessageNotSent{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     for (MOKDBMessage *msg in [MOKDBMessage allObjectsInRealm:realm]) {
         if ([msg.messageId intValue]<0) {
             MOKMessage *message = [[MOKMessage alloc]init];
@@ -241,7 +254,7 @@
 }
 
 - (void)storeSessionId:(NSString *)sessionId{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBSession *session = [self checkSession:realm];
     
     [realm beginWriteTransaction];
@@ -250,14 +263,14 @@
     [realm commitWriteTransaction];
 }
 - (NSString *)loadSessionId{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBSession *session = [self checkSession:realm];
     
     return session.sessionId;
 
 }
 - (void)storeAppId:(NSString *)appId{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBSession *session = [self checkSession:realm];
     
     [realm beginWriteTransaction];
@@ -266,13 +279,13 @@
     [realm commitWriteTransaction];
 }
 - (NSString *)loadAppId{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBSession *session = [self checkSession:realm];
     
     return session.appId;
 }
 - (void)storeAppKey:(NSString *)appKey{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBSession *session = [self checkSession:realm];
     
     [realm beginWriteTransaction];
@@ -281,13 +294,13 @@
     [realm commitWriteTransaction];
 }
 - (NSString *)loadAppKey{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBSession *session = [self checkSession:realm];
     
     return session.appKey;
 }
 - (void)storeUser:(MOKUserDictionary *)user{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBSession *session = [self checkSession:realm];
     
     [realm beginWriteTransaction];
@@ -296,7 +309,7 @@
     [realm commitWriteTransaction];
 }
 - (MOKUserDictionary *)loadUser{
-    RLMRealm *realm = [RLMRealm realmWithConfiguration:self.config error:nil];
+    RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     MOKDBSession *session = [self checkSession:realm];
     MOKUserDictionary *user = [self.jsonParser objectWithString:session.user];
     return user;
