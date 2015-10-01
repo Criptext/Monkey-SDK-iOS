@@ -182,8 +182,6 @@ typedef enum{
  */
 - (BOOL)isBroadCastMessage;
 
-- (BOOL)needsDownload;
-
 -(id) mutableCopyWithZone: (NSZone *) zone;
 
 - (id)initWithMessage:(NSString*)messageText

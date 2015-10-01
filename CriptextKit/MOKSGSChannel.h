@@ -24,11 +24,11 @@
 
 
 @interface MOKSGSChannel : NSObject {
-	id<MOKSGSChannelDelegate> delegate;
-	
-	MOKSGSSession *session;
-	MOKSGSId *sgsId;
-	NSString *name;
+    __unsafe_unretained id<MOKSGSChannelDelegate> delegate;
+    
+    __unsafe_unretained MOKSGSSession *session;
+    MOKSGSId *sgsId;
+    NSString *name;
 }
 @property (nonatomic, assign) id<MOKSGSChannelDelegate> delegate;
 

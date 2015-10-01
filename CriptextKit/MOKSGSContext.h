@@ -30,10 +30,10 @@
 
 
 @interface MOKSGSContext : NSObject {
-	NSString *hostname;
-	NSInteger port;
-	
-	id<MOKSGSContextDelegate> delegate;
+    NSString *hostname;
+    NSInteger port;
+    
+    __unsafe_unretained id<MOKSGSContextDelegate> delegate;
 }
 @property (nonatomic, retain) NSString *hostname;
 @property (nonatomic, assign) NSInteger port;

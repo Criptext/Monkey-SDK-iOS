@@ -16,20 +16,11 @@
 @synthesize delegate;
 
 - (id)initWithHostname:(NSString *)aHostname port:(NSInteger)aPort {
-	if(self = [super init]) {
-		self.hostname = aHostname;
-		self.port = aPort;
-	}
-	return self;
-}
-
-- (void)dealloc {
-    
-        NSLog(@"MONKEY - CONTEXT TAMBIEEEEEN? te desaolcaste we");
-    
-	[hostname release];
-	
-	[super dealloc];
+    if(self = [super init]) {
+        self.hostname = aHostname;
+        self.port = aPort;
+    }
+    return self;
 }
 
 @end

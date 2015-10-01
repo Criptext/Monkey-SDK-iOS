@@ -12,9 +12,9 @@
 @class MOKSGSChannel;
 
 @interface MOKSGSMessage : NSObject {
-	NSMutableData *data;
-	NSUInteger payloadLength;
-	NSInteger position;
+    NSMutableData *data;
+    NSUInteger payloadLength;
+    NSInteger position;
 }
 @property (nonatomic, assign) NSUInteger payloadLength;
 @property (nonatomic, assign) NSInteger position;

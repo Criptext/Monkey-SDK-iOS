@@ -62,11 +62,6 @@
 //208
 -(void)sendCloseCommandToUser:(NSString *)sessionId;
 
--(void)sendOneMessageAgain:(NSString *)messageId;
-
--(void)sendAttachComplete:(NSDictionary *)param msgId:(MOKMessage *)msg toids:(NSString *)ids;
--(void)forceNotificationRecived:(MOKMessage *)message;
-
 - (void)addReceiver:(id <MOKMessageReceiver>)receiver;
 - (void)removeReceiver:(id <MOKMessageReceiver>)receiver;
 

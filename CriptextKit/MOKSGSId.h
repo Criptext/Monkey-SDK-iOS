@@ -10,7 +10,7 @@
 
 
 @interface MOKSGSId : NSObject <NSCopying> {
-	NSData *data;
+    NSData *data;
 }
 @property (nonatomic, readonly) NSData *data;
 

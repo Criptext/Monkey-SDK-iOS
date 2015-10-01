@@ -46,114 +46,114 @@
 @synthesize inRedirect;
 
 - (id)initWithContext:(MOKSGSContext *)aContext {
-	if(self = [super init]) {
-		// Save reference to our context
-		self.context = aContext;
-		
-		// Set some defaults
-		expectingDisconnect = NO;
-		inRedirect = NO;
-		state = MOKSGSConnectionStateDisconnected;
-		session = [[MOKSGSSession alloc] initWithConnection:self];
-		
-		// Create our io buffers
-		inBuf = [[NSMutableData alloc] init];
-		outBuf = [[NSMutableData alloc] init];
-	}
-	return self;
+    if(self = [super init]) {
+        // Save reference to our context
+        self.context = aContext;
+        
+        // Set some defaults
+        expectingDisconnect = NO;
+        inRedirect = NO;
+        state = MOKSGSConnectionStateDisconnected;
+        session = [[MOKSGSSession alloc] initWithConnection:self];
+        
+        // Create our io buffers
+        inBuf = [[NSMutableData alloc] init];
+        outBuf = [[NSMutableData alloc] init];
+    }
+    return self;
 }
 
 - (void)disconnect {
     NSLog(@"MONKEY - ???disconnect FUnction called por aca habian releases?");
-	[self closeStreams];
-	expectingDisconnect = NO;
-	state = MOKSGSConnectionStateDisconnected;
-	
-	if(inRedirect) {
-		// Just reset the buffers if we are being redirected
-		[self resetBuffers];
-	} else {
-		// Not redirecting so release the buffers and release
-		// our references to the context and session
+    [self closeStreams];
+    expectingDisconnect = NO;
+    state = MOKSGSConnectionStateDisconnected;
+    
+    if(inRedirect) {
+        // Just reset the buffers if we are being redirected
+        [self resetBuffers];
+    } else {
+        // Not redirecting so release the buffers and release
+        // our references to the context and session
         
-		//[inBuf release];
-//		[outBuf release];
-//		[session release];
-		//[context release];
-		/*
-		inBuf = nil;
-		outBuf = nil;
-		session = nil;*/
-		//context = nil;
-	}
-//    [[UserDefaultsManager instance]storeObjectFree:@"2" forKey:@"StreamDelayTime"];
-//    [[UserDefaultsManager instance]storeObjectFree:@"15" forKey:@"StreamPortions"];
-	
+        //[inBuf release];
+        //		[outBuf release];
+        //		[session release];
+        //[context release];
+        /*
+         inBuf = nil;
+         outBuf = nil;
+         session = nil;*/
+        //context = nil;
+    }
+    //    [[UserDefaultsManager instance]storeObjectFree:@"2" forKey:@"StreamDelayTime"];
+    //    [[UserDefaultsManager instance]storeObjectFree:@"15" forKey:@"StreamPortions"];
+    
 }
 
 - (void)loginWithUsername:(NSString *)username password:(NSString *)password {
-    #ifdef DEBUG
+#ifdef DEBUG
     NSLog(@"MONKEY - login credentials, username: %@ password: %@, hostname: %@, port: %ld", username, password, context.hostname, (long)context.port);
-	#endif
-
-	if(self.state==MOKSGSConnectionStateConnecting)
-		return;
-	
+#endif
     
-	self.state=MOKSGSConnectionStateConnecting;
-//	    NSLog(@"MONKEY - antes de host ref");
-	// Create the host ref
-//    if (context.hostname == [NSNull null]) {
-//        context.hostname = @"central.criptext.com";
-//    }
-//    context.port = 1139;
-//    context.hostname = @"secure.criptext.com";
-//        NSLog(@"MONKEY - despues de host ref");
-	CFStringRef hostname = CFStringCreateWithCString(kCFAllocatorDefault, [context.hostname UTF8String], kCFStringEncodingASCII);
-	CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, hostname);
-	
-	// Pre buffer the login request
-	[session loginWithLogin:username password:password];
-	
-	// Try and connect to the socket
-	CFReadStreamRef readStream = NULL;
-	CFWriteStreamRef writeStream = NULL;
-	
+    if(self.state==MOKSGSConnectionStateConnecting)
+        return;
     
-	CFStreamCreatePairWithSocketToCFHost(kCFAllocatorDefault, host, context.port, &readStream, &writeStream);
-	if(readStream && writeStream) {
-		CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
-		CFWriteStreamSetProperty(writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
-		inputStream = (NSInputStream *)readStream;
-		outputStream = (NSOutputStream *)writeStream;
-		
-		[self openStreams];
-		//antes estaba connected en este estado, lo cambie porque realmente no esta conectado
-		self.state = MOKSGSConnectionStateConnecting;
+    
+    self.state=MOKSGSConnectionStateConnecting;
+    //	    NSLog(@"MONKEY - antes de host ref");
+    // Create the host ref
+    //    if (context.hostname == [NSNull null]) {
+    //        context.hostname = @"central.criptext.com";
+    //    }
+    //    context.port = 1139;
+    //    context.hostname = @"secure.criptext.com";
+    //        NSLog(@"MONKEY - despues de host ref");
+    CFStringRef hostname = CFStringCreateWithCString(kCFAllocatorDefault, [context.hostname UTF8String], kCFStringEncodingASCII);
+    CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, hostname);
+    
+    // Pre buffer the login request
+    [session loginWithLogin:username password:password];
+    
+    // Try and connect to the socket
+    CFReadStreamRef readStream = NULL;
+    CFWriteStreamRef writeStream = NULL;
+    
+    
+    CFStreamCreatePairWithSocketToCFHost(kCFAllocatorDefault, host, context.port, &readStream, &writeStream);
+    if(readStream && writeStream) {
+        CFReadStreamSetProperty(readStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
+        CFWriteStreamSetProperty(writeStream, kCFStreamPropertyShouldCloseNativeSocket, kCFBooleanTrue);
+        inputStream = (__bridge NSInputStream *)readStream;
+        outputStream = (__bridge NSOutputStream *)writeStream;
         
-	}
+        [self openStreams];
+        //antes estaba connected en este estado, lo cambie porque realmente no esta conectado
+        self.state = MOKSGSConnectionStateConnecting;
+        
+    }
 }
 
 - (void)logout:(BOOL)force {
-	if(force) {
-		[self connectionClosed];
-		return;
-	}
-	
-	expectingDisconnect = YES;
-	if(inRedirect) {
-		return;
-	}
-	
-	[session logout];
+    if(force) {
+        [self connectionClosed];
+        return;
+    }
+    
+    expectingDisconnect = YES;
+    if(inRedirect) {
+        return;
+    }
+    
+    [session logout];
 }
 
 - (BOOL)sendMessage:(MOKSGSMessage *)msg {
-	
-	[outBuf appendBytes:[msg bytes] length:[msg length]];
-	return [self processOutgoingBytes];
-	
-	
+    
+    [outBuf appendBytes:[msg bytes] length:[msg length]];
+    return [self processOutgoingBytes];
+    
+    
 }
 
 #pragma mark NSStreamDelegate Impl
@@ -161,96 +161,96 @@
 - (void) stream:(NSStream*)stream handleEvent:(NSStreamEvent)eventCode {
     //NSLog(@"MONKEY - STREAM handleEvent has bytes comming");
     
-	switch (eventCode) {
-		case NSStreamEventOpenCompleted:
-		{
-			if(stream == outputStream) {
-				// Output stream is connected
-				// Update our state on this
-				state = MOKSGSConnectionStateConnected;
-			}
-			break;
-		}
-		case NSStreamEventHasBytesAvailable:
-		{//0x8b
-
-			dispatch_async(dispatch_get_main_queue(), ^{
+    switch (eventCode) {
+        case NSStreamEventOpenCompleted:
+        {
+            if(stream == outputStream) {
+                // Output stream is connected
+                // Update our state on this
+                state = MOKSGSConnectionStateConnected;
+            }
+            break;
+        }
+        case NSStreamEventHasBytesAvailable:
+        {//0x8b
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
                 [self readInputProcess];
             });
-			break;
-		}
-		case NSStreamEventHasSpaceAvailable:
-		{
-			[self processOutgoingBytes];
-			break;
-		}
-		case NSStreamEventEndEncountered:
-		{
-			[self connectionClosed];
-			[self notifyConnectionClosed];
-			break;
-		}
-		case NSStreamEventErrorOccurred:
-			[self connectionClosed];
-			[self notifyConnectionClosed];
-			break;
-		default:
-			break;
-	}
+            break;
+        }
+        case NSStreamEventHasSpaceAvailable:
+        {
+            [self processOutgoingBytes];
+            break;
+        }
+        case NSStreamEventEndEncountered:
+        {
+            [self connectionClosed];
+            [self notifyConnectionClosed];
+            break;
+        }
+        case NSStreamEventErrorOccurred:
+            [self connectionClosed];
+            [self notifyConnectionClosed];
+            break;
+        default:
+            break;
+    }
 }
 
 -(void) readInputProcess{
     
-
-//    uint8_t buffer[1024];
-//    int len;
-//    
-//    while ([inputStream hasBytesAvailable]) {
-//        len = [inputStream read:buffer maxLength:sizeof(buffer)];
-//        if (len > 0) {
-//            
-//            NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
-//            
-//            if (nil != output) {
-//                NSLog(@"MONKEY - server said: %@", output);
-//            }
-//        }
-//    }
-
-
+    
+    //    uint8_t buffer[1024];
+    //    int len;
+    //
+    //    while ([inputStream hasBytesAvailable]) {
+    //        len = [inputStream read:buffer maxLength:sizeof(buffer)];
+    //        if (len > 0) {
+    //
+    //            NSString *output = [[NSString alloc] initWithBytes:buffer length:len encoding:NSASCIIStringEncoding];
+    //
+    //            if (nil != output) {
+    //                NSLog(@"MONKEY - server said: %@", output);
+    //            }
+    //        }
+    //    }
+    
+    
     @try {
         // read data from the buffer
         uint8_t buf[1024];
         uint8_t *buffer;
         NSUInteger ilen = 0;
         @synchronized(inBuf){
-        if(![inputStream getBuffer:&buffer length:&ilen]) {
-            NSInteger amount;
-            
-            while([inputStream hasBytesAvailable]) {
+            if(![inputStream getBuffer:&buffer length:&ilen]) {
+                NSInteger amount;
                 
-                amount = [inputStream read:buf maxLength:sizeof(buf)];
-                if(amount>0)
-                    [inBuf appendBytes:buf length:amount];
+                while([inputStream hasBytesAvailable]) {
+                    
+                    amount = [inputStream read:buf maxLength:sizeof(buf)];
+                    if(amount>0)
+                        [inBuf appendBytes:buf length:amount];
+                    
+                    //NSLog(@"MONKEY - new *** Opcode : 0x%x", buf[2]);
+                }//end while
                 
-                //NSLog(@"MONKEY - new *** Opcode : 0x%x", buf[2]);
-            }//end while
+                
+                
+                
+            } else {
+#ifdef DEBUG
+                NSLog(@"MONKEY - ELSE inputStream not available APPEND -- bbuffer");
+#endif
+                // We have a reference to the buffer
+                // copy the buffer over to our input buffer and begin processing
+                [inBuf appendBytes:buffer length:ilen];
+            }
             
             
-           
-            
-        } else {
-            #ifdef DEBUG
-            NSLog(@"MONKEY - ELSE inputStream not available APPEND -- bbuffer");
-			#endif
-            // We have a reference to the buffer
-            // copy the buffer over to our input buffer and begin processing
-            [inBuf appendBytes:buffer length:ilen];
-        }
-        
-        
-        //NSString *outputString = [[NSString alloc] initWithBytes:buf length:amount encoding:NSASCIIStringEncoding];
-//        NSLog(@"MONKEY - BUffer size %i String collected %@",amount,outputString);
+            //NSString *outputString = [[NSString alloc] initWithBytes:buf length:amount encoding:NSASCIIStringEncoding];
+            //        NSLog(@"MONKEY - BUffer size %i String collected %@",amount,outputString);
         }
         do {} while([self processIncomingBytes]);
         
@@ -258,32 +258,32 @@
     }@catch (MOKCustomException *ce){
         if (![MOKSessionManager sharedInstance].streamChanged) {
             [MOKSessionManager sharedInstance].streamChanged = true;
-        
-//            int streamDelayTime = [[MOKSessionManager sharedInstance].delay intValue];
+            
+            //            int streamDelayTime = [[MOKSessionManager sharedInstance].delay intValue];
             int streamPortions = [[MOKSessionManager sharedInstance].portions intValue];
             
             
-//            streamDelayTime = streamDelayTime + 1;
+            //            streamDelayTime = streamDelayTime + 1;
             streamPortions = streamPortions - 1;
             if (streamPortions < 5 ) {
                 streamPortions = 5;
             }
-//            if (streamDelayTime <2 ) {
-//                streamDelayTime = 2;
-//            }
-//            if (streamDelayTime >5) {
-//                streamDelayTime = 5;
-//            }
+            //            if (streamDelayTime <2 ) {
+            //                streamDelayTime = 2;
+            //            }
+            //            if (streamDelayTime >5) {
+            //                streamDelayTime = 5;
+            //            }
             
-//            [MOKSessionManager sharedInstance].delay = [NSString stringWithFormat:@"%d",streamDelayTime];
+            //            [MOKSessionManager sharedInstance].delay = [NSString stringWithFormat:@"%d",streamDelayTime];
             [MOKSessionManager sharedInstance].portions = [NSString stringWithFormat:@"%d",streamPortions];
-            #ifdef DEBUG
-//            NSLog(@"MONKEY - incrementado delay a:%d y decrementado porciones a:%d", streamDelayTime, streamPortions);
+#ifdef DEBUG
+            //            NSLog(@"MONKEY - incrementado delay a:%d y decrementado porciones a:%d", streamDelayTime, streamPortions);
             NSLog(@"MONKEY - decrementado porciones a:%d", streamPortions);
-			#endif
+#endif
             // Delay execution of my block for 10 seconds.
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 10 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
-//                [MOKSessionManager sharedInstance].delay = @"2";
+                //                [MOKSessionManager sharedInstance].delay = @"2";
                 [MOKSessionManager sharedInstance].portions = @"15";
                 [MOKSessionManager sharedInstance].streamChanged = false;
             });
@@ -301,86 +301,84 @@
 #pragma mark Private Methods
 
 - (void)openStreams {
-	inputStream.delegate = self;
-	[inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	[inputStream open];
-	outputStream.delegate = self;
-	[outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	[outputStream open];
-
+    inputStream.delegate = self;
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream open];
+    outputStream.delegate = self;
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream open];
+    
 }
 
 - (void)closeStreams {
-	
-	if(inputStream) {
-		[inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-//		[inputStream release];
-//		inputStream = nil;
-	}
-	
-	if(outputStream) {
-		[outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
-	//	[outputStream release];
-	//	outputStream = nil;
-	}
+    
+    if(inputStream) {
+        [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        //		[inputStream release];
+        //		inputStream = nil;
+    }
+    
+    if(outputStream) {
+        [outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        //	[outputStream release];
+        //	outputStream = nil;
+    }
 }
 
 - (void)connectionClosed {
-	if(inRedirect)
-		return;
-	
-	[self disconnect];
-	
-	
-	
+    if(inRedirect)
+        return;
+    
+    [self disconnect];
+    
+    
+    
 }
 
 -(void)notifyConnectionClosed{
-	//antes fuera de disconnect
-	if([context.delegate respondsToSelector:@selector(sgsContext:disconnected:)]) {
-		[context.delegate sgsContext:context disconnected:self];
-	}
+    //antes fuera de disconnect
+    if([context.delegate respondsToSelector:@selector(sgsContext:disconnected:)]) {
+        [context.delegate sgsContext:context disconnected:self];
+    }
 }
 
 
 - (void)resetBuffers {
-	[inBuf release];
-	[outBuf release];
-	inBuf = [[NSMutableData alloc] init];
-	outBuf = [[NSMutableData alloc] init];
-	
-	NSLog(@"MONKEY - ________reseting buffers___");
+    inBuf = [[NSMutableData alloc] init];
+    outBuf = [[NSMutableData alloc] init];
+    
+    NSLog(@"MONKEY - ________reseting buffers___");
 }
 
 - (BOOL)isConnectionAvailable {
-	
-	if((![outputStream hasSpaceAvailable] || state==MOKSGSConnectionStateDisconnected || !inputStream) && state!=MOKSGSConnectionStateConnecting) {
-		return NO;
-	}
-
-	return YES;
+    
+    if((![outputStream hasSpaceAvailable] || state==MOKSGSConnectionStateDisconnected || !inputStream) && state!=MOKSGSConnectionStateConnecting) {
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (BOOL)processOutgoingBytes {
-	
-	if(![outputStream hasSpaceAvailable]) {
-//        NSLog(@"MONKEY - NO SPACE AVAILABLE TO GO");
-		return NO;
-	}
-	
-	unsigned olen = [outBuf length];
-	if(0 < olen) {
-		int writ = [outputStream write:[outBuf bytes] maxLength:olen];
-		if(writ < olen) {
-			memmove([outBuf mutableBytes], [outBuf mutableBytes] + writ, olen - writ);
-			[outBuf setLength:olen - writ];
-			return YES;
-		}
-	
-		[outBuf setLength:0];
-	}
-
-	return YES;
+    
+    if(![outputStream hasSpaceAvailable]) {
+        //        NSLog(@"MONKEY - NO SPACE AVAILABLE TO GO");
+        return NO;
+    }
+    
+    unsigned olen = [outBuf length];
+    if(0 < olen) {
+        int writ = [outputStream write:[outBuf bytes] maxLength:olen];
+        if(writ < olen) {
+            memmove([outBuf mutableBytes], [outBuf mutableBytes] + writ, olen - writ);
+            [outBuf setLength:olen - writ];
+            return YES;
+        }
+        
+        [outBuf setLength:0];
+    }
+    
+    return YES;
 }
 
 - (BOOL)processIncomingBytes {
@@ -393,11 +391,11 @@
     @synchronized(inBuf){
         
         
-        NSString *output = [[NSString alloc] initWithBytes:inBuf length:ilen encoding:NSUTF8StringEncoding];
+        //        NSString *output = [[NSString alloc] initWithBytes:inBuf length:ilen encoding:NSUTF8StringEncoding];
         
-//        NSLog(@"MONKEY - server said: %@", output);
+        //        NSLog(@"MONKEY - server said: %@", output);
         
-
+        
         
         
         /*
@@ -424,35 +422,35 @@
         {
             //NSLog(@"MONKEY - COMPARA LEN %lu con ILEN %i Y MLEN %i ", len,ilen,mlen);
             
-//            messageBuffer = [NSMutableData dataWithLength:ilen];
+            //            messageBuffer = [NSMutableData dataWithLength:ilen];
             
             // copia al messageBuffer lo de inBuf
-//            memcpy([messageBuffer mutableBytes], [inBuf bytes], ilen);
+            //            memcpy([messageBuffer mutableBytes], [inBuf bytes], ilen);
             
-//            NSLog(@"MONKEY - ESTAMOS MAL MOVE LEN %lu  [inBuf length] - len= %lu; el ilen es %lu =? %lu", len,([inBuf length] - len),ilen,[inBuf length]);
+            //            NSLog(@"MONKEY - ESTAMOS MAL MOVE LEN %lu  [inBuf length] - len= %lu; el ilen es %lu =? %lu", len,([inBuf length] - len),ilen,[inBuf length]);
             
             //move the pointer to the next message in the inbuf buffer, has several messages in the buffer
-//            memmove([inBuf mutableBytes], [inBuf bytes] + ilen, [inBuf length] - ilen);
+            //            memmove([inBuf mutableBytes], [inBuf bytes] + ilen, [inBuf length] - ilen);
             
             @throw [[MOKCustomException alloc] initWithName:@"Bytes Error Exception" reason:@"Exceding Bytes" userInfo:nil];
             return YES;
-
-//            [inBuf setLength:ilen - ilen];// 0
+            
+            //            [inBuf setLength:ilen - ilen];// 0
         }
         else{
-
+            
             messageBuffer = [NSMutableData dataWithLength:len];
             
             // copia al messageBuffer lo de inBuf
             memcpy([messageBuffer mutableBytes], [inBuf bytes], len);
-//            NSLog(@"MONKEY - ESTAMOS BIEN MOVE LEN %lu  COUNT %lu , MLEN es %i", len,[inBuf length] - len,mlen);
+            //            NSLog(@"MONKEY - ESTAMOS BIEN MOVE LEN %lu  COUNT %lu , MLEN es %i", len,[inBuf length] - len,mlen);
             //estoy copiando moviendo los bytesINBUF a mutable en la posicion +len
             memmove([inBuf mutableBytes], [inBuf bytes] + len, [inBuf length] - len);
             
             [inBuf setLength:ilen - len];
         }
         
-
+        
         
         // Build the message with the message buffer
         MOKSGSMessage *mess = [MOKSGSMessage messageWithData:messageBuffer];

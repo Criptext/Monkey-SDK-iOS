@@ -21,28 +21,21 @@
 @synthesize name;
 
 - (id)initWithSession:(MOKSGSSession *)aSession channelId:(MOKSGSId *)aSgsId name:(NSString *)aName {
-	if(self = [super init]) {
-		self.session = aSession;
-		self.sgsId = aSgsId;
-		self.name = [aName copy];
-	}
-	return self;
-}
-
-- (void)dealloc {
-	[sgsId release];
-	[name release];
-	
-	[super dealloc];
+    if(self = [super init]) {
+        self.session = aSession;
+        self.sgsId = aSgsId;
+        self.name = [aName copy];
+    }
+    return self;
 }
 
 - (void)sendMessage:(MOKSGSMessage *)msg {
-	// Wrap the passed message with a new message which adds the
-	// channel attributes
-	MOKSGSMessage *channelMsg = [MOKSGSMessage channelMessage:self];
-	[channelMsg appendArbitraryBytes:[msg bytes] length:[msg length]];
-	
-	[session.connection sendMessage:channelMsg];
+    // Wrap the passed message with a new message which adds the
+    // channel attributes
+    MOKSGSMessage *channelMsg = [MOKSGSMessage channelMessage:self];
+    [channelMsg appendArbitraryBytes:[msg bytes] length:[msg length]];
+    
+    [session.connection sendMessage:channelMsg];
 }
 
 @end

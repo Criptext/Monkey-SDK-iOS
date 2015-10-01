@@ -12,11 +12,11 @@
 @class MOKSGSMessage;
 
 @interface MOKSGSSession : NSObject {
-	MOKSGSConnection *connection;
-	NSData *reconnectKey;
-	NSMutableDictionary *channels;
-	NSString *login;
-	NSString *password;
+    __unsafe_unretained MOKSGSConnection *connection;
+    NSData *reconnectKey;
+    NSMutableDictionary *channels;
+    NSString *login;
+    NSString *password;
 }
 @property (nonatomic, assign) MOKSGSConnection *connection;
 @property (nonatomic, retain) NSData *reconnectKey;

@@ -71,6 +71,4 @@
 
 -(BOOL) isConnected;
 
--(void)delayedMessageGot:(MOKMessage *)message ;
-
 @end

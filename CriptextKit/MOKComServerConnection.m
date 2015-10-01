@@ -493,11 +493,6 @@
 //
 //}
 
-- (void)dealloc {
-        NSLog(@"MONKEY - COMSERVERCONN dealloc");
-//    [super dealloc];
-	//[connection dealloc];
-}
 
 
 @end
