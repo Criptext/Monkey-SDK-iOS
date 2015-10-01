@@ -1,0 +1,6 @@
+framework module Pods_MonkeyKit {
+  umbrella header "Pods-MonkeyKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

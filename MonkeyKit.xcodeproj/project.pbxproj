@@ -135,6 +135,7 @@
 		41A7E7B21AC1E84D0069E77F /* MOKDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A7E7B01AC1E84D0069E77F /* MOKDBManager.m */; };
 		41C775131B26493400EAAD2E /* MOKUserDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 41C775111B26493400EAAD2E /* MOKUserDictionary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41C775141B26493400EAAD2E /* MOKUserDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C775121B26493400EAAD2E /* MOKUserDictionary.m */; };
+		B12BB8E1187B7FD310296228 /* Pods_MonkeyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -256,6 +257,9 @@
 		41A7E7B01AC1E84D0069E77F /* MOKDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBManager.m; sourceTree = "<group>"; };
 		41C775111B26493400EAAD2E /* MOKUserDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKUserDictionary.h; sourceTree = "<group>"; };
 		41C775121B26493400EAAD2E /* MOKUserDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKUserDictionary.m; sourceTree = "<group>"; };
+		499B89B33DB3E6A982E6CFB6 /* Pods-MonkeyKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.release.xcconfig"; sourceTree = "<group>"; };
+		5D91A0B367615E805A5ED62F /* Pods-MonkeyKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.debug.xcconfig"; sourceTree = "<group>"; };
+		C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -268,12 +272,22 @@
 				4146D73F1BAB3DF400D39061 /* libcrypto.a in Frameworks */,
 				416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */,
 				418261191BAFE5B700BE4B0B /* Realm.framework in Frameworks */,
+				B12BB8E1187B7FD310296228 /* Pods_MonkeyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		080D86ACFDE08B2502D3E3DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5D91A0B367615E805A5ED62F /* Pods-MonkeyKit.debug.xcconfig */,
+				499B89B33DB3E6A982E6CFB6 /* Pods-MonkeyKit.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		416A18241AB35677003FA469 /* Compression */ = {
 			isa = PBXGroup;
 			children = (
@@ -408,6 +422,8 @@
 				419CAAA41A80475800F68EB0 /* CriptextKit */,
 				419CAAB11A80475800F68EB0 /* CriptextKitTests */,
 				419CAAA31A80475800F68EB0 /* Products */,
+				080D86ACFDE08B2502D3E3DB /* Pods */,
+				C38EDAB23DC69140D94536DE /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -566,6 +582,14 @@
 			name = Database;
 			sourceTree = "<group>";
 		};
+		C38EDAB23DC69140D94536DE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -640,10 +664,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 419CAAB81A80475800F68EB0 /* Build configuration list for PBXNativeTarget "MonkeyKit" */;
 			buildPhases = (
+				7F023E16C20B6F159A4B2376 /* Check Pods Manifest.lock */,
 				419CAA9D1A80475800F68EB0 /* Sources */,
 				419CAA9E1A80475800F68EB0 /* Frameworks */,
 				419CAA9F1A80475800F68EB0 /* Headers */,
 				419CAAA01A80475800F68EB0 /* Resources */,
+				AFA294B376D4A46FE618DE11 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -712,6 +738,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#!/bin/sh\n\nUNIVERSAL_OUTPUTFOLDER=${BUILD_DIR}/${CONFIGURATION}-universal\n\n# make sure the output directory exists\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Step 1. Build Device and Simulator versions\nxcodebuild -target \"${PROJECT_NAME}\" ONLY_ACTIVE_ARCH=NO -configuration ${CONFIGURATION} -sdk iphoneos  BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\nxcodebuild -target \"${PROJECT_NAME}\" -configuration ${CONFIGURATION} -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" clean build\n\n# Step 2. Copy the framework structure (from iphoneos build) to the universal folder\ncp -R \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/\"\n\n# Step 3. Copy Swift modules from iphonesimulator build (if it exists) to the copied framework directory\nSIMULATOR_SWIFT_MODULES_DIR=\"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule/.\"\nif [ -d \"${SIMULATOR_SWIFT_MODULES_DIR}\" ]; then\ncp -R \"${SIMULATOR_SWIFT_MODULES_DIR}\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Modules/${PROJECT_NAME}.swiftmodule\"\nfi\n\n# Step 4. Create universal binary file using lipo and place the combined executable in the copied framework directory\nlipo -create -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n\n# Step 5. Convenience step to copy the framework to the project's directory\ncp -R \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\" \"${PROJECT_DIR}\"\n\n# Step 6. Convenience step to open the project's directory in Finder\nopen \"${PROJECT_DIR}\"";
+		};
+		7F023E16C20B6F159A4B2376 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		AFA294B376D4A46FE618DE11 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -864,6 +920,7 @@
 		};
 		419CAAB91A80475800F68EB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5D91A0B367615E805A5ED62F /* Pods-MonkeyKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				DEFINES_MODULE = YES;
@@ -896,6 +953,7 @@
 		};
 		419CAABA1A80475800F68EB0 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 499B89B33DB3E6A982E6CFB6 /* Pods-MonkeyKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
 				DEFINES_MODULE = YES;

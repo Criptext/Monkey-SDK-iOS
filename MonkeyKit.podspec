@@ -16,11 +16,11 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MonkeyKit"
-  s.version      = "1.0.0"
-  s.summary      = "A secure communication channel."
+  s.version      = "0.0.1"
+  s.summary      = "A secure messaging channel."
 
   s.description  = <<-DESC
-                   A longer description of MonkeyKit in Markdown format.
+                   MonkeyKit makes encryption easier for developers.
 
                    * Think: Why did you write this? What is the focus? What does it do?
                    * CocoaPods will be using this to generate tags, and improve search results.
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
                    * Finally, don't worry about the indent, CocoaPods strips it!
                    DESC
 
-  s.homepage     = "http://www.criptext.com"
+  s.homepage     = "http://criptext.com"
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
@@ -55,8 +55,8 @@ Pod::Spec.new do |s|
 
   s.author             = { "Criptext INC." => "gianni@criptext.com" }
   # Or just: s.author    = "Gianni Carlo"
-  # s.authors            = { "Gianni Carlo" => "gianni@criptext.com" }
-  s.social_media_url   = "http://twitter.com/Criptext"
+  # s.authors            = { "Gianni Carlo" => "gcarlo89@hotmail.com" }
+  # s.social_media_url   = "http://twitter.com/Gianni Carlo"
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -79,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Criptext/iOS-MonkeySDK", :tag => "0.0.1" }
+  s.source       = { :git => "http://github.com/Criptext/iOS-MonkeySDK.git", :tag => "0.0.1" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -90,8 +90,8 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "Classes", "Classes/**/*.{h,m}"
-  s.exclude_files = "Classes/Exclude"
+  s.source_files  = "CriptextKit", "CriptextKit/**/*.{h,m}"
+  #s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
 
@@ -129,10 +129,9 @@ Pod::Spec.new do |s|
   #  where they will only apply to your library. If you depend on other Podspecs
   #  you can include multiple dependencies to ensure it works.
 
-  s.requires_arc = true
+  # s.requires_arc = true
 
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
-  s.dependency "Realm", "~> 0.95"
-  s.dependency "AFNetworking", "~> 2.0"
+  # s.dependency "JSONKit", "~> 1.4"
 
 end
