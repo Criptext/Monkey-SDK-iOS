@@ -33,7 +33,6 @@
 		417FB85C1A8C1719006B391B /* MOKWatchdog.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FB85A1A8C1719006B391B /* MOKWatchdog.m */; };
 		417FB8601A8C1ADA006B391B /* MOKAlertsManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 417FB85E1A8C1ADA006B391B /* MOKAlertsManager.h */; };
 		417FB8611A8C1ADA006B391B /* MOKAlertsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 417FB85F1A8C1ADA006B391B /* MOKAlertsManager.m */; };
-		418261191BAFE5B700BE4B0B /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 418261181BAFE5B700BE4B0B /* Realm.framework */; settings = {ASSET_TAGS = (); }; };
 		41976AD11AC9BBE000D53B22 /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41976ABE1AC9BBE000D53B22 /* AFHTTPRequestOperation.h */; };
 		41976AD21AC9BBE000D53B22 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41976ABF1AC9BBE000D53B22 /* AFHTTPRequestOperation.m */; };
 		41976AD31AC9BBE000D53B22 /* AFHTTPRequestOperationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41976AC01AC9BBE000D53B22 /* AFHTTPRequestOperationManager.h */; };
@@ -151,7 +150,6 @@
 		417FB85A1A8C1719006B391B /* MOKWatchdog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKWatchdog.m; sourceTree = "<group>"; };
 		417FB85E1A8C1ADA006B391B /* MOKAlertsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKAlertsManager.h; sourceTree = "<group>"; };
 		417FB85F1A8C1ADA006B391B /* MOKAlertsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKAlertsManager.m; sourceTree = "<group>"; };
-		418261181BAFE5B700BE4B0B /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Realm.framework; sourceTree = "<group>"; };
 		41976ABE1AC9BBE000D53B22 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		41976ABF1AC9BBE000D53B22 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		41976AC01AC9BBE000D53B22 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -271,7 +269,6 @@
 				4146D7411BAB3DFA00D39061 /* libssl.a in Frameworks */,
 				4146D73F1BAB3DF400D39061 /* libcrypto.a in Frameworks */,
 				416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */,
-				418261191BAFE5B700BE4B0B /* Realm.framework in Frameworks */,
 				B12BB8E1187B7FD310296228 /* Pods_MonkeyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -417,7 +414,6 @@
 		419CAA981A80475800F68EB0 = {
 			isa = PBXGroup;
 			children = (
-				418261181BAFE5B700BE4B0B /* Realm.framework */,
 				4146D7421BAB3ED900D39061 /* libc++.1.dylib */,
 				419CAAA41A80475800F68EB0 /* CriptextKit */,
 				419CAAB11A80475800F68EB0 /* CriptextKitTests */,
