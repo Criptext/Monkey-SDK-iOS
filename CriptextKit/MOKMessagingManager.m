@@ -471,9 +471,6 @@
     [[MOKWatchdog sharedInstance] removeMediaInTransitWithId:message.oldMessageId];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtPath:message.encryptedText error:NULL];
-    if (self.receivers != NULL) {
-        [self.receivers makeObjectsPerformSelector:@selector(acknowledgeReceived:) withObject:message];
-    }
 }
 -(void)onUploadFileFail:(MOKMessage *)message{
     NSFileManager *fileManager = [NSFileManager defaultManager];
