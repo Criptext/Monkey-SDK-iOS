@@ -80,13 +80,13 @@
 		419CAB1D1A804AFB00F68EB0 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB101A804AFB00F68EB0 /* NSObject+SBJSON.m */; };
 		419CAB1E1A804AFB00F68EB0 /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB111A804AFB00F68EB0 /* NSString+SBJSON.h */; };
 		419CAB1F1A804AFB00F68EB0 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB121A804AFB00F68EB0 /* NSString+SBJSON.m */; };
-		419CAB201A804AFB00F68EB0 /* MOKSBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB131A804AFB00F68EB0 /* MOKSBJSON.h */; };
+		419CAB201A804AFB00F68EB0 /* MOKSBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB131A804AFB00F68EB0 /* MOKSBJSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419CAB211A804AFB00F68EB0 /* MOKSBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB141A804AFB00F68EB0 /* MOKSBJSON.m */; };
-		419CAB221A804AFB00F68EB0 /* MOKSBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB151A804AFB00F68EB0 /* MOKSBJsonBase.h */; };
+		419CAB221A804AFB00F68EB0 /* MOKSBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB151A804AFB00F68EB0 /* MOKSBJsonBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419CAB231A804AFB00F68EB0 /* MOKSBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB161A804AFB00F68EB0 /* MOKSBJsonBase.m */; };
-		419CAB241A804AFB00F68EB0 /* MOKSBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB171A804AFB00F68EB0 /* MOKSBJsonParser.h */; };
+		419CAB241A804AFB00F68EB0 /* MOKSBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB171A804AFB00F68EB0 /* MOKSBJsonParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419CAB251A804AFB00F68EB0 /* MOKSBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB181A804AFB00F68EB0 /* MOKSBJsonParser.m */; };
-		419CAB261A804AFB00F68EB0 /* MOKSBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB191A804AFB00F68EB0 /* MOKSBJsonWriter.h */; };
+		419CAB261A804AFB00F68EB0 /* MOKSBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB191A804AFB00F68EB0 /* MOKSBJsonWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		419CAB271A804AFB00F68EB0 /* MOKSBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB1A1A804AFB00F68EB0 /* MOKSBJsonWriter.m */; };
 		419CAB491A81635D00F68EB0 /* MOKCriptext.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAB471A81635D00F68EB0 /* MOKCriptext.h */; };
 		419CAB4A1A81635D00F68EB0 /* MOKCriptext.m in Sources */ = {isa = PBXBuildFile; fileRef = 419CAB481A81635D00F68EB0 /* MOKCriptext.m */; };
