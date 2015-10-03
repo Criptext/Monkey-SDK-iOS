@@ -22,15 +22,16 @@
 
 @implementation MOKWatchdog
 #pragma mark initialization
+static MOKWatchdog *watchdogInstance = nil;
 + (instancetype)sharedInstance
 {
-    static MOKWatchdog *sharedInstance;
-    
-    if (!sharedInstance) {
-        sharedInstance = [[self alloc] initPrivate];
+    @synchronized(watchdogInstance) {
+        if (watchdogInstance == nil) {
+            watchdogInstance = [[self alloc] initPrivate];
+        }
+        
+        return watchdogInstance;
     }
-    
-    return sharedInstance;
 }
 
 - (instancetype)init
@@ -64,7 +65,7 @@
     NSLog(@"MONKEY - check connectivity in 15secs WOOF!");
 	#endif
     
-    [self performSelector:@selector(resetConnectivity) withObject:nil afterDelay:15.0];
+    [self performSelector:@selector(resetConnectivity) withObject:nil afterDelay:10.0];
 }
 
 -(void)resetConnectivity{
@@ -92,7 +93,7 @@
         [self.messagesInTransit addObject:message];
     }
 //    [self.messagesInTransit addObject:message];
-    [self performSelector:@selector(checkMessages) withObject:nil afterDelay:12.0];
+    [self performSelector:@selector(checkMessages) withObject:nil afterDelay:5.0];
 }
 
 -(void)checkMessages{
@@ -146,6 +147,9 @@
 }
 -(void)logout{
     self.isLogout = true;
+    @synchronized(watchdogInstance) {
+        watchdogInstance = nil;
+    }
 }
 -(void)login{
     self.isLogout = false;

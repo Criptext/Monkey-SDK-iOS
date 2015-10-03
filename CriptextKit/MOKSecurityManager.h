@@ -15,6 +15,7 @@
 
 +(instancetype)sharedInstance;
 
+-(void)logout;
 
 //Keychain Services
 

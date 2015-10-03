@@ -70,21 +70,24 @@ const char *sync_privkey = "-----BEGIN RSA PRIVATE KEY-----\n"
 
 
 #pragma mark initialization
+static MOKSecurityManager *securityManagerInstance = nil;
 + (instancetype)sharedInstance
 {
-    static MOKSecurityManager *sharedInstance;
     
-    if (!sharedInstance) {
-        sharedInstance = [[self alloc] initPrivate];
+    @synchronized(securityManagerInstance) {
+        if (securityManagerInstance == nil) {
+            securityManagerInstance = [[self alloc] initPrivate];
+        }
+        
+        return securityManagerInstance;
     }
     
-    return sharedInstance;
 }
 
 - (instancetype)init
 {
     @throw [NSException exceptionWithName:@"Singleton"
-                                   reason:@"Use +[KeychainManager sharedInstance]"
+                                   reason:@"Use [MOKSecurityManager sharedInstance]"
                                  userInfo:nil];
     return nil;
 }
@@ -99,12 +102,11 @@ const char *sync_privkey = "-----BEGIN RSA PRIVATE KEY-----\n"
     }
     return self;
 }
-
-/*TODO
-> Generate AES Key
-> Store/Replace AES keys in keychain
-> Load Keys in memory in hash table
-*/
+-(void)logout{
+    @synchronized(securityManagerInstance) {
+        securityManagerInstance = nil;
+    }
+}
 #pragma mark - Keychain Services
 -(BOOL)storeObject:(NSString *)key withIdentifier:(NSString *)identifier{
     NSError *error;

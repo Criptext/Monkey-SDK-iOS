@@ -664,17 +664,25 @@
     
 }
 #pragma mark - --- General ---
+static MOKAPIConnector *apiConnectorInstance = nil;
 + (MOKAPIConnector *)sharedInstance
 {
-    static MOKAPIConnector *sharedInstance;
     
-    if (!sharedInstance) {
-        sharedInstance = [[self alloc] initWithBaseURL:[NSURL URLWithString:@""]];
+    @synchronized(apiConnectorInstance) {
+        if (apiConnectorInstance == nil) {
+            apiConnectorInstance = [[self alloc] initWithBaseURL:[NSURL URLWithString:@""]];
+        }
+        
+        return apiConnectorInstance;
     }
-    
-    return sharedInstance;
 }
-
+- (instancetype)init
+{
+    @throw [NSException exceptionWithName:@"Singleton"
+                                   reason:@"Use +[MOKAPIConnector sharedInstance]"
+                                 userInfo:nil];
+    return nil;
+}
 - (instancetype)initWithBaseURL:(NSURL *)url
 {
     self = [super initWithBaseURL:url];
@@ -694,5 +702,12 @@
     
     return self;
 }
+
+-(void)logout{
+    @synchronized(apiConnectorInstance) {
+        apiConnectorInstance = nil;
+    }
+}
+
 
 @end

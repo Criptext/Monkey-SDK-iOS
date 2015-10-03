@@ -67,6 +67,8 @@
 
 -(void)logOut;
 
+-(void)destroyInstance;
+
 -(void)resetConnection;
 
 -(BOOL) isConnected;

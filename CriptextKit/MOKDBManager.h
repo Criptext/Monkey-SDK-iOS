@@ -13,6 +13,7 @@
 @class MOKDBSession;
 @interface MOKDBManager : NSObject
 + (MOKDBManager*) sharedInstance;
+- (void)logout;
 
 //ongoing msgs
 - (void)storeMessage:(MOKMessage *)msg;
@@ -30,4 +31,5 @@
 - (NSString *)loadAppKey;
 - (void)storeUser:(MOKUserDictionary *)user;
 - (MOKUserDictionary *)loadUser;
+
 @end

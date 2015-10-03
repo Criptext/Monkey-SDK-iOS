@@ -16,13 +16,20 @@ static MOKSessionManager *sessionManagerInstance = nil;
 + (MOKSessionManager*)sharedInstance {
 	@synchronized (sessionManagerInstance) {
 		if (sessionManagerInstance == nil) {
-			sessionManagerInstance = [[MOKSessionManager alloc] init];
+			sessionManagerInstance = [[self alloc] initPrivate];
 		}
+        return sessionManagerInstance;
 	}
-	return sessionManagerInstance;
+	
 }
-
-- (id)init {
+- (instancetype)init
+{
+    @throw [NSException exceptionWithName:@"Singleton"
+                                   reason:@"Use +[MOKSessionManager sharedInstance]"
+                                 userInfo:nil];
+    return nil;
+}
+- (id)initPrivate {
 	if (self = [super init]) {
         self.sessionId = @"";
         self.appId = @"";
@@ -39,7 +46,9 @@ static MOKSessionManager *sessionManagerInstance = nil;
 }
 
 - (void)logout {
-    sessionManagerInstance = nil;
+    @synchronized (sessionManagerInstance) {
+        sessionManagerInstance = nil;
+    }
 }
 
 @end

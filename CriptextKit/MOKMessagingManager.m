@@ -27,21 +27,24 @@
 
 @implementation MOKMessagingManager
 
+static MOKMessagingManager *messagingManagerInstance = nil;
+
 + (instancetype)sharedInstance
 {
-    static MOKMessagingManager *sharedInstance;
     
-    if (!sharedInstance) {
-        sharedInstance = [[self alloc] initPrivate];
+    @synchronized(messagingManagerInstance) {
+        if (messagingManagerInstance == nil) {
+            messagingManagerInstance = [[self alloc] initPrivate];
+        }
+        
+        return messagingManagerInstance;
     }
-    
-    return sharedInstance;
 }
 
 - (instancetype)init
 {
     @throw [NSException exceptionWithName:@"Singleton"
-                                   reason:@"Use +[MessagingManager sharedInstance]"
+                                   reason:@"Use +[MOKMessagingManager sharedInstance]"
                                  userInfo:nil];
     return nil;
 }
@@ -564,21 +567,10 @@
     [[MOKWatchdog sharedInstance] updateFinished];
 }
 - (void)logout {
-        [self.receivers removeAllObjects];
-//    [connector cancelAllRequests];
-//    self.attachMessage = nil;
-//    [self.messagesToSend removeAllObjects];
-//    [self.receivers removeAllObjects];
-
-//    [unreadMessages removeAllObjects];
-//    [conversations removeAllObjects];
-//    [messagesWithAttachToCheck removeAllObjects];
-//    conversationsUpdateStamp = 0;
-//    messagesUpdateStamp = 0;
-//    
-//    messagingManagerInstance=nil;
-    
-    //dispatch_release(backgroundQueue);
+    [[MOKWatchdog sharedInstance]logout];
+    @synchronized(messagingManagerInstance) {
+        messagingManagerInstance = nil;
+    }
 }
 
 @end

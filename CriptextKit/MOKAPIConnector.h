@@ -103,4 +103,6 @@ andPushToAllMembers:(NSString *)pushAllMembers
 
 - (NSString*)postBodyForMethod:(NSString*)method data:(id)dataAsJsonComparableObject;
 
+-(void)logout;
+
 @end

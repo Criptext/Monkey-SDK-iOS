@@ -85,6 +85,9 @@
     return self;
 }
 
+- (void)logout{
+    [[NSFileManager defaultManager] removeItemAtPath:self.config.path error:nil];
+}
 - (NSData *)getKey {
     // Identifier for our keychain entry - should be unique for your application
     static const uint8_t kKeychainIdentifier[] = "com.criptext.monkeykit";

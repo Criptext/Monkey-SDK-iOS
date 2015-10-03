@@ -36,19 +36,19 @@
 @synthesize connection, userId,fb_id, connectionRetry;
 @synthesize connectionDelegate;
 
-
+static MOKComServerConnection* comServerConnectionInstance = nil;
 + (MOKComServerConnection*) sharedInstance
 {
-    static MOKComServerConnection* sharedInstance;
     
-	@synchronized(self)
+	@synchronized(comServerConnectionInstance)
 	{
-        if (!sharedInstance) {
-            sharedInstance = [[self alloc] initPrivate];
+        if (comServerConnectionInstance == nil) {
+            comServerConnectionInstance = [[self alloc] initPrivate];
         }
+        return comServerConnectionInstance;
 	}
 
-	return sharedInstance;
+    
 }
 
 - (instancetype)init
@@ -180,6 +180,11 @@
     timeSentPack=0;
 }
 
+-(void)destroyInstance{
+    @synchronized(comServerConnectionInstance) {
+        comServerConnectionInstance = nil;
+    }
+}
 //sending a session message not a group message
 -(BOOL)sendMessage:(NSString *)jsonMessage{
 
