@@ -30,8 +30,9 @@
 -(void)onAuthenticationFail;
 -(void)onAuthenticationWrong;
 
--(void)onOpenConversationOK:(NSString *)key;
--(void)onOpenConversationWrong;
+-(void)onNewKeysReceived:(NSString *)aesKeys withPendingMessage:(MOKMessage *)message;
+-(void)onSameKeysReceivedWithPendingMessage:(MOKMessage *)message;
+-(void)onKeysExchangeFail;
 
 -(void)onOpenServiceTicketOK;
 -(void)onOpenServiceTicketWrong;
@@ -70,7 +71,7 @@
 
 -(void)getRegisteredAESkeysForSessionId:(NSString *)sessionId withAppId:(NSString *)appId andAppKey:(NSString *)appKey delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
--(void)keyExchangeWith:(NSString *)sessionId delegate:(id<MOKAPIConnectorDelegate>)delegate;
+-(void)keyExchangeWith:(NSString *)sessionId withPendingMessage:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate;
 //-(void)openConversation:(NSString *)conversationId delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 //-(void)openServiceTicket:(NSString *)conversationId to:(NSString *)companyid delegate:(id<MOKAPIConnectorDelegate>)delegate;
@@ -78,13 +79,14 @@
 -(void)sendFile:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 //-(void)downloadFile:(MOKMessage *)message withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
--(void)downloadFile:(NSString *)name
-      fileExtension:(NSString *)extension
-           fromUser:(NSString *)userIdFrom
-  folderDestination:(NSString *)folderName
-          encrypted:(BOOL)encrypted
-         compressed:(BOOL)compressed
-       withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
+-(void)downloadFileForMessage:(MOKMessage *)message
+                     withName:(NSString *)name
+                fileExtension:(NSString *)extension
+                     fromUser:(NSString *)userIdFrom
+            folderDestination:(NSString *)folderName
+                    encrypted:(BOOL)encrypted
+                   compressed:(BOOL)compressed
+                 withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 -(void)createGroupWithMembers:(NSArray *)members
                    withParams:(NSDictionary *)params

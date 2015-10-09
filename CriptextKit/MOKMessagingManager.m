@@ -288,9 +288,10 @@ static MOKMessagingManager *messagingManagerInstance = nil;
         }
     }
     
-    NSString * msgId =message.messageId;
-    if(msgId>0)
-        [[MOKSessionManager sharedInstance] setLastMessageId:msgId];
+    long long int msgId =[message.messageId longLongValue];
+    if(msgId>0){
+        [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
+    }
     
     
     if(self.receivers!=NULL){
@@ -303,7 +304,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     }
 }
 - (void)incomingMessage:(MOKMessage *)message {
-    NSString * msgId =message.messageId;
+    long long int msgId =[message.messageId longLongValue];
     
     //check if encrypted
     if ([message isEncrypted]) {
@@ -312,15 +313,17 @@ static MOKMessagingManager *messagingManagerInstance = nil;
         }
         @catch (NSException *exception) {
             NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
-            [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
+            [[MOKAPIConnector sharedInstance] keyExchangeWith:message.userIdFrom withPendingMessage:message delegate:self];
+//            [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
             [self performSelector:@selector(incomingMessage:) withObject:message afterDelay:2];
             return;
         }
         
         if (message.messageText == nil) {
             NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
-            [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
-            [self performSelector:@selector(incomingMessage:) withObject:message afterDelay:2];
+            [[MOKAPIConnector sharedInstance] keyExchangeWith:message.userIdFrom withPendingMessage:message delegate:self];
+//            [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
+            
             return;
         }
     }else{
@@ -329,7 +332,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     
     
     if(msgId>0){
-        [[MOKSessionManager sharedInstance] setLastMessageId:msgId];
+        [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
     }
     
     @synchronized (self) {
@@ -340,10 +343,10 @@ static MOKMessagingManager *messagingManagerInstance = nil;
 }
 
 - (void)fileReceivedNotification:(MOKMessage *)message {
-    NSString * msgId =message.messageId;
+    long long int msgId =[message.messageId longLongValue];
     
     if(msgId>0){
-        [[MOKSessionManager sharedInstance] setLastMessageId:msgId];
+        [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
     }
 
 //    [[MOKAPIConnector sharedInstance]downloadFile:message withDelegate:self];
@@ -376,6 +379,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
         [self.receivers makeObjectsPerformSelector:@selector(acknowledgeReceived:) withObject:message];
     }
 }
+
 -(void)onDownloadFileOK:(MOKMessage *)message{
     @autoreleasepool {
         //check if should decrypt
@@ -457,14 +461,21 @@ static MOKMessagingManager *messagingManagerInstance = nil;
 }
 - (void)requestNewKeysForMessage:(MOKMessage *)message{
     NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
-    [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
+    [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom withPendingMessage:message delegate:self];
+//    [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
     [self performSelector:@selector(onDownloadFileOK:) withObject:message afterDelay:2];
 }
--(void)onOpenConversationOK:(NSString *)key{
-    
+-(void)onNewKeysReceived:(NSString *)aesKeys withPendingMessage:(MOKMessage *)message{
+    [self incomingMessage:message];
 }
--(void)onOpenConversationWrong{
-    
+-(void)onSameKeysReceivedWithPendingMessage:(MOKMessage *)message{
+    long long int msgId = [message.messageId longLongValue];
+    if(msgId>0){
+        [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
+    }
+}
+-(void)onKeysExchangeFail{
+
 }
 -(void)onDownloadFileFail:(MOKMessage *)message{
     NSLog(@"MONKEY - Download Fail");
