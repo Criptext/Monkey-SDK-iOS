@@ -508,13 +508,13 @@
             }
             @catch (NSException *exception) {
                 [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-                [delegate onDownloadFileFail:@"Failed to decrypt file"];
+                [delegate onDownloadFileDecryptionWrong];
                 return;
             }
             
             if (decryptedData == nil) {
                 [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-                [delegate onDownloadFileFail:@"decrypted file is empty"];
+                [delegate onDownloadFileDecryptionWrong];
                 return;
             }
             //check for file compression

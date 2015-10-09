@@ -21,6 +21,7 @@
  */
 
 -(void)onDownloadFileOK;
+-(void)onDownloadFileDecryptionWrong;
 -(void)onDownloadFileFail:(NSString *)error;
 
 -(void)onUploadFileOK:(MOKMessage *)message;
