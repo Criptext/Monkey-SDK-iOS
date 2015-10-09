@@ -79,14 +79,13 @@
 -(void)sendFile:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 //-(void)downloadFile:(MOKMessage *)message withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
--(void)downloadFileForMessage:(MOKMessage *)message
-                     withName:(NSString *)name
-                fileExtension:(NSString *)extension
-                     fromUser:(NSString *)userIdFrom
-            folderDestination:(NSString *)folderName
-                    encrypted:(BOOL)encrypted
-                   compressed:(BOOL)compressed
-                 withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
+-(void)downloadFile:(NSString *)name
+      fileExtension:(NSString *)extension
+           fromUser:(NSString *)userIdFrom
+  folderDestination:(NSString *)folderName
+          encrypted:(BOOL)encrypted
+         compressed:(BOOL)compressed
+       withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 -(void)createGroupWithMembers:(NSArray *)members
                    withParams:(NSDictionary *)params

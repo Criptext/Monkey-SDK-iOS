@@ -330,14 +330,13 @@
 }
 
 #pragma mark - Download File
--(void)downloadFileForMessage:(MOKMessage *)message
-                     withName:(NSString *)name
-                fileExtension:(NSString *)extension
-                     fromUser:(NSString *)userIdFrom
-            folderDestination:(NSString *)folderName
-                    encrypted:(BOOL)encrypted
-                   compressed:(BOOL)compressed
-                 withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+-(void)downloadFile:(NSString *)name
+      fileExtension:(NSString *)extension
+           fromUser:(NSString *)userIdFrom
+  folderDestination:(NSString *)folderName
+          encrypted:(BOOL)encrypted
+         compressed:(BOOL)compressed
+       withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:[self.baseurl stringByAppendingPathComponent:@"/file/open/%@"],[name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     #ifdef DEBUG
     NSLog(@"MONKEY - url %@", URL);
@@ -378,7 +377,7 @@
             NSLog(@"MONKEY - File downloaded to: %@", filePath);
 			#endif
             
-            [self decryptDownloadedFile:[filePath path] fromUser:userIdFrom encrypted:encrypted compressed:compressed withPendingMessage:message andDelegate:delegate];
+            [self decryptDownloadedFile:[filePath path] fromUser:userIdFrom encrypted:encrypted compressed:compressed withDelegate:delegate];
         }
         
     }];
@@ -479,7 +478,7 @@
 //    [downloadTask resume];
 //}
 
--(void)decryptDownloadedFile:(NSString *)filePath fromUser:(NSString *)userIdFrom encrypted:(BOOL)encrypted compressed:(BOOL)compressed withPendingMessage:(MOKMessage *)message andDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+-(void)decryptDownloadedFile:(NSString *)filePath fromUser:(NSString *)userIdFrom encrypted:(BOOL)encrypted compressed:(BOOL)compressed withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
     @autoreleasepool {
         //check if should decrypt
         if(encrypted){
