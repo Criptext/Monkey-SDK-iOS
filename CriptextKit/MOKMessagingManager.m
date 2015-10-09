@@ -314,16 +314,12 @@ static MOKMessagingManager *messagingManagerInstance = nil;
         @catch (NSException *exception) {
             NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
             [[MOKAPIConnector sharedInstance] keyExchangeWith:message.userIdFrom withPendingMessage:message delegate:self];
-//            [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
-            [self performSelector:@selector(incomingMessage:) withObject:message afterDelay:2];
             return;
         }
         
         if (message.messageText == nil) {
             NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
             [[MOKAPIConnector sharedInstance] keyExchangeWith:message.userIdFrom withPendingMessage:message delegate:self];
-//            [[MOKAPIConnector sharedInstance]keyExchangeWith:message.userIdFrom delegate:self];
-            
             return;
         }
     }else{
