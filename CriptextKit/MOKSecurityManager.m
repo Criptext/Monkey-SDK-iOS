@@ -149,6 +149,7 @@ static MOKSecurityManager *securityManagerInstance = nil;
     //stripping the garbage at the end
     NSString *finalbase64string = [base64string substringToIndex:range.location+1];
     finalbase64string = [NSString stringWithUTF8String:[finalbase64string UTF8String]];
+    base64string = finalbase64string;
     #ifdef DEBUG
     NSLog(@"MONKEY - final base 64 key and IV: %@test", finalbase64string);
     #endif
