@@ -325,7 +325,7 @@ static MOKSecurityManager *securityManagerInstance = nil;
     NSString *finalbase64aesandiv = [aesandiv substringToIndex:range.location+1];
     finalbase64aesandiv = [NSString stringWithUTF8String:[finalbase64aesandiv UTF8String]];
     [self storeBase64AESKeyAndIV:finalbase64aesandiv forUser:userId];
-    return aesandiv;
+    return finalbase64aesandiv;
     
 }
 
