@@ -144,16 +144,11 @@ static MOKSecurityManager *securityManagerInstance = nil;
 //
 -(BOOL)storeBase64AESKeyAndIV:(NSString *)base64string forUser:(NSString *)userId{
     NSError *error;
-    NSRange range= [base64string rangeOfString:@"=" options:NSBackwardsSearch];
     
-    //stripping the garbage at the end
-    NSString *finalbase64string = [base64string substringToIndex:range.location+1];
-    finalbase64string = [NSString stringWithUTF8String:[finalbase64string UTF8String]];
-    base64string = finalbase64string;
     #ifdef DEBUG
-    NSLog(@"MONKEY - final base 64 key and IV: %@test", finalbase64string);
+    NSLog(@"MONKEY - final base 64 key and IV: %@test", base64string);
     #endif
-    [self.keychainStore setString:finalbase64string forKey:userId error:&error];
+    [self.keychainStore setString:base64string forKey:userId error:&error];
     if (error) {
         NSLog(@"MONKEY - %@", error.localizedDescription);
         return false;
@@ -324,7 +319,12 @@ static MOKSecurityManager *securityManagerInstance = nil;
 
 -(NSString *)aesDecryptAndStoreKeyFromStringBase64:(NSString *)encryptedString fromUser:(NSString *)userId{
     NSString *aesandiv = [self aesDecryptedStringFromStringBase64:encryptedString fromUser:[MOKSessionManager sharedInstance].sessionId];
-    [self storeBase64AESKeyAndIV:aesandiv forUser:userId];
+    NSRange range= [aesandiv rangeOfString:@"=" options:NSBackwardsSearch];
+    
+    //stripping the garbage at the end
+    NSString *finalbase64aesandiv = [aesandiv substringToIndex:range.location+1];
+    finalbase64aesandiv = [NSString stringWithUTF8String:[finalbase64aesandiv UTF8String]];
+    [self storeBase64AESKeyAndIV:finalbase64aesandiv forUser:userId];
     return aesandiv;
     
 }
