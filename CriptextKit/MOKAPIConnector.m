@@ -336,6 +336,7 @@
   folderDestination:(NSString *)folderName
           encrypted:(BOOL)encrypted
          compressed:(BOOL)compressed
+             device:(NSString *)device
        withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:[self.baseurl stringByAppendingPathComponent:@"/file/open/%@"],[name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     #ifdef DEBUG
@@ -377,7 +378,7 @@
             NSLog(@"MONKEY - File downloaded to: %@", filePath);
 			#endif
             
-            [self decryptDownloadedFile:[filePath path] fromUser:userIdFrom encrypted:encrypted compressed:compressed withDelegate:delegate];
+            [self decryptDownloadedFile:[filePath path] fromUser:userIdFrom encrypted:encrypted compressed:compressed device:device withDelegate:delegate];
         }
         
     }];
@@ -478,56 +479,95 @@
 //    [downloadTask resume];
 //}
 
--(void)decryptDownloadedFile:(NSString *)filePath fromUser:(NSString *)userIdFrom encrypted:(BOOL)encrypted compressed:(BOOL)compressed withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
+-(void)decryptDownloadedFile:(NSString *)filePath fromUser:(NSString *)userIdFrom encrypted:(BOOL)encrypted compressed:(BOOL)compressed device:(NSString *)device withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
     @autoreleasepool {
         //check if should decrypt
         if(encrypted){
-            NSData *decryptedData;
-            //check if we
-            #ifdef DEBUG
-            NSLog(@"MONKEY - decriptando archivo de movil");
-            NSLog(@"MONKEY - filePath: %@", filePath);
-            NSLog(@"MONKEY - fromUser: %@", userIdFrom);
-			#endif
-            @try {
-                long encryptedDataLength = (unsigned long)[[NSData dataWithContentsOfFile:filePath] length];
-                #ifdef DEBUG
-                NSLog(@"MONKEY - encryptedData: %lu",encryptedDataLength);
-				#endif
-                decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData dataWithContentsOfFile:filePath] fromUser:userIdFrom];
+            if ([device isEqualToString:@"web"]) {
+#ifdef DEBUG
+                NSLog(@"MONKEY - decrypting web file");
+#endif
+                NSData *decryptedData;
+                NSString *contenido = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
                 
-                long decryptedDataLength = (unsigned long)[decryptedData length];
-                #ifdef DEBUG
-                NSLog(@"MONKEY - decryptedData: %lu",decryptedDataLength);
-				#endif
                 
-                if (encryptedDataLength == decryptedDataLength) {
-                    [delegate onDownloadFileOK];
+                @try {
+                    decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData mok_dataFromBase64String:contenido] fromUser:userIdFrom];
+                }
+                @catch (NSException *exception) {
+                    [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+                    [delegate onDownloadFileDecryptionWrong];
                     return;
                 }
-            }
-            @catch (NSException *exception) {
-                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-                [delegate onDownloadFileDecryptionWrong];
-                return;
-            }
-            
-            if (decryptedData == nil) {
-                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-                [delegate onDownloadFileDecryptionWrong];
-                return;
-            }
-            //check for file compression
-            if (compressed) {
-                decryptedData = [decryptedData mok_gzipInflate];
-                #ifdef DEBUG
-                NSLog(@"MONKEY - compressedData: %lu",(unsigned long)[decryptedData length]);
-				#endif
-            }
-            if (decryptedData != nil) {
+                
+                if (decryptedData == nil) {
+                    [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+                    [delegate onDownloadFileDecryptionWrong];
+                    return;
+                }
                 [decryptedData writeToFile:filePath atomically:YES];
+                
+                NSString *newcontenido = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+                newcontenido = [newcontenido substringFromIndex:[newcontenido rangeOfString:@","].location+1];
+                
+                NSData *newData = [NSData mok_dataFromBase64String:newcontenido];
+                
+                //check for file compression
+                if (compressed) {
+                    newData = [newData mok_gzipInflate];
+                }
+                
+                [newData writeToFile:filePath atomically:YES];
+                
+            }else{
+                
+                NSData *decryptedData;
+                //check if we
+#ifdef DEBUG
+                NSLog(@"MONKEY - decriptando archivo de movil");
+                NSLog(@"MONKEY - filePath: %@", filePath);
+                NSLog(@"MONKEY - fromUser: %@", userIdFrom);
+#endif
+                @try {
+                    long encryptedDataLength = (unsigned long)[[NSData dataWithContentsOfFile:filePath] length];
+#ifdef DEBUG
+                    NSLog(@"MONKEY - encryptedData: %lu",encryptedDataLength);
+#endif
+                    decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptFileData:[NSData dataWithContentsOfFile:filePath] fromUser:userIdFrom];
+                    
+                    long decryptedDataLength = (unsigned long)[decryptedData length];
+#ifdef DEBUG
+                    NSLog(@"MONKEY - decryptedData: %lu",decryptedDataLength);
+#endif
+                    
+                    if (encryptedDataLength == decryptedDataLength) {
+                        [delegate onDownloadFileOK];
+                        return;
+                    }
+                }
+                @catch (NSException *exception) {
+                    [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+                    [delegate onDownloadFileDecryptionWrong];
+                    return;
+                }
+                
+                if (decryptedData == nil) {
+                    [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+                    [delegate onDownloadFileDecryptionWrong];
+                    return;
+                }
+                //check for file compression
+                if (compressed) {
+                    decryptedData = [decryptedData mok_gzipInflate];
+#ifdef DEBUG
+                    NSLog(@"MONKEY - compressedData: %lu",(unsigned long)[decryptedData length]);
+#endif
+                }
+                if (decryptedData != nil) {
+                    [decryptedData writeToFile:filePath atomically:YES];
+                }
+                
             }
-            
         }
     }
     

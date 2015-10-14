@@ -65,7 +65,7 @@ static MOKWatchdog *watchdogInstance = nil;
     NSLog(@"MONKEY - check connectivity in 15secs WOOF!");
 	#endif
     
-    [self performSelector:@selector(resetConnectivity) withObject:nil afterDelay:10.0];
+    [self performSelector:@selector(resetConnectivity) withObject:nil afterDelay:5.0];
 }
 
 -(void)resetConnectivity{

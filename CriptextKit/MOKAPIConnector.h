@@ -86,6 +86,7 @@
   folderDestination:(NSString *)folderName
           encrypted:(BOOL)encrypted
          compressed:(BOOL)compressed
+             device:(NSString *)device
        withDelegate:(id<MOKAPIConnectorDelegate>)delegate;
 
 -(void)createGroupWithMembers:(NSArray *)members
