@@ -313,12 +313,14 @@
 - (void)closeStreams {
     
     if(inputStream) {
+        [inputStream close];
         [inputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         //		[inputStream release];
         //		inputStream = nil;
     }
     
     if(outputStream) {
+        [outputStream close];
         [outputStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
         //	[outputStream release];
         //	outputStream = nil;
