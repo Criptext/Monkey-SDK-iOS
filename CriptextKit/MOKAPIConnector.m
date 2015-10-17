@@ -312,7 +312,7 @@
             return;
         }
         
-        message.oldMessageId = message.messageId;
+//        message.oldMessageId = message.messageId;
         message.messageId = [[responseDict objectForKey:@"messageId"] stringValue];
         [[MOKDBManager sharedInstance]deleteMessageSent:message];
         
