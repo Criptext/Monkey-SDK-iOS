@@ -541,7 +541,7 @@
 #endif
                     
                     if (encryptedDataLength == decryptedDataLength) {
-                        [delegate onDownloadFileOK];
+                        [delegate onDownloadFileDecryptionWrong];
                         return;
                     }
                 }
