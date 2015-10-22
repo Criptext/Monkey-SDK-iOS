@@ -276,8 +276,12 @@
             return;
         }
         
-        message.messageText = [responseDict objectForKey:@"message"];
+        message.encryptedText = [responseDict objectForKey:@"message"];
         [[MOKSecurityManager sharedInstance] aesDecryptOutgoingMessage:message];
+        if (message.messageText == nil) {
+            [delegate onKeysExchangeFailWithPendingMessage:message];
+            return;
+        }
         message.encryptedText = message.messageText;
         [message setEncrypted:false];
         [delegate onNewKeysReceived:nil withPendingMessage:message];
