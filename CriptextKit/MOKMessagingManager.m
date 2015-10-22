@@ -465,13 +465,17 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     [self incomingMessage:message];
 }
 -(void)onSameKeysReceivedWithPendingMessage:(MOKMessage *)message{
-    long long int msgId = [message.messageId longLongValue];
-    if(msgId>0){
-        [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
-    }
+    
+    [[MOKAPIConnector sharedInstance]getEncryptedTextForMessage:message delegate:self];
+    
 }
--(void)onKeysExchangeFail{
-
+-(void)onKeysExchangeFailWithPendingMessage:(MOKMessage *)message{
+    if (message != nil) {
+        long long int msgId = [message.messageId longLongValue];
+        if(msgId>0){
+            [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
+        }
+    }
 }
 -(void)onDownloadFileFail:(MOKMessage *)message{
     NSLog(@"MONKEY - Download Fail");
