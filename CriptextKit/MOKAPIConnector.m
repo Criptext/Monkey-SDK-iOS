@@ -278,6 +278,7 @@
         
         message.messageText = [responseDict objectForKey:@"message"];
         [[MOKSecurityManager sharedInstance] aesDecryptOutgoingMessage:message];
+        message.encryptedText = message.messageText;
         [message setEncrypted:false];
         [delegate onNewKeysReceived:nil withPendingMessage:message];
         

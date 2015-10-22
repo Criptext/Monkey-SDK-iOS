@@ -23,7 +23,7 @@
 	if (self = [super init]) {
 		self.messageText = @"";
         if ([dictionary objectForKey:@"props"]) {
-            self.props = [NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"props"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+            self.props = [[NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"props"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil] mutableCopy];
         }else{
             self.props = [@{} mutableCopy];
         }
