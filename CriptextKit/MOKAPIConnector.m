@@ -423,7 +423,8 @@
       
                     if ([device isEqualToString:@"web"]) {
                         NSString *mediabase64 = [[NSString alloc]initWithData:decryptedData encoding:NSUTF8StringEncoding];
-                        decryptedData = [NSData mok_dataFromBase64String:mediabase64];
+                        NSArray *realmediabase64 = [mediabase64 componentsSeparatedByString:@","];
+                        decryptedData = [NSData mok_dataFromBase64String:[realmediabase64 lastObject]];
                     }
                     
                     if (encryptedDataLength == decryptedDataLength) {
