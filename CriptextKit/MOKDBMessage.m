@@ -13,7 +13,9 @@
 + (NSString *)primaryKey {
     return @"messageId";
 }
-
++ (NSArray *)requiredProperties {
+    return @[@"messageId"];
+}
 // Specify default values for properties
 
 + (NSDictionary *)defaultPropertyValues

@@ -59,7 +59,7 @@
         self.config = [RLMRealmConfiguration defaultConfiguration];
         self.config.path = self.privateRealmPath;
         self.config.objectClasses = @[MOKDBSession.class, MOKDBMessage.class];
-        self.config.schemaVersion = 8;
+        self.config.schemaVersion = 9;
         #ifndef DEBUG
         self.config.encryptionKey = [self getKey];
 		#endif
