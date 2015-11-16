@@ -129,10 +129,9 @@
         self.monkeyType = 0;
         self.needsResend = NO;
         self.props = [@{@"eph":@"0",
-                               @"str":@"0",
-                               @"type":@"0",
-                               @"device":@"ios",
-                               @"encr":@"1"} mutableCopy];
+                        @"str":@"0",
+                        @"device":@"ios",
+                        @"encr":@"1"} mutableCopy];
         self.params = [@{} mutableCopy];
         self.pushMessage = @"";
     }
