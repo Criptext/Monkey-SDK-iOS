@@ -77,8 +77,8 @@ static MOKWatchdog *watchdogInstance = nil;
         self.isCheckingConnectivity = false;
         self.isUpdateFinished = false;
         //reconnect
-        UIViewController<MOKComServerConnectionDelegate> *delegate = [MOKComServerConnection sharedInstance].connectionDelegate;
-        [[MOKComServerConnection sharedInstance]connectWithDelegate:delegate];
+//        id<MOKComServerConnectionDelegate, NSObject> delegate = ;
+        [[MOKComServerConnection sharedInstance]connectWithDelegate:[MOKComServerConnection sharedInstance].connectionDelegate];
         return;
     }
     
@@ -115,8 +115,8 @@ static MOKWatchdog *watchdogInstance = nil;
         //        NSLog(@"MONKEY - Pum! removimos todos los objetos y forzamos reconección");
         [[MOKComServerConnection sharedInstance] logOut];
 //        recconnect
-        UIViewController<MOKComServerConnectionDelegate> *delegate = [MOKComServerConnection sharedInstance].connectionDelegate;
-        [[MOKComServerConnection sharedInstance]connectWithDelegate:delegate];
+//        id<MOKComServerConnectionDelegate, NSObject> delegate = [MOKComServerConnection sharedInstance].connectionDelegate;
+        [[MOKComServerConnection sharedInstance]connectWithDelegate:[MOKComServerConnection sharedInstance].connectionDelegate];
         
     }
 }

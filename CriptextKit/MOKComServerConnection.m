@@ -16,7 +16,6 @@
 #import "MOKSGSChannel.h"
 
 #import "MOKMessage.h"
-//#import "AppDelegate.h"
 
 #import "MOKMessagingManager.h"
 #import "MOKSecurityManager.h"
@@ -35,7 +34,6 @@
 @implementation MOKComServerConnection
 
 @synthesize connection, userId;
-@synthesize connectionDelegate;
 
 static MOKComServerConnection* comServerConnectionInstance = nil;
 + (MOKComServerConnection*) sharedInstance
@@ -110,7 +108,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 -(BOOL)isReachable{
     return [AFNetworkReachabilityManager sharedManager].isReachable;
 }
-- (void)connectWithDelegate:(UIViewController<MOKComServerConnectionDelegate> *) conDelegate
+- (void)connectWithDelegate:(id<MOKComServerConnectionDelegate, NSObject>) conDelegate
 {
     
 	if(connection)

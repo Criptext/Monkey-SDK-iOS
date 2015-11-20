@@ -35,7 +35,6 @@
     
 	MOKSGSConnection *connection;
 	BOOL connected;
-	UIViewController<MOKComServerConnectionDelegate> *connectionDelegate;
 	
     BOOL calculatingLatency;
     
@@ -47,7 +46,7 @@
 }
 
 
-@property (nonatomic, retain) UIViewController<MOKComServerConnectionDelegate> *connectionDelegate;
+@property (nonatomic, weak) id<MOKComServerConnectionDelegate, NSObject> connectionDelegate;
 @property (nonatomic, strong) MOKSGSConnection *connection;
 @property AFNetworkReachabilityStatus networkStatus;
 
@@ -57,7 +56,7 @@
 + (MOKComServerConnection*) sharedInstance;
 
 -(void) deliverDisconnectionState;
-- (void)connectWithDelegate:(UIViewController<MOKComServerConnectionDelegate> *) conDelegate;
+- (void)connectWithDelegate:(id<MOKComServerConnectionDelegate,NSObject>) conDelegate;
 
 -(BOOL)sendMessage:(NSString *)jsonMessage;
 - (void)parseMessage:(NSDictionary *)message;
