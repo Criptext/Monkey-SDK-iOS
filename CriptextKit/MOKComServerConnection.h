@@ -32,7 +32,6 @@
 	int connectionRetry;
 	
 	NSString *fb_id;
-	Boolean firstTime;
     
 	MOKSGSConnection *connection;
 	BOOL connected;
@@ -60,7 +59,6 @@
 
 -(void) deliverDisconnectionState;
 - (void)connectWithDelegate:(UIViewController<MOKComServerConnectionDelegate> *) conDelegate;
-- (void)connectWithDelegate:(UIViewController<MOKComServerConnectionDelegate> *) conDelegate isFirst:(Boolean)isFirst;
 
 -(BOOL)sendMessage:(NSString *)jsonMessage;
 - (void)parseMessage:(NSDictionary *)message;

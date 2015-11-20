@@ -66,7 +66,6 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
         self.connectionDelegate=nil;
         self.connectionRetry=-1;
         self.connection=nil;
-        firstTime=NO;
     }
     return self;
 }
@@ -79,33 +78,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 	return self;
 }
 
-//// Retaining the shared instance should not
-//// effect the retain count.
-//- (id)retain
-//{
-//	return self;
-//}
-//
-//
-//// Auto-releasing the shared instance should not
-//// effect the retain count.
-//- (id)autorelease
-//{
-//	return self;
-//}
-//
-//// Retain count should not go to zero.
-//- (NSUInteger)retainCount
-//{
-//	return NSUIntegerMax;
-//}
-
-
 - (void)connectWithDelegate:(UIViewController<MOKComServerConnectionDelegate> *) conDelegate
-{
-    [self connectWithDelegate:conDelegate isFirst:NO];
-}
-- (void)connectWithDelegate:(UIViewController<MOKComServerConnectionDelegate> *) conDelegate isFirst:(Boolean)isFirst
 {
 	if(connection)
 	{
@@ -119,7 +92,6 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 
     self.connectionDelegate=conDelegate;
     self.userId=[MOKSessionManager sharedInstance].sessionId;
-    firstTime=isFirst;
     
     MOKSGSContext *context = [[MOKSGSContext alloc] initWithHostname:[MOKSessionManager sharedInstance].domain port:[[MOKSessionManager sharedInstance].port integerValue]];
 	context.delegate = self;
@@ -440,49 +412,34 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 
 - (void)sgsContext:(MOKSGSContext *)context disconnected:(MOKSGSConnection *)connection{
     
-    NSLog(@"MONKEY - --------- disconnected callback ---------");
+    NSLog(@"MONKEY - --------- socket disconnected ---------");
 	
     [self performSelector:@selector(deliverDisconnectionState) withObject:nil afterDelay:0.5];
 }
 
 -(void) deliverDisconnectionState{
 	
-    if(self.connectionDelegate!=nil)
+    if([self.connectionDelegate respondsToSelector:@selector(disconnected)]){
         [self.connectionDelegate disconnected];
+    }else{
+        [self connectWithDelegate:self.connectionDelegate];
+    }
 }
 
 - (void)sgsContext:(MOKSGSContext *)context loggedIn:(MOKSGSSession *)session forConnection:(MOKSGSConnection *)connection{
-	NSLog(@"MONKEY - -----------------------------already in-----------------------");
+	NSLog(@"MONKEY - ---------------- socket connected --------------------");
     
     
     //aqui va lo de loading da server release dialog
-    if(self.connectionDelegate!=nil)
-		[self.connectionDelegate loggedIn];
-    
-    //if(!firstTime)
-    //{[SessionManager instance].lastMessageId
-    
-//    [self sendMessage:[[MOKComMessageProtocol createSyncUpdatenMsg:[[MOKSessionManager sharedInstance].lastMessageId longLongValue] type:27 ] json]];
-    
-    //}
-    
-    //testing channels join
-   // [self sendMessage:[[ComMessageProtocol createNotificationMsg:@"200:1" type:JoinChannel] json]];
-    
-    
-    //comment
+    if([self.connectionDelegate respondsToSelector:@selector(loggedIn)]){
+        [self.connectionDelegate loggedIn];
+    }
     
     [[MOKMessagingManager sharedInstance] sendMessagesAgain];
 }
 
 - (void)sgsContext:(MOKSGSContext *)context loginFailed:(MOKSGSSession *)session forConnection:(MOKSGSConnection *)connection withMessage:(NSString *)message{
 	NSLog(@"MONKEY - disconnection login Failed: %@", message);
-    
-    //LOGOUT SCREEN TO LOGIN
-//    [AppDelegate logout];
-    
-    //ALERT your account is disabled
-//    [AlertsManager alert:NSLocalizedString(@"avisoKey", @"") message:NSLocalizedString(@"revisaTuConexionKey", @"")];
 }
 
 #pragma mark -

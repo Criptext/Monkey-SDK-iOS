@@ -78,7 +78,7 @@ static MOKWatchdog *watchdogInstance = nil;
         self.isUpdateFinished = false;
         //reconnect
         UIViewController<MOKComServerConnectionDelegate> *delegate = [MOKComServerConnection sharedInstance].connectionDelegate;
-        [[MOKComServerConnection sharedInstance]connectWithDelegate:delegate isFirst:NO];
+        [[MOKComServerConnection sharedInstance]connectWithDelegate:delegate];
         return;
     }
     
@@ -116,7 +116,7 @@ static MOKWatchdog *watchdogInstance = nil;
         [[MOKComServerConnection sharedInstance] logOut];
 //        recconnect
         UIViewController<MOKComServerConnectionDelegate> *delegate = [MOKComServerConnection sharedInstance].connectionDelegate;
-        [[MOKComServerConnection sharedInstance]connectWithDelegate:delegate isFirst:NO];
+        [[MOKComServerConnection sharedInstance]connectWithDelegate:delegate];
         
     }
 }
