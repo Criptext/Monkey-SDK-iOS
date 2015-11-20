@@ -8,7 +8,9 @@
 //@required
 
 #import <Foundation/Foundation.h>
+#import <AFNetworking/AFNetworkReachabilityManager.h>
 #import "MOKSGSConnection.h"
+
 @class MOKSGSContext;
 @class MOKSGSChannel;
 
@@ -22,6 +24,7 @@
 - (void) disconnected;
 - (void) loggedIn;
 - (void) onLoadPendingMessages;
+- (void) reachabilityDidChange:(AFNetworkReachabilityStatus)reachabilityStatus;
 
 @end
 
@@ -29,9 +32,6 @@
 @interface MOKComServerConnection : NSObject {
 	
 	NSString * userId;
-	int connectionRetry;
-	
-	NSString *fb_id;
     
 	MOKSGSConnection *connection;
 	BOOL connected;
@@ -49,10 +49,9 @@
 
 @property (nonatomic, retain) UIViewController<MOKComServerConnectionDelegate> *connectionDelegate;
 @property (nonatomic, strong) MOKSGSConnection *connection;
+@property AFNetworkReachabilityStatus networkStatus;
 
-@property (nonatomic, retain) NSString *fb_id;
 @property  (nonatomic, strong) NSString *userId;
-@property  int connectionRetry;
 
 
 + (MOKComServerConnection*) sharedInstance;
@@ -70,5 +69,6 @@
 -(void)resetConnection;
 
 -(BOOL) isConnected;
+-(BOOL)isReachable;
 
 @end

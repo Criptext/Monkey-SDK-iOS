@@ -22,6 +22,7 @@
 #import "MOKSecurityManager.h"
 
 
+
 #pragma mark -
 #pragma mark Anonyms category
 
@@ -33,7 +34,7 @@
 
 @implementation MOKComServerConnection
 
-@synthesize connection, userId,fb_id, connectionRetry;
+@synthesize connection, userId;
 @synthesize connectionDelegate;
 
 static MOKComServerConnection* comServerConnectionInstance = nil;
@@ -64,8 +65,8 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
     self = [super init];
     if (self) {
         self.connectionDelegate=nil;
-        self.connectionRetry=-1;
         self.connection=nil;
+        self.networkStatus = AFNetworkReachabilityStatusUnknown;
     }
     return self;
 }
@@ -77,12 +78,43 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 {
 	return self;
 }
-
+-(void)setupReachability{
+    if (self.networkStatus != AFNetworkReachabilityStatusUnknown) {
+        return;
+    }
+    
+    self.networkStatus = AFNetworkReachabilityStatusNotReachable;
+    [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"MONKEY - Reachability: %@", AFStringFromNetworkReachabilityStatus(status));
+        
+        switch (status) {
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                self.networkStatus = AFNetworkReachabilityStatusReachableViaWiFi;
+                if([self.connectionDelegate respondsToSelector:@selector(reachabilityDidChange:)]){
+                    [self.connectionDelegate reachabilityDidChange:AFNetworkReachabilityStatusReachableViaWiFi];
+                }
+                break;
+            case AFNetworkReachabilityStatusNotReachable:
+            default:
+                self.networkStatus = AFNetworkReachabilityStatusNotReachable;
+                if([self.connectionDelegate respondsToSelector:@selector(reachabilityDidChange:)]){
+                    [self.connectionDelegate reachabilityDidChange:AFNetworkReachabilityStatusNotReachable];
+                }
+                break;
+        }
+    }];
+    
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+}
+-(BOOL)isReachable{
+    return [AFNetworkReachabilityManager sharedManager].isReachable;
+}
 - (void)connectWithDelegate:(UIViewController<MOKComServerConnectionDelegate> *) conDelegate
 {
+    
 	if(connection)
 	{
-		
         if(connection.state!=MOKSGSConnectionStateDisconnected){
             [self logOut];
             //NSLog(@"MONKEY - -------connection obj already exist, resetting OUT");
@@ -92,6 +124,8 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 
     self.connectionDelegate=conDelegate;
     self.userId=[MOKSessionManager sharedInstance].sessionId;
+    
+    [self setupReachability];
     
     MOKSGSContext *context = [[MOKSGSContext alloc] initWithHostname:[MOKSessionManager sharedInstance].domain port:[[MOKSessionManager sharedInstance].port integerValue]];
 	context.delegate = self;
@@ -238,8 +272,9 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
             
             [self processMOKProtocolMessage:msg];
 
-            if(self.connectionDelegate!=nil)
+            if([self.connectionDelegate respondsToSelector:@selector(onLoadPendingMessages)]){
                 [self.connectionDelegate onLoadPendingMessages];
+            }
             
             break;
         }
@@ -254,8 +289,9 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
         case MOKProtocolGet:{
             [[MOKMessagingManager sharedInstance] notifyUpdatesToWatchdog];
 
-            if(self.connectionDelegate!=nil)
+            if([self.connectionDelegate respondsToSelector:@selector(onLoadPendingMessages)]){
                 [self.connectionDelegate onLoadPendingMessages];
+            }
             
             NSDecimalNumber *type = [args objectForKey:@"type"];
             
