@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MonkeyKit"
-  s.version      = "0.3.6"
+  s.version      = "0.3.7"
   s.summary      = "A secure messaging channel."
 
   s.description  = <<-DESC
@@ -89,38 +89,39 @@ Pod::Spec.new do |s|
   #  For header files it will include any header in the folder.
   #  Not including the public_header_files will make all headers public.
   #
-
-  s.subspec 'Communication' do |communication|
-    communication.subspec 'MessagingManager' do |messagingManager|'
-      messagingManager.source_files = 'MonkeyKit/Communication/MessagingManager/*.{h,m}'
-    end
-
-    communication.subspec 'API' do |api|'
-      api.source_files = 'MonkeyKit/Communication/API/*.{h,m}'
-    end
-
-    communication.subspec 'JSON' do |json|'
-      json.source_files = 'MonkeyKit/Communication/JSON/*.{h,m}'
-    end
-
-    communication.subspec 'Socket' do |socket|'
-      socket.source_files = 'MonkeyKit/Communication/Socket/*.{h,m}'
-    end
-  end
-
-  s.subspec 'Helpers' do |helpers|
-    helpers.source_files = 'MonkeyKit/Communication/Helpers/*.{h,m}'
-  end
-
-  s.subspec 'Model' do |model|
-    model.source_files = 'MonkeyKit/Model/*.{h,m}'
-  end
-
-  s.subspec 'Security' do |security|
-    security.source_files = 'MonkeyKit/Security/*.{h,m}'
-  end
-
   s.source_files  = "MonkeyKit", "MonkeyKit/MonkeyKit.h"
+
+  s.subspec 'Communication' do |ss|
+    ss.subspec 'MessagingManager' do |sss|'
+      sss.source_files = 'MonkeyKit/Communication/MessagingManager/*.{h,m}'
+    end
+
+    ss.subspec 'API' do |sss|'
+      sss.source_files = 'MonkeyKit/Communication/API/*.{h,m}'
+    end
+
+    ss.subspec 'JSON' do |sss|'
+      sss.source_files = 'MonkeyKit/Communication/JSON/*.{h,m}'
+    end
+
+    ss.subspec 'Socket' do |sss|'
+      sss.source_files = 'MonkeyKit/Communication/Socket/*.{h,m}'
+    end
+  end
+
+  s.subspec 'Helpers' do |ss|
+    ss.source_files = 'MonkeyKit/Helpers/*.{h,m}'
+  end
+
+  s.subspec 'Model' do |ss|
+    ss.source_files = 'MonkeyKit/Model/*.{h,m}'
+  end
+
+  s.subspec 'Security' do |ss|
+    ss.source_files = 'MonkeyKit/Security/*.{h,m}'
+  end
+
+
   #s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"
