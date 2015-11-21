@@ -35,8 +35,6 @@
     
 	MOKSGSConnection *connection;
 	BOOL connected;
-	
-    BOOL calculatingLatency;
     
     NSTimeInterval timeSentPack;
     NSTimeInterval timeRecievePack;

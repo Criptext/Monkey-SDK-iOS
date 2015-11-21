@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MonkeyKit"
-  s.version      = "0.3.1"
+  s.version      = "0.3.2"
   s.summary      = "A secure messaging channel."
 
   s.description  = <<-DESC

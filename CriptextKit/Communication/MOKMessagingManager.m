@@ -12,7 +12,6 @@
 #import "MOKComServerConnection.h"
 #import "MOKSecurityManager.h"
 #import "MOKSessionManager.h"
-#import "MOKAlertsManager.h"
 #import "MOKUser.h"
 #import "MOKWatchdog.h"
 #import "NSData+Compression.h"
