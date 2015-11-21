@@ -11,7 +11,7 @@
 #import "MOKUser.h"
 #import "MOKJSON.h"
 #import "MOKSessionManager.h"
-#import "UICKeyChainStore.h"
+#import <UICKeyChainStore/UICKeyChainStore.h>
 #import "MOKSGSContext.h"
 #import "MOKSGSChannel.h"
 

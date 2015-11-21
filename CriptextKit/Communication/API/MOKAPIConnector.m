@@ -12,7 +12,7 @@
 #import "MOKComServerConnection.h"
 #import "MOKSocketConnectionManager.h"
 #import "MOKUserDictionary.h"
-#import "UICKeyChainStore.h"
+#import <UICKeyChainStore/UICKeyChainStore.h>
 #import "MOKSessionManager.h"
 #import "MOKUser.h"
 #import "MOKMessage.h"

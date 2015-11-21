@@ -8,7 +8,7 @@
 
 #import "MOKSecurityManager.h"
 #import "MOKSessionManager.h"
-#import "UICKeyChainStore.h"
+#import <UICKeyChainStore/UICKeyChainStore.h>
 #import "NSData+Base64.h"
 #import "NSData+Conversion.h"
 #import "MOKCriptext.h"
