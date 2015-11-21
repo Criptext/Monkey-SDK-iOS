@@ -6,4 +6,5 @@ target 'MonkeyKit' do
   pod 'AFNetworking', '~> 2.0'
   pod 'Realm', '~> 0.95'
   pod 'OpenSSL-Universal', '~> 1.0.1.l'
+  pod 'UICKeyChainStore', '~> 2.0'
 end

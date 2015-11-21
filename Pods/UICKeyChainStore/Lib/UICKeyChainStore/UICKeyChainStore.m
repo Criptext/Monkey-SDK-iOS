@@ -167,37 +167,67 @@ static NSString *_defaultService;
 
 + (BOOL)setString:(NSString *)value forKey:(NSString *)key
 {
-    return [self setString:value forKey:key service:nil accessGroup:nil error:nil];
+    return [self setString:value forKey:key service:nil accessGroup:nil genericAttribute:nil error:nil];
 }
 
 + (BOOL)setString:(NSString *)value forKey:(NSString *)key error:(NSError *__autoreleasing *)error
 {
-    return [self setString:value forKey:key service:nil accessGroup:nil error:error];
+    return [self setString:value forKey:key service:nil accessGroup:nil genericAttribute:nil error:error];
+}
+
++ (BOOL)setString:(NSString *)value forKey:(NSString *)key genericAttribute:(id)genericAttribute
+{
+    return [self setString:value forKey:key service:nil accessGroup:nil genericAttribute:genericAttribute error:nil];
+}
+
++ (BOOL)setString:(NSString *)value forKey:(NSString *)key genericAttribute:(id)genericAttribute error:(NSError * __autoreleasing *)error
+{
+    return [self setString:value forKey:key service:nil accessGroup:nil genericAttribute:genericAttribute error:error];
 }
 
 + (BOOL)setString:(NSString *)value forKey:(NSString *)key service:(NSString *)service
 {
-    return [self setString:value forKey:key service:service accessGroup:nil error:nil];
+    return [self setString:value forKey:key service:service accessGroup:nil genericAttribute:nil error:nil];
 }
 
 + (BOOL)setString:(NSString *)value forKey:(NSString *)key service:(NSString *)service error:(NSError *__autoreleasing *)error
 {
-    return [self setString:value forKey:key service:service accessGroup:nil error:error];
+    return [self setString:value forKey:key service:service accessGroup:nil genericAttribute:nil error:error];
+}
+
++ (BOOL)setString:(NSString *)value forKey:(NSString *)key service:(NSString *)service genericAttribute:(id)genericAttribute
+{
+    return [self setString:value forKey:key service:service accessGroup:nil genericAttribute:genericAttribute error:nil];
+}
+
++ (BOOL)setString:(NSString *)value forKey:(NSString *)key service:(NSString *)service genericAttribute:(id)genericAttribute error:(NSError * __autoreleasing *)error
+{
+    return [self setString:value forKey:key service:service accessGroup:nil genericAttribute:genericAttribute error:error];
 }
 
 + (BOOL)setString:(NSString *)value forKey:(NSString *)key service:(NSString *)service accessGroup:(NSString *)accessGroup
 {
-    return [self setString:value forKey:key service:service accessGroup:accessGroup error:nil];
+    return [self setString:value forKey:key service:service accessGroup:accessGroup genericAttribute:nil error:nil];
 }
 
 + (BOOL)setString:(NSString *)value forKey:(NSString *)key service:(NSString *)service accessGroup:(NSString *)accessGroup error:(NSError *__autoreleasing *)error
+{
+    return [self setString:value forKey:key service:service accessGroup:accessGroup genericAttribute:nil error:error];
+}
+
++ (BOOL)setString:(NSString *)value forKey:(NSString *)key service:(NSString *)service accessGroup:(NSString *)accessGroup genericAttribute:(id)genericAttribute
+{
+    return [self setString:value forKey:key service:service accessGroup:accessGroup genericAttribute:genericAttribute error:nil];
+}
+
++ (BOOL)setString:(NSString *)value forKey:(NSString *)key service:(NSString *)service accessGroup:(NSString *)accessGroup genericAttribute:(id)genericAttribute error:(NSError * __autoreleasing *)error
 {
     if (!value) {
         return [self removeItemForKey:key service:service accessGroup:accessGroup error:error];
     }
     NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
     if (data) {
-        return [self setData:data forKey:key service:service accessGroup:accessGroup error:error];
+        return [self setData:data forKey:key service:service accessGroup:accessGroup genericAttribute:genericAttribute error:error];
     }
     NSError *e = [self conversionError:NSLocalizedString(@"failed to convert string to data", nil)];
     if (error) {
@@ -254,30 +284,60 @@ static NSString *_defaultService;
 
 + (BOOL)setData:(NSData *)data forKey:(NSString *)key
 {
-    return [self setData:data forKey:key service:nil accessGroup:nil error:nil];
+    return [self setData:data forKey:key service:nil accessGroup:nil genericAttribute:nil error:nil];
 }
 
 + (BOOL)setData:(NSData *)data forKey:(NSString *)key error:(NSError *__autoreleasing *)error
 {
-    return [self setData:data forKey:key service:nil accessGroup:nil error:error];
+    return [self setData:data forKey:key service:nil accessGroup:nil genericAttribute:nil error:error];
+}
+
++ (BOOL)setData:(NSData *)data forKey:(NSString *)key genericAttribute:(id)genericAttribute
+{
+    return [self setData:data forKey:key service:nil accessGroup:nil genericAttribute:genericAttribute error:nil];
+}
+
++ (BOOL)setData:(NSData *)data forKey:(NSString *)key genericAttribute:(id)genericAttribute error:(NSError * __autoreleasing *)error
+{
+    return [self setData:data forKey:key service:nil accessGroup:nil genericAttribute:genericAttribute error:error];
 }
 
 + (BOOL)setData:(NSData *)data forKey:(NSString *)key service:(NSString *)service
 {
-    return [self setData:data forKey:key service:service accessGroup:nil error:nil];
+    return [self setData:data forKey:key service:service accessGroup:nil genericAttribute:nil error:nil];
 }
 
 + (BOOL)setData:(NSData *)data forKey:(NSString *)key service:(NSString *)service error:(NSError *__autoreleasing *)error
 {
-    return [self setData:data forKey:key service:service accessGroup:nil error:error];
+    return [self setData:data forKey:key service:service accessGroup:nil genericAttribute:nil error:error];
+}
+
++ (BOOL)setData:(NSData *)data forKey:(NSString *)key service:(NSString *)service genericAttribute:(id)genericAttribute
+{
+    return [self setData:data forKey:key service:service accessGroup:nil genericAttribute:genericAttribute error:nil];
+}
+
++ (BOOL)setData:(NSData *)data forKey:(NSString *)key service:(NSString *)service genericAttribute:(id)genericAttribute error:(NSError * __autoreleasing *)error
+{
+    return [self setData:data forKey:key service:service accessGroup:nil genericAttribute:genericAttribute error:error];
 }
 
 + (BOOL)setData:(NSData *)data forKey:(NSString *)key service:(NSString *)service accessGroup:(NSString *)accessGroup
 {
-    return [self setData:data forKey:key service:service accessGroup:accessGroup error:nil];
+    return [self setData:data forKey:key service:service accessGroup:accessGroup genericAttribute:nil error:nil];
 }
 
 + (BOOL)setData:(NSData *)data forKey:(NSString *)key service:(NSString *)service accessGroup:(NSString *)accessGroup error:(NSError *__autoreleasing *)error
+{
+    return [self setData:data forKey:key service:service accessGroup:accessGroup genericAttribute:nil error:error];
+}
+
++ (BOOL)setData:(NSData *)data forKey:(NSString *)key service:(NSString *)service accessGroup:(NSString *)accessGroup genericAttribute:(id)genericAttribute
+{
+    return [self setData:data forKey:key service:service accessGroup:accessGroup genericAttribute:genericAttribute error:nil];
+}
+
++ (BOOL)setData:(NSData *)data forKey:(NSString *)key service:(NSString *)service accessGroup:(NSString *)accessGroup genericAttribute:(id)genericAttribute error:(NSError * __autoreleasing *)error
 {
     if (!key) {
         NSError *e = [self argumentError:NSLocalizedString(@"the key must not to be nil", nil)];
@@ -291,7 +351,7 @@ static NSString *_defaultService;
     }
     
     UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:service accessGroup:accessGroup];
-    return [keychain setData:data forKey:key error:error];
+    return [keychain setData:data forKey:key genericAttribute:genericAttribute];
 }
 
 #pragma mark -
@@ -334,27 +394,42 @@ static NSString *_defaultService;
 
 - (BOOL)setString:(NSString *)string forKey:(NSString *)key
 {
-    return [self setString:string forKey:key label:nil comment:nil error:nil];
+    return [self setString:string forKey:key genericAttribute:nil label:nil comment:nil error:nil];
 }
 
 - (BOOL)setString:(NSString *)string forKey:(NSString *)key error:(NSError *__autoreleasing *)error
 {
-    return [self setString:string forKey:key label:nil comment:nil error:error];
+    return [self setString:string forKey:key genericAttribute:nil label:nil comment:nil error:error];
+}
+
+- (BOOL)setString:(NSString *)string forKey:(NSString *)key genericAttribute:(id)genericAttribute
+{
+    return [self setString:string forKey:key genericAttribute:genericAttribute label:nil comment:nil error:nil];
+}
+
+- (BOOL)setString:(NSString *)string forKey:(NSString *)key genericAttribute:(id)genericAttribute error:(NSError * __autoreleasing *)error
+{
+    return [self setString:string forKey:key genericAttribute:genericAttribute label:nil comment:nil error:error];
 }
 
 - (BOOL)setString:(NSString *)string forKey:(NSString *)key label:(NSString *)label comment:(NSString *)comment
 {
-    return [self setString:string forKey:key label:label comment:comment error:nil];
+    return [self setString:string forKey:key genericAttribute:nil label:label comment:comment error:nil];
 }
 
 - (BOOL)setString:(NSString *)string forKey:(NSString *)key label:(NSString *)label comment:(NSString *)comment error:(NSError *__autoreleasing *)error
+{
+    return [self setString:string forKey:key genericAttribute:nil label:label comment:comment error:error];
+}
+
+- (BOOL)setString:(NSString *)string forKey:(NSString *)key genericAttribute:(id)genericAttribute label:(NSString *)label comment:(NSString *)comment error:(NSError *__autoreleasing *)error
 {
     if (!string) {
         return [self removeItemForKey:key error:error];
     }
     NSData *data = [string dataUsingEncoding:NSUTF8StringEncoding];
     if (data) {
-        return [self setData:data forKey:key label:label comment:comment error:error];
+        return [self setData:data forKey:key genericAttribute:genericAttribute label:label comment:comment error:error];
     }
     NSError *e = [self.class conversionError:NSLocalizedString(@"failed to convert string to data", nil)];
     if (error) {
@@ -408,20 +483,35 @@ static NSString *_defaultService;
 
 - (BOOL)setData:(NSData *)data forKey:(NSString *)key
 {
-    return [self setData:data forKey:key label:nil comment:nil error:nil];
+    return [self setData:data forKey:key genericAttribute:nil label:nil comment:nil error:nil];
 }
 
 - (BOOL)setData:(NSData *)data forKey:(NSString *)key error:(NSError *__autoreleasing *)error
 {
-    return [self setData:data forKey:key label:nil comment:nil error:error];
+    return [self setData:data forKey:key genericAttribute:nil label:nil comment:nil error:error];
+}
+
+- (BOOL)setData:(NSData *)data forKey:(NSString *)key genericAttribute:(id)genericAttribute
+{
+    return [self setData:data forKey:key genericAttribute:genericAttribute label:nil comment:nil error:nil];
+}
+
+- (BOOL)setData:(NSData *)data forKey:(NSString *)key genericAttribute:(id)genericAttribute error:(NSError * __autoreleasing *)error
+{
+    return [self setData:data forKey:key genericAttribute:genericAttribute label:nil comment:nil error:error];
 }
 
 - (BOOL)setData:(NSData *)data forKey:(NSString *)key label:(NSString *)label comment:(NSString *)comment
 {
-    return [self setData:data forKey:key label:label comment:comment error:nil];
+    return [self setData:data forKey:key genericAttribute:nil label:label comment:comment error:nil];
 }
 
 - (BOOL)setData:(NSData *)data forKey:(NSString *)key label:(NSString *)label comment:(NSString *)comment error:(NSError *__autoreleasing *)error
+{
+    return [self setData:data forKey:key genericAttribute:nil label:label comment:comment error:error];
+}
+
+- (BOOL)setData:(NSData *)data forKey:(NSString *)key genericAttribute:(id)genericAttribute label:(NSString *)label comment:(NSString *)comment error:(NSError *__autoreleasing *)error
 {
     if (!key) {
         NSError *e = [self.class argumentError:NSLocalizedString(@"the key must not to be nil", nil)];
@@ -436,10 +526,14 @@ static NSString *_defaultService;
     
     NSMutableDictionary *query = [self query];
     query[(__bridge __strong id)kSecAttrAccount] = key;
-#if TARGET_OS_IPHONE
-    if (floor(NSFoundationVersionNumber) > floor(1047.25)) { // iOS 8+
+#if TARGET_OS_IOS
+    if (floor(NSFoundationVersionNumber) > floor(1144.17)) { // iOS 9+
+        query[(__bridge __strong id)kSecUseAuthenticationUI] = (__bridge id)kSecUseAuthenticationUIFail;
+    } else if (floor(NSFoundationVersionNumber) > floor(1047.25)) { // iOS 8+
         query[(__bridge __strong id)kSecUseNoAuthenticationUI] = (__bridge id)kCFBooleanTrue;
     }
+#elif TARGET_OS_WATCH || TARGET_OS_TV
+    query[(__bridge __strong id)kSecUseAuthenticationUI] = (__bridge id)kSecUseAuthenticationUIFail;
 #endif
     
     OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, NULL);
@@ -450,6 +544,9 @@ static NSString *_defaultService;
         NSError *unexpectedError = nil;
         NSMutableDictionary *attributes = [self attributesWithKey:nil value:data error:&unexpectedError];
         
+        if (genericAttribute) {
+            attributes[(__bridge __strong id)kSecAttrGeneric] = genericAttribute;
+        }
         if (label) {
             attributes[(__bridge __strong id)kSecAttrLabel] = label;
         }
@@ -458,7 +555,7 @@ static NSString *_defaultService;
         }
         
         if (unexpectedError) {
-            NSLog(@"MONKEY - error: [%@] %@", @(unexpectedError.code), NSLocalizedString(@"Unexpected error has occurred.", nil));
+            NSLog(@"error: [%@] %@", @(unexpectedError.code), NSLocalizedString(@"Unexpected error has occurred.", nil));
             if (error) {
                 *error = unexpectedError;
             }
@@ -484,6 +581,9 @@ static NSString *_defaultService;
         NSError *unexpectedError = nil;
         NSMutableDictionary *attributes = [self attributesWithKey:key value:data error:&unexpectedError];
         
+        if (genericAttribute) {
+            attributes[(__bridge __strong id)kSecAttrGeneric] = genericAttribute;
+        }
         if (label) {
             attributes[(__bridge __strong id)kSecAttrLabel] = label;
         }
@@ -492,7 +592,7 @@ static NSString *_defaultService;
         }
         
         if (unexpectedError) {
-            NSLog(@"MONKEY - error: [%@] %@", @(unexpectedError.code), NSLocalizedString(@"Unexpected error has occurred.", nil));
+            NSLog(@"error: [%@] %@", @(unexpectedError.code), NSLocalizedString(@"Unexpected error has occurred.", nil));
             if (error) {
                 *error = unexpectedError;
             }
@@ -663,7 +763,7 @@ static NSString *_defaultService;
 
 #pragma mark -
 
-- (NSArray *)allKeys
+- (NSArray UIC_KEY_TYPE *)allKeys
 {
     NSArray *items = [self.class prettify:[self itemClassObject] items:[self items]];
     NSMutableArray *keys = [[NSMutableArray alloc] init];
@@ -673,7 +773,7 @@ static NSString *_defaultService;
     return keys.copy;
 }
 
-+ (NSArray *)allKeysWithItemClass:(UICKeyChainStoreItemClass)itemClass
++ (NSArray UIC_KEY_TYPE *)allKeysWithItemClass:(UICKeyChainStoreItemClass)itemClass
 {
     CFTypeRef itemClassObject = kSecClassGenericPassword;
     if (itemClass == UICKeyChainStoreItemClassGenericPassword) {
@@ -688,7 +788,9 @@ static NSString *_defaultService;
     query[(__bridge __strong id)kSecReturnAttributes] = (__bridge id)kCFBooleanTrue;
     
     CFArrayRef result = nil;
-    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query,(CFTypeRef *)&result);
+    CFDictionaryRef cfquery = (CFDictionaryRef)CFBridgingRetain(query);
+    OSStatus status = SecItemCopyMatching(cfquery, (CFTypeRef *)&result);
+    CFRelease(cfquery);
     
     if (status == errSecSuccess) {
         NSArray *items = [self prettify:itemClassObject items:(__bridge NSArray *)result];
@@ -726,7 +828,9 @@ static NSString *_defaultService;
 #endif
     
     CFArrayRef result = nil;
-    OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query,(CFTypeRef *)&result);
+    CFDictionaryRef cfquery = (CFDictionaryRef)CFBridgingRetain(query);
+    OSStatus status = SecItemCopyMatching(cfquery, (CFTypeRef *)&result);
+    CFRelease(cfquery);
     
     if (status == errSecSuccess) {
         return [self prettify:itemClassObject items:(__bridge NSArray *)result];
@@ -810,9 +914,12 @@ static NSString *_defaultService;
         if (accessible) {
             item[@"accessibility"] = accessible;
         }
-        id synchronizable = attributes[(__bridge id)kSecAttrSynchronizable];
-        if (synchronizable) {
-            item[@"synchronizable"] = synchronizable;
+        
+        if (floor(NSFoundationVersionNumber) > floor(993.00)) { // iOS 7+
+            id synchronizable = attributes[(__bridge id)kSecAttrSynchronizable];
+            if (synchronizable) {
+                item[@"synchronizable"] = synchronizable;
+            }
         }
         
         [prettified addObject:item];
@@ -827,7 +934,7 @@ static NSString *_defaultService;
 {
     _synchronizable = synchronizable;
     if (_authenticationPolicy) {
-        NSLog(@"MONKEY - %@", @"Cannot specify both an authenticationPolicy and a synchronizable");
+        NSLog(@"%@", @"Cannot specify both an authenticationPolicy and a synchronizable");
     }
 }
 
@@ -836,13 +943,13 @@ static NSString *_defaultService;
     _accessibility = accessibility;
     _authenticationPolicy = authenticationPolicy;
     if (_synchronizable) {
-        NSLog(@"MONKEY - %@", @"Cannot specify both an authenticationPolicy and a synchronizable");
+        NSLog(@"%@", @"Cannot specify both an authenticationPolicy and a synchronizable");
     }
 }
 
 #pragma mark -
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 - (void)sharedPasswordWithCompletion:(void (^)(NSString *account, NSString *password, NSError *error))completion
 {
     NSString *domain = self.server.host;
@@ -916,18 +1023,18 @@ static NSString *_defaultService;
     [self setSharedPassword:nil forAccount:account completion:completion];
 }
 
-+ (void)requestSharedWebCredentialWithCompletion:(void (^)(NSArray *credentials, NSError *error))completion
++ (void)requestSharedWebCredentialWithCompletion:(void (^)(NSArray UIC_CREDENTIAL_TYPE *credentials, NSError *error))completion
 {
     [self requestSharedWebCredentialForDomain:nil account:nil completion:completion];
 }
 
-+ (void)requestSharedWebCredentialForDomain:(NSString *)domain account:(NSString *)account completion:(void (^)(NSArray *credentials, NSError *error))completion
++ (void)requestSharedWebCredentialForDomain:(NSString *)domain account:(NSString *)account completion:(void (^)(NSArray UIC_CREDENTIAL_TYPE *credentials, NSError *error))completion
 {
     SecRequestSharedWebCredential((__bridge CFStringRef)domain, (__bridge CFStringRef)account, ^(CFArrayRef credentials, CFErrorRef error) {
         if (error) {
             NSError *e = (__bridge NSError *)error;
             if (e.code != errSecItemNotFound) {
-                NSLog(@"MONKEY - error: [%@] %@", @(e.code), e.localizedDescription);
+                NSLog(@"error: [%@] %@", @(e.code), e.localizedDescription);
             }
         }
         
@@ -1004,11 +1111,13 @@ static NSString *_defaultService;
     
     CFTypeRef itemClass = [self itemClassObject];
     query[(__bridge __strong id)kSecClass] =(__bridge id)itemClass;
-    query[(__bridge __strong id)kSecAttrSynchronizable] = (__bridge id)kSecAttrSynchronizableAny;
+    if (floor(NSFoundationVersionNumber) > floor(993.00)) { // iOS 7+ (NSFoundationVersionNumber_iOS_6_1)
+        query[(__bridge __strong id)kSecAttrSynchronizable] = (__bridge id)kSecAttrSynchronizableAny;
+    }
     
     if (itemClass == kSecClassGenericPassword) {
         query[(__bridge __strong id)(kSecAttrService)] = _service;
-#if !TARGET_IPHONE_SIMULATOR
+#if !TARGET_OS_SIMULATOR
         if (_accessGroup) {
             query[(__bridge __strong id)kSecAttrAccessGroup] = _accessGroup;
         }
@@ -1030,12 +1139,12 @@ static NSString *_defaultService;
         }
     }
     
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
     if (_authenticationPrompt) {
-        if (floor(NSFoundationVersionNumber) > floor(1047.25)) { // iOS 8+
+        if (floor(NSFoundationVersionNumber) > floor(1047.25)) { // iOS 8+ (NSFoundationVersionNumber_iOS_7_1)
             query[(__bridge __strong id)kSecUseOperationPrompt] = _authenticationPrompt;
         } else {
-            NSLog(@"MONKEY - %@", @"Unavailable 'authenticationPrompt' attribute on iOS versions prior to 8.0.");
+            NSLog(@"%@", @"Unavailable 'authenticationPrompt' attribute on iOS versions prior to 8.0.");
         }
     }
 #endif
@@ -1056,7 +1165,7 @@ static NSString *_defaultService;
     
     attributes[(__bridge __strong id)kSecValueData] = value;
     
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
     double iOS_7_1_or_10_9_2 = 1047.25; // NSFoundationVersionNumber_iOS_7_1
 #else
     double iOS_7_1_or_10_9_2 = 1056.13; // NSFoundationVersionNumber10_9_2
@@ -1068,9 +1177,10 @@ static NSString *_defaultService;
             SecAccessControlRef accessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, accessibilityObject, (SecAccessControlCreateFlags)_authenticationPolicy, &securityError);
             if (securityError) {
                 NSError *e = (__bridge NSError *)securityError;
-                NSLog(@"MONKEY - error: [%@] %@", @(e.code), e.localizedDescription);
+                NSLog(@"error: [%@] %@", @(e.code), e.localizedDescription);
                 if (error) {
                     *error = e;
+                    CFRelease(accessControl);
                     return nil;
                 }
             }
@@ -1082,20 +1192,20 @@ static NSString *_defaultService;
                 }
                 return nil;
             }
-            attributes[(__bridge __strong id)kSecAttrAccessControl] = (__bridge id)accessControl;
+            attributes[(__bridge __strong id)kSecAttrAccessControl] = (__bridge_transfer id)accessControl;
         } else {
-#if TARGET_OS_IPHONE
-            NSLog(@"MONKEY - %@", @"Unavailable 'Touch ID integration' on iOS versions prior to 8.0.");
+#if TARGET_OS_IOS
+            NSLog(@"%@", @"Unavailable 'Touch ID integration' on iOS versions prior to 8.0.");
 #else
-            NSLog(@"MONKEY - %@", @"Unavailable 'Touch ID integration' on OS X versions prior to 10.10.");
+            NSLog(@"%@", @"Unavailable 'Touch ID integration' on OS X versions prior to 10.10.");
 #endif
         }
     } else {
         if (floor(NSFoundationVersionNumber) <= floor(iOS_7_1_or_10_9_2) && _accessibility == UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly) {
-#if TARGET_OS_IPHONE
-            NSLog(@"MONKEY - %@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on iOS versions prior to 8.0.");
+#if TARGET_OS_IOS
+            NSLog(@"%@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on iOS versions prior to 8.0.");
 #else
-            NSLog(@"MONKEY - %@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on OS X versions prior to 10.10.");
+            NSLog(@"%@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on OS X versions prior to 10.10.");
 #endif
         } else {
             if (accessibilityObject) {
@@ -1104,7 +1214,9 @@ static NSString *_defaultService;
         }
     }
     
-    attributes[(__bridge __strong id)kSecAttrSynchronizable] = @(_synchronizable);
+    if (floor(NSFoundationVersionNumber) > floor(993.00)) { // iOS 7+
+        attributes[(__bridge __strong id)kSecAttrSynchronizable] = @(_synchronizable);
+    }
     
     return attributes;
 }
@@ -1238,28 +1350,35 @@ static NSString *_defaultService;
 + (NSError *)argumentError:(NSString *)message
 {
     NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:UICKeyChainStoreErrorInvalidArguments userInfo:@{NSLocalizedDescriptionKey: message}];
-    NSLog(@"MONKEY - error: [%@] %@", @(error.code), error.localizedDescription);
+    NSLog(@"error: [%@] %@", @(error.code), error.localizedDescription);
     return error;
 }
 
 + (NSError *)conversionError:(NSString *)message
 {
     NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:-67594 userInfo:@{NSLocalizedDescriptionKey: message}];
-    NSLog(@"MONKEY - error: [%@] %@", @(error.code), error.localizedDescription);
+    NSLog(@"error: [%@] %@", @(error.code), error.localizedDescription);
     return error;
 }
 
 + (NSError *)securityError:(OSStatus)status
 {
-    NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:status userInfo:@{NSLocalizedDescriptionKey: @"Security error has occurred."}];
-    NSLog(@"MONKEY - OSStatus error: [%@] %@", @(error.code), error.localizedDescription);
+    NSString *message = @"Security error has occurred.";
+#if TARGET_OS_MAC && !TARGET_OS_IPHONE
+    CFStringRef description = SecCopyErrorMessageString(status, NULL);
+    if (description) {
+        message = (__bridge_transfer NSString *)description;
+    }
+#endif
+    NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:status userInfo:@{NSLocalizedDescriptionKey: message}];
+    NSLog(@"OSStatus error: [%@] %@", @(error.code), error.localizedDescription);
     return error;
 }
 
 + (NSError *)unexpectedError:(NSString *)message
 {
     NSError *error = [NSError errorWithDomain:UICKeyChainStoreErrorDomain code:-99999 userInfo:@{NSLocalizedDescriptionKey: message}];
-    NSLog(@"MONKEY - error: [%@] %@", @(error.code), error.localizedDescription);
+    NSLog(@"error: [%@] %@", @(error.code), error.localizedDescription);
     return error;
 }
 

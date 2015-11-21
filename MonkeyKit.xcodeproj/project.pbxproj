@@ -92,8 +92,6 @@
 		41EE3D831C0001BA00EE3B0D /* BBAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D811C0001BA00EE3B0D /* BBAES.m */; };
 		41EE3D861C0001CF00EE3B0D /* MOKCriptext.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */; };
 		41EE3D871C0001CF00EE3B0D /* MOKCriptext.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */; };
-		41EE3D8A1C0001F200EE3B0D /* UICKeyChainStore.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D881C0001F200EE3B0D /* UICKeyChainStore.h */; };
-		41EE3D8B1C0001F200EE3B0D /* UICKeyChainStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D891C0001F200EE3B0D /* UICKeyChainStore.m */; };
 		41EE3D8E1C00020400EE3B0D /* MOKSecurityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */; };
 		41EE3D8F1C00020400EE3B0D /* MOKSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */; };
 		B12BB8E1187B7FD310296228 /* Pods_MonkeyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -175,8 +173,6 @@
 		41EE3D811C0001BA00EE3B0D /* BBAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBAES.m; path = Security/AES/BBAES.m; sourceTree = "<group>"; };
 		41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKCriptext.h; path = Security/MOKCriptext.h; sourceTree = "<group>"; };
 		41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKCriptext.m; path = Security/MOKCriptext.m; sourceTree = "<group>"; };
-		41EE3D881C0001F200EE3B0D /* UICKeyChainStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UICKeyChainStore.h; path = Security/KeychainManager/UICKeyChainStore.h; sourceTree = "<group>"; };
-		41EE3D891C0001F200EE3B0D /* UICKeyChainStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UICKeyChainStore.m; path = Security/KeychainManager/UICKeyChainStore.m; sourceTree = "<group>"; };
 		41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSecurityManager.h; path = Security/MOKSecurityManager.h; sourceTree = "<group>"; };
 		41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSecurityManager.m; path = Security/MOKSecurityManager.m; sourceTree = "<group>"; };
 		499B89B33DB3E6A982E6CFB6 /* Pods-MonkeyKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -306,18 +302,8 @@
 				419CAB4F1A8193FE00F68EB0 /* AES */,
 				41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */,
 				41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */,
-				419CAAD21A8047C700F68EB0 /* KeychainManager */,
 			);
 			name = Security;
-			sourceTree = "<group>";
-		};
-		419CAAD21A8047C700F68EB0 /* KeychainManager */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3D881C0001F200EE3B0D /* UICKeyChainStore.h */,
-				41EE3D891C0001F200EE3B0D /* UICKeyChainStore.m */,
-			);
-			name = KeychainManager;
 			sourceTree = "<group>";
 		};
 		419CAADB1A80481B00F68EB0 /* Communication */ = {
@@ -483,7 +469,6 @@
 				41EE3D141BFFFE7E00EE3B0D /* MOKUser.h in Headers */,
 				41EE3D101BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h in Headers */,
 				41EE3D531C0000F700EE3B0D /* MOKSGSConnection.h in Headers */,
-				41EE3D8A1C0001F200EE3B0D /* UICKeyChainStore.h in Headers */,
 				41EE3D121BFFFE7E00EE3B0D /* MOKMessage.h in Headers */,
 				41EE3D261C00002700EE3B0D /* MOKSessionManager.h in Headers */,
 				41EE3D701C00013400EE3B0D /* MOKSBJsonParser.h in Headers */,
@@ -633,7 +618,6 @@
 				41EE3D561C0000F700EE3B0D /* MOKSGSContext.m in Sources */,
 				41EE3D581C0000F700EE3B0D /* MOKSGSId.m in Sources */,
 				41EE3D0D1BFFFE7E00EE3B0D /* MOKDBMessage.m in Sources */,
-				41EE3D8B1C0001F200EE3B0D /* UICKeyChainStore.m in Sources */,
 				41EE3D131BFFFE7E00EE3B0D /* MOKMessage.m in Sources */,
 				41EE3D1D1BFFFFE900EE3B0D /* NSData+Compression.m in Sources */,
 				41EE3D711C00013400EE3B0D /* MOKSBJsonParser.m in Sources */,

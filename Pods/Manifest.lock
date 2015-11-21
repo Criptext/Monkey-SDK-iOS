@@ -24,15 +24,18 @@ PODS:
   - Realm (0.96.2):
     - Realm/Headers (= 0.96.2)
   - Realm/Headers (0.96.2)
+  - UICKeyChainStore (2.1.0)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
   - OpenSSL-Universal (~> 1.0.1.l)
   - Realm (~> 0.95)
+  - UICKeyChainStore (~> 2.0)
 
 SPEC CHECKSUMS:
   AFNetworking: cb8d14a848e831097108418f5d49217339d4eb60
   OpenSSL-Universal: 8746d6f33874f85a30f5be1dc6e696d1b2ebcf01
   Realm: 3ce8448151c571e90b85002d984d7f93f54fc8a3
+  UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
 
 COCOAPODS: 0.38.2
