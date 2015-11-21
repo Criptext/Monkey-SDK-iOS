@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MonkeyKit"
-  s.version      = "0.3.5"
+  s.version      = "0.3.6"
   s.summary      = "A secure messaging channel."
 
   s.description  = <<-DESC
@@ -79,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Criptext/iOS-MonkeySDK.git", :tag => "0.3.5" }
+  s.source       = { :git => "https://github.com/Criptext/iOS-MonkeySDK.git", :tag => s.version }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -90,7 +90,37 @@ Pod::Spec.new do |s|
   #  Not including the public_header_files will make all headers public.
   #
 
-  s.source_files  = "MonkeyKit", "MonkeyKit/**/*.{h,m}"
+  s.subspec 'Communication' do |communication|
+    communication.subspec 'MessagingManager' do |messagingManager|'
+      messagingManager.source_files = 'MonkeyKit/Communication/MessagingManager/*.{h,m}'
+    end
+
+    communication.subspec 'API' do |api|'
+      api.source_files = 'MonkeyKit/Communication/API/*.{h,m}'
+    end
+
+    communication.subspec 'JSON' do |json|'
+      json.source_files = 'MonkeyKit/Communication/JSON/*.{h,m}'
+    end
+
+    communication.subspec 'Socket' do |socket|'
+      socket.source_files = 'MonkeyKit/Communication/Socket/*.{h,m}'
+    end
+  end
+
+  s.subspec 'Helpers' do |helpers|
+    helpers.source_files = 'MonkeyKit/Communication/Helpers/*.{h,m}'
+  end
+
+  s.subspec 'Model' do |model|
+    model.source_files = 'MonkeyKit/Model/*.{h,m}'
+  end
+
+  s.subspec 'Security' do |security|
+    security.source_files = 'MonkeyKit/Security/*.{h,m}'
+  end
+
+  s.source_files  = "MonkeyKit", "MonkeyKit/MonkeyKit.h"
   #s.exclude_files = "Classes/Exclude"
 
   # s.public_header_files = "Classes/**/*.h"

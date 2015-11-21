@@ -222,8 +222,7 @@
 			children = (
 				419554CF1C00D35000FBCC28 /* API */,
 				419554D21C00D35000FBCC28 /* JSON */,
-				419554E01C00D35000FBCC28 /* MOKMessagingManager.h */,
-				419554E11C00D35000FBCC28 /* MOKMessagingManager.m */,
+				4195556D1C011A9200FBCC28 /* MessagingManager */,
 				419554E21C00D35000FBCC28 /* Socket */,
 			);
 			path = Communication;
@@ -392,6 +391,15 @@
 			children = (
 			);
 			path = KeychainManager;
+			sourceTree = "<group>";
+		};
+		4195556D1C011A9200FBCC28 /* MessagingManager */ = {
+			isa = PBXGroup;
+			children = (
+				419554E01C00D35000FBCC28 /* MOKMessagingManager.h */,
+				419554E11C00D35000FBCC28 /* MOKMessagingManager.m */,
+			);
+			name = MessagingManager;
 			sourceTree = "<group>";
 		};
 		419CAA981A80475800F68EB0 = {
