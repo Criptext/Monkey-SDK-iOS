@@ -22,159 +22,160 @@
 
 /* Begin PBXBuildFile section */
 		4146D7431BAB3ED900D39061 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4146D7421BAB3ED900D39061 /* libc++.1.dylib */; };
-		416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 416A18221AB35669003FA469 /* libz.1.2.5.dylib */; };
-		419CAAA81A80475800F68EB0 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* MonkeyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		419555231C00D35000FBCC28 /* MOKAPIConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554D01C00D35000FBCC28 /* MOKAPIConnector.h */; };
+		419555241C00D35000FBCC28 /* MOKAPIConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554D11C00D35000FBCC28 /* MOKAPIConnector.m */; };
+		419555251C00D35000FBCC28 /* MOKJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554D31C00D35000FBCC28 /* MOKJSON.h */; };
+		419555261C00D35000FBCC28 /* MOKSBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554D41C00D35000FBCC28 /* MOKSBJSON.h */; };
+		419555271C00D35000FBCC28 /* MOKSBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554D51C00D35000FBCC28 /* MOKSBJSON.m */; };
+		419555281C00D35000FBCC28 /* MOKSBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554D61C00D35000FBCC28 /* MOKSBJsonBase.h */; };
+		419555291C00D35000FBCC28 /* MOKSBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554D71C00D35000FBCC28 /* MOKSBJsonBase.m */; };
+		4195552A1C00D35000FBCC28 /* MOKSBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554D81C00D35000FBCC28 /* MOKSBJsonParser.h */; };
+		4195552B1C00D35000FBCC28 /* MOKSBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554D91C00D35000FBCC28 /* MOKSBJsonParser.m */; };
+		4195552C1C00D35000FBCC28 /* MOKSBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554DA1C00D35000FBCC28 /* MOKSBJsonWriter.h */; };
+		4195552D1C00D35000FBCC28 /* MOKSBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554DB1C00D35000FBCC28 /* MOKSBJsonWriter.m */; };
+		4195552E1C00D35000FBCC28 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554DC1C00D35000FBCC28 /* NSObject+SBJSON.h */; };
+		4195552F1C00D35000FBCC28 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554DD1C00D35000FBCC28 /* NSObject+SBJSON.m */; };
+		419555301C00D35000FBCC28 /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554DE1C00D35000FBCC28 /* NSString+SBJSON.h */; };
+		419555311C00D35000FBCC28 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554DF1C00D35000FBCC28 /* NSString+SBJSON.m */; };
+		419555321C00D35000FBCC28 /* MOKMessagingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554E01C00D35000FBCC28 /* MOKMessagingManager.h */; };
+		419555331C00D35000FBCC28 /* MOKMessagingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554E11C00D35000FBCC28 /* MOKMessagingManager.m */; };
+		419555341C00D35000FBCC28 /* MOKComServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554E31C00D35000FBCC28 /* MOKComServerConnection.h */; };
+		419555351C00D35000FBCC28 /* MOKComServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554E41C00D35000FBCC28 /* MOKComServerConnection.m */; };
+		419555361C00D35000FBCC28 /* MOKSocketConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554E51C00D35000FBCC28 /* MOKSocketConnectionManager.h */; };
+		419555371C00D35000FBCC28 /* MOKSocketConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554E61C00D35000FBCC28 /* MOKSocketConnectionManager.m */; };
+		419555381C00D35000FBCC28 /* MOKSGSChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554E81C00D35000FBCC28 /* MOKSGSChannel.h */; };
+		419555391C00D35000FBCC28 /* MOKSGSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554E91C00D35000FBCC28 /* MOKSGSChannel.m */; };
+		4195553A1C00D35000FBCC28 /* MOKSGSConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554EA1C00D35000FBCC28 /* MOKSGSConnection.h */; };
+		4195553B1C00D35000FBCC28 /* MOKSGSConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554EB1C00D35000FBCC28 /* MOKSGSConnection.m */; };
+		4195553C1C00D35000FBCC28 /* MOKSGSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554EC1C00D35000FBCC28 /* MOKSGSContext.h */; };
+		4195553D1C00D35000FBCC28 /* MOKSGSContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554ED1C00D35000FBCC28 /* MOKSGSContext.m */; };
+		4195553E1C00D35000FBCC28 /* MOKSGSId.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554EE1C00D35000FBCC28 /* MOKSGSId.h */; };
+		4195553F1C00D35000FBCC28 /* MOKSGSId.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554EF1C00D35000FBCC28 /* MOKSGSId.m */; };
+		419555401C00D35000FBCC28 /* MOKSGSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554F01C00D35000FBCC28 /* MOKSGSMessage.h */; };
+		419555411C00D35000FBCC28 /* MOKSGSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554F11C00D35000FBCC28 /* MOKSGSMessage.m */; };
+		419555421C00D35000FBCC28 /* MOKSGSProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554F21C00D35000FBCC28 /* MOKSGSProtocol.h */; };
+		419555431C00D35000FBCC28 /* MOKSGSSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554F31C00D35000FBCC28 /* MOKSGSSession.h */; };
+		419555441C00D35000FBCC28 /* MOKSGSSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554F41C00D35000FBCC28 /* MOKSGSSession.m */; };
+		419555451C00D35000FBCC28 /* NSData+Compression.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554F71C00D35000FBCC28 /* NSData+Compression.h */; };
+		419555461C00D35000FBCC28 /* NSData+Compression.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554F81C00D35000FBCC28 /* NSData+Compression.m */; };
+		419555471C00D35000FBCC28 /* MOKDateUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554F91C00D35000FBCC28 /* MOKDateUtils.h */; };
+		419555481C00D35000FBCC28 /* MOKDateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554FA1C00D35000FBCC28 /* MOKDateUtils.m */; };
+		419555491C00D35000FBCC28 /* MOKutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554FB1C00D35000FBCC28 /* MOKutils.h */; };
+		4195554A1C00D35000FBCC28 /* MOKutils.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554FC1C00D35000FBCC28 /* MOKutils.m */; };
+		4195554B1C00D35000FBCC28 /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554FD1C00D35000FBCC28 /* NSData+Base64.h */; };
+		4195554C1C00D35000FBCC28 /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 419554FE1C00D35000FBCC28 /* NSData+Base64.m */; };
+		4195554D1C00D35000FBCC28 /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 419554FF1C00D35000FBCC28 /* NSData+Conversion.h */; };
+		4195554E1C00D35000FBCC28 /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555001C00D35000FBCC28 /* NSData+Conversion.m */; };
+		4195554F1C00D35000FBCC28 /* MOKSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555021C00D35000FBCC28 /* MOKSessionManager.h */; };
+		419555501C00D35000FBCC28 /* MOKSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555031C00D35000FBCC28 /* MOKSessionManager.m */; };
+		419555511C00D35000FBCC28 /* MOKUserDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555041C00D35000FBCC28 /* MOKUserDictionary.h */; };
+		419555521C00D35000FBCC28 /* MOKUserDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555051C00D35000FBCC28 /* MOKUserDictionary.m */; };
+		419555531C00D35000FBCC28 /* MOKWatchdog.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555071C00D35000FBCC28 /* MOKWatchdog.h */; };
+		419555541C00D35000FBCC28 /* MOKWatchdog.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555081C00D35000FBCC28 /* MOKWatchdog.m */; };
+		419555551C00D35000FBCC28 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 419555091C00D35000FBCC28 /* Info.plist */; };
+		419555571C00D35000FBCC28 /* MOKDBManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 4195550D1C00D35000FBCC28 /* MOKDBManager.h */; };
+		419555581C00D35000FBCC28 /* MOKDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4195550E1C00D35000FBCC28 /* MOKDBManager.m */; };
+		419555591C00D35000FBCC28 /* MOKDBMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 4195550F1C00D35000FBCC28 /* MOKDBMessage.h */; };
+		4195555A1C00D35000FBCC28 /* MOKDBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555101C00D35000FBCC28 /* MOKDBMessage.m */; };
+		4195555B1C00D35000FBCC28 /* MOKDBSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555111C00D35000FBCC28 /* MOKDBSession.h */; };
+		4195555C1C00D35000FBCC28 /* MOKDBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555121C00D35000FBCC28 /* MOKDBSession.m */; };
+		4195555D1C00D35000FBCC28 /* MOKDictionaryBasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555131C00D35000FBCC28 /* MOKDictionaryBasedObject.h */; };
+		4195555E1C00D35000FBCC28 /* MOKDictionaryBasedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555141C00D35000FBCC28 /* MOKDictionaryBasedObject.m */; };
+		4195555F1C00D35000FBCC28 /* MOKMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555151C00D35000FBCC28 /* MOKMessage.h */; };
+		419555601C00D35000FBCC28 /* MOKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555161C00D35000FBCC28 /* MOKMessage.m */; };
+		419555611C00D35000FBCC28 /* MOKUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555171C00D35000FBCC28 /* MOKUser.h */; };
+		419555621C00D35000FBCC28 /* MOKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555181C00D35000FBCC28 /* MOKUser.m */; };
+		419555631C00D35000FBCC28 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555191C00D35000FBCC28 /* MonkeyKit.h */; };
+		419555641C00D35000FBCC28 /* BBAES.h in Headers */ = {isa = PBXBuildFile; fileRef = 4195551C1C00D35000FBCC28 /* BBAES.h */; };
+		419555651C00D35000FBCC28 /* BBAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 4195551D1C00D35000FBCC28 /* BBAES.m */; };
+		419555661C00D35000FBCC28 /* MOKCriptext.h in Headers */ = {isa = PBXBuildFile; fileRef = 4195551F1C00D35000FBCC28 /* MOKCriptext.h */; };
+		419555671C00D35000FBCC28 /* MOKCriptext.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555201C00D35000FBCC28 /* MOKCriptext.m */; };
+		419555681C00D35000FBCC28 /* MOKSecurityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 419555211C00D35000FBCC28 /* MOKSecurityManager.h */; };
+		419555691C00D35000FBCC28 /* MOKSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 419555221C00D35000FBCC28 /* MOKSecurityManager.m */; };
+		4195556B1C00D39D00FBCC28 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4195556A1C00D39D00FBCC28 /* libz.1.2.5.dylib */; };
 		41A586821BBDF7F000E1A41E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 41A586811BBDF7F000E1A41E /* LICENSE */; };
 		41A586841BBDF7FE00E1A41E /* MonkeyKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */; };
-		41EE3D0A1BFFFE7E00EE3B0D /* MOKDBManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3CFE1BFFFE7E00EE3B0D /* MOKDBManager.h */; };
-		41EE3D0B1BFFFE7E00EE3B0D /* MOKDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3CFF1BFFFE7E00EE3B0D /* MOKDBManager.m */; };
-		41EE3D0C1BFFFE7E00EE3B0D /* MOKDBMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D001BFFFE7E00EE3B0D /* MOKDBMessage.h */; };
-		41EE3D0D1BFFFE7E00EE3B0D /* MOKDBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D011BFFFE7E00EE3B0D /* MOKDBMessage.m */; };
-		41EE3D0E1BFFFE7E00EE3B0D /* MOKDBSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D021BFFFE7E00EE3B0D /* MOKDBSession.h */; };
-		41EE3D0F1BFFFE7E00EE3B0D /* MOKDBSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D031BFFFE7E00EE3B0D /* MOKDBSession.m */; };
-		41EE3D101BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */; };
-		41EE3D111BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D051BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.m */; };
-		41EE3D121BFFFE7E00EE3B0D /* MOKMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D061BFFFE7E00EE3B0D /* MOKMessage.h */; };
-		41EE3D131BFFFE7E00EE3B0D /* MOKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D071BFFFE7E00EE3B0D /* MOKMessage.m */; };
-		41EE3D141BFFFE7E00EE3B0D /* MOKUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D081BFFFE7E00EE3B0D /* MOKUser.h */; };
-		41EE3D151BFFFE7E00EE3B0D /* MOKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D091BFFFE7E00EE3B0D /* MOKUser.m */; };
-		41EE3D1C1BFFFFE900EE3B0D /* NSData+Compression.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D1A1BFFFFE900EE3B0D /* NSData+Compression.h */; };
-		41EE3D1D1BFFFFE900EE3B0D /* NSData+Compression.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D1B1BFFFFE900EE3B0D /* NSData+Compression.m */; };
-		41EE3D201C00000200EE3B0D /* MOKWatchdog.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D1E1C00000200EE3B0D /* MOKWatchdog.h */; };
-		41EE3D211C00000200EE3B0D /* MOKWatchdog.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D1F1C00000200EE3B0D /* MOKWatchdog.m */; };
-		41EE3D261C00002700EE3B0D /* MOKSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D221C00002700EE3B0D /* MOKSessionManager.h */; };
-		41EE3D271C00002700EE3B0D /* MOKSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D231C00002700EE3B0D /* MOKSessionManager.m */; };
-		41EE3D281C00002700EE3B0D /* MOKUserDictionary.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D241C00002700EE3B0D /* MOKUserDictionary.h */; };
-		41EE3D291C00002700EE3B0D /* MOKUserDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D251C00002700EE3B0D /* MOKUserDictionary.m */; };
-		41EE3D321C00005E00EE3B0D /* MOKDateUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D2A1C00005E00EE3B0D /* MOKDateUtils.h */; };
-		41EE3D331C00005E00EE3B0D /* MOKDateUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D2B1C00005E00EE3B0D /* MOKDateUtils.m */; };
-		41EE3D341C00005E00EE3B0D /* MOKutils.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D2C1C00005E00EE3B0D /* MOKutils.h */; };
-		41EE3D351C00005E00EE3B0D /* MOKutils.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D2D1C00005E00EE3B0D /* MOKutils.m */; };
-		41EE3D361C00005E00EE3B0D /* NSData+Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D2E1C00005E00EE3B0D /* NSData+Base64.h */; };
-		41EE3D371C00005E00EE3B0D /* NSData+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D2F1C00005E00EE3B0D /* NSData+Base64.m */; };
-		41EE3D381C00005E00EE3B0D /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D301C00005E00EE3B0D /* NSData+Conversion.h */; };
-		41EE3D391C00005E00EE3B0D /* NSData+Conversion.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D311C00005E00EE3B0D /* NSData+Conversion.m */; };
-		41EE3D4D1C0000F700EE3B0D /* MOKComServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D3B1C0000F700EE3B0D /* MOKComServerConnection.h */; };
-		41EE3D4E1C0000F700EE3B0D /* MOKComServerConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D3C1C0000F700EE3B0D /* MOKComServerConnection.m */; };
-		41EE3D4F1C0000F700EE3B0D /* MOKSocketConnectionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D3D1C0000F700EE3B0D /* MOKSocketConnectionManager.h */; };
-		41EE3D501C0000F700EE3B0D /* MOKSocketConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D3E1C0000F700EE3B0D /* MOKSocketConnectionManager.m */; };
-		41EE3D511C0000F700EE3B0D /* MOKSGSChannel.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D401C0000F700EE3B0D /* MOKSGSChannel.h */; };
-		41EE3D521C0000F700EE3B0D /* MOKSGSChannel.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D411C0000F700EE3B0D /* MOKSGSChannel.m */; };
-		41EE3D531C0000F700EE3B0D /* MOKSGSConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D421C0000F700EE3B0D /* MOKSGSConnection.h */; };
-		41EE3D541C0000F700EE3B0D /* MOKSGSConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D431C0000F700EE3B0D /* MOKSGSConnection.m */; };
-		41EE3D551C0000F700EE3B0D /* MOKSGSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D441C0000F700EE3B0D /* MOKSGSContext.h */; };
-		41EE3D561C0000F700EE3B0D /* MOKSGSContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D451C0000F700EE3B0D /* MOKSGSContext.m */; };
-		41EE3D571C0000F700EE3B0D /* MOKSGSId.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D461C0000F700EE3B0D /* MOKSGSId.h */; };
-		41EE3D581C0000F700EE3B0D /* MOKSGSId.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D471C0000F700EE3B0D /* MOKSGSId.m */; };
-		41EE3D591C0000F700EE3B0D /* MOKSGSMessage.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D481C0000F700EE3B0D /* MOKSGSMessage.h */; };
-		41EE3D5A1C0000F700EE3B0D /* MOKSGSMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D491C0000F700EE3B0D /* MOKSGSMessage.m */; };
-		41EE3D5B1C0000F700EE3B0D /* MOKSGSProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D4A1C0000F700EE3B0D /* MOKSGSProtocol.h */; };
-		41EE3D5C1C0000F700EE3B0D /* MOKSGSSession.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D4B1C0000F700EE3B0D /* MOKSGSSession.h */; };
-		41EE3D5D1C0000F700EE3B0D /* MOKSGSSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D4C1C0000F700EE3B0D /* MOKSGSSession.m */; };
-		41EE3D6B1C00013400EE3B0D /* MOKJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D5E1C00013400EE3B0D /* MOKJSON.h */; };
-		41EE3D6C1C00013400EE3B0D /* MOKSBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D5F1C00013400EE3B0D /* MOKSBJSON.h */; };
-		41EE3D6D1C00013400EE3B0D /* MOKSBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D601C00013400EE3B0D /* MOKSBJSON.m */; };
-		41EE3D6E1C00013400EE3B0D /* MOKSBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D611C00013400EE3B0D /* MOKSBJsonBase.h */; };
-		41EE3D6F1C00013400EE3B0D /* MOKSBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D621C00013400EE3B0D /* MOKSBJsonBase.m */; };
-		41EE3D701C00013400EE3B0D /* MOKSBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D631C00013400EE3B0D /* MOKSBJsonParser.h */; };
-		41EE3D711C00013400EE3B0D /* MOKSBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D641C00013400EE3B0D /* MOKSBJsonParser.m */; };
-		41EE3D721C00013400EE3B0D /* MOKSBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D651C00013400EE3B0D /* MOKSBJsonWriter.h */; };
-		41EE3D731C00013400EE3B0D /* MOKSBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D661C00013400EE3B0D /* MOKSBJsonWriter.m */; };
-		41EE3D741C00013400EE3B0D /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D671C00013400EE3B0D /* NSObject+SBJSON.h */; };
-		41EE3D751C00013400EE3B0D /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D681C00013400EE3B0D /* NSObject+SBJSON.m */; };
-		41EE3D761C00013400EE3B0D /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D691C00013400EE3B0D /* NSString+SBJSON.h */; };
-		41EE3D771C00013400EE3B0D /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D6A1C00013400EE3B0D /* NSString+SBJSON.m */; };
-		41EE3D7A1C00014B00EE3B0D /* MOKAPIConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D781C00014B00EE3B0D /* MOKAPIConnector.h */; };
-		41EE3D7B1C00014B00EE3B0D /* MOKAPIConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D791C00014B00EE3B0D /* MOKAPIConnector.m */; };
-		41EE3D7E1C00016300EE3B0D /* MOKMessagingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D7C1C00016300EE3B0D /* MOKMessagingManager.h */; };
-		41EE3D7F1C00016300EE3B0D /* MOKMessagingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D7D1C00016300EE3B0D /* MOKMessagingManager.m */; };
-		41EE3D821C0001BA00EE3B0D /* BBAES.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D801C0001BA00EE3B0D /* BBAES.h */; };
-		41EE3D831C0001BA00EE3B0D /* BBAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D811C0001BA00EE3B0D /* BBAES.m */; };
-		41EE3D861C0001CF00EE3B0D /* MOKCriptext.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */; };
-		41EE3D871C0001CF00EE3B0D /* MOKCriptext.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */; };
-		41EE3D8E1C00020400EE3B0D /* MOKSecurityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */; };
-		41EE3D8F1C00020400EE3B0D /* MOKSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */; };
 		B12BB8E1187B7FD310296228 /* Pods_MonkeyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4146D7421BAB3ED900D39061 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
-		416A18221AB35669003FA469 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libz.1.2.5.dylib; sourceTree = "<group>"; };
+		419554D01C00D35000FBCC28 /* MOKAPIConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKAPIConnector.h; sourceTree = "<group>"; };
+		419554D11C00D35000FBCC28 /* MOKAPIConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKAPIConnector.m; sourceTree = "<group>"; };
+		419554D31C00D35000FBCC28 /* MOKJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKJSON.h; sourceTree = "<group>"; };
+		419554D41C00D35000FBCC28 /* MOKSBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSBJSON.h; sourceTree = "<group>"; };
+		419554D51C00D35000FBCC28 /* MOKSBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSBJSON.m; sourceTree = "<group>"; };
+		419554D61C00D35000FBCC28 /* MOKSBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSBJsonBase.h; sourceTree = "<group>"; };
+		419554D71C00D35000FBCC28 /* MOKSBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSBJsonBase.m; sourceTree = "<group>"; };
+		419554D81C00D35000FBCC28 /* MOKSBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSBJsonParser.h; sourceTree = "<group>"; };
+		419554D91C00D35000FBCC28 /* MOKSBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSBJsonParser.m; sourceTree = "<group>"; };
+		419554DA1C00D35000FBCC28 /* MOKSBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSBJsonWriter.h; sourceTree = "<group>"; };
+		419554DB1C00D35000FBCC28 /* MOKSBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSBJsonWriter.m; sourceTree = "<group>"; };
+		419554DC1C00D35000FBCC28 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		419554DD1C00D35000FBCC28 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		419554DE1C00D35000FBCC28 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		419554DF1C00D35000FBCC28 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		419554E01C00D35000FBCC28 /* MOKMessagingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKMessagingManager.h; sourceTree = "<group>"; };
+		419554E11C00D35000FBCC28 /* MOKMessagingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKMessagingManager.m; sourceTree = "<group>"; };
+		419554E31C00D35000FBCC28 /* MOKComServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKComServerConnection.h; sourceTree = "<group>"; };
+		419554E41C00D35000FBCC28 /* MOKComServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKComServerConnection.m; sourceTree = "<group>"; };
+		419554E51C00D35000FBCC28 /* MOKSocketConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSocketConnectionManager.h; sourceTree = "<group>"; };
+		419554E61C00D35000FBCC28 /* MOKSocketConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSocketConnectionManager.m; sourceTree = "<group>"; };
+		419554E81C00D35000FBCC28 /* MOKSGSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSChannel.h; sourceTree = "<group>"; };
+		419554E91C00D35000FBCC28 /* MOKSGSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSChannel.m; sourceTree = "<group>"; };
+		419554EA1C00D35000FBCC28 /* MOKSGSConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSConnection.h; sourceTree = "<group>"; };
+		419554EB1C00D35000FBCC28 /* MOKSGSConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSConnection.m; sourceTree = "<group>"; };
+		419554EC1C00D35000FBCC28 /* MOKSGSContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSContext.h; sourceTree = "<group>"; };
+		419554ED1C00D35000FBCC28 /* MOKSGSContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSContext.m; sourceTree = "<group>"; };
+		419554EE1C00D35000FBCC28 /* MOKSGSId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSId.h; sourceTree = "<group>"; };
+		419554EF1C00D35000FBCC28 /* MOKSGSId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSId.m; sourceTree = "<group>"; };
+		419554F01C00D35000FBCC28 /* MOKSGSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSMessage.h; sourceTree = "<group>"; };
+		419554F11C00D35000FBCC28 /* MOKSGSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSMessage.m; sourceTree = "<group>"; };
+		419554F21C00D35000FBCC28 /* MOKSGSProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSProtocol.h; sourceTree = "<group>"; };
+		419554F31C00D35000FBCC28 /* MOKSGSSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSSession.h; sourceTree = "<group>"; };
+		419554F41C00D35000FBCC28 /* MOKSGSSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSSession.m; sourceTree = "<group>"; };
+		419554F71C00D35000FBCC28 /* NSData+Compression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Compression.h"; sourceTree = "<group>"; };
+		419554F81C00D35000FBCC28 /* NSData+Compression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Compression.m"; sourceTree = "<group>"; };
+		419554F91C00D35000FBCC28 /* MOKDateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDateUtils.h; sourceTree = "<group>"; };
+		419554FA1C00D35000FBCC28 /* MOKDateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDateUtils.m; sourceTree = "<group>"; };
+		419554FB1C00D35000FBCC28 /* MOKutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKutils.h; sourceTree = "<group>"; };
+		419554FC1C00D35000FBCC28 /* MOKutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKutils.m; sourceTree = "<group>"; };
+		419554FD1C00D35000FBCC28 /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Base64.h"; sourceTree = "<group>"; };
+		419554FE1C00D35000FBCC28 /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Base64.m"; sourceTree = "<group>"; };
+		419554FF1C00D35000FBCC28 /* NSData+Conversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+Conversion.h"; sourceTree = "<group>"; };
+		419555001C00D35000FBCC28 /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+Conversion.m"; sourceTree = "<group>"; };
+		419555021C00D35000FBCC28 /* MOKSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSessionManager.h; sourceTree = "<group>"; };
+		419555031C00D35000FBCC28 /* MOKSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSessionManager.m; sourceTree = "<group>"; };
+		419555041C00D35000FBCC28 /* MOKUserDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKUserDictionary.h; sourceTree = "<group>"; };
+		419555051C00D35000FBCC28 /* MOKUserDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKUserDictionary.m; sourceTree = "<group>"; };
+		419555071C00D35000FBCC28 /* MOKWatchdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKWatchdog.h; sourceTree = "<group>"; };
+		419555081C00D35000FBCC28 /* MOKWatchdog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKWatchdog.m; sourceTree = "<group>"; };
+		419555091C00D35000FBCC28 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4195550D1C00D35000FBCC28 /* MOKDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDBManager.h; sourceTree = "<group>"; };
+		4195550E1C00D35000FBCC28 /* MOKDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBManager.m; sourceTree = "<group>"; };
+		4195550F1C00D35000FBCC28 /* MOKDBMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDBMessage.h; sourceTree = "<group>"; };
+		419555101C00D35000FBCC28 /* MOKDBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBMessage.m; sourceTree = "<group>"; };
+		419555111C00D35000FBCC28 /* MOKDBSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDBSession.h; sourceTree = "<group>"; };
+		419555121C00D35000FBCC28 /* MOKDBSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBSession.m; sourceTree = "<group>"; };
+		419555131C00D35000FBCC28 /* MOKDictionaryBasedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDictionaryBasedObject.h; sourceTree = "<group>"; };
+		419555141C00D35000FBCC28 /* MOKDictionaryBasedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDictionaryBasedObject.m; sourceTree = "<group>"; };
+		419555151C00D35000FBCC28 /* MOKMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKMessage.h; sourceTree = "<group>"; };
+		419555161C00D35000FBCC28 /* MOKMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKMessage.m; sourceTree = "<group>"; };
+		419555171C00D35000FBCC28 /* MOKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKUser.h; sourceTree = "<group>"; };
+		419555181C00D35000FBCC28 /* MOKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKUser.m; sourceTree = "<group>"; };
+		419555191C00D35000FBCC28 /* MonkeyKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MonkeyKit.h; sourceTree = "<group>"; };
+		4195551C1C00D35000FBCC28 /* BBAES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAES.h; sourceTree = "<group>"; };
+		4195551D1C00D35000FBCC28 /* BBAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAES.m; sourceTree = "<group>"; };
+		4195551F1C00D35000FBCC28 /* MOKCriptext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKCriptext.h; sourceTree = "<group>"; };
+		419555201C00D35000FBCC28 /* MOKCriptext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKCriptext.m; sourceTree = "<group>"; };
+		419555211C00D35000FBCC28 /* MOKSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSecurityManager.h; sourceTree = "<group>"; };
+		419555221C00D35000FBCC28 /* MOKSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSecurityManager.m; sourceTree = "<group>"; };
+		4195556A1C00D39D00FBCC28 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libz.1.2.5.dylib; sourceTree = "<group>"; };
 		419CAAA21A80475800F68EB0 /* MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		419CAAA61A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		419CAAA71A80475800F68EB0 /* MonkeyKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonkeyKit.h; sourceTree = "<group>"; };
 		419CAAB31A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		419CAAB41A80475800F68EB0 /* CriptextKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CriptextKitTests.m; sourceTree = "<group>"; };
 		41A586811BBDF7F000E1A41E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MonkeyKit.podspec; sourceTree = "<group>"; };
-		41EE3CFE1BFFFE7E00EE3B0D /* MOKDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDBManager.h; sourceTree = "<group>"; };
-		41EE3CFF1BFFFE7E00EE3B0D /* MOKDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBManager.m; sourceTree = "<group>"; };
-		41EE3D001BFFFE7E00EE3B0D /* MOKDBMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDBMessage.h; sourceTree = "<group>"; };
-		41EE3D011BFFFE7E00EE3B0D /* MOKDBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBMessage.m; sourceTree = "<group>"; };
-		41EE3D021BFFFE7E00EE3B0D /* MOKDBSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDBSession.h; sourceTree = "<group>"; };
-		41EE3D031BFFFE7E00EE3B0D /* MOKDBSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDBSession.m; sourceTree = "<group>"; };
-		41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDictionaryBasedObject.h; sourceTree = "<group>"; };
-		41EE3D051BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKDictionaryBasedObject.m; sourceTree = "<group>"; };
-		41EE3D061BFFFE7E00EE3B0D /* MOKMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKMessage.h; sourceTree = "<group>"; };
-		41EE3D071BFFFE7E00EE3B0D /* MOKMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKMessage.m; sourceTree = "<group>"; };
-		41EE3D081BFFFE7E00EE3B0D /* MOKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKUser.h; sourceTree = "<group>"; };
-		41EE3D091BFFFE7E00EE3B0D /* MOKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKUser.m; sourceTree = "<group>"; };
-		41EE3D1A1BFFFFE900EE3B0D /* NSData+Compression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Compression.h"; path = "Helpers/Compression/NSData+Compression.h"; sourceTree = "<group>"; };
-		41EE3D1B1BFFFFE900EE3B0D /* NSData+Compression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Compression.m"; path = "Helpers/Compression/NSData+Compression.m"; sourceTree = "<group>"; };
-		41EE3D1E1C00000200EE3B0D /* MOKWatchdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKWatchdog.h; path = Helpers/Watchdog/MOKWatchdog.h; sourceTree = "<group>"; };
-		41EE3D1F1C00000200EE3B0D /* MOKWatchdog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKWatchdog.m; path = Helpers/Watchdog/MOKWatchdog.m; sourceTree = "<group>"; };
-		41EE3D221C00002700EE3B0D /* MOKSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSessionManager.h; path = "Helpers/Session Managers/MOKSessionManager.h"; sourceTree = "<group>"; };
-		41EE3D231C00002700EE3B0D /* MOKSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSessionManager.m; path = "Helpers/Session Managers/MOKSessionManager.m"; sourceTree = "<group>"; };
-		41EE3D241C00002700EE3B0D /* MOKUserDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKUserDictionary.h; path = "Helpers/Session Managers/MOKUserDictionary.h"; sourceTree = "<group>"; };
-		41EE3D251C00002700EE3B0D /* MOKUserDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKUserDictionary.m; path = "Helpers/Session Managers/MOKUserDictionary.m"; sourceTree = "<group>"; };
-		41EE3D2A1C00005E00EE3B0D /* MOKDateUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKDateUtils.h; path = Helpers/MOKDateUtils.h; sourceTree = "<group>"; };
-		41EE3D2B1C00005E00EE3B0D /* MOKDateUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKDateUtils.m; path = Helpers/MOKDateUtils.m; sourceTree = "<group>"; };
-		41EE3D2C1C00005E00EE3B0D /* MOKutils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKutils.h; path = Helpers/MOKutils.h; sourceTree = "<group>"; };
-		41EE3D2D1C00005E00EE3B0D /* MOKutils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKutils.m; path = Helpers/MOKutils.m; sourceTree = "<group>"; };
-		41EE3D2E1C00005E00EE3B0D /* NSData+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Base64.h"; path = "Helpers/NSData+Base64.h"; sourceTree = "<group>"; };
-		41EE3D2F1C00005E00EE3B0D /* NSData+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Base64.m"; path = "Helpers/NSData+Base64.m"; sourceTree = "<group>"; };
-		41EE3D301C00005E00EE3B0D /* NSData+Conversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Conversion.h"; path = "Helpers/NSData+Conversion.h"; sourceTree = "<group>"; };
-		41EE3D311C00005E00EE3B0D /* NSData+Conversion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Conversion.m"; path = "Helpers/NSData+Conversion.m"; sourceTree = "<group>"; };
-		41EE3D3B1C0000F700EE3B0D /* MOKComServerConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKComServerConnection.h; sourceTree = "<group>"; };
-		41EE3D3C1C0000F700EE3B0D /* MOKComServerConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKComServerConnection.m; sourceTree = "<group>"; };
-		41EE3D3D1C0000F700EE3B0D /* MOKSocketConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSocketConnectionManager.h; sourceTree = "<group>"; };
-		41EE3D3E1C0000F700EE3B0D /* MOKSocketConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSocketConnectionManager.m; sourceTree = "<group>"; };
-		41EE3D401C0000F700EE3B0D /* MOKSGSChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSChannel.h; sourceTree = "<group>"; };
-		41EE3D411C0000F700EE3B0D /* MOKSGSChannel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSChannel.m; sourceTree = "<group>"; };
-		41EE3D421C0000F700EE3B0D /* MOKSGSConnection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSConnection.h; sourceTree = "<group>"; };
-		41EE3D431C0000F700EE3B0D /* MOKSGSConnection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSConnection.m; sourceTree = "<group>"; };
-		41EE3D441C0000F700EE3B0D /* MOKSGSContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSContext.h; sourceTree = "<group>"; };
-		41EE3D451C0000F700EE3B0D /* MOKSGSContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSContext.m; sourceTree = "<group>"; };
-		41EE3D461C0000F700EE3B0D /* MOKSGSId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSId.h; sourceTree = "<group>"; };
-		41EE3D471C0000F700EE3B0D /* MOKSGSId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSId.m; sourceTree = "<group>"; };
-		41EE3D481C0000F700EE3B0D /* MOKSGSMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSMessage.h; sourceTree = "<group>"; };
-		41EE3D491C0000F700EE3B0D /* MOKSGSMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSMessage.m; sourceTree = "<group>"; };
-		41EE3D4A1C0000F700EE3B0D /* MOKSGSProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSProtocol.h; sourceTree = "<group>"; };
-		41EE3D4B1C0000F700EE3B0D /* MOKSGSSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKSGSSession.h; sourceTree = "<group>"; };
-		41EE3D4C1C0000F700EE3B0D /* MOKSGSSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSGSSession.m; sourceTree = "<group>"; };
-		41EE3D5E1C00013400EE3B0D /* MOKJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKJSON.h; path = Communication/JSON/MOKJSON.h; sourceTree = "<group>"; };
-		41EE3D5F1C00013400EE3B0D /* MOKSBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSBJSON.h; path = Communication/JSON/MOKSBJSON.h; sourceTree = "<group>"; };
-		41EE3D601C00013400EE3B0D /* MOKSBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSBJSON.m; path = Communication/JSON/MOKSBJSON.m; sourceTree = "<group>"; };
-		41EE3D611C00013400EE3B0D /* MOKSBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSBJsonBase.h; path = Communication/JSON/MOKSBJsonBase.h; sourceTree = "<group>"; };
-		41EE3D621C00013400EE3B0D /* MOKSBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSBJsonBase.m; path = Communication/JSON/MOKSBJsonBase.m; sourceTree = "<group>"; };
-		41EE3D631C00013400EE3B0D /* MOKSBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSBJsonParser.h; path = Communication/JSON/MOKSBJsonParser.h; sourceTree = "<group>"; };
-		41EE3D641C00013400EE3B0D /* MOKSBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSBJsonParser.m; path = Communication/JSON/MOKSBJsonParser.m; sourceTree = "<group>"; };
-		41EE3D651C00013400EE3B0D /* MOKSBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSBJsonWriter.h; path = Communication/JSON/MOKSBJsonWriter.h; sourceTree = "<group>"; };
-		41EE3D661C00013400EE3B0D /* MOKSBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSBJsonWriter.m; path = Communication/JSON/MOKSBJsonWriter.m; sourceTree = "<group>"; };
-		41EE3D671C00013400EE3B0D /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSObject+SBJSON.h"; path = "Communication/JSON/NSObject+SBJSON.h"; sourceTree = "<group>"; };
-		41EE3D681C00013400EE3B0D /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SBJSON.m"; path = "Communication/JSON/NSObject+SBJSON.m"; sourceTree = "<group>"; };
-		41EE3D691C00013400EE3B0D /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SBJSON.h"; path = "Communication/JSON/NSString+SBJSON.h"; sourceTree = "<group>"; };
-		41EE3D6A1C00013400EE3B0D /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SBJSON.m"; path = "Communication/JSON/NSString+SBJSON.m"; sourceTree = "<group>"; };
-		41EE3D781C00014B00EE3B0D /* MOKAPIConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKAPIConnector.h; path = Communication/API/MOKAPIConnector.h; sourceTree = "<group>"; };
-		41EE3D791C00014B00EE3B0D /* MOKAPIConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKAPIConnector.m; path = Communication/API/MOKAPIConnector.m; sourceTree = "<group>"; };
-		41EE3D7C1C00016300EE3B0D /* MOKMessagingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKMessagingManager.h; path = Communication/MOKMessagingManager.h; sourceTree = "<group>"; };
-		41EE3D7D1C00016300EE3B0D /* MOKMessagingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKMessagingManager.m; path = Communication/MOKMessagingManager.m; sourceTree = "<group>"; };
-		41EE3D801C0001BA00EE3B0D /* BBAES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBAES.h; path = Security/AES/BBAES.h; sourceTree = "<group>"; };
-		41EE3D811C0001BA00EE3B0D /* BBAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBAES.m; path = Security/AES/BBAES.m; sourceTree = "<group>"; };
-		41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKCriptext.h; path = Security/MOKCriptext.h; sourceTree = "<group>"; };
-		41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKCriptext.m; path = Security/MOKCriptext.m; sourceTree = "<group>"; };
-		41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSecurityManager.h; path = Security/MOKSecurityManager.h; sourceTree = "<group>"; };
-		41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSecurityManager.m; path = Security/MOKSecurityManager.m; sourceTree = "<group>"; };
 		499B89B33DB3E6A982E6CFB6 /* Pods-MonkeyKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.release.xcconfig"; sourceTree = "<group>"; };
 		5D91A0B367615E805A5ED62F /* Pods-MonkeyKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.debug.xcconfig"; sourceTree = "<group>"; };
 		C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -185,8 +186,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4195556B1C00D39D00FBCC28 /* libz.1.2.5.dylib in Frameworks */,
 				4146D7431BAB3ED900D39061 /* libc++.1.dylib in Frameworks */,
-				416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */,
 				B12BB8E1187B7FD310296228 /* Pods_MonkeyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -203,34 +204,194 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		416A18241AB35677003FA469 /* Compression */ = {
+		419554CD1C00D35000FBCC28 /* MonkeyKit */ = {
 			isa = PBXGroup;
 			children = (
-				41EE3D1A1BFFFFE900EE3B0D /* NSData+Compression.h */,
-				41EE3D1B1BFFFFE900EE3B0D /* NSData+Compression.m */,
-				416A18221AB35669003FA469 /* libz.1.2.5.dylib */,
+				419554CE1C00D35000FBCC28 /* Communication */,
+				419554F51C00D35000FBCC28 /* Helpers */,
+				419555091C00D35000FBCC28 /* Info.plist */,
+				4195550B1C00D35000FBCC28 /* Model */,
+				419555191C00D35000FBCC28 /* MonkeyKit.h */,
+				4195551A1C00D35000FBCC28 /* Security */,
 			);
-			name = Compression;
+			path = MonkeyKit;
 			sourceTree = "<group>";
 		};
-		417FB85D1A8C174F006B391B /* Watchdog */ = {
+		419554CE1C00D35000FBCC28 /* Communication */ = {
 			isa = PBXGroup;
 			children = (
-				41EE3D1E1C00000200EE3B0D /* MOKWatchdog.h */,
-				41EE3D1F1C00000200EE3B0D /* MOKWatchdog.m */,
+				419554CF1C00D35000FBCC28 /* API */,
+				419554D21C00D35000FBCC28 /* JSON */,
+				419554E01C00D35000FBCC28 /* MOKMessagingManager.h */,
+				419554E11C00D35000FBCC28 /* MOKMessagingManager.m */,
+				419554E21C00D35000FBCC28 /* Socket */,
 			);
-			name = Watchdog;
+			path = Communication;
 			sourceTree = "<group>";
 		};
-		419AA54F1A82D4A50015D195 /* Session Managers */ = {
+		419554CF1C00D35000FBCC28 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				41EE3D221C00002700EE3B0D /* MOKSessionManager.h */,
-				41EE3D231C00002700EE3B0D /* MOKSessionManager.m */,
-				41EE3D241C00002700EE3B0D /* MOKUserDictionary.h */,
-				41EE3D251C00002700EE3B0D /* MOKUserDictionary.m */,
+				419554D01C00D35000FBCC28 /* MOKAPIConnector.h */,
+				419554D11C00D35000FBCC28 /* MOKAPIConnector.m */,
 			);
-			name = "Session Managers";
+			path = API;
+			sourceTree = "<group>";
+		};
+		419554D21C00D35000FBCC28 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				419554D31C00D35000FBCC28 /* MOKJSON.h */,
+				419554D41C00D35000FBCC28 /* MOKSBJSON.h */,
+				419554D51C00D35000FBCC28 /* MOKSBJSON.m */,
+				419554D61C00D35000FBCC28 /* MOKSBJsonBase.h */,
+				419554D71C00D35000FBCC28 /* MOKSBJsonBase.m */,
+				419554D81C00D35000FBCC28 /* MOKSBJsonParser.h */,
+				419554D91C00D35000FBCC28 /* MOKSBJsonParser.m */,
+				419554DA1C00D35000FBCC28 /* MOKSBJsonWriter.h */,
+				419554DB1C00D35000FBCC28 /* MOKSBJsonWriter.m */,
+				419554DC1C00D35000FBCC28 /* NSObject+SBJSON.h */,
+				419554DD1C00D35000FBCC28 /* NSObject+SBJSON.m */,
+				419554DE1C00D35000FBCC28 /* NSString+SBJSON.h */,
+				419554DF1C00D35000FBCC28 /* NSString+SBJSON.m */,
+			);
+			path = JSON;
+			sourceTree = "<group>";
+		};
+		419554E21C00D35000FBCC28 /* Socket */ = {
+			isa = PBXGroup;
+			children = (
+				419554E31C00D35000FBCC28 /* MOKComServerConnection.h */,
+				419554E41C00D35000FBCC28 /* MOKComServerConnection.m */,
+				419554E51C00D35000FBCC28 /* MOKSocketConnectionManager.h */,
+				419554E61C00D35000FBCC28 /* MOKSocketConnectionManager.m */,
+				419554E71C00D35000FBCC28 /* SGSRocketServerAPI */,
+			);
+			path = Socket;
+			sourceTree = "<group>";
+		};
+		419554E71C00D35000FBCC28 /* SGSRocketServerAPI */ = {
+			isa = PBXGroup;
+			children = (
+				419554E81C00D35000FBCC28 /* MOKSGSChannel.h */,
+				419554E91C00D35000FBCC28 /* MOKSGSChannel.m */,
+				419554EA1C00D35000FBCC28 /* MOKSGSConnection.h */,
+				419554EB1C00D35000FBCC28 /* MOKSGSConnection.m */,
+				419554EC1C00D35000FBCC28 /* MOKSGSContext.h */,
+				419554ED1C00D35000FBCC28 /* MOKSGSContext.m */,
+				419554EE1C00D35000FBCC28 /* MOKSGSId.h */,
+				419554EF1C00D35000FBCC28 /* MOKSGSId.m */,
+				419554F01C00D35000FBCC28 /* MOKSGSMessage.h */,
+				419554F11C00D35000FBCC28 /* MOKSGSMessage.m */,
+				419554F21C00D35000FBCC28 /* MOKSGSProtocol.h */,
+				419554F31C00D35000FBCC28 /* MOKSGSSession.h */,
+				419554F41C00D35000FBCC28 /* MOKSGSSession.m */,
+			);
+			path = SGSRocketServerAPI;
+			sourceTree = "<group>";
+		};
+		419554F51C00D35000FBCC28 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				419554F61C00D35000FBCC28 /* Compression */,
+				419554F91C00D35000FBCC28 /* MOKDateUtils.h */,
+				419554FA1C00D35000FBCC28 /* MOKDateUtils.m */,
+				419554FB1C00D35000FBCC28 /* MOKutils.h */,
+				419554FC1C00D35000FBCC28 /* MOKutils.m */,
+				419554FD1C00D35000FBCC28 /* NSData+Base64.h */,
+				419554FE1C00D35000FBCC28 /* NSData+Base64.m */,
+				419554FF1C00D35000FBCC28 /* NSData+Conversion.h */,
+				419555001C00D35000FBCC28 /* NSData+Conversion.m */,
+				419555011C00D35000FBCC28 /* Session Managers */,
+				419555061C00D35000FBCC28 /* Watchdog */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		419554F61C00D35000FBCC28 /* Compression */ = {
+			isa = PBXGroup;
+			children = (
+				4195556A1C00D39D00FBCC28 /* libz.1.2.5.dylib */,
+				419554F71C00D35000FBCC28 /* NSData+Compression.h */,
+				419554F81C00D35000FBCC28 /* NSData+Compression.m */,
+			);
+			path = Compression;
+			sourceTree = "<group>";
+		};
+		419555011C00D35000FBCC28 /* Session Managers */ = {
+			isa = PBXGroup;
+			children = (
+				419555021C00D35000FBCC28 /* MOKSessionManager.h */,
+				419555031C00D35000FBCC28 /* MOKSessionManager.m */,
+				419555041C00D35000FBCC28 /* MOKUserDictionary.h */,
+				419555051C00D35000FBCC28 /* MOKUserDictionary.m */,
+			);
+			path = "Session Managers";
+			sourceTree = "<group>";
+		};
+		419555061C00D35000FBCC28 /* Watchdog */ = {
+			isa = PBXGroup;
+			children = (
+				419555071C00D35000FBCC28 /* MOKWatchdog.h */,
+				419555081C00D35000FBCC28 /* MOKWatchdog.m */,
+			);
+			path = Watchdog;
+			sourceTree = "<group>";
+		};
+		4195550B1C00D35000FBCC28 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4195550C1C00D35000FBCC28 /* Database */,
+				419555131C00D35000FBCC28 /* MOKDictionaryBasedObject.h */,
+				419555141C00D35000FBCC28 /* MOKDictionaryBasedObject.m */,
+				419555151C00D35000FBCC28 /* MOKMessage.h */,
+				419555161C00D35000FBCC28 /* MOKMessage.m */,
+				419555171C00D35000FBCC28 /* MOKUser.h */,
+				419555181C00D35000FBCC28 /* MOKUser.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		4195550C1C00D35000FBCC28 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				4195550D1C00D35000FBCC28 /* MOKDBManager.h */,
+				4195550E1C00D35000FBCC28 /* MOKDBManager.m */,
+				4195550F1C00D35000FBCC28 /* MOKDBMessage.h */,
+				419555101C00D35000FBCC28 /* MOKDBMessage.m */,
+				419555111C00D35000FBCC28 /* MOKDBSession.h */,
+				419555121C00D35000FBCC28 /* MOKDBSession.m */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		4195551A1C00D35000FBCC28 /* Security */ = {
+			isa = PBXGroup;
+			children = (
+				4195551B1C00D35000FBCC28 /* AES */,
+				4195551E1C00D35000FBCC28 /* KeychainManager */,
+				4195551F1C00D35000FBCC28 /* MOKCriptext.h */,
+				419555201C00D35000FBCC28 /* MOKCriptext.m */,
+				419555211C00D35000FBCC28 /* MOKSecurityManager.h */,
+				419555221C00D35000FBCC28 /* MOKSecurityManager.m */,
+			);
+			path = Security;
+			sourceTree = "<group>";
+		};
+		4195551B1C00D35000FBCC28 /* AES */ = {
+			isa = PBXGroup;
+			children = (
+				4195551C1C00D35000FBCC28 /* BBAES.h */,
+				4195551D1C00D35000FBCC28 /* BBAES.m */,
+			);
+			path = AES;
+			sourceTree = "<group>";
+		};
+		4195551E1C00D35000FBCC28 /* KeychainManager */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = KeychainManager;
 			sourceTree = "<group>";
 		};
 		419CAA981A80475800F68EB0 = {
@@ -239,7 +400,7 @@
 				4146D7421BAB3ED900D39061 /* libc++.1.dylib */,
 				41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */,
 				41A586811BBDF7F000E1A41E /* LICENSE */,
-				419CAAA41A80475800F68EB0 /* MonkeyKit */,
+				419554CD1C00D35000FBCC28 /* MonkeyKit */,
 				419CAAB11A80475800F68EB0 /* CriptextKitTests */,
 				419CAAA31A80475800F68EB0 /* Products */,
 				080D86ACFDE08B2502D3E3DB /* Pods */,
@@ -253,28 +414,6 @@
 				419CAAA21A80475800F68EB0 /* MonkeyKit.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		419CAAA41A80475800F68EB0 /* MonkeyKit */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3CFC1BFFFE7E00EE3B0D /* Model */,
-				419CAB081A804ABC00F68EB0 /* Helpers */,
-				419CAADB1A80481B00F68EB0 /* Communication */,
-				419CAABE1A80477500F68EB0 /* Security */,
-				419CAAA71A80475800F68EB0 /* MonkeyKit.h */,
-				419CAAA51A80475800F68EB0 /* Supporting Files */,
-			);
-			name = MonkeyKit;
-			path = CriptextKit;
-			sourceTree = "<group>";
-		};
-		419CAAA51A80475800F68EB0 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				419CAAA61A80475800F68EB0 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		419CAAB11A80475800F68EB0 /* CriptextKitTests */ = {
@@ -294,146 +433,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		419CAABE1A80477500F68EB0 /* Security */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */,
-				41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */,
-				419CAB4F1A8193FE00F68EB0 /* AES */,
-				41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */,
-				41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */,
-			);
-			name = Security;
-			sourceTree = "<group>";
-		};
-		419CAADB1A80481B00F68EB0 /* Communication */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3D3A1C0000F700EE3B0D /* Socket */,
-				419CAB0D1A804AF000F68EB0 /* JSON */,
-				419CAADC1A80483700F68EB0 /* API */,
-				41EE3D7C1C00016300EE3B0D /* MOKMessagingManager.h */,
-				41EE3D7D1C00016300EE3B0D /* MOKMessagingManager.m */,
-			);
-			name = Communication;
-			sourceTree = "<group>";
-		};
-		419CAADC1A80483700F68EB0 /* API */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3D781C00014B00EE3B0D /* MOKAPIConnector.h */,
-				41EE3D791C00014B00EE3B0D /* MOKAPIConnector.m */,
-			);
-			name = API;
-			sourceTree = "<group>";
-		};
-		419CAB081A804ABC00F68EB0 /* Helpers */ = {
-			isa = PBXGroup;
-			children = (
-				416A18241AB35677003FA469 /* Compression */,
-				417FB85D1A8C174F006B391B /* Watchdog */,
-				419AA54F1A82D4A50015D195 /* Session Managers */,
-				41EE3D2A1C00005E00EE3B0D /* MOKDateUtils.h */,
-				41EE3D2B1C00005E00EE3B0D /* MOKDateUtils.m */,
-				41EE3D2C1C00005E00EE3B0D /* MOKutils.h */,
-				41EE3D2D1C00005E00EE3B0D /* MOKutils.m */,
-				41EE3D2E1C00005E00EE3B0D /* NSData+Base64.h */,
-				41EE3D2F1C00005E00EE3B0D /* NSData+Base64.m */,
-				41EE3D301C00005E00EE3B0D /* NSData+Conversion.h */,
-				41EE3D311C00005E00EE3B0D /* NSData+Conversion.m */,
-			);
-			name = Helpers;
-			sourceTree = "<group>";
-		};
-		419CAB0D1A804AF000F68EB0 /* JSON */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3D5E1C00013400EE3B0D /* MOKJSON.h */,
-				41EE3D5F1C00013400EE3B0D /* MOKSBJSON.h */,
-				41EE3D601C00013400EE3B0D /* MOKSBJSON.m */,
-				41EE3D611C00013400EE3B0D /* MOKSBJsonBase.h */,
-				41EE3D621C00013400EE3B0D /* MOKSBJsonBase.m */,
-				41EE3D631C00013400EE3B0D /* MOKSBJsonParser.h */,
-				41EE3D641C00013400EE3B0D /* MOKSBJsonParser.m */,
-				41EE3D651C00013400EE3B0D /* MOKSBJsonWriter.h */,
-				41EE3D661C00013400EE3B0D /* MOKSBJsonWriter.m */,
-				41EE3D671C00013400EE3B0D /* NSObject+SBJSON.h */,
-				41EE3D681C00013400EE3B0D /* NSObject+SBJSON.m */,
-				41EE3D691C00013400EE3B0D /* NSString+SBJSON.h */,
-				41EE3D6A1C00013400EE3B0D /* NSString+SBJSON.m */,
-			);
-			name = JSON;
-			sourceTree = "<group>";
-		};
-		419CAB4F1A8193FE00F68EB0 /* AES */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3D801C0001BA00EE3B0D /* BBAES.h */,
-				41EE3D811C0001BA00EE3B0D /* BBAES.m */,
-			);
-			name = AES;
-			sourceTree = "<group>";
-		};
-		41EE3CFC1BFFFE7E00EE3B0D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3CFD1BFFFE7E00EE3B0D /* Database */,
-				41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */,
-				41EE3D051BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.m */,
-				41EE3D061BFFFE7E00EE3B0D /* MOKMessage.h */,
-				41EE3D071BFFFE7E00EE3B0D /* MOKMessage.m */,
-				41EE3D081BFFFE7E00EE3B0D /* MOKUser.h */,
-				41EE3D091BFFFE7E00EE3B0D /* MOKUser.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		41EE3CFD1BFFFE7E00EE3B0D /* Database */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3CFE1BFFFE7E00EE3B0D /* MOKDBManager.h */,
-				41EE3CFF1BFFFE7E00EE3B0D /* MOKDBManager.m */,
-				41EE3D001BFFFE7E00EE3B0D /* MOKDBMessage.h */,
-				41EE3D011BFFFE7E00EE3B0D /* MOKDBMessage.m */,
-				41EE3D021BFFFE7E00EE3B0D /* MOKDBSession.h */,
-				41EE3D031BFFFE7E00EE3B0D /* MOKDBSession.m */,
-			);
-			path = Database;
-			sourceTree = "<group>";
-		};
-		41EE3D3A1C0000F700EE3B0D /* Socket */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3D3B1C0000F700EE3B0D /* MOKComServerConnection.h */,
-				41EE3D3C1C0000F700EE3B0D /* MOKComServerConnection.m */,
-				41EE3D3D1C0000F700EE3B0D /* MOKSocketConnectionManager.h */,
-				41EE3D3E1C0000F700EE3B0D /* MOKSocketConnectionManager.m */,
-				41EE3D3F1C0000F700EE3B0D /* SGSRocketServerAPI */,
-			);
-			name = Socket;
-			path = Communication/Socket;
-			sourceTree = "<group>";
-		};
-		41EE3D3F1C0000F700EE3B0D /* SGSRocketServerAPI */ = {
-			isa = PBXGroup;
-			children = (
-				41EE3D401C0000F700EE3B0D /* MOKSGSChannel.h */,
-				41EE3D411C0000F700EE3B0D /* MOKSGSChannel.m */,
-				41EE3D421C0000F700EE3B0D /* MOKSGSConnection.h */,
-				41EE3D431C0000F700EE3B0D /* MOKSGSConnection.m */,
-				41EE3D441C0000F700EE3B0D /* MOKSGSContext.h */,
-				41EE3D451C0000F700EE3B0D /* MOKSGSContext.m */,
-				41EE3D461C0000F700EE3B0D /* MOKSGSId.h */,
-				41EE3D471C0000F700EE3B0D /* MOKSGSId.m */,
-				41EE3D481C0000F700EE3B0D /* MOKSGSMessage.h */,
-				41EE3D491C0000F700EE3B0D /* MOKSGSMessage.m */,
-				41EE3D4A1C0000F700EE3B0D /* MOKSGSProtocol.h */,
-				41EE3D4B1C0000F700EE3B0D /* MOKSGSSession.h */,
-				41EE3D4C1C0000F700EE3B0D /* MOKSGSSession.m */,
-			);
-			path = SGSRocketServerAPI;
-			sourceTree = "<group>";
-		};
 		C38EDAB23DC69140D94536DE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -449,42 +448,42 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41EE3D761C00013400EE3B0D /* NSString+SBJSON.h in Headers */,
-				41EE3D821C0001BA00EE3B0D /* BBAES.h in Headers */,
-				41EE3D1C1BFFFFE900EE3B0D /* NSData+Compression.h in Headers */,
-				41EE3D741C00013400EE3B0D /* NSObject+SBJSON.h in Headers */,
-				41EE3D6E1C00013400EE3B0D /* MOKSBJsonBase.h in Headers */,
-				41EE3D591C0000F700EE3B0D /* MOKSGSMessage.h in Headers */,
-				41EE3D4D1C0000F700EE3B0D /* MOKComServerConnection.h in Headers */,
-				41EE3D5C1C0000F700EE3B0D /* MOKSGSSession.h in Headers */,
-				41EE3D0E1BFFFE7E00EE3B0D /* MOKDBSession.h in Headers */,
-				41EE3D7E1C00016300EE3B0D /* MOKMessagingManager.h in Headers */,
-				41EE3D551C0000F700EE3B0D /* MOKSGSContext.h in Headers */,
-				41EE3D861C0001CF00EE3B0D /* MOKCriptext.h in Headers */,
-				41EE3D0C1BFFFE7E00EE3B0D /* MOKDBMessage.h in Headers */,
-				41EE3D201C00000200EE3B0D /* MOKWatchdog.h in Headers */,
-				41EE3D721C00013400EE3B0D /* MOKSBJsonWriter.h in Headers */,
-				41EE3D341C00005E00EE3B0D /* MOKutils.h in Headers */,
-				41EE3D6B1C00013400EE3B0D /* MOKJSON.h in Headers */,
-				41EE3D141BFFFE7E00EE3B0D /* MOKUser.h in Headers */,
-				41EE3D101BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h in Headers */,
-				41EE3D531C0000F700EE3B0D /* MOKSGSConnection.h in Headers */,
-				41EE3D121BFFFE7E00EE3B0D /* MOKMessage.h in Headers */,
-				41EE3D261C00002700EE3B0D /* MOKSessionManager.h in Headers */,
-				41EE3D701C00013400EE3B0D /* MOKSBJsonParser.h in Headers */,
-				41EE3D4F1C0000F700EE3B0D /* MOKSocketConnectionManager.h in Headers */,
-				41EE3D381C00005E00EE3B0D /* NSData+Conversion.h in Headers */,
-				41EE3D5B1C0000F700EE3B0D /* MOKSGSProtocol.h in Headers */,
-				41EE3D7A1C00014B00EE3B0D /* MOKAPIConnector.h in Headers */,
-				41EE3D6C1C00013400EE3B0D /* MOKSBJSON.h in Headers */,
-				41EE3D8E1C00020400EE3B0D /* MOKSecurityManager.h in Headers */,
-				41EE3D281C00002700EE3B0D /* MOKUserDictionary.h in Headers */,
-				419CAAA81A80475800F68EB0 /* MonkeyKit.h in Headers */,
-				41EE3D321C00005E00EE3B0D /* MOKDateUtils.h in Headers */,
-				41EE3D511C0000F700EE3B0D /* MOKSGSChannel.h in Headers */,
-				41EE3D361C00005E00EE3B0D /* NSData+Base64.h in Headers */,
-				41EE3D0A1BFFFE7E00EE3B0D /* MOKDBManager.h in Headers */,
-				41EE3D571C0000F700EE3B0D /* MOKSGSId.h in Headers */,
+				419555381C00D35000FBCC28 /* MOKSGSChannel.h in Headers */,
+				419555281C00D35000FBCC28 /* MOKSBJsonBase.h in Headers */,
+				419555531C00D35000FBCC28 /* MOKWatchdog.h in Headers */,
+				419555401C00D35000FBCC28 /* MOKSGSMessage.h in Headers */,
+				419555681C00D35000FBCC28 /* MOKSecurityManager.h in Headers */,
+				4195552A1C00D35000FBCC28 /* MOKSBJsonParser.h in Headers */,
+				419555261C00D35000FBCC28 /* MOKSBJSON.h in Headers */,
+				419555421C00D35000FBCC28 /* MOKSGSProtocol.h in Headers */,
+				419555631C00D35000FBCC28 /* MonkeyKit.h in Headers */,
+				4195553E1C00D35000FBCC28 /* MOKSGSId.h in Headers */,
+				419555571C00D35000FBCC28 /* MOKDBManager.h in Headers */,
+				419555591C00D35000FBCC28 /* MOKDBMessage.h in Headers */,
+				4195552C1C00D35000FBCC28 /* MOKSBJsonWriter.h in Headers */,
+				4195555B1C00D35000FBCC28 /* MOKDBSession.h in Headers */,
+				4195553C1C00D35000FBCC28 /* MOKSGSContext.h in Headers */,
+				419555471C00D35000FBCC28 /* MOKDateUtils.h in Headers */,
+				4195554D1C00D35000FBCC28 /* NSData+Conversion.h in Headers */,
+				419555301C00D35000FBCC28 /* NSString+SBJSON.h in Headers */,
+				4195554B1C00D35000FBCC28 /* NSData+Base64.h in Headers */,
+				419555511C00D35000FBCC28 /* MOKUserDictionary.h in Headers */,
+				419555361C00D35000FBCC28 /* MOKSocketConnectionManager.h in Headers */,
+				419555431C00D35000FBCC28 /* MOKSGSSession.h in Headers */,
+				419555451C00D35000FBCC28 /* NSData+Compression.h in Headers */,
+				419555491C00D35000FBCC28 /* MOKutils.h in Headers */,
+				4195555D1C00D35000FBCC28 /* MOKDictionaryBasedObject.h in Headers */,
+				4195555F1C00D35000FBCC28 /* MOKMessage.h in Headers */,
+				4195553A1C00D35000FBCC28 /* MOKSGSConnection.h in Headers */,
+				419555231C00D35000FBCC28 /* MOKAPIConnector.h in Headers */,
+				419555641C00D35000FBCC28 /* BBAES.h in Headers */,
+				4195552E1C00D35000FBCC28 /* NSObject+SBJSON.h in Headers */,
+				419555251C00D35000FBCC28 /* MOKJSON.h in Headers */,
+				419555341C00D35000FBCC28 /* MOKComServerConnection.h in Headers */,
+				419555661C00D35000FBCC28 /* MOKCriptext.h in Headers */,
+				4195554F1C00D35000FBCC28 /* MOKSessionManager.h in Headers */,
+				419555611C00D35000FBCC28 /* MOKUser.h in Headers */,
+				419555321C00D35000FBCC28 /* MOKMessagingManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,6 +552,7 @@
 			files = (
 				41A586841BBDF7FE00E1A41E /* MonkeyKit.podspec in Resources */,
 				41A586821BBDF7F000E1A41E /* LICENSE in Resources */,
+				419555551C00D35000FBCC28 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,39 +609,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41EE3D4E1C0000F700EE3B0D /* MOKComServerConnection.m in Sources */,
-				41EE3D6F1C00013400EE3B0D /* MOKSBJsonBase.m in Sources */,
-				41EE3D6D1C00013400EE3B0D /* MOKSBJSON.m in Sources */,
-				41EE3D831C0001BA00EE3B0D /* BBAES.m in Sources */,
-				41EE3D391C00005E00EE3B0D /* NSData+Conversion.m in Sources */,
-				41EE3D271C00002700EE3B0D /* MOKSessionManager.m in Sources */,
-				41EE3D561C0000F700EE3B0D /* MOKSGSContext.m in Sources */,
-				41EE3D581C0000F700EE3B0D /* MOKSGSId.m in Sources */,
-				41EE3D0D1BFFFE7E00EE3B0D /* MOKDBMessage.m in Sources */,
-				41EE3D131BFFFE7E00EE3B0D /* MOKMessage.m in Sources */,
-				41EE3D1D1BFFFFE900EE3B0D /* NSData+Compression.m in Sources */,
-				41EE3D711C00013400EE3B0D /* MOKSBJsonParser.m in Sources */,
-				41EE3D351C00005E00EE3B0D /* MOKutils.m in Sources */,
-				41EE3D111BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.m in Sources */,
-				41EE3D331C00005E00EE3B0D /* MOKDateUtils.m in Sources */,
-				41EE3D0B1BFFFE7E00EE3B0D /* MOKDBManager.m in Sources */,
-				41EE3D751C00013400EE3B0D /* NSObject+SBJSON.m in Sources */,
-				41EE3D151BFFFE7E00EE3B0D /* MOKUser.m in Sources */,
-				41EE3D371C00005E00EE3B0D /* NSData+Base64.m in Sources */,
-				41EE3D5A1C0000F700EE3B0D /* MOKSGSMessage.m in Sources */,
-				41EE3D7B1C00014B00EE3B0D /* MOKAPIConnector.m in Sources */,
-				41EE3D211C00000200EE3B0D /* MOKWatchdog.m in Sources */,
-				41EE3D0F1BFFFE7E00EE3B0D /* MOKDBSession.m in Sources */,
-				41EE3D291C00002700EE3B0D /* MOKUserDictionary.m in Sources */,
-				41EE3D521C0000F700EE3B0D /* MOKSGSChannel.m in Sources */,
-				41EE3D5D1C0000F700EE3B0D /* MOKSGSSession.m in Sources */,
-				41EE3D541C0000F700EE3B0D /* MOKSGSConnection.m in Sources */,
-				41EE3D771C00013400EE3B0D /* NSString+SBJSON.m in Sources */,
-				41EE3D501C0000F700EE3B0D /* MOKSocketConnectionManager.m in Sources */,
-				41EE3D871C0001CF00EE3B0D /* MOKCriptext.m in Sources */,
-				41EE3D7F1C00016300EE3B0D /* MOKMessagingManager.m in Sources */,
-				41EE3D8F1C00020400EE3B0D /* MOKSecurityManager.m in Sources */,
-				41EE3D731C00013400EE3B0D /* MOKSBJsonWriter.m in Sources */,
+				4195555C1C00D35000FBCC28 /* MOKDBSession.m in Sources */,
+				4195554C1C00D35000FBCC28 /* NSData+Base64.m in Sources */,
+				4195555E1C00D35000FBCC28 /* MOKDictionaryBasedObject.m in Sources */,
+				419555411C00D35000FBCC28 /* MOKSGSMessage.m in Sources */,
+				419555481C00D35000FBCC28 /* MOKDateUtils.m in Sources */,
+				419555691C00D35000FBCC28 /* MOKSecurityManager.m in Sources */,
+				4195552B1C00D35000FBCC28 /* MOKSBJsonParser.m in Sources */,
+				419555581C00D35000FBCC28 /* MOKDBManager.m in Sources */,
+				419555271C00D35000FBCC28 /* MOKSBJSON.m in Sources */,
+				419555391C00D35000FBCC28 /* MOKSGSChannel.m in Sources */,
+				4195553B1C00D35000FBCC28 /* MOKSGSConnection.m in Sources */,
+				419555521C00D35000FBCC28 /* MOKUserDictionary.m in Sources */,
+				419555671C00D35000FBCC28 /* MOKCriptext.m in Sources */,
+				4195555A1C00D35000FBCC28 /* MOKDBMessage.m in Sources */,
+				419555441C00D35000FBCC28 /* MOKSGSSession.m in Sources */,
+				419555501C00D35000FBCC28 /* MOKSessionManager.m in Sources */,
+				4195553F1C00D35000FBCC28 /* MOKSGSId.m in Sources */,
+				4195554E1C00D35000FBCC28 /* NSData+Conversion.m in Sources */,
+				419555541C00D35000FBCC28 /* MOKWatchdog.m in Sources */,
+				419555351C00D35000FBCC28 /* MOKComServerConnection.m in Sources */,
+				419555371C00D35000FBCC28 /* MOKSocketConnectionManager.m in Sources */,
+				419555331C00D35000FBCC28 /* MOKMessagingManager.m in Sources */,
+				419555241C00D35000FBCC28 /* MOKAPIConnector.m in Sources */,
+				4195554A1C00D35000FBCC28 /* MOKutils.m in Sources */,
+				4195553D1C00D35000FBCC28 /* MOKSGSContext.m in Sources */,
+				419555311C00D35000FBCC28 /* NSString+SBJSON.m in Sources */,
+				419555461C00D35000FBCC28 /* NSData+Compression.m in Sources */,
+				419555291C00D35000FBCC28 /* MOKSBJsonBase.m in Sources */,
+				419555601C00D35000FBCC28 /* MOKMessage.m in Sources */,
+				4195552D1C00D35000FBCC28 /* MOKSBJsonWriter.m in Sources */,
+				4195552F1C00D35000FBCC28 /* NSObject+SBJSON.m in Sources */,
+				419555621C00D35000FBCC28 /* MOKUser.m in Sources */,
+				419555651C00D35000FBCC28 /* BBAES.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -752,13 +752,15 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(PROJECT_DIR)/include",
 				);
-				INFOPLIST_FILE = CriptextKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/MonkeyKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CriptextKit",
+					"$(PROJECT_DIR)/MonkeyKit",
+					"$(PROJECT_DIR)/MonkeyKit/Helpers/Compression",
 				);
 				PRODUCT_NAME = MonkeyKit;
 				SKIP_INSTALL = YES;
@@ -785,13 +787,15 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(PROJECT_DIR)/include",
 				);
-				INFOPLIST_FILE = CriptextKit/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/MonkeyKit/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/CriptextKit",
+					"$(PROJECT_DIR)/MonkeyKit",
+					"$(PROJECT_DIR)/MonkeyKit/Helpers/Compression",
 				);
 				PRODUCT_NAME = MonkeyKit;
 				SKIP_INSTALL = YES;
