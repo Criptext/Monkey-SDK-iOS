@@ -182,7 +182,7 @@
     
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:appId password:appKey];
     
-    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/sync"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/key/sync"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = [responseObject objectForKey:@"data"];
         NSLog(@"MONKEY - old Key response: %@", responseObject);
         if([[responseObject objectForKey:@"status"] intValue] != 0){
@@ -230,7 +230,7 @@
     #ifdef DEBUG
     NSLog(@"MONKEY - parameters key exchange: %@", parameters);
 	#endif
-    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/open/secure"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/key/exchange"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = [responseObject objectForKey:@"data"];
         if([[responseObject objectForKey:@"status"] intValue] != 0 && delegate != nil){
             [delegate onKeysExchangeFailWithPendingMessage:message];
@@ -301,6 +301,7 @@
                                    @"sid":message.userIdFrom,
                                    @"rid":message.userIdTo,
                                    @"props":message.props,
+                                   @"params":message.params,
                                    @"push":message.pushMessage};
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
