@@ -35,6 +35,7 @@ static MOKSessionManager *sessionManagerInstance = nil;
         self.appId = @"";
         self.appKey = @"";
         self.lastMessageId = @"";
+        self.lastTimestamp = @"";
         self.domain = @"";
         self.delay = @"2";
         self.portions = @"15";

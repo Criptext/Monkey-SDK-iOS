@@ -20,7 +20,8 @@ typedef enum{
     MOKProtocolSet = 204,
     MOKProtocolACK = 205,
     MOKProtocolDelete = 207,
-    MOKProtocolClose = 208
+    MOKProtocolClose = 208,
+    MOKProtocolSync = 209
 } MOKProtocolCommand;
 
 typedef enum{
@@ -154,6 +155,12 @@ typedef enum{
  @abstract Specifies whether the message needs to be re-sent
  */
 @property (nonatomic, assign) BOOL needsResend;
+
+/*!
+ @property readBy
+ @abstract List of users that have read the message
+ */
+@property (nonatomic, strong) NSMutableArray *readBy;
 
 - (id)initWithArgs:(NSDictionary*)dictionary;
 - (id)initWithMyMessage:(NSString*)messageText userTo:(NSString *)sessionId;

@@ -11,6 +11,7 @@
 
 @interface MOKSessionManager : NSObject
 @property (nonatomic, strong) NSString *lastMessageId;
+@property (nonatomic, strong) NSString *lastTimestamp;
 @property (nonatomic, strong) NSString *sessionId;
 @property (nonatomic, strong) NSString *appId;
 @property (nonatomic, strong) NSString *appKey;

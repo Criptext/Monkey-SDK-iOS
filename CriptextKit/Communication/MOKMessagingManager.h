@@ -45,6 +45,8 @@
 //201
 -(void)getMessages:(NSString *)maxNumber since:(NSString *)lastMessageId  andGetGroups:(BOOL)flag;
 -(void)sendGetCommandWithArgs:(NSDictionary *)args;
+//209
+-(void)getMessagesSince:(NSString *)lastTimestamp;
 
 //203
 -(void)sendOpenCommandToUser:(NSString *)sessionId;

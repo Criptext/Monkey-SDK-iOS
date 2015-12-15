@@ -325,6 +325,28 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
             
             break;
         }
+        case MOKProtocolSync:{
+            [[MOKMessagingManager sharedInstance] notifyUpdatesToWatchdog];
+            if([self.connectionDelegate respondsToSelector:@selector(onLoadPendingMessages)]){
+                [self.connectionDelegate onLoadPendingMessages];
+            }
+            
+            NSDecimalNumber *type = [args objectForKey:@"type"];
+            
+            switch ([type intValue]) {
+                case MOKMessagesHistory:{
+#ifdef DEBUG
+                    NSLog(@"MONKEY - ******** GET Command Message History ********");
+#endif
+                    NSArray *messages = [args objectForKey:@"messages"];
+                    NSString *remaining = [args objectForKey:@"remaining_messages"];
+                    [self processSyncMessages:messages withRemaining:remaining];
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
         case MOKProtocolSet:{
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
             msg.protocolCommand = MOKProtocolSet;
@@ -368,6 +390,17 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
     //check if there are still pending messages
     if (![numberOfRemaining isEqualToString:@"0"]) {
         [[MOKMessagingManager sharedInstance]getMessages:@"15" since:[MOKSessionManager sharedInstance].lastMessageId andGetGroups:false];
+    }
+}
+- (void)processSyncMessages:(NSArray *)messages withRemaining:(NSString *)numberOfRemaining{
+    for (NSDictionary *msgdict in messages) {
+        MOKMessage *msg = [[MOKMessage alloc] initWithArgs:msgdict];
+        msg.protocolCommand = MOKProtocolMessage;
+        [self processMOKProtocolMessage:msg];
+    }
+    //check if there are still pending messages
+    if (![numberOfRemaining isEqualToString:@"0"]) {
+        [[MOKMessagingManager sharedInstance]getMessagesSince:[MOKSessionManager sharedInstance].lastTimestamp];
     }
 }
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {

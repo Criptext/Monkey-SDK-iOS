@@ -23,13 +23,13 @@
 	if (self = [super init]) {
 		self.messageText = @"";
         if ([dictionary objectForKey:@"props"]) {
-            self.props = [[NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"props"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil] mutableCopy];
+            self.props = [[NSJSONSerialization JSONObjectWithData:[[self stringFromDictionary:dictionary key:@"props"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil] mutableCopy];
         }else{
             self.props = [@{} mutableCopy];
         }
         
         if ([dictionary objectForKey:@"params"]) {
-            self.params = [NSJSONSerialization JSONObjectWithData:[(NSString *)[dictionary objectForKey:@"params"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+            self.params = [NSJSONSerialization JSONObjectWithData:[[self stringFromDictionary:dictionary key:@"params"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
         }else{
             self.params = [@{}mutableCopy];
         }
@@ -42,12 +42,16 @@
         self.timestampOrder = [[NSDate date] timeIntervalSince1970];
 		
 		self.userIdFrom = [self stringFromDictionary:dictionary key:@"sid"];
+        
 		if([dictionary objectForKey:@"rid"]!=nil){
             self.userIdTo=[self stringFromDictionary:dictionary key:@"rid"];
-        }
-        else
+        }else{
             self.userIdTo = [MOKSessionManager sharedInstance].sessionId;
+        }
 		
+        if ([self stringFromDictionary:dictionary key:@"readBy"] != nil) {
+            self.readBy = [[[self stringFromDictionary:dictionary key:@"readBy"] componentsSeparatedByString:@","] mutableCopy];
+        }
 		
         self.messageId = [self stringFromDictionary:dictionary key:@"id"];
         
@@ -108,6 +112,7 @@
         self.props = mkprops;
         self.params = params;
         self.pushMessage = @"";
+        self.readBy = [@[] mutableCopy];
     }
     return self;
 }
@@ -134,6 +139,7 @@
                         @"encr":@"1"} mutableCopy];
         self.params = [@{} mutableCopy];
         self.pushMessage = @"";
+        self.readBy = [@[] mutableCopy];
     }
     return self;
 }

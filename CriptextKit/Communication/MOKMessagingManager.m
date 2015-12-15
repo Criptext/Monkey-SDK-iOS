@@ -290,6 +290,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     long long int msgId =[message.messageId longLongValue];
     if(msgId>0){
         [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
+        [MOKSessionManager sharedInstance].lastTimestamp = [@(message.timestampCreated) stringValue];
     }
     
     
@@ -328,6 +329,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     
     if(msgId>0){
         [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
+        [MOKSessionManager sharedInstance].lastTimestamp = [@(message.timestampCreated) stringValue];
     }
     
     @synchronized (self) {
@@ -342,6 +344,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     
     if(msgId>0){
         [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
+        [MOKSessionManager sharedInstance].lastTimestamp = [@(message.timestampCreated) stringValue];
     }
 
 //    [[MOKAPIConnector sharedInstance]downloadFile:message withDelegate:self];
@@ -473,6 +476,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
         long long int msgId = [message.messageId longLongValue];
         if(msgId>0){
             [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
+            [MOKSessionManager sharedInstance].lastTimestamp = [@(message.timestampCreated) stringValue];
         }
     }
 }
@@ -538,6 +542,11 @@ static MOKMessagingManager *messagingManagerInstance = nil;
       @"qty" : maxNumber};
     
     [self sendCommand:MOKProtocolGet WithArgs:args];
+}
+-(void)getMessagesSince:(NSString *)lastTimestamp{
+    NSDictionary *args = @{@"since" : lastTimestamp};
+    
+    [self sendCommand:MOKProtocolSync WithArgs:args];
 }
 
 -(void)sendOpenCommandToUser:(NSString *)sessionId{
