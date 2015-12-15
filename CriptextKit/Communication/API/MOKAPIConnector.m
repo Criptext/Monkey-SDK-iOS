@@ -194,9 +194,20 @@
         if ([storedLastMessageId intValue] > [[MOKSessionManager sharedInstance].lastMessageId intValue]) {
             [MOKSessionManager sharedInstance].lastMessageId = storedLastMessageId;
         }
+        NSString *sdomain = [responseDict objectForKey:@"sdomain"];
+        NSString *sport = [responseDict objectForKey:@"sport"];
         
-        [MOKSessionManager sharedInstance].domain = @"secure.criptext.com";
-        [MOKSessionManager sharedInstance].port = @"1139";
+        if (sdomain == nil || sdomain == [NSNull null] || [sdomain isEqualToString:@""]) {
+            [MOKSessionManager sharedInstance].domain = @"secure.criptext.com";
+        }else{
+            [MOKSessionManager sharedInstance].domain = sdomain;
+        }
+        
+        if (sport == nil || sport == [NSNull null] || [sport isEqualToString:@""]) {
+            [MOKSessionManager sharedInstance].port = @"1139";
+        }else{
+            [MOKSessionManager sharedInstance].port = sport;
+        }
         
         [delegate onAuthenticationOkWithSessionId:sessionId publicKey:nil];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
