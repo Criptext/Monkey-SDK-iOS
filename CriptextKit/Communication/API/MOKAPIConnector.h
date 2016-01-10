@@ -42,7 +42,7 @@
 -(void)onCreateGroupOK:(NSString *)groupId;
 -(void)onCreateGroupFail:(NSString *)descriptionError;
 
--(void)onAddMemberToGroupOK:(NSString *)ok;
+-(void)onAddMemberToGroupOK:(NSString *)newMemberId;
 -(void)onAddMemberToGroupFail:(NSString *)descriptionError;
 
 -(void)onRemoveMemberFromGroupOK:(NSString *)ok;

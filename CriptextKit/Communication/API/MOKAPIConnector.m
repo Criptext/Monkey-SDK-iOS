@@ -497,7 +497,7 @@
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/addmember"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = responseObject;
 
-        [delegate onAddMemberToGroupOK:@"OK"];
+        [delegate onAddMemberToGroupOK:sessionId];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [delegate onAddMemberToGroupFail:@"error"];
     }];

@@ -129,6 +129,7 @@ typedef enum{
 /*!
  @property protocolCommand
  @abstract Protocol command of the message
+ @see MOKProtocolCommand
  */
 @property (nonatomic, assign) MOKProtocolCommand protocolCommand;
 
