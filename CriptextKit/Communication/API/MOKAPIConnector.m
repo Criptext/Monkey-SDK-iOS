@@ -77,12 +77,14 @@
         requestObject = @{@"username":appID,
                           @"password":appKey,
                           @"expiring": expiration,
+                          @"user_info": user,
                           @"session_id": [MOKSessionManager sharedInstance].sessionId
                           };
     }else{
         requestObject = @{@"username":appID,
                           @"password":appKey,
-                          @"expiring": expiration
+                          @"expiring": expiration,
+                          @"user_info": user
                           };
     }
     
@@ -120,8 +122,7 @@
         
         /************************************ Starting Second Request ****************************************/
         NSDictionary * requestConnectObject = @{@"session_id": [MOKSessionManager sharedInstance].sessionId,
-                                                @"usk": stringToSend,
-                                                @"session_name": [[MOKSessionManager sharedInstance].user getDictionary]
+                                                @"usk": stringToSend
                                                 };
         
         NSDictionary *secondparameters = @{@"data": [self.jsonWriter stringWithObject:requestConnectObject]};
@@ -514,9 +515,6 @@
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
     
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/delete"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *responseDict = responseObject;
-        
-
         [delegate onRemoveMemberFromGroupOK:@"OK"];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [delegate onRemoveMemberFromGroupFail:@"error"];
