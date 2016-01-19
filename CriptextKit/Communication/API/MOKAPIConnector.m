@@ -66,7 +66,7 @@
                              delegate:(id)delegate{
     NSString *expiration = expires? @"": @"0";
     
-    [[MOKSessionManager sharedInstance].user replaceDictionary:user];
+//    [[MOKSessionManager sharedInstance].user replaceDictionary:user];
     [MOKSessionManager sharedInstance].appId = appID;
     [MOKSessionManager sharedInstance].appKey = appKey;
 
