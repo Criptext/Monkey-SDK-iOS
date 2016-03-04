@@ -78,7 +78,7 @@
                           @"password":appKey,
                           @"expiring": expiration,
                           @"user_info": user,
-                          @"session_id": [MOKSessionManager sharedInstance].sessionId
+                          @"monkey_id": [MOKSessionManager sharedInstance].sessionId
                           };
     }else{
         requestObject = @{@"username":appID,
@@ -104,11 +104,11 @@
         NSString *stringToSend;
         //check if it's necessary to generate keys
         if (!([[MOKSessionManager sharedInstance].sessionId length]> 0)) {
-            [MOKSessionManager sharedInstance].sessionId = [responseDict objectForKey:@"sessionId"];
+            [MOKSessionManager sharedInstance].sessionId = [responseDict objectForKey:@"monkeyId"];
             stringToSend = [[MOKSecurityManager sharedInstance] generateAndEncryptAESKey];
         }else{
             #ifdef DEBUG
-            NSLog(@"MONKEY - my session: %@", [MOKSessionManager sharedInstance].sessionId);
+            NSLog(@"MONKEY - my monkey id: %@", [MOKSessionManager sharedInstance].sessionId);
             NSLog(@"MONKEY - my keys: %@", [[MOKSecurityManager sharedInstance].keychainStore stringForKey:[MOKSessionManager sharedInstance].sessionId]);
 			#endif
             NSString *mygeneratedKeys = [[MOKSecurityManager sharedInstance].keychainStore stringForKey:[MOKSessionManager sharedInstance].sessionId];
@@ -121,7 +121,7 @@
         }
         
         /************************************ Starting Second Request ****************************************/
-        NSDictionary * requestConnectObject = @{@"session_id": [MOKSessionManager sharedInstance].sessionId,
+        NSDictionary * requestConnectObject = @{@"monkey_id": [MOKSessionManager sharedInstance].sessionId,
                                                 @"usk": stringToSend
                                                 };
         
@@ -137,7 +137,7 @@
             
             NSString *storedLastMessageId = [responseDict2 objectForKey:@"last_message_id"];
             
-            if (storedLastMessageId == [NSNull null]) {
+            if (storedLastMessageId == (id) [NSNull null]) {
                 storedLastMessageId = @"0";
             }
             
@@ -145,11 +145,21 @@
                 [MOKSessionManager sharedInstance].lastMessageId = storedLastMessageId;
             }
             
-            [MOKSessionManager sharedInstance].sessionId = [responseDict2 objectForKey:@"sessionId"];
+            NSString *storedLastTimeSynced = [responseDict objectForKey:@"last_time_synced"];
+            
+            if (storedLastTimeSynced == (id)[NSNull null]) {
+                storedLastTimeSynced = @"0";
+            }
+            
+            if ([storedLastTimeSynced intValue] > [[MOKSessionManager sharedInstance].lastTimestamp intValue]) {
+                [MOKSessionManager sharedInstance].lastTimestamp = storedLastTimeSynced;
+            }
+            
+            [MOKSessionManager sharedInstance].sessionId = [responseDict2 objectForKey:@"monkeyId"];
             [MOKSessionManager sharedInstance].domain = [responseDict2 objectForKey:@"sdomain"];
             [MOKSessionManager sharedInstance].port = [responseDict2 objectForKey:@"sport"];
             
-            [delegate onAuthenticationOkWithSessionId:[responseDict2 objectForKey:@"sessionId"] publicKey:[[MOKSecurityManager sharedInstance]getObjectForIdentifier:AUTHENTICATION_PUBKEY]];
+            [delegate onAuthenticationOkWithSessionId:[responseDict2 objectForKey:@"monkeyId"] publicKey:[[MOKSecurityManager sharedInstance]getObjectForIdentifier:AUTHENTICATION_PUBKEY]];
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
             NSLog(@"MONKEY - fail second handshake");
             [delegate onAuthenticationWrong];
@@ -165,7 +175,7 @@
     [MOKSessionManager sharedInstance].appId = appId;
     [MOKSessionManager sharedInstance].appKey = appKey;
     
-    NSDictionary *requestObject = @{@"session_id" : sessionId,
+    NSDictionary *requestObject = @{@"monkey_id" : sessionId,
                                     @"public_key" : [[MOKSecurityManager sharedInstance] getObjectForIdentifier:SYNC_PUBKEY]
                                     };
     
@@ -188,13 +198,25 @@
         
         NSString *storedLastMessageId = [responseDict objectForKey:@"last_message_received"];
         
-        if (storedLastMessageId == [NSNull null]) {
+        if (storedLastMessageId == (id)[NSNull null]) {
             storedLastMessageId = @"0";
         }
         
         if ([storedLastMessageId intValue] > [[MOKSessionManager sharedInstance].lastMessageId intValue]) {
             [MOKSessionManager sharedInstance].lastMessageId = storedLastMessageId;
         }
+        
+        NSString *storedLastTimeSynced = [responseDict objectForKey:@"last_time_synced"];
+        
+        if (storedLastTimeSynced == (id)[NSNull null]) {
+            storedLastTimeSynced = @"0";
+        }
+        
+        if ([storedLastTimeSynced intValue] > [[MOKSessionManager sharedInstance].lastTimestamp intValue]) {
+            [MOKSessionManager sharedInstance].lastTimestamp = storedLastTimeSynced;
+        }
+        
+        
         NSString *sdomain = [responseDict objectForKey:@"sdomain"];
         NSString *sport = [responseDict objectForKey:@"sport"];
         
@@ -219,7 +241,7 @@
 #pragma mark - Open conversation
 -(void)keyExchangeWith:(NSString *)sessionId withPendingMessage:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate{
     
-    NSDictionary *requestObject = @{@"session_id": [MOKSessionManager sharedInstance].sessionId,
+    NSDictionary *requestObject = @{@"monkey_id": [MOKSessionManager sharedInstance].sessionId,
                                     @"user_to": sessionId
                                     };
     
@@ -244,7 +266,7 @@
         NSLog(@"MONKEY - verifying stored iv: %@", [[MOKSecurityManager sharedInstance]getIVbase64forUser:[responseDict objectForKey:@"session_to"]]);
         #endif
         if (delegate != nil) {
-            if (oldKey == nil || ![oldKey isEqualToString:decryptedKey]) {
+            if ((oldKey == nil || ![oldKey isEqualToString:decryptedKey]) && decryptedKey != nil) {
                 [delegate onNewKeysReceived:decryptedKey withPendingMessage:message];
             }else{
                 [delegate onSameKeysReceivedWithPendingMessage:message];
@@ -454,7 +476,7 @@
                    withParams:(NSDictionary *)params
                       andPush:(NSString *)push
           delegate:(id<MOKAPIConnectorDelegate>)delegate{
-    NSDictionary *requestObject = @{@"session_id" : [MOKSessionManager sharedInstance].sessionId,
+    NSDictionary *requestObject = @{@"monkey_id" : [MOKSessionManager sharedInstance].sessionId,
                                     @"members": [members componentsJoinedByString:@","],
                                     @"info":params? params : @{},
                                     @"push_all_members":push
@@ -484,7 +506,7 @@
 
 - (void)addMember:(NSString *)sessionId toGroup:(NSString *)groupId withPushToNewMember:(NSString *)pushNewMember andPushToAllMembers:(NSString *)pushAllMembers delegate:(id <MOKAPIConnectorDelegate>)delegate{
     
-    NSDictionary *requestObject = @{@"session_id" : [MOKSessionManager sharedInstance].sessionId,
+    NSDictionary *requestObject = @{@"monkey_id" : [MOKSessionManager sharedInstance].sessionId,
                                     @"new_member": sessionId,
                                     @"group_id":groupId,
                                     @"push_new_member":pushNewMember,
@@ -506,7 +528,7 @@
 
 - (void)removeMember:(NSString *)sessionId fromGroup:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate{
     
-    NSDictionary *requestObject = @{@"session_id" : sessionId,
+    NSDictionary *requestObject = @{@"monkey_id" : sessionId,
                                     @"group_id":groupId
                                     };
     
@@ -522,24 +544,22 @@
 }
 
 -(void)getGroupInfo:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate{
-    NSDictionary *requestObject = @{@"group_id":groupId
-                                    };
-    
-    NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     
     #ifdef DEBUG
-    NSLog(@"MONKEY - getGroupinfo parameters: %@", parameters);
+    NSLog(@"MONKEY - getGroupinfo parameters: %@", groupId);
 	#endif
+    
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
     
-    [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/info"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSString *urlSufix = [NSString stringWithFormat:@"/group/info/%@", groupId];
+    [self GET:[self.baseurl stringByAppendingPathComponent:urlSufix] parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         #ifdef DEBUG
         NSLog(@"MONKEY - get group response: %@", responseObject);
 		#endif
         NSDictionary *responseDict = [responseObject objectForKey:@"data"];
         
         NSArray *members=[responseDict objectForKey:@"members"];
-        NSDictionary *groupinfo=(NSDictionary *)[responseDict objectForKey:@"group_info"];
+        NSDictionary *groupinfo=(NSDictionary *)[responseDict objectForKey:@"info"];
         
         [delegate onGetGroupInfoOK:groupinfo andMembers:members];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

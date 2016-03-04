@@ -235,7 +235,7 @@
             }
             message.props = [self.jsonParser objectWithString:msg.mkprops];
             if (message.props == nil) {
-                message.props = [@{@"eph":@"0"} mutableCopy];
+                message.props = [@{} mutableCopy];
             }
             message.oldMessageId = msg.oldmessageId;
             return message;

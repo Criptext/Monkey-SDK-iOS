@@ -20,12 +20,8 @@
 #import "MOKMessagingManager.h"
 #import "MOKSecurityManager.h"
 
+#import "MOKWatchdog.h"
 
-
-#pragma mark -
-#pragma mark Anonyms category
-
-// Anonymus category for some private methods
 @interface MOKComServerConnection() <MOKSGSContextDelegate, MOKSGSChannelDelegate, MOKAPIConnectorDelegate>
 
 @end
@@ -110,6 +106,9 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 }
 - (void)connectWithDelegate:(id<MOKComServerConnectionDelegate, NSObject>) conDelegate
 {
+    //reset watchdog status
+    [[MOKWatchdog sharedInstance] login];
+    [[MOKWatchdog sharedInstance] checkConnectivity];
     
 	if(connection)
 	{
@@ -265,6 +264,9 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
     
     switch (cmd) {
         case MOKProtocolMessage:{
+            if (![MOKWatchdog sharedInstance].isUpdateFinished) {
+                return;
+            }
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
             msg.protocolCommand = MOKProtocolMessage;
             
@@ -288,7 +290,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
             break;
         }
         case MOKProtocolGet:{
-            [[MOKMessagingManager sharedInstance] notifyUpdatesToWatchdog];
+            [[MOKWatchdog sharedInstance] updateFinished];
 
             if([self.connectionDelegate respondsToSelector:@selector(onLoadPendingMessages)]){
                 [self.connectionDelegate onLoadPendingMessages];
@@ -326,7 +328,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
             break;
         }
         case MOKProtocolSync:{
-            [[MOKMessagingManager sharedInstance] notifyUpdatesToWatchdog];
+            [[MOKWatchdog sharedInstance] updateFinished];
             if([self.connectionDelegate respondsToSelector:@selector(onLoadPendingMessages)]){
                 [self.connectionDelegate onLoadPendingMessages];
             }
@@ -389,7 +391,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
     }
     //check if there are still pending messages
     if (![numberOfRemaining isEqualToString:@"0"]) {
-        [[MOKMessagingManager sharedInstance]getMessages:@"15" since:[MOKSessionManager sharedInstance].lastMessageId andGetGroups:false];
+        [[MOKMessagingManager sharedInstance] getMessages:@"15" sinceId:[MOKSessionManager sharedInstance].lastMessageId andGetGroups:false];
     }
 }
 - (void)processSyncMessages:(NSArray *)messages withRemaining:(NSString *)numberOfRemaining{
@@ -400,7 +402,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
     }
     //check if there are still pending messages
     if (![numberOfRemaining isEqualToString:@"0"]) {
-        [[MOKMessagingManager sharedInstance]getMessagesSince:[MOKSessionManager sharedInstance].lastTimestamp];
+        [[MOKMessagingManager sharedInstance] getMessages:@"15" sinceTimestamp:[MOKSessionManager sharedInstance].lastTimestamp andGetGroups:false];
     }
 }
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {

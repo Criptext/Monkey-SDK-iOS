@@ -90,8 +90,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     message.protocolType = MOKFile;
 
     if (params == nil) {
-        NSDictionary *defaultparams = @{@"eph" : @"0",
-                                        @"encr" : @"1",
+        NSDictionary *defaultparams = @{@"encr" : @"1",
                                         @"str" : @"0",
                                         @"cmpr" : @"gzip",
                                         @"device" : @"ios"
@@ -527,24 +526,28 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     }
     
 }
--(void)sendGetCommandWithArgs:(NSDictionary *)args{
-    [self sendCommand:MOKProtocolGet WithArgs:args];
-}
 
--(void)getMessages:(NSString *)maxNumber since:(NSString *)lastMessageId  andGetGroups:(BOOL)flag{
+-(void)getMessages:(NSString *)quantity sinceId:(NSString *)lastMessageId  andGetGroups:(BOOL)flag{
     NSDictionary *args = flag?
     //ask for groups
     @{@"messages_since" : lastMessageId,
-      @"qty" : maxNumber,
+      @"qty" : quantity,
       @"groups" : @"1"} :
     //don't ask for groups
     @{@"messages_since" : lastMessageId,
-      @"qty" : maxNumber};
+      @"qty" : quantity};
     
     [self sendCommand:MOKProtocolGet WithArgs:args];
 }
--(void)getMessagesSince:(NSString *)lastTimestamp{
-    NSDictionary *args = @{@"since" : lastTimestamp};
+-(void)getMessages:(NSString *)quantity sinceTimestamp:(NSString *)lastTimestamp andGetGroups:(BOOL)flag{
+    NSDictionary *args = flag?
+    //ask for groups
+    @{@"since" : lastTimestamp,
+      @"qty" : quantity,
+      @"groups" : @"1"} :
+    //don't ask for groups
+    @{@"since" : lastTimestamp,
+      @"qty" : quantity};
     
     [self sendCommand:MOKProtocolSync WithArgs:args];
 }
@@ -585,9 +588,6 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     [self sendCommand:message.protocolCommand WithArgs:args];
 }
 
-- (void)notifyUpdatesToWatchdog{
-    [[MOKWatchdog sharedInstance] updateFinished];
-}
 - (void)logout {
     [[MOKWatchdog sharedInstance]logout];
     @synchronized(messagingManagerInstance) {

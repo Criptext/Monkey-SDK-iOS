@@ -323,10 +323,12 @@ static MOKSecurityManager *securityManagerInstance = nil;
     
     //stripping the garbage at the end
     NSString *finalbase64aesandiv = [aesandiv substringToIndex:range.location+1];
-    finalbase64aesandiv = [NSString stringWithUTF8String:[finalbase64aesandiv UTF8String]];
-    [self storeBase64AESKeyAndIV:finalbase64aesandiv forUser:userId];
-    return finalbase64aesandiv;
+    if (finalbase64aesandiv != nil) {
+        finalbase64aesandiv = [NSString stringWithUTF8String:[finalbase64aesandiv UTF8String]];
+        [self storeBase64AESKeyAndIV:finalbase64aesandiv forUser:userId];
+    }
     
+    return finalbase64aesandiv;
 }
 
 -(NSData *)aesEncryptData:(NSData *)data withKey:(NSData *)key andIV:(NSData *)iv{

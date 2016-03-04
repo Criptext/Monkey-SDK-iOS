@@ -10,6 +10,7 @@
 
 @class MOKMessage;
 @interface MOKWatchdog : NSObject
+@property (nonatomic) BOOL isUpdateFinished;
 
 +(instancetype)sharedInstance;
 

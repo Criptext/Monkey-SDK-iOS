@@ -16,7 +16,6 @@
 @property (nonatomic, strong) NSMutableArray *messagesInTransit;
 @property (nonatomic, strong) NSMutableDictionary *mediasInTransit;
 @property (nonatomic) BOOL isCheckingConnectivity;
-@property (nonatomic) BOOL isUpdateFinished;
 @property (nonatomic) BOOL isLogout;
 @end
 
@@ -61,6 +60,7 @@ static MOKWatchdog *watchdogInstance = nil;
     }
     
     self.isCheckingConnectivity = true;
+    self.isUpdateFinished = false;
     #ifdef DEBUG
     NSLog(@"MONKEY - check connectivity in 15secs WOOF!");
 	#endif
@@ -83,7 +83,6 @@ static MOKWatchdog *watchdogInstance = nil;
     }
     
     self.isCheckingConnectivity = false;
-    self.isUpdateFinished = false;
     #ifdef DEBUG
     NSLog(@"MONKEY - finish checking connectivity WOOF!");
 	#endif

@@ -43,10 +43,10 @@
 -(MOKMessage *)sendAlertToUser:(NSString *)sessionId withParams:(NSDictionary *)params andPush:(NSString *)push;
 
 //201
--(void)getMessages:(NSString *)maxNumber since:(NSString *)lastMessageId  andGetGroups:(BOOL)flag;
--(void)sendGetCommandWithArgs:(NSDictionary *)args;
+-(void)getMessages:(NSString *)quantity sinceId:(NSString *)lastMessageId  andGetGroups:(BOOL)flag;
+
 //209
--(void)getMessagesSince:(NSString *)lastTimestamp;
+-(void)getMessages:(NSString *)quantity sinceTimestamp:(NSString *)lastTimestamp andGetGroups:(BOOL)flag;
 
 //203
 -(void)sendOpenCommandToUser:(NSString *)sessionId;
@@ -72,7 +72,6 @@
 - (void)acknowledgeNotification:(MOKMessage *)message;
 - (void)notify:(MOKMessage *)message withcommand:(int)command;
 - (void)logout;
-- (void)notifyUpdatesToWatchdog;
 
 - (void)sendMessagesAgain;
 @end

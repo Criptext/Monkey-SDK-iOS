@@ -10,6 +10,7 @@
 #import "MOKUser.h"
 #import "MOKJSON.h"
 #import "MOKSessionManager.h"
+#import "NSString+Random.h"
 #include "MOKCriptext.h"
 @interface MOKMessage()
 
@@ -54,6 +55,7 @@
         }
 		
         self.messageId = [self stringFromDictionary:dictionary key:@"id"];
+        self.oldMessageId = [self stringFromDictionary:self.props key:@"old_id"];
         
 		self.readByUser = NO;
         
@@ -72,7 +74,7 @@
                  protocolCommand:MOKProtocolMessage
                     protocolType:MOKText
                       monkeyType:0
-                       messageId:[NSString stringWithFormat:@"%lld",(long long)([[NSDate date] timeIntervalSince1970]* -1)]
+                       messageId:[self generateRandomId]
                     oldMessageId:@"0"
                        timestampCreated:[[NSDate date] timeIntervalSince1970]
                   timestampOrder:[[NSDate date] timeIntervalSince1970]
@@ -122,7 +124,7 @@
     if (self = [super init]) {
         self.messageText = messageText;
         self.encryptedText = @"";
-        self.messageId = [NSString stringWithFormat:@"%lld",(long long)([[NSDate date] timeIntervalSince1970]* -1)];
+        self.messageId = [self generateRandomId];
         self.oldMessageId = self.messageId;
         self.timestampCreated = [[NSDate date] timeIntervalSince1970];
         self.timestampOrder = self.timestampCreated;
@@ -133,8 +135,8 @@
         self.protocolType = MOKText;
         self.monkeyType = 0;
         self.needsResend = NO;
-        self.props = [@{@"eph":@"0",
-                        @"str":@"0",
+        self.props = [@{@"str":@"0",
+                        @"old_id": self.messageId,
                         @"device":@"ios",
                         @"encr":@"1"} mutableCopy];
         self.params = [@{} mutableCopy];
@@ -157,7 +159,7 @@
 }
 
 - (BOOL)isMessageFromMe {
-	return self.userIdFrom == [MOKSessionManager sharedInstance].sessionId;
+	return [self.userIdFrom isEqualToString:[MOKSessionManager sharedInstance].sessionId];
 }
 
 - (BOOL)isGroupMessage {
@@ -185,7 +187,9 @@
     
     return messCopy;
 }
-
+-(NSString *)generateRandomId{
+    return [NSString stringWithFormat:@"%lld%@",(long long)([[NSDate date] timeIntervalSince1970]* -1), [NSString mok_randomStringOfLength:3]];
+}
 -(NSMutableDictionary *)props{
     return _props;
 }
@@ -212,11 +216,5 @@
     }
     
     return false;
-}
-- (void)setAsPrivateMessage:(BOOL)flag{
-    [self.props setObject:flag?@"1":@"0" forKey:@"eph"];
-}
-- (BOOL)isPrivateMessage{
-    return [[self.props objectForKey:@"eph"] intValue] ==1;
 }
 @end

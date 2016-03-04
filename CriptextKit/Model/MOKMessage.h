@@ -29,13 +29,13 @@ typedef enum{
     MOKFile = 2,
     MOKTempNote = 3,
     MOKNotif = 4,
-    MOKAlert = 5,
+    MOKAlert = 5
 } MOKMessageType;
 
 typedef enum{
     MOKAudio = 1,
-    MOKPhoto = 2,
-    MOKVideo = 3,
+    MOKVideo = 2,
+    MOKPhoto = 3,
     MOKArchive = 4
 } MOKFileType;
 
