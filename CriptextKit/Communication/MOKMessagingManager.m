@@ -155,6 +155,9 @@ static MOKMessagingManager *messagingManagerInstance = nil;
         [[MOKDBManager sharedInstance]deleteMessageSent:message];
         return nil;
     }
+    
+    [message.props setObject:@([fileData length]) forKey:@"size"];
+    [message.props setObject:[message.messageText lastPathComponent] forKey:@"filename"];
     #ifdef DEBUG
     NSLog(@"MONKEY - data size: %lu",(unsigned long)[fileData length]);
 	#endif
@@ -344,6 +347,14 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     if(msgId>0){
         [MOKSessionManager sharedInstance].lastMessageId = message.messageId;
         [MOKSessionManager sharedInstance].lastTimestamp = [@(message.timestampCreated) stringValue];
+    }
+    
+    NSString *filename = [message.props objectForKey:@"filename"];
+    if (filename != nil) {
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9_]+" options:0 error:nil];
+        filename = [regex stringByReplacingMatchesInString:filename options:0 range:NSMakeRange(0, filename.length) withTemplate:@"-"];
+        
+        [message.props setObject:filename forKey:@"filename"];
     }
 
 //    [[MOKAPIConnector sharedInstance]downloadFile:message withDelegate:self];

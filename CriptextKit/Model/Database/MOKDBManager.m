@@ -218,7 +218,7 @@
 - (MOKMessage *)getOldestMessageNotSent{
     RLMRealm *realm = [self getRealmWithMyConfiguration:self.config];
     for (MOKDBMessage *msg in [MOKDBMessage allObjectsInRealm:realm]) {
-        if ([msg.messageId intValue]<0) {
+        if ([msg.messageId intValue]<=0) {
             MOKMessage *message = [[MOKMessage alloc]init];
             message.messageId = msg.messageId;
             message.userIdTo = msg.userIdTo;
