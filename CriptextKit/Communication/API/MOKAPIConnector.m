@@ -640,11 +640,6 @@ static MOKAPIConnector *apiConnectorInstance = nil;
         self.responseSerializer.acceptableContentTypes = [self.responseSerializer.acceptableContentTypes setByAddingObject:@"application/octet-stream"];
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
         self.jsonWriter = [MOKSBJsonWriter new];
-        AFSecurityPolicy *securityPolicy = [[AFSecurityPolicy alloc] init];
-        [securityPolicy setValidatesDomainName:NO];
-        [securityPolicy setAllowInvalidCertificates:YES];
-        self.securityPolicy = securityPolicy;
-//        self.operationQueue.maxConcurrentOperationCount = 1;
     }
     
     return self;
