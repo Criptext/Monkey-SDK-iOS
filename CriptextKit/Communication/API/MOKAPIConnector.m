@@ -343,7 +343,9 @@ NSString* mok_fileMIMEType(NSString * extension) {
     [self.requestSerializer setAuthorizationHeaderFieldWithUsername:[MOKSessionManager sharedInstance].appId password:[MOKSessionManager sharedInstance].appKey];
 //    [self.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/file/new"] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-        [formData appendPartWithFileURL:[NSURL fileURLWithPath:message.encryptedText] name:@"file" error:nil];
+        NSURL *fileurl = [NSURL fileURLWithPath:message.encryptedText];
+        [formData appendPartWithFileURL:fileurl name:@"file" fileName:[[fileurl lastPathComponent] stringByDeletingPathExtension] mimeType:mok_fileMIMEType([fileurl pathExtension]) error:nil];
+        //        [formData appendPartWithFileURL:fileurl name:@"file" error:nil];
         
     } success:^(NSURLSessionDataTask *task, id responseObject) {
         #ifdef DEBUG
@@ -390,8 +392,9 @@ NSString* mok_fileMIMEType(NSString * extension) {
   folderDestination:(NSString *)folderName
           encrypted:(BOOL)encrypted
          compressed:(BOOL)compressed
-              props:(NSMutableDictionary *)props
              device:(NSString *)device
+              props:(NSMutableDictionary *)props
+
        withDelegate:(id<MOKAPIConnectorDelegate>)delegate{
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:[self.baseurl stringByAppendingPathComponent:@"/file/open/%@"],[name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     #ifdef DEBUG

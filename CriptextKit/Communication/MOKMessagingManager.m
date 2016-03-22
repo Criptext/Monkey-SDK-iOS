@@ -157,7 +157,11 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     }
     
     [message.props setObject:@([fileData length]) forKey:@"size"];
-    [message.props setObject:[message.messageText lastPathComponent] forKey:@"filename"];
+    
+    if ([message.props objectForKey:@"filename"] == nil) {
+        [message.props setObject:[message.messageText lastPathComponent] forKey:@"filename"];
+    }
+    
     #ifdef DEBUG
     NSLog(@"MONKEY - data size: %lu",(unsigned long)[fileData length]);
 	#endif
