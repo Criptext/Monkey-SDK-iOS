@@ -26,7 +26,6 @@
 #define AUTHENTICATION_PUBKEY       @"authentication_pubKey"
 #define SYNC_PUBKEY                 @"mok_sync_pubKey"
 #define SYNC_PRIVKEY                @"mok_sync_privKey"
-#define OPEN_TICKET					@"http://secure.criptext.com/user/call"
 
 @interface MOKAPIConnector () <MOKComServerConnectionDelegate>
 
@@ -306,11 +305,18 @@
 
 }
 NSString* mok_fileMIMEType(NSString * extension) {
-    
-    CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, NULL);
-    CFStringRef MIMEType = UTTypeCopyPreferredTagWithClass (UTI, kUTTagClassMIMEType);
-    CFRelease(UTI);
-    return (__bridge NSString *)MIMEType;
+#ifdef __UTTYPE__
+    NSString *UTI = (__bridge_transfer NSString *)UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)extension, NULL);
+    NSString *contentType = (__bridge_transfer NSString *)UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)UTI, kUTTagClassMIMEType);
+    if (!contentType) {
+        return @"application/octet-stream";
+    } else {
+        return contentType;
+    }
+#else
+#pragma unused (extension)
+    return @"application/octet-stream";
+#endif
 }
 #pragma mark - Send File
 -(void)sendFile:(MOKMessage *)message delegate:(id<MOKAPIConnectorDelegate>)delegate{
@@ -626,7 +632,7 @@ static MOKAPIConnector *apiConnectorInstance = nil;
     self = [super initWithBaseURL:url];
     
     if (self) {
-        self.baseurl = @"http://secure.criptext.com";
+        self.baseurl = @"https://monkey.criptext.com";
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [self.responseSerializer.acceptableContentTypes setByAddingObject:@"application/octet-stream"];
         self.requestSerializer = [AFHTTPRequestSerializer serializer];

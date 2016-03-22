@@ -29,45 +29,6 @@
 @end
 
 @implementation MOKSecurityManager
-const char *sync_publicKey = "-----BEGIN PUBLIC KEY-----\n"
-"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvF6h6ev2VHSzfd8QR4ek\n"
-"O7qbBGdxaKgT5hylD9te9sggXIyVv8aiNHmecaJocyRXYP6DkoimkKq0K84OImpU\n"
-"VcfmX73I3mNJFLmWuDxFvuzOIdHx1y70ltrj63ETscMC+Zp2Comr3cz1LqAcnJzX\n"
-"LEOf9YFp8AsQD8dc9YH2igc4U3JrJWXKOxkDgjaiDNLw1v6FRXbJirNbU3GrJiXj\n"
-"nKmPE7l8UbpPYSAibsijM8ZsUHe9Wms34BZsj2a3I8tB5lubIXmIh0AgBlrMt+1l\n"
-"Tc43LSLtilzX2xsz3iJOjVnib2DaeqQ8OVDTmJqesgV/lhx6ZnqC/n5Ixi9i8CW0\n"
-"fQIDAQAB\n"
-"-----END PUBLIC KEY-----\n";
-
-// private key
-const char *sync_privkey = "-----BEGIN RSA PRIVATE KEY-----\n"
-"MIIEpgIBAAKCAQEAvF6h6ev2VHSzfd8QR4ekO7qbBGdxaKgT5hylD9te9sggXIyV\n"
-"v8aiNHmecaJocyRXYP6DkoimkKq0K84OImpUVcfmX73I3mNJFLmWuDxFvuzOIdHx\n"
-"1y70ltrj63ETscMC+Zp2Comr3cz1LqAcnJzXLEOf9YFp8AsQD8dc9YH2igc4U3Jr\n"
-"JWXKOxkDgjaiDNLw1v6FRXbJirNbU3GrJiXjnKmPE7l8UbpPYSAibsijM8ZsUHe9\n"
-"Wms34BZsj2a3I8tB5lubIXmIh0AgBlrMt+1lTc43LSLtilzX2xsz3iJOjVnib2Da\n"
-"eqQ8OVDTmJqesgV/lhx6ZnqC/n5Ixi9i8CW0fQIDAQABAoIBAQCObXs9lSXHDApf\n"
-"hRcZDq2WX+0wMkrk2Blbp5MC31r5e65EbCQaQkWJKeAsiaEyVmsfMrInTN2sivX6\n"
-"HS5AxWcJCUHeaHCF/kpWulEE8sXFq+XcWpLiomVb3xvwfKpogUwxkKHqK9hgt8U3\n"
-"QOcBX/GuTV+YUQbZ8nNtis917pOMHscjArKNdqdNEDuS2jUqCvYCAvHumVFK2eN/\n"
-"HgY02A0sZn3AmB7NkjeG8+fJ7Qjo2IESSVlmhTqnz4c2BA4Y8hEuLFusLVBA3De3\n"
-"RvBMiiGC6DH3W+fCAOh/AAHSS3uyy7rHPZNdjOxfC9NTvU3GTbtiT8VY/giM4GaG\n"
-"HcWSy0J9AoGBAOOjtzaL5xu2stG5RIA6gnxNTMQQFgZvMx4SQduTQ5SEJ/HIE/mX\n"
-"MQnR7TyTZRyPGSbMVX/EHcb0r5AGdei2EjxSpMony67So7rXHoizBWlEbLRJ4DVf\n"
-"v9R5HfTec5pBFdWwmtOsxH5FNGK9DI/B79qAJx+Z+dUl2Bz8HyFU6f5PAoGBANPW\n"
-"c+N2vFYQLt8lbUXyh6vQ8lZmZLmkYMp46BOg7KQo6SI4lCu/R1cg8eyRmIwgDbWL\n"
-"xGdR+0rsCp0rOYPBrXWO2Zc4Qda383U/sQYQVOHdUz+DPMXDqyE7xGdJzNVhdzPP\n"
-"4yUuQ2ChuZQrtyHNNc5VFqHAoPhZKybaWdhTsVlzAoGBAJfT9vvzneY3GdeVqSGZ\n"
-"ZLSBXiUa0YXjHwX8iV5pP1bMOlQh7Wi4NaXmFUQkzviYXN8qxA/efznWs03tcTEQ\n"
-"VuNS/8QxfMGSjk+s8RmdxYsrbxFkgJ04ypptWdSbliEZLfYDv5BVGA1cHQ+KJdmw\n"
-"MUjb1rxWF3LZteXHJwA1QYgzAoGBAJ0Eazfh7a2ZJzTtp/Zd06ROJyJVmTllFv1c\n"
-"6yCJen4feNaNu35FtJpnaAqizMCojaDQbY7r3GjnVuKyhFod9/WYIb6Ny3ddOA7j\n"
-"W9KTzmbwR2FfZG9uHm1uwKCSuko7iUCVSddoWDbLCSRD1uUuF0DOHw1cG7SZW3vc\n"
-"AxZuypjzAoGBAN0/7w/C1xxMWG6z6MciUbjpDyBWgcqQcqTl+td9FxlRHI4sspAp\n"
-"FEsZP+bbER+pKFcHSwevRHGOwzoxSFLQ3bLe0AKbSaNhHe+b2BXXgqo+jGITrrWM\n"
-"dAAFMAWf/JsKdnI/9gRh9JM6mw9GZio0HDu209EjNAcvc2lnWJaIZbwC\n"
-"-----END RSA PRIVATE KEY-----\n";
-
 
 #pragma mark initialization
 static MOKSecurityManager *securityManagerInstance = nil;
@@ -97,8 +58,64 @@ static MOKSecurityManager *securityManagerInstance = nil;
     self = [super init];
     if (self) {
         _keychainStore = [UICKeyChainStore keyChainStoreWithService:@"com.criptextkit.app"];
-        [self storeObject:[NSString stringWithUTF8String:sync_publicKey] withIdentifier:SYNC_PUBKEY];
-        [self storeObject:[NSString stringWithUTF8String:sync_privkey] withIdentifier:SYNC_PRIVKEY];
+        RSA *rsaKeyPair = NULL;
+        //        EVP_PKEY *PrivateKey = NULL;
+        rsaKeyPair = RSA_new();
+        
+        BIGNUM *e = NULL;
+        e = BN_new();
+        BN_set_word(e, 5);
+        
+        //Generating KeyPair
+        RSA_generate_key_ex(rsaKeyPair, 2048, e, NULL);
+        
+        //        PrivateKey = EVP_PKEY_new();
+        
+        BIO *pri = BIO_new(BIO_s_mem());
+        BIO *pub = BIO_new(BIO_s_mem());
+        
+        
+        PEM_write_bio_RSAPrivateKey(pri, rsaKeyPair, NULL, NULL, 0, NULL, NULL);
+        PEM_write_bio_RSAPublicKey(pub, rsaKeyPair);
+        
+        size_t pri_len = BIO_pending(pri);
+        size_t pub_len = BIO_pending(pub);
+        
+        char *pri_key = malloc(pri_len+1);
+        char *pub_key = malloc(pub_len+1);
+        
+        BIO_read(pri, pri_key, pri_len);
+        BIO_read(pub, pub_key, pub_len);
+        
+        pri_key[pri_len] = '\0';
+        pub_key[pub_len] = '\0';
+        
+        NSString *PK = [[[NSString stringWithFormat:@"%s",pri_key] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@""];
+        PK = [NSString stringWithUTF8String:pri_key];
+        
+        NSString *PKK = [[[NSString stringWithFormat:@"%s",pub_key] componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]] componentsJoinedByString:@""];
+        PKK = [NSString stringWithUTF8String:pub_key];
+        PKK = [[PKK stringByReplacingOccurrencesOfString:@" RSA" withString:@""] stringByReplacingOccurrencesOfString:@"=" withString:@""];
+        
+        
+        EVP_PKEY* pkey = EVP_PKEY_new();
+        
+        int rc = EVP_PKEY_set1_RSA(pkey, rsaKeyPair);
+        //        EVP_PKEY_free(pkey);
+        
+        BIO *pub2 = BIO_new(BIO_s_mem());
+        
+        PEM_write_bio_PUBKEY(pub2, pkey);
+        
+        size_t pub_len2 = BIO_pending(pub2);
+        char *pub_key2 = malloc(pub_len2+1);
+        
+        BIO_read(pub2, pub_key2, pub_len2);
+        
+        pub_key2[pub_len2] = '\0';
+        
+        [self storeObject:[NSString stringWithUTF8String:pub_key2] withIdentifier:SYNC_PUBKEY];
+        [self storeObject:PK withIdentifier:SYNC_PRIVKEY];
     }
     return self;
 }
