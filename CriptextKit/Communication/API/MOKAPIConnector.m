@@ -220,7 +220,7 @@
         NSString *sport = [responseDict objectForKey:@"sport"];
         
         if (sdomain == nil || sdomain == [NSNull null] || [sdomain isEqualToString:@""]) {
-            [MOKSessionManager sharedInstance].domain = @"secure.criptext.com";
+            [MOKSessionManager sharedInstance].domain = @"monkey.criptext.com";
         }else{
             [MOKSessionManager sharedInstance].domain = sdomain;
         }

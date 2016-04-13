@@ -355,10 +355,12 @@ static MOKMessagingManager *messagingManagerInstance = nil;
     
     NSString *filename = [message.props objectForKey:@"filename"];
     if (filename != nil) {
+        NSString *extension = filename.pathExtension;
+        NSString *extensionless = [filename stringByDeletingPathExtension];
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"[^a-zA-Z0-9_]+" options:0 error:nil];
-        filename = [regex stringByReplacingMatchesInString:filename options:0 range:NSMakeRange(0, filename.length) withTemplate:@"-"];
+        extensionless = [regex stringByReplacingMatchesInString:extensionless options:0 range:NSMakeRange(0, extensionless.length) withTemplate:@"-"];
         
-        [message.props setObject:filename forKey:@"filename"];
+        [message.props setObject:[extensionless stringByAppendingPathExtension:extension] forKey:@"filename"];
     }
 
 //    [[MOKAPIConnector sharedInstance]downloadFile:message withDelegate:self];

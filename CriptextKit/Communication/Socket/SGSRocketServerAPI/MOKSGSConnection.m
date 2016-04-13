@@ -107,7 +107,7 @@
     //        context.hostname = @"central.criptext.com";
     //    }
     //    context.port = 1139;
-    //    context.hostname = @"secure.criptext.com";
+    //    context.hostname = @"monkey.criptext.com";
     //        NSLog(@"MONKEY - despues de host ref");
     CFStringRef hostname = CFStringCreateWithCString(kCFAllocatorDefault, [context.hostname UTF8String], kCFStringEncodingASCII);
     CFHostRef host = CFHostCreateWithName(kCFAllocatorDefault, hostname);
