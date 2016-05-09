@@ -208,8 +208,10 @@ unsigned char* rsaDecrypt( RSA *privKey, const unsigned char* encryptedData, int
     
     unsigned char *decryptedBin = (unsigned char*)malloc( rsaLen ) ;
     *resultLen = RSA_private_decrypt( RSA_size(privKey), encryptedData, decryptedBin, privKey, PADDING ) ;
-    if( *resultLen == -1 )
+    if( *resultLen == -1 ){
+        ERR_load_crypto_strings();
         printf( "ERROR: RSA_private_decrypt: %s\n", ERR_error_string(ERR_get_error(), NULL) ) ;
+    }
     
     return decryptedBin ;
 }

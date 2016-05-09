@@ -217,4 +217,11 @@
     
     return false;
 }
+-(BOOL)isEqual:(id)object{
+    MOKMessage *otherMsg = object;
+    if ([self.messageId isEqualToString:otherMsg.messageId]) {
+        return true;
+    }
+    return false;
+}
 @end
