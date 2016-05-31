@@ -1,20 +1,13 @@
 //
-//  NSData+Compression.h
-//  CocoaGit
+//  NSData+MOKCompression.h
+//  MonkeyKit
 //
-//  Created by Geoffrey Garside on 29/06/2008.
-//  Copyright 2008 ManicPanda.com. All rights reserved.
-//
-//  Methods extracted from source given at
-//  http://www.cocoadev.com/index.pl?NSDataCategory
+//  Created by Gianni Carlo on 5/31/16.
+//  Copyright © 2016 Criptext. All rights reserved.
 //
 
-#import <Foundation/NSData.h>
+#import <UIKit/UIKit.h>
 
-/*! Adds compression and decompression messages to NSData.
- * Methods extracted from source given at
- * http://www.cocoadev.com/index.pl?NSDataCategory
- */
 @interface NSData (MOKCompression)
 
 #pragma mark -

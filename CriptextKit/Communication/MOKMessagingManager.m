@@ -14,7 +14,7 @@
 #import "MOKSessionManager.h"
 #import "MOKUser.h"
 #import "MOKWatchdog.h"
-#import "NSData+Compression.h"
+#import "NSData+MOKCompression.h"
 #import "MOKDBManager.h"
 #import "MOKSBJSON.h"
 #import "NSData+Base64.h"

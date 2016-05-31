@@ -11,6 +11,8 @@
 		414409471C88FBAF009793BF /* NSString+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 414409451C88FBAF009793BF /* NSString+Random.m */; };
 		4146D7431BAB3ED900D39061 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4146D7421BAB3ED900D39061 /* libc++.1.dylib */; };
 		416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 416A18221AB35669003FA469 /* libz.1.2.5.dylib */; };
+		416F7FCC1CFE3F590048C623 /* NSData+MOKCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */; };
+		416F7FCD1CFE3F590048C623 /* NSData+MOKCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */; };
 		419CAAA81A80475800F68EB0 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* MonkeyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A586821BBDF7F000E1A41E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 41A586811BBDF7F000E1A41E /* LICENSE */; };
 		41A586841BBDF7FE00E1A41E /* MonkeyKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */; };
@@ -26,8 +28,6 @@
 		41EE3D131BFFFE7E00EE3B0D /* MOKMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D071BFFFE7E00EE3B0D /* MOKMessage.m */; };
 		41EE3D141BFFFE7E00EE3B0D /* MOKUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D081BFFFE7E00EE3B0D /* MOKUser.h */; };
 		41EE3D151BFFFE7E00EE3B0D /* MOKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D091BFFFE7E00EE3B0D /* MOKUser.m */; };
-		41EE3D1C1BFFFFE900EE3B0D /* NSData+Compression.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D1A1BFFFFE900EE3B0D /* NSData+Compression.h */; };
-		41EE3D1D1BFFFFE900EE3B0D /* NSData+Compression.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D1B1BFFFFE900EE3B0D /* NSData+Compression.m */; };
 		41EE3D201C00000200EE3B0D /* MOKWatchdog.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D1E1C00000200EE3B0D /* MOKWatchdog.h */; };
 		41EE3D211C00000200EE3B0D /* MOKWatchdog.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D1F1C00000200EE3B0D /* MOKWatchdog.m */; };
 		41EE3D261C00002700EE3B0D /* MOKSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D221C00002700EE3B0D /* MOKSessionManager.h */; };
@@ -82,14 +82,17 @@
 		41EE3D871C0001CF00EE3B0D /* MOKCriptext.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */; };
 		41EE3D8E1C00020400EE3B0D /* MOKSecurityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */; };
 		41EE3D8F1C00020400EE3B0D /* MOKSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */; };
-		B12BB8E1187B7FD310296228 /* Pods_MonkeyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */; };
+		A142AD60E9DBE038BDAA1D40 /* Pods_MonkeyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B30FE66BAB3584F25A6A49C /* Pods_MonkeyKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1B30FE66BAB3584F25A6A49C /* Pods_MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		414409441C88FBAF009793BF /* NSString+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Random.h"; sourceTree = "<group>"; };
 		414409451C88FBAF009793BF /* NSString+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Random.m"; sourceTree = "<group>"; };
 		4146D7421BAB3ED900D39061 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
 		416A18221AB35669003FA469 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libz.1.2.5.dylib; sourceTree = "<group>"; };
+		416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MOKCompression.h"; path = "Helpers/Compression/NSData+MOKCompression.h"; sourceTree = "<group>"; };
+		416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MOKCompression.m"; path = "Helpers/Compression/NSData+MOKCompression.m"; sourceTree = "<group>"; };
 		419CAAA21A80475800F68EB0 /* MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		419CAAA61A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		419CAAA71A80475800F68EB0 /* MonkeyKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonkeyKit.h; sourceTree = "<group>"; };
@@ -109,8 +112,6 @@
 		41EE3D071BFFFE7E00EE3B0D /* MOKMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKMessage.m; sourceTree = "<group>"; };
 		41EE3D081BFFFE7E00EE3B0D /* MOKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKUser.h; sourceTree = "<group>"; };
 		41EE3D091BFFFE7E00EE3B0D /* MOKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKUser.m; sourceTree = "<group>"; };
-		41EE3D1A1BFFFFE900EE3B0D /* NSData+Compression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Compression.h"; path = "Helpers/Compression/NSData+Compression.h"; sourceTree = "<group>"; };
-		41EE3D1B1BFFFFE900EE3B0D /* NSData+Compression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Compression.m"; path = "Helpers/Compression/NSData+Compression.m"; sourceTree = "<group>"; };
 		41EE3D1E1C00000200EE3B0D /* MOKWatchdog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKWatchdog.h; path = Helpers/Watchdog/MOKWatchdog.h; sourceTree = "<group>"; };
 		41EE3D1F1C00000200EE3B0D /* MOKWatchdog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKWatchdog.m; path = Helpers/Watchdog/MOKWatchdog.m; sourceTree = "<group>"; };
 		41EE3D221C00002700EE3B0D /* MOKSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSessionManager.h; path = "Helpers/Session Managers/MOKSessionManager.h"; sourceTree = "<group>"; };
@@ -165,9 +166,8 @@
 		41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKCriptext.m; path = Security/MOKCriptext.m; sourceTree = "<group>"; };
 		41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSecurityManager.h; path = Security/MOKSecurityManager.h; sourceTree = "<group>"; };
 		41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSecurityManager.m; path = Security/MOKSecurityManager.m; sourceTree = "<group>"; };
-		499B89B33DB3E6A982E6CFB6 /* Pods-MonkeyKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.release.xcconfig"; sourceTree = "<group>"; };
-		5D91A0B367615E805A5ED62F /* Pods-MonkeyKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.debug.xcconfig"; sourceTree = "<group>"; };
-		C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6587F5F700F4E477FAB2A61A /* Pods-MonkeyKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.release.xcconfig"; sourceTree = "<group>"; };
+		92003F9CBC2D74830719DA75 /* Pods-MonkeyKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,28 +177,19 @@
 			files = (
 				4146D7431BAB3ED900D39061 /* libc++.1.dylib in Frameworks */,
 				416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */,
-				B12BB8E1187B7FD310296228 /* Pods_MonkeyKit.framework in Frameworks */,
+				A142AD60E9DBE038BDAA1D40 /* Pods_MonkeyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		080D86ACFDE08B2502D3E3DB /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5D91A0B367615E805A5ED62F /* Pods-MonkeyKit.debug.xcconfig */,
-				499B89B33DB3E6A982E6CFB6 /* Pods-MonkeyKit.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		416A18241AB35677003FA469 /* Compression */ = {
 			isa = PBXGroup;
 			children = (
-				41EE3D1A1BFFFFE900EE3B0D /* NSData+Compression.h */,
-				41EE3D1B1BFFFFE900EE3B0D /* NSData+Compression.m */,
 				416A18221AB35669003FA469 /* libz.1.2.5.dylib */,
+				416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */,
+				416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */,
 			);
 			name = Compression;
 			sourceTree = "<group>";
@@ -232,8 +223,8 @@
 				419CAAA41A80475800F68EB0 /* MonkeyKit */,
 				419CAAB11A80475800F68EB0 /* CriptextKitTests */,
 				419CAAA31A80475800F68EB0 /* Products */,
-				080D86ACFDE08B2502D3E3DB /* Pods */,
-				C38EDAB23DC69140D94536DE /* Frameworks */,
+				F9456DCC4F095AED23F567CF /* Pods */,
+				4385A4325F907AFF3A2D7643 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -426,12 +417,21 @@
 			path = SGSRocketServerAPI;
 			sourceTree = "<group>";
 		};
-		C38EDAB23DC69140D94536DE /* Frameworks */ = {
+		4385A4325F907AFF3A2D7643 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C729951D7F070081A0CA2C25 /* Pods_MonkeyKit.framework */,
+				1B30FE66BAB3584F25A6A49C /* Pods_MonkeyKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F9456DCC4F095AED23F567CF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				92003F9CBC2D74830719DA75 /* Pods-MonkeyKit.debug.xcconfig */,
+				6587F5F700F4E477FAB2A61A /* Pods-MonkeyKit.release.xcconfig */,
+			);
+			name = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -443,10 +443,10 @@
 			files = (
 				41EE3D761C00013400EE3B0D /* NSString+SBJSON.h in Headers */,
 				41EE3D821C0001BA00EE3B0D /* BBAES.h in Headers */,
-				41EE3D1C1BFFFFE900EE3B0D /* NSData+Compression.h in Headers */,
 				41EE3D741C00013400EE3B0D /* NSObject+SBJSON.h in Headers */,
 				41EE3D6E1C00013400EE3B0D /* MOKSBJsonBase.h in Headers */,
 				41EE3D591C0000F700EE3B0D /* MOKSGSMessage.h in Headers */,
+				416F7FCC1CFE3F590048C623 /* NSData+MOKCompression.h in Headers */,
 				41EE3D4D1C0000F700EE3B0D /* MOKComServerConnection.h in Headers */,
 				41EE3D5C1C0000F700EE3B0D /* MOKSGSSession.h in Headers */,
 				41EE3D0E1BFFFE7E00EE3B0D /* MOKDBSession.h in Headers */,
@@ -488,12 +488,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 419CAAB81A80475800F68EB0 /* Build configuration list for PBXNativeTarget "MonkeyKit" */;
 			buildPhases = (
-				7F023E16C20B6F159A4B2376 /* Check Pods Manifest.lock */,
+				FFD67F43F2BEEDA9811930AE /* 📦 Check Pods Manifest.lock */,
 				419CAA9D1A80475800F68EB0 /* Sources */,
 				419CAA9E1A80475800F68EB0 /* Frameworks */,
 				419CAA9F1A80475800F68EB0 /* Headers */,
 				419CAAA01A80475800F68EB0 /* Resources */,
-				AFA294B376D4A46FE618DE11 /* Copy Pods Resources */,
+				9130B2FE6244AEC64DE406C7 /* 📦 Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -510,6 +510,7 @@
 		419CAA991A80475800F68EB0 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0620;
 				ORGANIZATIONNAME = Criptext;
 				TargetAttributes = {
@@ -548,34 +549,34 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7F023E16C20B6F159A4B2376 /* Check Pods Manifest.lock */ = {
+		9130B2FE6244AEC64DE406C7 /* 📦 Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		AFA294B376D4A46FE618DE11 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
+			name = "📦 Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FFD67F43F2BEEDA9811930AE /* 📦 Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "📦 Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -595,7 +596,6 @@
 				41EE3D581C0000F700EE3B0D /* MOKSGSId.m in Sources */,
 				41EE3D0D1BFFFE7E00EE3B0D /* MOKDBMessage.m in Sources */,
 				41EE3D131BFFFE7E00EE3B0D /* MOKMessage.m in Sources */,
-				41EE3D1D1BFFFFE900EE3B0D /* NSData+Compression.m in Sources */,
 				41EE3D711C00013400EE3B0D /* MOKSBJsonParser.m in Sources */,
 				41EE3D351C00005E00EE3B0D /* MOKutils.m in Sources */,
 				41EE3D111BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.m in Sources */,
@@ -612,6 +612,7 @@
 				41EE3D521C0000F700EE3B0D /* MOKSGSChannel.m in Sources */,
 				41EE3D5D1C0000F700EE3B0D /* MOKSGSSession.m in Sources */,
 				41EE3D541C0000F700EE3B0D /* MOKSGSConnection.m in Sources */,
+				416F7FCD1CFE3F590048C623 /* NSData+MOKCompression.m in Sources */,
 				41EE3D771C00013400EE3B0D /* NSString+SBJSON.m in Sources */,
 				41EE3D501C0000F700EE3B0D /* MOKSocketConnectionManager.m in Sources */,
 				41EE3D871C0001CF00EE3B0D /* MOKCriptext.m in Sources */,
@@ -711,9 +712,10 @@
 		};
 		419CAAB91A80475800F68EB0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5D91A0B367615E805A5ED62F /* Pods-MonkeyKit.debug.xcconfig */;
+			baseConfigurationReference = 92003F9CBC2D74830719DA75 /* Pods-MonkeyKit.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -739,14 +741,16 @@
 				);
 				PRODUCT_NAME = MonkeyKit;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
 		419CAABA1A80475800F68EB0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 499B89B33DB3E6A982E6CFB6 /* Pods-MonkeyKit.release.xcconfig */;
+			baseConfigurationReference = 6587F5F700F4E477FAB2A61A /* Pods-MonkeyKit.release.xcconfig */;
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
