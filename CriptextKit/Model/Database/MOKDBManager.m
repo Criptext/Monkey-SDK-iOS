@@ -57,7 +57,7 @@
         
         
         self.config = [RLMRealmConfiguration defaultConfiguration];
-        self.config.path = self.privateRealmPath;
+        self.config.fileURL = [NSURL fileURLWithPath:self.privateRealmPath];
         self.config.objectClasses = @[MOKDBSession.class, MOKDBMessage.class];
         self.config.schemaVersion = 9;
         #ifndef DEBUG
@@ -86,7 +86,7 @@
 }
 
 - (void)logout{
-    [[NSFileManager defaultManager] removeItemAtPath:self.config.path error:nil];
+    [[NSFileManager defaultManager] removeItemAtURL:self.config.fileURL error:nil];
 }
 - (NSData *)getKey {
     // Identifier for our keychain entry - should be unique for your application
@@ -131,7 +131,7 @@
     
     if (error) {
         NSLog(@"error:%@", [error localizedDescription]);
-        [[NSFileManager defaultManager] removeItemAtPath:self.config.path error:nil];
+        [[NSFileManager defaultManager] removeItemAtURL:self.config.fileURL error:nil];
         return [self getRealmWithMyConfiguration:self.config];
     }
     
