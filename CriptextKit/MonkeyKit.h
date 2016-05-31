@@ -28,7 +28,7 @@ FOUNDATION_EXPORT const unsigned char CriptextKitVersionString[];
 #import <MonkeyKit/MOKSGSConnection.h>
 #import <MonkeyKit/MOKWatchdog.h>
 
-#import <MonkeyKit/NSData+Compression.h>
+#import <MonkeyKit/NSData+MOKCompression.h>
 #import <MonkeyKit/NSData+Base64.h>
 #import <MonkeyKit/MOKUserDictionary.h>
 
