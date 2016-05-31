@@ -14,7 +14,6 @@
 #import "MOKSessionManager.h"
 #import "MOKUser.h"
 #import "MOKWatchdog.h"
-#import "NSData+MOKCompression.h"
 #import "MOKDBManager.h"
 #import "MOKSBJSON.h"
 #import "NSData+Base64.h"
@@ -112,7 +111,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
         #ifdef DEBUG
         NSLog(@"MONKEY - antes compress: %lu",(unsigned long)[fileData length]);
 		#endif
-        fileData = [fileData mok_gzipDeflate];
+//        fileData = [fileData mok_gzipDeflate];
         #ifdef DEBUG
         NSLog(@"MONKEY - despues compress: %lu",(unsigned long)[fileData length]);
 		#endif
@@ -172,7 +171,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
         #ifdef DEBUG
         NSLog(@"MONKEY - before compression: %lu",(unsigned long)[fileData length]);
 		#endif
-        fileData = [fileData mok_gzipDeflate];
+//        fileData = [fileData mok_gzipDeflate];
         #ifdef DEBUG
         NSLog(@"MONKEY - after compression: %lu",(unsigned long)[fileData length]);
 		#endif
@@ -437,7 +436,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
 
                 //check for file compression
                 if ([message.props objectForKey:@"cmpr"]) {
-                    newData = [newData mok_gzipInflate];
+//                    newData = [newData mok_gzipInflate];
                 }
                 
                 [newData writeToFile:message.messageText atomically:YES];
@@ -459,7 +458,7 @@ static MOKMessagingManager *messagingManagerInstance = nil;
                 }
                 //check for file compression
                 if ([message.props objectForKey:@"cmpr"]) {
-                    decryptedData = [decryptedData mok_gzipInflate];
+//                    decryptedData = [decryptedData mok_gzipInflate];
                 }
                 
                 [decryptedData writeToFile:message.messageText atomically:YES];

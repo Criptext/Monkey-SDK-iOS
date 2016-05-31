@@ -11,8 +11,6 @@
 		414409471C88FBAF009793BF /* NSString+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 414409451C88FBAF009793BF /* NSString+Random.m */; };
 		4146D7431BAB3ED900D39061 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4146D7421BAB3ED900D39061 /* libc++.1.dylib */; };
 		416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 416A18221AB35669003FA469 /* libz.1.2.5.dylib */; };
-		416F7FCC1CFE3F590048C623 /* NSData+MOKCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */; };
-		416F7FCD1CFE3F590048C623 /* NSData+MOKCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */; };
 		419CAAA81A80475800F68EB0 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* MonkeyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A586821BBDF7F000E1A41E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 41A586811BBDF7F000E1A41E /* LICENSE */; };
 		41A586841BBDF7FE00E1A41E /* MonkeyKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */; };
@@ -91,8 +89,6 @@
 		414409451C88FBAF009793BF /* NSString+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Random.m"; sourceTree = "<group>"; };
 		4146D7421BAB3ED900D39061 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
 		416A18221AB35669003FA469 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libz.1.2.5.dylib; sourceTree = "<group>"; };
-		416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MOKCompression.h"; path = "Helpers/Compression/NSData+MOKCompression.h"; sourceTree = "<group>"; };
-		416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MOKCompression.m"; path = "Helpers/Compression/NSData+MOKCompression.m"; sourceTree = "<group>"; };
 		419CAAA21A80475800F68EB0 /* MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		419CAAA61A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		419CAAA71A80475800F68EB0 /* MonkeyKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonkeyKit.h; sourceTree = "<group>"; };
@@ -188,8 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				416A18221AB35669003FA469 /* libz.1.2.5.dylib */,
-				416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */,
-				416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */,
 			);
 			name = Compression;
 			sourceTree = "<group>";
@@ -446,7 +440,6 @@
 				41EE3D741C00013400EE3B0D /* NSObject+SBJSON.h in Headers */,
 				41EE3D6E1C00013400EE3B0D /* MOKSBJsonBase.h in Headers */,
 				41EE3D591C0000F700EE3B0D /* MOKSGSMessage.h in Headers */,
-				416F7FCC1CFE3F590048C623 /* NSData+MOKCompression.h in Headers */,
 				41EE3D4D1C0000F700EE3B0D /* MOKComServerConnection.h in Headers */,
 				41EE3D5C1C0000F700EE3B0D /* MOKSGSSession.h in Headers */,
 				41EE3D0E1BFFFE7E00EE3B0D /* MOKDBSession.h in Headers */,
@@ -612,7 +605,6 @@
 				41EE3D521C0000F700EE3B0D /* MOKSGSChannel.m in Sources */,
 				41EE3D5D1C0000F700EE3B0D /* MOKSGSSession.m in Sources */,
 				41EE3D541C0000F700EE3B0D /* MOKSGSConnection.m in Sources */,
-				416F7FCD1CFE3F590048C623 /* NSData+MOKCompression.m in Sources */,
 				41EE3D771C00013400EE3B0D /* NSString+SBJSON.m in Sources */,
 				41EE3D501C0000F700EE3B0D /* MOKSocketConnectionManager.m in Sources */,
 				41EE3D871C0001CF00EE3B0D /* MOKCriptext.m in Sources */,
