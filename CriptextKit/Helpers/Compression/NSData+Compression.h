@@ -15,7 +15,7 @@
  * Methods extracted from source given at
  * http://www.cocoadev.com/index.pl?NSDataCategory
  */
-@interface NSData (Compression)
+@interface NSData (MOKCompression)
 
 #pragma mark -
 #pragma mark Zlib Compression routines

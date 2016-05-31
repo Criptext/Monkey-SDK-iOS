@@ -12,7 +12,7 @@
 #import "NSData+Compression.h"
 #import "zlib.h"
 
-@implementation NSData (Compression)
+@implementation NSData (MOKCompression)
 
 #pragma mark -
 #pragma mark Zlib Compression routines
