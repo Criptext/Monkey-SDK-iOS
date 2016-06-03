@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MonkeyKit"
-  s.version      = "0.6.13"
+  s.version      = "0.6.15"
   s.summary      = "A secure messaging channel."
 
   s.description  = <<-DESC
@@ -79,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Criptext/iOS-MonkeySDK.git", :tag => "0.6.13" }
+  s.source       = { :git => "https://github.com/Criptext/iOS-MonkeySDK.git", :tag => "0.6.15" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -134,9 +134,8 @@ Pod::Spec.new do |s|
   # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
   # s.dependency "JSONKit", "~> 1.4"
 
-  s.dependency "Realm", "~> 1.0.0"
-  s.dependency "AFNetworking", "~> 3.1.0"
-  s.dependency 'OpenSSL-Universal', '~> 1.0.1.19'
-  s.dependency 'UICKeyChainStore', '~> 2.1.0'
+  s.dependency "AFNetworking"
+  s.dependency 'OpenSSL-Universal'
+  s.dependency 'UICKeyChainStore'
 
 end
