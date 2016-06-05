@@ -70,8 +70,6 @@
 		41EE3D7B1C00014B00EE3B0D /* MOKAPIConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D791C00014B00EE3B0D /* MOKAPIConnector.m */; };
 		41EE3D821C0001BA00EE3B0D /* BBAES.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D801C0001BA00EE3B0D /* BBAES.h */; };
 		41EE3D831C0001BA00EE3B0D /* BBAES.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D811C0001BA00EE3B0D /* BBAES.m */; };
-		41EE3D861C0001CF00EE3B0D /* MOKCriptext.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */; };
-		41EE3D871C0001CF00EE3B0D /* MOKCriptext.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */; };
 		41EE3D8E1C00020400EE3B0D /* MOKSecurityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */; };
 		41EE3D8F1C00020400EE3B0D /* MOKSecurityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */; };
 		A142AD60E9DBE038BDAA1D40 /* Pods_MonkeyKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B30FE66BAB3584F25A6A49C /* Pods_MonkeyKit.framework */; };
@@ -146,8 +144,6 @@
 		41EE3D791C00014B00EE3B0D /* MOKAPIConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKAPIConnector.m; path = Communication/API/MOKAPIConnector.m; sourceTree = "<group>"; };
 		41EE3D801C0001BA00EE3B0D /* BBAES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BBAES.h; path = Security/AES/BBAES.h; sourceTree = "<group>"; };
 		41EE3D811C0001BA00EE3B0D /* BBAES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BBAES.m; path = Security/AES/BBAES.m; sourceTree = "<group>"; };
-		41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKCriptext.h; path = Security/MOKCriptext.h; sourceTree = "<group>"; };
-		41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKCriptext.m; path = Security/MOKCriptext.m; sourceTree = "<group>"; };
 		41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MOKSecurityManager.h; path = Security/MOKSecurityManager.h; sourceTree = "<group>"; };
 		41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MOKSecurityManager.m; path = Security/MOKSecurityManager.m; sourceTree = "<group>"; };
 		6587F5F700F4E477FAB2A61A /* Pods-MonkeyKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MonkeyKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-MonkeyKit/Pods-MonkeyKit.release.xcconfig"; sourceTree = "<group>"; };
@@ -267,8 +263,6 @@
 				41EE3D8C1C00020400EE3B0D /* MOKSecurityManager.h */,
 				41EE3D8D1C00020400EE3B0D /* MOKSecurityManager.m */,
 				419CAB4F1A8193FE00F68EB0 /* AES */,
-				41EE3D841C0001CF00EE3B0D /* MOKCriptext.h */,
-				41EE3D851C0001CF00EE3B0D /* MOKCriptext.m */,
 			);
 			name = Security;
 			sourceTree = "<group>";
@@ -419,7 +413,6 @@
 				41EE3D4D1C0000F700EE3B0D /* MOKComServerConnection.h in Headers */,
 				41EE3D5C1C0000F700EE3B0D /* MOKSGSSession.h in Headers */,
 				41EE3D551C0000F700EE3B0D /* MOKSGSContext.h in Headers */,
-				41EE3D861C0001CF00EE3B0D /* MOKCriptext.h in Headers */,
 				41EE3D201C00000200EE3B0D /* MOKWatchdog.h in Headers */,
 				41EE3D721C00013400EE3B0D /* MOKSBJsonWriter.h in Headers */,
 				41EE3D341C00005E00EE3B0D /* MOKutils.h in Headers */,
@@ -576,7 +569,6 @@
 				416F7FCD1CFE3F590048C623 /* NSData+MOKCompression.m in Sources */,
 				41EE3D771C00013400EE3B0D /* NSString+SBJSON.m in Sources */,
 				41EE3D501C0000F700EE3B0D /* MOKSocketConnectionManager.m in Sources */,
-				41EE3D871C0001CF00EE3B0D /* MOKCriptext.m in Sources */,
 				41EE3D8F1C00020400EE3B0D /* MOKSecurityManager.m in Sources */,
 				414409471C88FBAF009793BF /* NSString+Random.m in Sources */,
 				41EE3D731C00013400EE3B0D /* MOKSBJsonWriter.m in Sources */,

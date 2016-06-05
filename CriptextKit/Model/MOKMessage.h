@@ -173,9 +173,6 @@ typedef enum{
 - (void)setCompression:(BOOL)compressed;
 - (BOOL)isCompressed;
 
-- (void)setAsPrivateMessage:(BOOL)flag;
-- (BOOL)isPrivateMessage;
-
 - (void)updateMessageIdFromACK;
 
 /*

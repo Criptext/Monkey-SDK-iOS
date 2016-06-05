@@ -4,6 +4,5 @@ use_frameworks!
 
 target 'MonkeyKit' do
   pod 'AFNetworking'
-  pod 'OpenSSL-Universal'
   pod 'UICKeyChainStore'
 end

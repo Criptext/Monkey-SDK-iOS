@@ -26,14 +26,17 @@
 -(NSData *)getAESKeyForIdentifier:(NSString *)identifier;
 
 //possibly split generate and encrypt
--(NSString *)generateAndEncryptAESKey;
 -(NSString *)generateAESKeyAndIV;
-//test descript
-- (NSString *)decrypttest:(NSString *)stringtodecrypt;
+
+//possibly split generate and encrypt
+-(NSString *)generateAESKey;
 
 //encryption and decryption
--(NSString *)rsaEncryptBase64String:(NSString *)string withPublicKeyIdentifier:(NSString *)identifier;
--(NSString *)rsaDecryptBase64String:(NSString *)string withPrivateKeyIdentifier:(NSString *)identifier;
+-(NSString *)exportPublicKeyRSA;
+//encrypt with a given pubkey
+- (NSString *)rsaEncryptString:(NSString *)str publicKey:(NSString *)pubKey;
+- (NSString *)rsaEncryptString:(NSString *)plainString;
+- (NSString *)rsaDecryptString:(NSString *)encryptedString;
 
 -(MOKMessage *)aesEncryptIncomingMessage:(MOKMessage *)message;
 -(MOKMessage *)aesEncryptOutgoingMessage:(MOKMessage *)message;

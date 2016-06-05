@@ -10,7 +10,6 @@
 #import "MOKJSON.h"
 #import "MOKSessionManager.h"
 #import "NSString+Random.h"
-#include "MOKCriptext.h"
 @interface MOKMessage()
 
 @end

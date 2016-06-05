@@ -69,15 +69,12 @@
     NSMutableDictionary *requestObject = [@{@"expiring": expiration,
                                             @"user_info": user} mutableCopy];
     
-    
-    
-    
     NSString *providedMonkeyId = nil;
     
-    if ([user objectForKey:@"monkeyId"] != nil) {
-        providedMonkeyId = [user objectForKey:@"monkeyId"];
-        [requestObject setObject:providedMonkeyId forKey:@"monkey_id"];
-        [requestObject setObject:[[MOKSecurityManager sharedInstance] getObjectForIdentifier:SYNC_PUBKEY] forKey:@"public_key"];
+    if (user[@"monkeyId"] != nil) {
+        providedMonkeyId = user[@"monkeyId"];
+        requestObject[@"monkey_id"] = providedMonkeyId;
+        requestObject[@"public_key"] = [[MOKSecurityManager sharedInstance] exportPublicKeyRSA];
         isSync = true;
         endpoint = @"/user/key/sync";
     }
@@ -92,15 +89,15 @@
     
     [self POST:[self.baseurl stringByAppendingPathComponent:endpoint] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
-        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        NSDictionary *responseDict = responseObject[@"data"];
         
         if (isSync) {
 #ifdef DEBUG
             NSLog(@"MONKEY - Reusing Monkey Id: %@", providedMonkeyId);
 #endif
             
-            NSString *encryptedKeys = [responseDict objectForKey:@"keys"];
-            NSString *decryptedKeys = [[MOKSecurityManager sharedInstance]rsaDecryptBase64String:encryptedKeys withPrivateKeyIdentifier:SYNC_PRIVKEY];
+            NSString *encryptedKeys = responseDict[@"keys"];
+            NSString *decryptedKeys = [[MOKSecurityManager sharedInstance]rsaDecryptString:encryptedKeys];
 
             [[MOKSecurityManager sharedInstance] storeBase64AESKeyAndIV:decryptedKeys forUser:providedMonkeyId];
             
@@ -108,14 +105,12 @@
             return;
         }
         
-        [[MOKSecurityManager sharedInstance] storeObject:[responseDict objectForKey:@"publicKey"] withIdentifier:AUTHENTICATION_PUBKEY];
-        
-        NSString *monkeyId = [responseDict objectForKey:@"monkeyId"];
+        NSString *monkeyId = responseDict[@"monkeyId"];
         
         NSString *myAES = [[MOKSecurityManager sharedInstance] generateAESKeyAndIV];
         [[MOKSecurityManager sharedInstance] storeBase64AESKeyAndIV:myAES forUser:monkeyId];
         
-        NSString *stringToSend = [[MOKSecurityManager sharedInstance] rsaEncryptBase64String:myAES withPublicKeyIdentifier:AUTHENTICATION_PUBKEY];
+        NSString *stringToSend = [[MOKSecurityManager sharedInstance] rsaEncryptString:myAES publicKey:responseDict[@"publicKey"]];
         
 #ifdef DEBUG
         NSLog(@"MONKEY - my monkey id: %@", monkeyId);
@@ -131,7 +126,7 @@
         NSLog(@"MONKEY - second handshake parameters: %@", secondparameters);
 		#endif
         [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/connect"] parameters:secondparameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-            NSDictionary *responseDict2 = [responseObject objectForKey:@"data"];
+            NSDictionary *responseDict2 = responseObject[@"data"];
             
             success(responseDict2);
         } failure:^(NSURLSessionDataTask *task, NSError *error) {
@@ -141,74 +136,6 @@
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"MONKEY - fail first handshake: %@", error);
         failure(task, error);
-    }];
-}
-
--(void)getRegisteredAESkeysForSessionId:(NSString *)sessionId withAppId:(NSString *)appId andAppKey:(NSString *)appKey delegate:(id<MOKAPIConnectorDelegate>)delegate{
-    
-    [MOKSessionManager sharedInstance].appId = appId;
-    [MOKSessionManager sharedInstance].appKey = appKey;
-    
-    NSDictionary *requestObject = @{@"monkey_id" : sessionId,
-                                    @"public_key" : [[MOKSecurityManager sharedInstance] getObjectForIdentifier:SYNC_PUBKEY]
-                                    };
-    
-    NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
-    
-    [self.requestSerializer setAuthorizationHeaderFieldWithUsername:appId password:appKey];
-    
-    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/key/sync"] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
-        #ifdef DEBUG
-        NSLog(@"MONKEY - old Key response: %@", responseObject);
-        #endif
-        NSString *encryptedKeys = [responseDict objectForKey:@"keys"];
-
-        NSString *decryptedKeys = [[MOKSecurityManager sharedInstance]rsaDecryptBase64String:encryptedKeys withPrivateKeyIdentifier:SYNC_PRIVKEY];
-        #ifdef DEBUG
-        NSLog(@"MONKEY - decrypted old keys: %@", decryptedKeys);
-        #endif
-        [[MOKSecurityManager sharedInstance] storeBase64AESKeyAndIV:decryptedKeys forUser:sessionId];
-        
-        NSString *storedLastMessageId = [responseDict objectForKey:@"last_message_received"];
-        
-        if (storedLastMessageId == (id)[NSNull null]) {
-            storedLastMessageId = @"0";
-        }
-        
-        if ([storedLastMessageId intValue] > [[MOKSessionManager sharedInstance].lastMessageId intValue]) {
-            [MOKSessionManager sharedInstance].lastMessageId = storedLastMessageId;
-        }
-        
-        NSString *storedLastTimeSynced = [responseDict objectForKey:@"last_time_synced"];
-        
-        if (storedLastTimeSynced == (id)[NSNull null]) {
-            storedLastTimeSynced = @"0";
-        }
-        
-        if ([storedLastTimeSynced intValue] > [[MOKSessionManager sharedInstance].lastTimestamp intValue]) {
-            [MOKSessionManager sharedInstance].lastTimestamp = storedLastTimeSynced;
-        }
-        
-        
-        NSString *sdomain = [responseDict objectForKey:@"sdomain"];
-        NSString *sport = [responseDict objectForKey:@"sport"];
-        
-        if (sdomain == nil || sdomain == [NSNull null] || [sdomain isEqualToString:@""]) {
-            [MOKSessionManager sharedInstance].domain = @"monkey.criptext.com";
-        }else{
-            [MOKSessionManager sharedInstance].domain = sdomain;
-        }
-        
-        if (sport == nil || sport == [NSNull null] || [sport isEqualToString:@""]) {
-            [MOKSessionManager sharedInstance].port = @"1139";
-        }else{
-            [MOKSessionManager sharedInstance].port = sport;
-        }
-        
-        [delegate onAuthenticationOkWithSessionId:sessionId publicKey:nil];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [delegate onAuthenticationFail];
     }];
 }
 
@@ -224,18 +151,18 @@
     NSLog(@"MONKEY - parameters key exchange: %@", parameters);
 	#endif
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/key/exchange"] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        NSDictionary *responseDict = responseObject[@"data"];
         #ifdef DEBUG
 //        NSLog(@"MONKEY - %@", responseObject);
 		#endif
         
-        NSString *oldKey = [[MOKSecurityManager sharedInstance] getObjectForIdentifier:[responseDict objectForKey:@"session_to"]];
-        NSString *decryptedKey = [[MOKSecurityManager sharedInstance]aesDecryptAndStoreKeyFromStringBase64:[responseDict objectForKey:@"convKey"] fromUser:[responseDict objectForKey:@"session_to"]];
+        NSString *oldKey = [[MOKSecurityManager sharedInstance] getObjectForIdentifier:responseDict[@"session_to"]];
+        NSString *decryptedKey = [[MOKSecurityManager sharedInstance]aesDecryptAndStoreKeyFromStringBase64:responseDict[@"convKey"] fromUser:responseDict[@"session_to"]];
         
         #ifdef DEBUG
-        NSLog(@"MONKEY - stored decryptedkey:%@ for session id:%@", decryptedKey, [responseDict objectForKey:@"session_to"]);
-        NSLog(@"MONKEY - verifying stored aes: %@", [[MOKSecurityManager sharedInstance]getAESbase64forUser:[responseDict objectForKey:@"session_to"]]);
-        NSLog(@"MONKEY - verifying stored iv: %@", [[MOKSecurityManager sharedInstance]getIVbase64forUser:[responseDict objectForKey:@"session_to"]]);
+        NSLog(@"MONKEY - stored decryptedkey:%@ for session id:%@", decryptedKey, responseDict[@"session_to"]);
+        NSLog(@"MONKEY - verifying stored aes: %@", [[MOKSecurityManager sharedInstance]getAESbase64forUser:responseDict[@"session_to"]]);
+        NSLog(@"MONKEY - verifying stored iv: %@", [[MOKSecurityManager sharedInstance]getIVbase64forUser:responseDict[@"session_to"]]);
         #endif
         if (delegate != nil) {
             if ((oldKey == nil || ![oldKey isEqualToString:decryptedKey]) && decryptedKey != nil) {
@@ -260,9 +187,9 @@
     
     NSString *urlSufix = [NSString stringWithFormat:@"/message/%@/open/secure", message.messageId];
     [self GET:[self.baseurl stringByAppendingPathComponent:urlSufix] parameters:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nonnull responseObject) {
-        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        NSDictionary *responseDict = responseObject[@"data"];
         
-        message.encryptedText = [responseDict objectForKey:@"message"];
+        message.encryptedText = responseDict[@"message"];
         [[MOKSecurityManager sharedInstance] aesDecryptOutgoingMessage:message];
         if (message.messageText == nil) {
             [delegate onKeysExchangeFailWithPendingMessage:message];
@@ -324,12 +251,12 @@ NSString* mok_fileMIMEType(NSString * extension) {
         #ifdef DEBUG
         NSLog(@"MONKEY - %@ %@", task, responseObject);
 		#endif
-        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        NSDictionary *responseDict = responseObject[@"data"];
         
-        if([[responseDict objectForKey:@"messageId"] isKindOfClass:[NSString class]]){
-            message.messageId = [responseDict objectForKey:@"messageId"];
+        if([responseDict[@"messageId"] isKindOfClass:[NSString class]]){
+            message.messageId = responseDict[@"messageId"];
         }else{
-            message.messageId = [[responseDict objectForKey:@"messageId"] stringValue];
+            message.messageId = [responseDict[@"messageId"] stringValue];
         }
         
         [delegate onUploadFileOK:message];
@@ -502,14 +429,14 @@ NSString* mok_fileMIMEType(NSString * extension) {
     NSLog(@"MONKEY - parameters de crear grupo: %@", parameters);
 	#endif
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/create"] parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        NSDictionary *responseDict = responseObject[@"data"];
         #ifdef DEBUG
         NSLog(@"MONKEY - response: %@", responseObject);
         NSLog(@"MONKEY - error: %ld", (long)[[responseObject objectForKey:@"error"] integerValue]);
-        NSLog(@"MONKEY - group id: %@", [responseDict objectForKey:@"group_id"]);
+        NSLog(@"MONKEY - group id: %@", responseDict[@"group_id"]);
 		#endif
         
-        [delegate onCreateGroupOK:[responseDict objectForKey:@"group_id"]];
+        [delegate onCreateGroupOK:responseDict[@"group_id"]];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [delegate onCreateGroupFail:@"fail"];
         NSLog(@"MONKEY - failed to create group, task:%@ error: %@",task, error);
@@ -568,10 +495,10 @@ NSString* mok_fileMIMEType(NSString * extension) {
         #ifdef DEBUG
         NSLog(@"MONKEY - get group response: %@", responseObject);
 		#endif
-        NSDictionary *responseDict = [responseObject objectForKey:@"data"];
+        NSDictionary *responseDict = responseObject[@"data"];
         
-        NSArray *members=[responseDict objectForKey:@"members"];
-        NSDictionary *groupinfo=(NSDictionary *)[responseDict objectForKey:@"info"];
+        NSArray *members=responseDict[@"members"];
+        NSDictionary *groupinfo=(NSDictionary *)responseDict[@"info"];
         
         [delegate onGetGroupInfoOK:groupinfo andMembers:members];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

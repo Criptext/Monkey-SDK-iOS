@@ -14,19 +14,16 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - OpenSSL-Universal (1.0.1.19)
   - UICKeyChainStore (2.1.0)
 
 DEPENDENCIES:
   - AFNetworking
-  - OpenSSL-Universal
   - UICKeyChainStore
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  OpenSSL-Universal: 07489b0316f0f4f53c928e402e2ecbbedf96d93b
   UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
 
-PODFILE CHECKSUM: 05b55fdabde0d65bb1053aac584d8317a961e84a
+PODFILE CHECKSUM: 87386c481b654f30e8e9f5a8b78ea6b0cc64e953
 
 COCOAPODS: 1.0.0
