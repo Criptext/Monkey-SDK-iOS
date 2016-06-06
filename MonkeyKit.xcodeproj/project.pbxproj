@@ -9,13 +9,12 @@
 /* Begin PBXBuildFile section */
 		414409461C88FBAF009793BF /* NSString+Random.h in Headers */ = {isa = PBXBuildFile; fileRef = 414409441C88FBAF009793BF /* NSString+Random.h */; };
 		414409471C88FBAF009793BF /* NSString+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 414409451C88FBAF009793BF /* NSString+Random.m */; };
-		4146D7431BAB3ED900D39061 /* libc++.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4146D7421BAB3ED900D39061 /* libc++.1.dylib */; };
-		416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 416A18221AB35669003FA469 /* libz.1.2.5.dylib */; };
 		416F7FCC1CFE3F590048C623 /* NSData+MOKCompression.h in Headers */ = {isa = PBXBuildFile; fileRef = 416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */; };
 		416F7FCD1CFE3F590048C623 /* NSData+MOKCompression.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */; };
 		419CAAA81A80475800F68EB0 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* MonkeyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A586821BBDF7F000E1A41E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 41A586811BBDF7F000E1A41E /* LICENSE */; };
 		41A586841BBDF7FE00E1A41E /* MonkeyKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */; };
+		41A820071D0631FC0035A012 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A820061D0631FC0035A012 /* libz.1.2.5.tbd */; };
 		41EE3C2C1CFF36F30049317C /* Monkey.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3C2A1CFF36F30049317C /* Monkey.h */; };
 		41EE3C2D1CFF36F30049317C /* Monkey.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3C2B1CFF36F30049317C /* Monkey.m */; };
 		41EE3D101BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */; };
@@ -79,8 +78,6 @@
 		1B30FE66BAB3584F25A6A49C /* Pods_MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		414409441C88FBAF009793BF /* NSString+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Random.h"; sourceTree = "<group>"; };
 		414409451C88FBAF009793BF /* NSString+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Random.m"; sourceTree = "<group>"; };
-		4146D7421BAB3ED900D39061 /* libc++.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.1.dylib"; path = "../../../../usr/lib/libc++.1.dylib"; sourceTree = "<group>"; };
-		416A18221AB35669003FA469 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libz.1.2.5.dylib; sourceTree = "<group>"; };
 		416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+MOKCompression.h"; path = "Helpers/Compression/NSData+MOKCompression.h"; sourceTree = "<group>"; };
 		416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+MOKCompression.m"; path = "Helpers/Compression/NSData+MOKCompression.m"; sourceTree = "<group>"; };
 		419CAAA21A80475800F68EB0 /* MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +87,7 @@
 		419CAAB41A80475800F68EB0 /* CriptextKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CriptextKitTests.m; sourceTree = "<group>"; };
 		41A586811BBDF7F000E1A41E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MonkeyKit.podspec; sourceTree = "<group>"; };
+		41A820061D0631FC0035A012 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		41EE3C2A1CFF36F30049317C /* Monkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monkey.h; sourceTree = "<group>"; };
 		41EE3C2B1CFF36F30049317C /* Monkey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Monkey.m; sourceTree = "<group>"; };
 		41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDictionaryBasedObject.h; sourceTree = "<group>"; };
@@ -155,8 +153,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4146D7431BAB3ED900D39061 /* libc++.1.dylib in Frameworks */,
-				416A18231AB35669003FA469 /* libz.1.2.5.dylib in Frameworks */,
+				41A820071D0631FC0035A012 /* libz.1.2.5.tbd in Frameworks */,
 				A142AD60E9DBE038BDAA1D40 /* Pods_MonkeyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,7 +164,6 @@
 		416A18241AB35677003FA469 /* Compression */ = {
 			isa = PBXGroup;
 			children = (
-				416A18221AB35669003FA469 /* libz.1.2.5.dylib */,
 				416F7FCA1CFE3F590048C623 /* NSData+MOKCompression.h */,
 				416F7FCB1CFE3F590048C623 /* NSData+MOKCompression.m */,
 			);
@@ -197,7 +193,6 @@
 		419CAA981A80475800F68EB0 = {
 			isa = PBXGroup;
 			children = (
-				4146D7421BAB3ED900D39061 /* libc++.1.dylib */,
 				41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */,
 				41A586811BBDF7F000E1A41E /* LICENSE */,
 				419CAAA41A80475800F68EB0 /* MonkeyKit */,
@@ -382,6 +377,7 @@
 		4385A4325F907AFF3A2D7643 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41A820061D0631FC0035A012 /* libz.1.2.5.tbd */,
 				1B30FE66BAB3584F25A6A49C /* Pods_MonkeyKit.framework */,
 			);
 			name = Frameworks;
