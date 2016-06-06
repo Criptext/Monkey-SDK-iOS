@@ -16,7 +16,7 @@
 #import "MOKMessage.h"
 #import "AFNetworking.h"
 #import "NSData+Base64.h"
-#import "NSData+MOKCompression.h"
+#import "NSData+Compression.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
 //String identifiers

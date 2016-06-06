@@ -6,10 +6,10 @@
 //  Copyright © 2016 Criptext. All rights reserved.
 //
 
-#import "NSData+MOKCompression.h"
-#import "zlib.h"
+#import "NSData+Compression.h"
+#include <zlib.h>
 
-@implementation NSData (MOKCompression)
+@implementation NSData (Compression)
 
 #pragma mark -
 #pragma mark Zlib Compression routines

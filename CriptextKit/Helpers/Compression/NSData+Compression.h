@@ -1,14 +1,14 @@
 //
-//  NSData+MOKCompression.h
+//  NSData+Compression.h
 //  MonkeyKit
 //
 //  Created by Gianni Carlo on 5/31/16.
 //  Copyright © 2016 Criptext. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/NSData.h>
 
-@interface NSData (MOKCompression)
+@interface NSData (Compression)
 
 #pragma mark -
 #pragma mark Zlib Compression routines

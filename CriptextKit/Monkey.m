@@ -20,7 +20,7 @@
 #import "MOKSecurityManager.h"
 #import "MOKSessionManager.h"
 #import "MOKWatchdog.h"
-#import "NSData+MOKCompression.h"
+#import "NSData+Compression.h"
 #import "NSData+Base64.h"
 
 NSString * const MonkeyRegistrationDidCompleteNotification = @"com.criptext.networking.register.success";
