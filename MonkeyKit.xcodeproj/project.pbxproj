@@ -14,7 +14,7 @@
 		419CAAA81A80475800F68EB0 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* MonkeyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A586821BBDF7F000E1A41E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 41A586811BBDF7F000E1A41E /* LICENSE */; };
 		41A586841BBDF7FE00E1A41E /* MonkeyKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */; };
-		41A820071D0631FC0035A012 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A820061D0631FC0035A012 /* libz.1.2.5.tbd */; };
+		41A8200D1D06336D0035A012 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A8200C1D06336D0035A012 /* libz.tbd */; };
 		41EE3C2C1CFF36F30049317C /* Monkey.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3C2A1CFF36F30049317C /* Monkey.h */; };
 		41EE3C2D1CFF36F30049317C /* Monkey.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3C2B1CFF36F30049317C /* Monkey.m */; };
 		41EE3D101BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */; };
@@ -88,6 +88,7 @@
 		41A586811BBDF7F000E1A41E /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MonkeyKit.podspec; sourceTree = "<group>"; };
 		41A820061D0631FC0035A012 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
+		41A8200C1D06336D0035A012 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		41EE3C2A1CFF36F30049317C /* Monkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monkey.h; sourceTree = "<group>"; };
 		41EE3C2B1CFF36F30049317C /* Monkey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Monkey.m; sourceTree = "<group>"; };
 		41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDictionaryBasedObject.h; sourceTree = "<group>"; };
@@ -153,7 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41A820071D0631FC0035A012 /* libz.1.2.5.tbd in Frameworks */,
+				41A8200D1D06336D0035A012 /* libz.tbd in Frameworks */,
 				A142AD60E9DBE038BDAA1D40 /* Pods_MonkeyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,6 +378,7 @@
 		4385A4325F907AFF3A2D7643 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				41A8200C1D06336D0035A012 /* libz.tbd */,
 				41A820061D0631FC0035A012 /* libz.1.2.5.tbd */,
 				1B30FE66BAB3584F25A6A49C /* Pods_MonkeyKit.framework */,
 			);
@@ -668,7 +670,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CriptextKit",
@@ -703,7 +705,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/CriptextKit",
