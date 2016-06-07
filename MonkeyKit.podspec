@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
   #
 
   s.name         = "MonkeyKit"
-  s.version      = "0.7.5"
+  s.version      = "0.8.0"
   s.summary      = "A secure messaging channel."
 
   s.description  = <<-DESC
@@ -79,7 +79,7 @@ Pod::Spec.new do |s|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://github.com/Criptext/iOS-MonkeySDK.git", :tag => "0.7.5" }
+  s.source       = { :git => "https://github.com/Criptext/iOS-MonkeySDK.git", :tag => "0.8.0" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
