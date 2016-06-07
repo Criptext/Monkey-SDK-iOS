@@ -16,7 +16,7 @@
 #import "MOKMessage.h"
 #import "AFNetworking.h"
 #import "NSData+Base64.h"
-#import "NSData+Compression.h"
+#import "NSData+GZIP.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 
 //String identifiers
@@ -389,7 +389,7 @@ NSString* mok_fileMIMEType(NSString * extension) {
             }
             //check for file compression
             if (compressed) {
-                decryptedData = [decryptedData mok_gzipInflate];
+                decryptedData = [decryptedData gunzippedData];
 #ifdef DEBUG
                 NSLog(@"MONKEY - compressedData: %lu",(unsigned long)[decryptedData length]);
 #endif

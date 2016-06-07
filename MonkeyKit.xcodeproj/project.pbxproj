@@ -9,12 +9,11 @@
 /* Begin PBXBuildFile section */
 		414409461C88FBAF009793BF /* NSString+Random.h in Headers */ = {isa = PBXBuildFile; fileRef = 414409441C88FBAF009793BF /* NSString+Random.h */; };
 		414409471C88FBAF009793BF /* NSString+Random.m in Sources */ = {isa = PBXBuildFile; fileRef = 414409451C88FBAF009793BF /* NSString+Random.m */; };
-		416F7FCC1CFE3F590048C623 /* NSData+Compression.h in Headers */ = {isa = PBXBuildFile; fileRef = 416F7FCA1CFE3F590048C623 /* NSData+Compression.h */; };
-		416F7FCD1CFE3F590048C623 /* NSData+Compression.m in Sources */ = {isa = PBXBuildFile; fileRef = 416F7FCB1CFE3F590048C623 /* NSData+Compression.m */; };
 		419CAAA81A80475800F68EB0 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 419CAAA71A80475800F68EB0 /* MonkeyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41A586821BBDF7F000E1A41E /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 41A586811BBDF7F000E1A41E /* LICENSE */; };
 		41A586841BBDF7FE00E1A41E /* MonkeyKit.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */; };
-		41A8200D1D06336D0035A012 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 41A8200C1D06336D0035A012 /* libz.tbd */; };
+		41A820131D073BC90035A012 /* NSData+GZIP.h in Headers */ = {isa = PBXBuildFile; fileRef = 41A820111D073BC90035A012 /* NSData+GZIP.h */; };
+		41A820141D073BC90035A012 /* NSData+GZIP.m in Sources */ = {isa = PBXBuildFile; fileRef = 41A820121D073BC90035A012 /* NSData+GZIP.m */; };
 		41EE3C2C1CFF36F30049317C /* Monkey.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3C2A1CFF36F30049317C /* Monkey.h */; };
 		41EE3C2D1CFF36F30049317C /* Monkey.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EE3C2B1CFF36F30049317C /* Monkey.m */; };
 		41EE3D101BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */; };
@@ -78,8 +77,6 @@
 		1B30FE66BAB3584F25A6A49C /* Pods_MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		414409441C88FBAF009793BF /* NSString+Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Random.h"; sourceTree = "<group>"; };
 		414409451C88FBAF009793BF /* NSString+Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Random.m"; sourceTree = "<group>"; };
-		416F7FCA1CFE3F590048C623 /* NSData+Compression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Compression.h"; path = "Helpers/Compression/NSData+Compression.h"; sourceTree = "<group>"; };
-		416F7FCB1CFE3F590048C623 /* NSData+Compression.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Compression.m"; path = "Helpers/Compression/NSData+Compression.m"; sourceTree = "<group>"; };
 		419CAAA21A80475800F68EB0 /* MonkeyKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MonkeyKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		419CAAA61A80475800F68EB0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		419CAAA71A80475800F68EB0 /* MonkeyKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonkeyKit.h; sourceTree = "<group>"; };
@@ -89,6 +86,8 @@
 		41A586831BBDF7FE00E1A41E /* MonkeyKit.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = MonkeyKit.podspec; sourceTree = "<group>"; };
 		41A820061D0631FC0035A012 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		41A8200C1D06336D0035A012 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		41A820111D073BC90035A012 /* NSData+GZIP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+GZIP.h"; sourceTree = "<group>"; };
+		41A820121D073BC90035A012 /* NSData+GZIP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+GZIP.m"; sourceTree = "<group>"; };
 		41EE3C2A1CFF36F30049317C /* Monkey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Monkey.h; sourceTree = "<group>"; };
 		41EE3C2B1CFF36F30049317C /* Monkey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Monkey.m; sourceTree = "<group>"; };
 		41EE3D041BFFFE7E00EE3B0D /* MOKDictionaryBasedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKDictionaryBasedObject.h; sourceTree = "<group>"; };
@@ -154,7 +153,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				41A8200D1D06336D0035A012 /* libz.tbd in Frameworks */,
 				A142AD60E9DBE038BDAA1D40 /* Pods_MonkeyKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,8 +163,8 @@
 		416A18241AB35677003FA469 /* Compression */ = {
 			isa = PBXGroup;
 			children = (
-				416F7FCA1CFE3F590048C623 /* NSData+Compression.h */,
-				416F7FCB1CFE3F590048C623 /* NSData+Compression.m */,
+				41A820111D073BC90035A012 /* NSData+GZIP.h */,
+				41A820121D073BC90035A012 /* NSData+GZIP.m */,
 			);
 			name = Compression;
 			sourceTree = "<group>";
@@ -404,10 +402,10 @@
 				41EE3D761C00013400EE3B0D /* NSString+SBJSON.h in Headers */,
 				41EE3D821C0001BA00EE3B0D /* BBAES.h in Headers */,
 				41EE3D741C00013400EE3B0D /* NSObject+SBJSON.h in Headers */,
+				41A820131D073BC90035A012 /* NSData+GZIP.h in Headers */,
 				41EE3D6E1C00013400EE3B0D /* MOKSBJsonBase.h in Headers */,
 				41EE3D591C0000F700EE3B0D /* MOKSGSMessage.h in Headers */,
 				41EE3C2C1CFF36F30049317C /* Monkey.h in Headers */,
-				416F7FCC1CFE3F590048C623 /* NSData+Compression.h in Headers */,
 				41EE3D4D1C0000F700EE3B0D /* MOKComServerConnection.h in Headers */,
 				41EE3D5C1C0000F700EE3B0D /* MOKSGSSession.h in Headers */,
 				41EE3D551C0000F700EE3B0D /* MOKSGSContext.h in Headers */,
@@ -543,6 +541,7 @@
 			files = (
 				41EE3D4E1C0000F700EE3B0D /* MOKComServerConnection.m in Sources */,
 				41EE3D6F1C00013400EE3B0D /* MOKSBJsonBase.m in Sources */,
+				41A820141D073BC90035A012 /* NSData+GZIP.m in Sources */,
 				41EE3D6D1C00013400EE3B0D /* MOKSBJSON.m in Sources */,
 				41EE3D831C0001BA00EE3B0D /* BBAES.m in Sources */,
 				41EE3D391C00005E00EE3B0D /* NSData+Conversion.m in Sources */,
@@ -564,7 +563,6 @@
 				41EE3D521C0000F700EE3B0D /* MOKSGSChannel.m in Sources */,
 				41EE3D5D1C0000F700EE3B0D /* MOKSGSSession.m in Sources */,
 				41EE3D541C0000F700EE3B0D /* MOKSGSConnection.m in Sources */,
-				416F7FCD1CFE3F590048C623 /* NSData+Compression.m in Sources */,
 				41EE3D771C00013400EE3B0D /* NSString+SBJSON.m in Sources */,
 				41EE3D501C0000F700EE3B0D /* MOKSocketConnectionManager.m in Sources */,
 				41EE3D8F1C00020400EE3B0D /* MOKSecurityManager.m in Sources */,

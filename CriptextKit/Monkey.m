@@ -20,7 +20,7 @@
 #import "MOKSecurityManager.h"
 #import "MOKSessionManager.h"
 #import "MOKWatchdog.h"
-#import "NSData+Compression.h"
+#import "NSData+GZIP.h"
 #import "NSData+Base64.h"
 
 NSString * const MonkeyRegistrationDidCompleteNotification = @"com.criptext.networking.register.success";
@@ -229,7 +229,7 @@ NSString * const MonkeyMessageNotification = @"com.criptext.message.delete";
 #ifdef DEBUG
         NSLog(@"MONKEY - antes compress: %lu",(unsigned long)[fileData length]);
 #endif
-        fileData = [fileData mok_gzipDeflate];
+        fileData = [fileData gzippedData];
 #ifdef DEBUG
         NSLog(@"MONKEY - despues compress: %lu",(unsigned long)[fileData length]);
 #endif
@@ -287,7 +287,7 @@ NSString * const MonkeyMessageNotification = @"com.criptext.message.delete";
 #ifdef DEBUG
         NSLog(@"MONKEY - before compression: %lu",(unsigned long)[fileData length]);
 #endif
-        fileData = [fileData mok_gzipDeflate];
+        fileData = [fileData gzippedData];
 #ifdef DEBUG
         NSLog(@"MONKEY - after compression: %lu",(unsigned long)[fileData length]);
 #endif
@@ -539,7 +539,7 @@ NSString * const MonkeyMessageNotification = @"com.criptext.message.delete";
                 
                 //check for file compression
                 if ([message.props objectForKey:@"cmpr"]) {
-                    newData = [newData mok_gzipInflate];
+                    newData = [newData gunzippedData];
                 }
                 
                 [newData writeToFile:message.messageText atomically:YES];
@@ -561,7 +561,7 @@ NSString * const MonkeyMessageNotification = @"com.criptext.message.delete";
                 }
                 //check for file compression
                 if ([message.props objectForKey:@"cmpr"]) {
-                    decryptedData = [decryptedData mok_gzipInflate];
+                    decryptedData = [decryptedData gunzippedData];
                 }
                 
                 [decryptedData writeToFile:message.messageText atomically:YES];
