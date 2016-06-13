@@ -1,0 +1,41 @@
+PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
+  - MonkeyKit (0.1.0):
+    - AFNetworking
+    - UICKeyChainStore
+  - Realm (1.0.0):
+    - Realm/Headers (= 1.0.0)
+  - Realm/Headers (1.0.0)
+  - UICKeyChainStore (2.1.0)
+
+DEPENDENCIES:
+  - MonkeyKit (from `../`)
+  - Realm
+
+EXTERNAL SOURCES:
+  MonkeyKit:
+    :path: ../
+
+SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  MonkeyKit: b18d7bb0e25c4615f14b01a6818c13540722d2ee
+  Realm: e15cd8e7c11d3e576f628ba0b7cb855269b4991c
+  UICKeyChainStore: f1cbd42216a113f0165de1e733e62905b8823432
+
+PODFILE CHECKSUM: 8014ecc1831d3e2df8827682bb749500929bf64b
+
+COCOAPODS: 1.0.0

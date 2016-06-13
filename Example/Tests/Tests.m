@@ -8,6 +8,8 @@
 
 @import XCTest;
 
+#import <MonkeyKit/MonkeyKit.h>
+
 @interface Tests : XCTestCase
 
 @end
@@ -28,7 +30,8 @@
 
 - (void)testExample
 {
-    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
+//    MOKMessage *msg = [[MOKMessage alloc]init];
+//    XCTFail(@"No implementation for \"%s\"", __PRETTY_FUNCTION__);
 }
 
 @end

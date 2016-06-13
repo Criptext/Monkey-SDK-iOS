@@ -2,6 +2,7 @@ use_frameworks!
 
 target 'MonkeyKit_Example' do
   pod 'MonkeyKit', :path => '../'
+  pod 'Realm'
 
   target 'MonkeyKit_Tests' do
     inherit! :search_paths
