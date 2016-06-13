@@ -6,8 +6,20 @@
 //  Copyright (c) 2016 Gianni Carlo. All rights reserved.
 //
 
+#import "MOKMessageViewCell.h"
+#import "MOKUser.h"
+#import <MonkeyKit/MonkeyKit.h>
+
+#import <AssetsLibrary/AssetsLibrary.h>
+@import Photos;
 @import UIKit;
 
-@interface MOKViewController : UIViewController
+@interface MOKViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, MOKMessageReceiver, UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *messageTextField;
+@property (weak, nonatomic) IBOutlet UITextField *recipientTextField;
+@property (weak, nonatomic) IBOutlet UISwitch *encryptedSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *compressedSwitch;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end

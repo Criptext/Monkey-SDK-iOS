@@ -1,0 +1,6 @@
+framework module Pods_MonkeyKit_Tests {
+  umbrella header "Pods-MonkeyKit_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}
