@@ -211,6 +211,7 @@ withPendingMessage:(MOKMessage *)message
 }
 
 #pragma mark - Send File
+
 -(void)sendFile:(NSData *)data
         message:(MOKMessage *)message
         success:(void (^)(NSDictionary * _Nonnull data))success
@@ -230,8 +231,8 @@ withPendingMessage:(MOKMessage *)message
 
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/file/new"] parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
-//        NSURL *fileurl = [NSURL fileURLWithPath:message.encryptedText];
-        [formData appendPartWithFileData:data name:@"file" fileName:message.encryptedText mimeType:message.props[@"mime_type"]];
+        NSURL *fileurl = [NSURL fileURLWithPath:message.encryptedText];
+        [formData appendPartWithFileData:data name:@"file" fileName:[[fileurl lastPathComponent] stringByDeletingPathExtension] mimeType:message.props[@"mime_type"]];
 //        [formData appendPartWithFileURL:fileurl name:@"file" fileName:[[fileurl lastPathComponent] stringByDeletingPathExtension] mimeType:message.props[@"mime_type"] error:nil];
         
     } progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {

@@ -11,6 +11,7 @@
 
 NSString * const MonkeyAppId = @"";
 NSString * const MonkeyAppSecret = @"";
+NSString * const MyMonkeyId = @"";
 @interface MOKViewController ()
 @property (strong, nonatomic) MOKUser *me;
 @property (strong, nonatomic) NSMutableArray *messages;
@@ -33,8 +34,12 @@ NSString * const MonkeyAppSecret = @"";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(monkeyDidRegister:) name:MonkeyRegistrationDidCompleteNotification object:nil];
     //listen to unsuccessful register event
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(monkeyDidFailRegister:) name:MonkeyRegistrationDidFailNotification object:nil];
+    //listen to incoming messages
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageReceived:) name:MonkeyMessageNotification object:nil];
+    //listen to acknowledges to messages
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acknowledgeReceived:) name:MonkeyAcknowledgeNotification object:nil];
     
-    [[Monkey sharedInstance] addReceiver:self];
+//    [[Monkey sharedInstance] addReceiver:self];
     
     
     [self initMonkey];
@@ -42,7 +47,8 @@ NSString * const MonkeyAppSecret = @"";
 
 - (void)initMonkey {
     
-    NSMutableDictionary *metadata = [@{@"name": @"Demo User!"} mutableCopy];
+    NSMutableDictionary *metadata = [@{@"name": @"Demo User!",
+                                       @"monkeyId": MyMonkeyId} mutableCopy];
     
     if (self.me != nil) {
         metadata[@"monkeyId"] = self.me.monkeyId;
@@ -76,7 +82,8 @@ NSString * const MonkeyAppSecret = @"";
     NSLog(@"did register: %@", notification.userInfo);
     MOKUser *user = [[MOKUser alloc] init];
     user.monkeyId = notification.userInfo[@"monkeyId"];
-    user.name = notification.userInfo[@"name"];
+    NSDictionary *metadata = notification.userInfo[@"user"];
+    user.name = metadata[@"name"];
     
     RLMRealm *realm = [RLMRealm defaultRealm];
     [realm beginWriteTransaction];
@@ -89,6 +96,52 @@ NSString * const MonkeyAppSecret = @"";
     
     // Do something about it, here we'll just try again after a second
     [self performSelector:@selector(initMonkey) withObject:nil afterDelay:1];
+}
+
+-(void)messageReceived:(NSNotification *)notification {
+    MOKMessage *message = notification.userInfo[@"message"];
+    NSLog(@"incoming message: %@", message);
+    
+    if ([message isMedia]) {
+        
+        [[Monkey sharedInstance] downloadFileMessage:message fileDestination:self.folderDestination success:^(NSData * _Nonnull data) {
+            [self.tableView reloadData];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            NSLog(@"Fail: %@", error);
+        }];
+    }
+    [self.messages addObject:message];
+    [self.tableView reloadData];
+}
+
+-(void)acknowledgeReceived:(NSNotification *)notification {
+    NSDictionary *acknowledge = notification.userInfo;
+    NSLog(@"message acknowledge: %@", acknowledge);
+    
+    //get index of message
+    NSUInteger index = [self.messages indexOfObjectPassingTest:^BOOL(MOKMessage * _Nonnull message, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([message.messageId isEqualToString:acknowledge[@"oldId"]]) {
+            *stop = true;
+            return true;
+        }
+        return false;
+    }];
+    
+    if (index == NSNotFound) {
+        //nothing to do
+        return;
+    }
+    
+    MOKMessage *msg = [self.messages objectAtIndex:index];
+    msg.messageId = acknowledge[@"newId"];
+    
+    [self.tableView reloadData];
+}
+
+-(void)notificationReceived:(NSNotification *)notification {
+    
+    NSLog(@"notification received: %@", notification.userInfo);
+    [self.tableView reloadData];
 }
 
 #pragma mark - IBActions
@@ -216,31 +269,6 @@ NSString * const MonkeyAppSecret = @"";
 }
 
 #pragma mark - Monkey Listener Delegate
--(void)messageReceived:(MOKMessage *)message{
-    if ([message isMedia]) {
-        
-        [[Monkey sharedInstance] downloadFileMessage:message fileDestination:self.folderDestination success:^(NSData * _Nonnull data) {
-            [self.tableView reloadData];
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSLog(@"Fail: %@", error);
-        }];
-    }
-    [self.messages addObject:message];
-    [self.tableView reloadData];
-}
-
--(void)acknowledgeReceived:(MOKMessage *)ackMessage{
-    MOKMessage *msg = [self.messages objectAtIndex:[self.messages indexOfObject:ackMessage]];
-    
-    msg.messageId = ackMessage.messageId;
-    
-    [self.tableView reloadData];
-    
-}
-
--(void)notificationReceived:(MOKMessage *)notificationMessage{
-    
-}
 
 -(BOOL)isMessageMine:(MOKMessage *)message {
     if ([[Monkey sharedInstance].session[@"monkeyId"] isEqualToString:message.userIdFrom]) {
@@ -287,7 +315,6 @@ NSString * const MonkeyAppSecret = @"";
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[Monkey sharedInstance] removeReceiver:self];
 }
 
 @end
