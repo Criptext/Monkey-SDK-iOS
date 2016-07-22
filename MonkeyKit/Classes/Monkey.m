@@ -18,9 +18,6 @@
 NSString * const MonkeyRegistrationDidCompleteNotification = @"com.criptext.networking.register.success";
 NSString * const MonkeyRegistrationDidFailNotification = @"com.criptext.networking.register.fail";
 
-NSString * const MonkeySocketDidConnectNotification = @"com.criptext.networking.socket.resume";
-NSString * const MonkeySocketDidDisconnectNotification = @"com.criptext.networking.socket.close";
-NSString * const MonkeySocketUnavailableNotification = @"com.criptext.networking.socket.unavailable";
 NSString * const MonkeySocketStatusChangeNotification = @"com.criptext.networking.socket.status";
 
 NSString * const MonkeyMessageNotification = @"com.criptext.networking.message.received";
@@ -161,12 +158,11 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 -(void)connect {
     if([MOKComServerConnection sharedInstance].networkStatus == AFNetworkReachabilityStatusNotReachable) {
         NSLog(@"Monkey - Connection not available");
-        [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:nil];
-        [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketUnavailableNotification object:self userInfo:nil];
-        [MOKComServerConnection sharedInstance].connection.state = MOKSGSConnectionStateNoNetwork;
+        [MOKComServerConnection sharedInstance].connection.state = MOKConnectionStateNoNetwork;
+        [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:@{@"status": @(MOKConnectionStateNoNetwork)}];
     }
     else{
-        [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:nil];
+        [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:@{@"status": @(MOKConnectionStateConnecting)}];
         
         [[MOKComServerConnection sharedInstance] connect:_session[@"monkeyId"]
                                                    appId:self.appId
@@ -178,8 +174,6 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 }
 
 -(void)loggedIn{
-    [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:nil];
-    
     NSString *lastMessageId = _session[@"lastTimestamp"];
     
     if (lastMessageId == (id)[NSNull null]) {
@@ -197,13 +191,12 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
         [MOKWatchdog sharedInstance].isUpdateFinished = true;
     }
     
-    [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketDidConnectNotification object:self userInfo:[_session copy]];
+    [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:@{@"status": @(MOKConnectionStateConnected)}];
 }
 
 - (void) disconnected{
     NSLog(@"Monkey - Disconnect");
-    [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:nil];
-    [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketDidDisconnectNotification object:self userInfo:nil];
+    [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:@{@"status": @(MOKConnectionStateDisconnected)}];
     [self connect];
 }
 

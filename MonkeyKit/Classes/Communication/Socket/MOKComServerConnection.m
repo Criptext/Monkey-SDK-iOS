@@ -110,7 +110,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
     
 	if(connection)
 	{
-        if(connection.state!=MOKSGSConnectionStateDisconnected){
+        if(connection.state!=MOKConnectionStateDisconnected){
             [self logOut];
         }
 
@@ -135,7 +135,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 
 
 -(BOOL) isConnected{
-	if(connection.state== MOKSGSConnectionStateConnected || connection.state==MOKSGSConnectionStateConnecting)
+	if(connection.state== MOKConnectionStateConnected || connection.state==MOKConnectionStateConnecting)
 		return YES;
 	else
         return NO;
@@ -193,7 +193,7 @@ static MOKComServerConnection* comServerConnectionInstance = nil;
 //sending a session message not a group message
 -(BOOL)sendMessage:(NSString *)jsonMessage{
 
-	if (connection.state!= MOKSGSConnectionStateConnected) {
+	if (connection.state!= MOKConnectionStateConnected) {
         /// si pasa esto debes llamar afuera a funcion desconectado
 		return NO;
 	}

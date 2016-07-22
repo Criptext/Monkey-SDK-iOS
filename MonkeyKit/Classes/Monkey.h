@@ -176,21 +176,6 @@ FOUNDATION_EXPORT NSString * __nonnull const MonkeyRegistrationDidFailNotificati
 FOUNDATION_EXPORT NSString * __nonnull const MonkeySocketStatusChangeNotification;
 
 /**
- Posted when the socket connection is successful.
- */
-FOUNDATION_EXPORT NSString * __nonnull const MonkeySocketDidConnectNotifications;
-
-/**
- Posted when the socket connection was closed.
- */
-FOUNDATION_EXPORT NSString * __nonnull const MonkeySocketDidDisconnectNotification;
-
-/**
- Posted when the socket connection is unavailable.
- */
-FOUNDATION_EXPORT NSString * __nonnull const MonkeySocketUnavailableNotification;
-
-/**
  Posted when a message arrives through the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyMessageNotification;
