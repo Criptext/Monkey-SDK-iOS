@@ -153,6 +153,14 @@
                    success:(nullable void (^)(NSData * _Nonnull data))success
                    failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
+/**
+ *  Get conversations for my Monkey Id.
+ */
+-(void)getConversationsSince:(NSInteger)timestamp
+                    quantity:(int)qty
+                     success:(nullable void (^)(NSData * _Nonnull data))success
+                     failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+
 @end
 
 ///--------------------

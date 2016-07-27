@@ -181,6 +181,33 @@ withPendingMessage:(MOKMessage *)message
     
 }
 
+-(void)getConversationsOf:(NSString *)monkeyId
+                    since:(NSInteger)timestamp
+                    quantity:(int)qty
+                     success:(nullable void (^)(NSData * _Nonnull data))success
+                     failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+    
+    NSDictionary *requestObject =@{@"monkeyId": monkeyId,
+                                   @"timestamp":[@(timestamp) stringValue],
+                                   @"qty":[@(qty) stringValue]};
+    
+    NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
+#ifdef DEBUG
+    NSLog(@"MONKEY - parameters get conversations: %@", parameters);
+#endif
+    
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/conversations"] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+
+        NSDictionary *responseDict = responseObject[@"data"];
+        
+        success(responseDict);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"MONKEY - Error: %@", error);
+        failure(task, error);
+    }];
+    
+}
+
 #pragma mark - Open message
 -(void)getEncryptedTextForMessage:(MOKMessage *)message
                           success:(void (^)(NSDictionary * _Nonnull data))success
