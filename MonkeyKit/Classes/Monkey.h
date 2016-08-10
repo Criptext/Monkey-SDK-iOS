@@ -149,19 +149,18 @@
                            push:(nullable id)optionalPush;
 
 /**
- *  Send a encrypted text to a user, null params and null push
- */
--(nonnull MOKMessage *)sendText:(nonnull NSString *)text to:(nonnull NSString *)monkeyId;
-
-/**
  *  Send a notification to a user
  */
--(nonnull MOKMessage *)sendNotificationToUser:(nonnull NSString *)monkeyId withParams:(nullable NSDictionary *)params andPush:(nullable NSString *)push;
+-(nonnull MOKMessage *)sendNotificationToUser:(nonnull NSString *)monkeyId
+                                   withParams:(nullable NSDictionary *)params
+                                      andPush:(nullable NSString *)push;
 
 /**
  *  Send a temporal notification to a user
  */
--(nonnull MOKMessage *)sendTemporalNotificationToUser:(nonnull NSString *)monkeyId withParams:(nullable NSDictionary *)params andPush:(nullable NSString *)push;
+-(nonnull MOKMessage *)sendTemporalNotificationToUser:(nonnull NSString *)monkeyId
+                                           withParams:(nullable NSDictionary *)params
+                                              andPush:(nullable NSString *)push;
 
 /**
  *  Send a delete command for a given message

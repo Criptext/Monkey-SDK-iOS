@@ -349,7 +349,7 @@ NSString* mok_fileMIMEType(NSString * extension) {
     return false;
 }
 
-- (NSInteger)mediaType{
+- (uint)mediaType{
     if ([self isMediaMessage]) {
         return self.params[@"file_type"] ?: self.props[@"file_type"];
     }

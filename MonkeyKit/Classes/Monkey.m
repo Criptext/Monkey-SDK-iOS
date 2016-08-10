@@ -253,7 +253,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 -(void)getConversationMessages:(NSString *)conversationId
                           since:(NSInteger)timestamp
                       quantity:(int)qty
-                       success:(nullable void (^)(NSMutableArray<MOKMessage *> * _Nonnull messages))success
+                       success:(nullable void (^)(NSArray<MOKMessage *> * _Nonnull messages))success
                        failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
     [self checkSession];
     [[MOKAPIConnector sharedInstance] getMessagesBetween:_session[@"monkeyId"] and:conversationId since:timestamp quantity:qty success:^(NSMutableArray * _Nonnull messages) {
@@ -833,9 +833,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 }
 
 - (void)dispatchGroupNotification:(MOKMessage *)msg{
-    msg.props[@"group_id"];
-    [((NSString *)msg.props[@"members"]) componentsSeparatedByString:@","];
-    msg.props[@"info"];
+
     switch ([msg.props[@"monkey_action"] intValue]) {
         case MOKGroupCreate:
             [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyGroupCreateNotification
