@@ -47,6 +47,7 @@
 - (void)secureAuthenticationWithAppId:(NSString *)appID
                                appKey:(NSString *)appKey
                                  user:(NSDictionary *)user
+                        ignoredParams:(nullable NSArray<NSString *> *)params
                         andExpiration:(BOOL)expires
                               success:(void (^)(NSDictionary * _Nonnull data))success
                               failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
@@ -106,7 +107,8 @@
         
         /************************************ Starting Second Request ****************************************/
         NSDictionary * requestConnectObject = @{@"monkey_id": monkeyId,
-                                                @"usk": stringToSend
+                                                @"usk": stringToSend,
+                                                @"ignore_params": params? : @[]
                                                 };
         
         NSDictionary *secondparameters = @{@"data": [self.jsonWriter stringWithObject:requestConnectObject]};
@@ -159,7 +161,7 @@ withPendingMessage:(MOKMessage *)message
         }
         
         if (decryptedKey == nil) {
-            failure(nil, [NSError errorWithDomain:@"decrypted keys nil"
+            failure(nil, [NSError errorWithDomain:@"Decrypted keys are nil"
                                              code:-57
                                          userInfo:nil]);
         }
@@ -168,12 +170,15 @@ withPendingMessage:(MOKMessage *)message
             success(responseDict);
             return;
         }
-        
-        [self getEncryptedTextForMessage:message success:^(NSDictionary * _Nonnull data) {
-            success(responseDict);
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            failure(task, error);
-        }];
+
+        failure(nil, [NSError errorWithDomain:@"Same keys received"
+                                         code:-57
+                                     userInfo:nil]);
+//        [self getEncryptedTextForMessage:message success:^(NSDictionary * _Nonnull data) {
+//            success(responseDict);
+//        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//            failure(task, error);
+//        }];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"MONKEY - Error: %@", error);
         failure(task, error);
@@ -181,15 +186,42 @@ withPendingMessage:(MOKMessage *)message
     
 }
 
--(void)getConversationsOf:(NSString *)monkeyId
-                    since:(NSInteger)timestamp
-                    quantity:(int)qty
-                     success:(nullable void (^)(NSData * _Nonnull data))success
-                     failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+-(void)deleteConversationBetween:(NSString *)monkeyId1
+                             and:(NSString *)monkeyId2
+                         success:(void (^)(NSDictionary * _Nonnull data))success
+                         failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
     
-    NSDictionary *requestObject =@{@"monkeyId": monkeyId,
-                                   @"timestamp":[@(timestamp) stringValue],
-                                   @"qty":[@(qty) stringValue]};
+    NSDictionary *requestObject =@{@"monkey_id":monkeyId1,
+                                   @"conversation_id":monkeyId2};
+    
+    NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
+#ifdef DEBUG
+    NSLog(@"MONKEY - parameters delete conversations: %@", parameters);
+#endif
+    
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/user/delete/conversation"] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+#ifdef DEBUG
+        NSLog(@"MONKEY - %@ %@", task, responseObject);
+#endif
+        NSDictionary *responseDict = responseObject[@"data"];
+        
+        success(responseDict);
+    } failure:failure];
+    
+}
+
+-(void)getConversationsOf:(NSString *)monkeyId
+                    since:(double)timestamp
+                 quantity:(int)qty
+                  success:(nullable void (^)(NSArray * _Nonnull conversations))success
+                  failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+    
+    NSMutableDictionary *requestObject = [@{@"monkeyId": monkeyId,
+                                          @"qty":[@(qty) stringValue]} mutableCopy];
+    
+    if (timestamp > 0) {
+        requestObject[@"timestamp"] =[@(timestamp) stringValue];
+    }
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
 #ifdef DEBUG
@@ -200,7 +232,41 @@ withPendingMessage:(MOKMessage *)message
 
         NSDictionary *responseDict = responseObject[@"data"];
         
-        success(responseDict);
+        success(responseDict[@"conversations"]);
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        NSLog(@"MONKEY - Error: %@", error);
+        failure(task, error);
+    }];
+    
+}
+
+-(void)getMessagesBetween:(NSString *)monkeyId1
+                      and:(NSString *)monkeyId2
+                    since:(NSInteger)timestamp
+                 quantity:(int)qty
+                  success:(nullable void (^)(NSMutableArray<MOKMessage *> * _Nonnull messages))success
+                  failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+    
+    NSString *path = [NSString stringWithFormat:@"/conversation/messages/%@/%@/%d/%@", monkeyId1,monkeyId2, qty, @(timestamp)];
+    
+#ifdef DEBUG
+    NSLog(@"MONKEY - parameters get messages: %@", path);
+#endif
+    
+    [self GET:[self.baseurl stringByAppendingPathComponent:path] parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        NSDictionary *responseDict = responseObject[@"data"];
+        NSDictionary *messagesDict = responseDict[@"messages"];
+        NSMutableArray *messageArray = [@[] mutableCopy];
+        
+        for (NSDictionary *message in messagesDict) {
+            MOKMessage *msg = [[MOKMessage alloc] initWithArgs:message];
+            msg.protocolCommand = MOKProtocolMessage;
+            
+            [messageArray addObject:msg];
+        }
+        
+        success(messageArray);
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         NSLog(@"MONKEY - Error: %@", error);
         failure(task, error);
@@ -218,10 +284,10 @@ withPendingMessage:(MOKMessage *)message
         NSDictionary *responseDict = responseObject[@"data"];
         
         message.encryptedText = responseDict[@"message"];
-        message.text = [[MOKSecurityManager sharedInstance] aesDecryptText:message.encryptedText fromUser:message.userIdTo];
+        message.plainText = [[MOKSecurityManager sharedInstance] aesDecryptText:message.encryptedText fromUser:message.recipient];
         
         
-        if (message.text == nil) {
+        if (message.plainText == nil) {
             failure(nil, [NSError errorWithDomain:@"decrypted message nil"
                                         code:-57
                                     userInfo:nil]);
@@ -245,8 +311,8 @@ withPendingMessage:(MOKMessage *)message
         failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
 
     NSDictionary *requestObject =@{@"id":message.messageId,
-                                   @"sid":message.userIdFrom,
-                                   @"rid":message.userIdTo,
+                                   @"sid":message.sender,
+                                   @"rid":message.recipient,
                                    @"props":message.props,
                                    @"params":message.params,
                                    @"push":message.pushMessage};
@@ -326,42 +392,44 @@ withPendingMessage:(MOKMessage *)message
 }
 
 #pragma mark - Groups
--(void)createGroupWithMe:(NSString *)me
-                   members:(NSArray *)members
-                   params:(NSDictionary *)params
-                      push:(NSString *)push
-          delegate:(id<MOKAPIConnectorDelegate>)delegate{
-    NSDictionary *requestObject = @{@"monkey_id" : me,
+-(void)createGroup:(nullable NSString *)optionalId
+           creator:(nonnull NSString *)monkeyId
+           members:(nonnull NSArray *)members
+              info:(nullable NSDictionary *)params
+              push:(nullable id)push
+           success:(nullable void (^)(NSDictionary * _Nonnull groupData))success
+           failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+    
+    NSDictionary *requestObject = @{@"group_id" : optionalId,
+                                    @"monkey_id" : monkeyId,
                                     @"members": [members componentsJoinedByString:@","],
-                                    @"info":params? params : @{},
-                                    @"push_all_members":push
+                                    @"info":params,
+                                    @"push_all_members":push? push : @{}
                                     };
-
+    
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
-
-    #ifdef DEBUG
+    
+#ifdef DEBUG
     NSLog(@"MONKEY - parameters de crear grupo: %@", parameters);
-	#endif
+#endif
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/create"] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *responseDict = responseObject[@"data"];
-        #ifdef DEBUG
-        NSLog(@"MONKEY - response: %@", responseObject);
-        NSLog(@"MONKEY - error: %ld", (long)[[responseObject objectForKey:@"error"] integerValue]);
-        NSLog(@"MONKEY - group id: %@", responseDict[@"group_id"]);
-		#endif
-        
-        [delegate onCreateGroupOK:responseDict[@"group_id"]];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [delegate onCreateGroupFail:@"fail"];
-        NSLog(@"MONKEY - failed to create group, task:%@ error: %@",task, error);
-    }];
+        success(responseDict);
+    } failure:failure];
+    
 }
 
-- (void)addMember:(NSString *)monkeyId byMe:(NSString *)me toGroup:(NSString *)groupId withPushToNewMember:(NSString *)pushNewMember andPushToAllMembers:(NSString *)pushAllMembers delegate:(id <MOKAPIConnectorDelegate>)delegate{
+- (void)addMember:(NSString *)newMonkeyId
+          toGroup:(NSString *)groupId
+           byUser:(NSString *)monkeyId
+withPushToNewMember:(NSString *)pushNewMember
+andPushToAllMembers:(NSString *)pushAllMembers
+          success:(nullable void (^)(NSDictionary * _Nonnull groupData))success
+          failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
     
-    NSDictionary *requestObject = @{@"monkey_id" : me,
-                                    @"new_member": monkeyId,
+    NSDictionary *requestObject = @{@"monkey_id" : monkeyId,
+                                    @"new_member": newMonkeyId,
                                     @"group_id":groupId,
                                     @"push_new_member":pushNewMember,
                                     @"push_all_members":pushAllMembers
@@ -370,26 +438,26 @@ withPendingMessage:(MOKMessage *)message
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/addmember"] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-
-        [delegate onAddMemberToGroupOK:monkeyId];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [delegate onAddMemberToGroupFail:@"error"];
-    }];
+        NSDictionary *responseDict = responseObject[@"data"];
+        success(responseDict);
+    } failure:failure];
 }
 
-- (void)removeMember:(NSString *)sessionId fromGroup:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate{
+- (void)removeMember:(NSString *)monkeyId
+           fromGroup:(NSString *)groupId
+             success:(nullable void (^)(NSDictionary * _Nonnull groupData))success
+             failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
     
-    NSDictionary *requestObject = @{@"monkey_id" : sessionId,
+    NSDictionary *requestObject = @{@"monkey_id" : monkeyId,
                                     @"group_id":groupId
                                     };
     
     NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
     
     [self POST:[self.baseurl stringByAppendingPathComponent:@"/group/delete"] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        [delegate onRemoveMemberFromGroupOK:@"OK"];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [delegate onRemoveMemberFromGroupFail:@"error"];
-    }];
+        NSDictionary *responseDict = responseObject[@"data"];
+        success(responseDict);
+    } failure:failure];
 }
 
 -(void)getGroupInfo:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate{

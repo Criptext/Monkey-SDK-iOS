@@ -29,17 +29,11 @@ NSString * const MyMonkeyId = @"";
     
     self.messages = [[NSMutableArray alloc] init];
     self.me = [MOKUser allObjects].firstObject;
-    
-    //listen to successful register event
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(monkeyDidRegister:) name:MonkeyRegistrationDidCompleteNotification object:nil];
-    //listen to unsuccessful register event
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(monkeyDidFailRegister:) name:MonkeyRegistrationDidFailNotification object:nil];
+
     //listen to incoming messages
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageReceived:) name:MonkeyMessageNotification object:nil];
     //listen to acknowledges to messages
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(acknowledgeReceived:) name:MonkeyAcknowledgeNotification object:nil];
-    
-//    [[Monkey sharedInstance] addReceiver:self];
     
     
     [self initMonkey];
@@ -48,7 +42,8 @@ NSString * const MyMonkeyId = @"";
 - (void)initMonkey {
     
     NSMutableDictionary *metadata = [@{@"name": @"Demo User!",
-                                       @"monkeyId": MyMonkeyId} mutableCopy];
+                                       @"monkeyId": MyMonkeyId,
+                                       @"password": @"53CR3TP455W0RD"} mutableCopy];
     
     if (self.me != nil) {
         metadata[@"monkeyId"] = self.me.monkeyId;
@@ -58,10 +53,29 @@ NSString * const MyMonkeyId = @"";
     [[Monkey sharedInstance] initWithApp:MonkeyAppId
                                   secret:MonkeyAppSecret
                                     user:metadata
+                           ignoredParams:@[@"password"]
                            expireSession:true
                                debugging:true
                                 autoSync:true
-                           lastTimestamp:nil];
+                           lastTimestamp:nil
+                                 success:^(NSDictionary * _Nonnull session) {
+                                     NSLog(@"Success initializing Monkey!");
+                                     MOKUser *user = [[MOKUser alloc] init];
+                                     user.monkeyId = session[@"monkeyId"];
+                                     
+                                     NSDictionary *metadata = session[@"user"];
+                                     user.name = metadata[@"name"];
+                                     
+                                     RLMRealm *realm = [RLMRealm defaultRealm];
+                                     [realm beginWriteTransaction];
+                                     [realm addOrUpdateObject:user];
+                                     [realm commitWriteTransaction];
+                           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                               
+                               NSLog(@"Fail initializing Monkey: %@", error.localizedDescription);
+                               // Do something about it, here we'll just try again after a second
+                               [self performSelector:@selector(initMonkey) withObject:nil afterDelay:1];
+                           }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -78,31 +92,12 @@ NSString * const MyMonkeyId = @"";
 }
 
 #pragma mark - Event Listeners
--(void)monkeyDidRegister:(NSNotification *)notification {
-    NSLog(@"did register: %@", notification.userInfo);
-    MOKUser *user = [[MOKUser alloc] init];
-    user.monkeyId = notification.userInfo[@"monkeyId"];
-    NSDictionary *metadata = notification.userInfo[@"user"];
-    user.name = metadata[@"name"];
-    
-    RLMRealm *realm = [RLMRealm defaultRealm];
-    [realm beginWriteTransaction];
-    [realm addOrUpdateObject:user];
-    [realm commitWriteTransaction];
-}
-
--(void)monkeyDidFailRegister:(NSNotification *)notification {
-    NSLog(@"did fail register: %@", notification.userInfo);
-    
-    // Do something about it, here we'll just try again after a second
-    [self performSelector:@selector(initMonkey) withObject:nil afterDelay:1];
-}
 
 -(void)messageReceived:(NSNotification *)notification {
     MOKMessage *message = notification.userInfo[@"message"];
     NSLog(@"incoming message: %@", message);
     
-    if ([message isMedia]) {
+    if ([message isMediaMessage]) {
         
         [[Monkey sharedInstance] downloadFileMessage:message fileDestination:self.folderDestination success:^(NSData * _Nonnull data) {
             [self.tableView reloadData];
@@ -150,16 +145,16 @@ NSString * const MyMonkeyId = @"";
 - (IBAction)encryptedDidChange:(UISwitch *)sender {
 }
 - (IBAction)sendTextPressed:(UIButton *)sender {
-    NSString *recipientId = self.me.monkeyId;
+    NSString *recipient = self.me.monkeyId;
     
     if (self.messageTextField.text.length == 0) {
         return;
     }
     if (self.recipientTextField.text.length > 0) {
-        recipientId = self.recipientTextField.text;
+        recipient = self.recipientTextField.text;
     }
     
-    MOKMessage *msg = [[Monkey sharedInstance] sendText:self.messageTextField.text encrypted:self.encryptedSwitch.on toUser:recipientId params:nil push:nil];
+    MOKMessage *msg = [[Monkey sharedInstance] sendText:self.messageTextField.text encrypted:self.encryptedSwitch.on to:recipient params:nil push:nil];
     
     self.messageTextField.text = @"";
     
@@ -245,12 +240,12 @@ NSString * const MyMonkeyId = @"";
         NSString *selectedPhotoPath = [self.folderDestination stringByAppendingPathComponent:[imageRep filename]];
         [imageData writeToFile:selectedPhotoPath atomically:YES];
         
-        NSString *recipientId = self.me.monkeyId;
+        NSString *recipient = self.me.monkeyId;
         if (self.recipientTextField.text.length > 0) {
-            recipientId = self.recipientTextField.text;
+            recipient = self.recipientTextField.text;
         }
         
-        MOKMessage *message = [[Monkey sharedInstance] sendFilePath:selectedPhotoPath type:MOKPhoto filename:@"myphoto.png" encrypted:true compressed:true toUser:recipientId params:nil push:nil success:^(MOKMessage * _Nonnull message) {
+        MOKMessage *message = [[Monkey sharedInstance] sendFilePath:selectedPhotoPath type:MOKPhoto filename:@"myphoto.png" encrypted:true compressed:true toUser:recipient params:nil push:nil success:^(MOKMessage * _Nonnull message) {
             NSLog(@"success uploading");
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"fail to upload");
@@ -271,7 +266,7 @@ NSString * const MyMonkeyId = @"";
 #pragma mark - Monkey Listener Delegate
 
 -(BOOL)isMessageMine:(MOKMessage *)message {
-    if ([[Monkey sharedInstance].session[@"monkeyId"] isEqualToString:message.userIdFrom]) {
+    if ([[[Monkey sharedInstance] monkeyId] isEqualToString:message.sender]) {
         return true;
     }
     
@@ -285,9 +280,9 @@ NSString * const MyMonkeyId = @"";
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MOKMessageViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"MOKMessageViewCell" forIndexPath:indexPath];
     MOKMessage *msg = [self.messages objectAtIndex:indexPath.row];
-    cell.senderMonkeyId.text = msg.userIdFrom;
-    cell.recipientMonkeyId.text = msg.userIdTo;
-    cell.contentTextView.text = msg.text;
+    cell.senderMonkeyId.text = msg.sender;
+    cell.recipientMonkeyId.text = msg.recipient;
+    cell.contentTextView.text = msg.plainText;
     
     if ([msg isInTransit]) {
         cell.statusLabel.text = @"(Sending)";
@@ -299,7 +294,7 @@ NSString * const MyMonkeyId = @"";
         cell.statusLabel.text = @"(Received)";
     }
     
-    if ([msg isMedia]) {
+    if ([msg isMediaMessage]) {
         cell.contentImageView.hidden = false;
         cell.contentImageView.image = [UIImage imageWithData:[[NSFileManager defaultManager] contentsAtPath:[self.folderDestination stringByAppendingPathComponent:msg.messageText]]];
     }else{

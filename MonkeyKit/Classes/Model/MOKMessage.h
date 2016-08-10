@@ -68,16 +68,16 @@ typedef enum{
 @property (nonatomic, copy) NSString *oldMessageId;
 
 /*!
- @property text
- @abstract Returns the decrypted text of the message
- */
-@property (nonatomic, copy) NSString *text;
-
-/*!
  @property encryptedText
  @abstract Returns the encrypted text of the message
  */
 @property (nonatomic, copy) NSString *encryptedText;
+
+/*!
+ @property plainText
+ @abstract Returns the text of the message
+ */
+@property (nonatomic, copy) NSString *plainText;
 
 /*!
  @property timestampCreated
@@ -94,17 +94,18 @@ typedef enum{
 @property (nonatomic, assign) NSTimeInterval timestampOrder;
 
 /*!
- @property userIdTo
- @abstract Session id of the recipient
- @discussion This could be a string of session ids separated by commas (Broadcast)
+ @property recipient
+ @abstract Monkey id of the recipient
+ @discussion This could be a string of monkey ids separated by commas (Broadcast) or a Group Id
  */
-@property (nonatomic, copy) NSString * userIdTo;
+@property (nonatomic, copy) NSString * recipient;
 
 /*!
- @property userIdFrom
- @abstract Session id of the sender
+ @property sender
+ @abstract Monkey id of the sender
+ @discussion This could be a string of monkey ids separated by commas (Broadcast) or a Group Id
  */
-@property (nonatomic, copy) NSString * userIdFrom;
+@property (nonatomic, copy) NSString * sender;
 
 /*!
  @property props
@@ -150,16 +151,26 @@ typedef enum{
 @property (nonatomic, copy) NSString *pushMessage;
 
 /*!
- @property needsResend
- @abstract Specifies whether the message needs to be re-sent
- */
-@property (nonatomic, assign) BOOL needsResend;
-
-/*!
  @property readBy
  @abstract List of users that have read the message
  */
 @property (nonatomic, strong) NSMutableArray *readBy;
+
+/*!
+ @property mediaObject
+ @abstract Used to maintain a reference to a media object. 
+ */
+@property (nonatomic, strong) id cachedMedia;
+
+/**
+ *	Returns date of the message
+ */
+- (NSDate *)date;
+
+/**
+ *	Returns the relative date of the message
+ */
+- (NSString *)relativeDate;
 
 /**
  *  Returns the encrypted text if it's encrypted, and plain text if it's not
@@ -167,14 +178,19 @@ typedef enum{
 - (NSString *)messageText;
 
 /**
+ *  Returns the conversation Id of the message
+ */
+- (NSString *)conversationId;
+
+/**
  *  Initialize a text message
  */
-- (MOKMessage *)initTextMessage:(NSString*)text sender:(NSString *)senderId recipient:(NSString *)recipientId;
+- (MOKMessage *)initTextMessage:(NSString*)text sender:(NSString *)sender recipient:(NSString *)recipient;
 
 /**
  *  Initialize a file message
  */
-- (MOKMessage *)initFileMessage:(NSString *)filename type:(MOKFileType)type sender:(NSString *)senderId recipient:(NSString *)recipientId;
+- (MOKMessage *)initFileMessage:(NSString *)filename type:(MOKFileType)type sender:(NSString *)sender recipient:(NSString *)recipient;
 
 /**
  *  Initialize message from the socket
@@ -202,6 +218,16 @@ typedef enum{
 - (void)setCompression:(BOOL)compressed;
 
 /**
+ *  Boolean that determines whether or not the message needs resending
+ */
+- (BOOL)needsResend;
+
+/**
+ *  Boolean that determines whether or not the message was already sent
+ */
+- (BOOL)wasSent;
+
+/**
  *  Boolean that determines whether or not the message is compressed
  */
 - (BOOL)isCompressed;
@@ -214,7 +240,12 @@ typedef enum{
 /**
  *  Boolean that determines whether or not the message is a file
  */
-- (BOOL)isMedia;
+- (BOOL)isMediaMessage;
+
+/**
+ *  int representing the media type
+ */
+- (uint)mediaType;
 
 /**
  *  Boolean that determines whether or not the message is in transit
@@ -223,10 +254,13 @@ typedef enum{
 
 - (void)updateMessageIdFromACK;
 
-/*
+/**
+ *	Boolean that determines if this is a group message
  */
 - (BOOL)isGroupMessage;
-/*
+
+/**
+ *	Boolean that determines if this is a broadcast message
  */
 - (BOOL)isBroadCastMessage;
 

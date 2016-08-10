@@ -11,24 +11,32 @@
 #import "NSString+Random.h"
 #import "MOKutils.h"
 @interface MOKMessage()
-
+@property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @end
 
 @implementation MOKMessage
 @synthesize props = _props;
 
 -(NSString *)messageText {
-    if (self.encryptedText == nil) {
-        return self.text;
+    if ([self isEncrypted] && self.plainText != nil) {
+        return self.plainText;
     }
     
     return self.encryptedText;
 }
 
+- (NSString *)conversationId{
+    if ([self isGroupMessage]) {
+        return self.recipient;
+    }
+    
+    return self.sender;
+}
+
 - (id)initWithArgs:(NSDictionary*)dictionary{
 	
 	if (self = [super init]) {
-		self.text = @"";
+		self.plainText = @"";
         
         if ([dictionary objectForKey:@"props"]) {
             self.props = [[NSJSONSerialization JSONObjectWithData:[[self stringFromDictionary:dictionary key:@"props"] dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil] mutableCopy];
@@ -49,11 +57,11 @@
 		self.timestampCreated = [self doubleFromDictionary:dictionary key:@"datetime"];
         self.timestampOrder = [[NSDate date] timeIntervalSince1970];
 		
-		self.userIdFrom = [self stringFromDictionary:dictionary key:@"sid"];
-        self.userIdTo = nil;
+		self.sender = [self stringFromDictionary:dictionary key:@"sid"];
+        self.recipient = nil;
         
 		if([dictionary objectForKey:@"rid"]!=nil){
-            self.userIdTo=[self stringFromDictionary:dictionary key:@"rid"];
+            self.recipient=[self stringFromDictionary:dictionary key:@"rid"];
         }
 		
         if ([self stringFromDictionary:dictionary key:@"readBy"] != nil) {
@@ -64,7 +72,6 @@
         self.oldMessageId = [self stringFromDictionary:self.props key:@"old_id"];
         
 		self.readByUser = NO;
-        self.needsResend = NO;
         
         self.pushMessage = @"";
 
@@ -103,19 +110,18 @@
                params:(NSMutableDictionary *)params
 {
     if (self = [super init]) {
-        self.text = messageText;
+        self.plainText = messageText;
         self.encryptedText = @"";
         self.timestampCreated = timestampCreated;
         self.timestampOrder = timestampOrder;
-        self.userIdFrom = sessionIdFrom;
-        self.userIdTo = sessionIdTo;
+        self.sender = sessionIdFrom;
+        self.recipient = sessionIdTo;
         self.messageId = messageId;
         self.oldMessageId = oldMessageId;
         self.readByUser = NO;
         self.protocolCommand = cmd;
         self.protocolType = protocolType;
         self.monkeyType = monkeyType;
-        self.needsResend = NO;
         self.props = mkprops;
         self.params = params;
         self.pushMessage = @"";
@@ -125,21 +131,20 @@
 }
 
 
-- (MOKMessage *)initTextMessage:(NSString*)text sender:(NSString *)senderId recipient:(NSString *)recipientId {
+- (MOKMessage *)initTextMessage:(NSString*)text sender:(NSString *)sender recipient:(NSString *)recipient {
     if (self = [super init]) {
-        self.text = text;
+        self.plainText = text;
         self.encryptedText = nil;
         self.messageId = [self generateRandomId];
         self.oldMessageId = self.messageId;
         self.timestampCreated = [[NSDate date] timeIntervalSince1970];
         self.timestampOrder = self.timestampCreated;
-        self.userIdTo = recipientId;
-        self.userIdFrom = senderId;
+        self.recipient = recipient;
+        self.sender = sender;
         self.readByUser = NO;
         self.protocolCommand = MOKProtocolMessage;
         self.protocolType = MOKText;
         self.monkeyType = 0;
-        self.needsResend = NO;
         self.props = [@{@"str":@"0",
                         @"old_id": self.messageId,
                         @"device":@"ios"} mutableCopy];
@@ -150,20 +155,19 @@
     return self;
 }
 
-- (MOKMessage *)initFileMessage:(NSString *)filename type:(MOKFileType)type sender:(NSString *)senderId recipient:(NSString *)recipientId {
+- (MOKMessage *)initFileMessage:(NSString *)filename type:(MOKFileType)type sender:(NSString *)sender recipient:(NSString *)recipient {
     if (self = [super init]) {
         
         self.messageId = [self generateRandomId];
         self.oldMessageId = self.messageId;
         self.timestampCreated = [[NSDate date] timeIntervalSince1970];
         self.timestampOrder = self.timestampCreated;
-        self.userIdTo = recipientId;
-        self.userIdFrom = senderId;
+        self.recipient = recipient;
+        self.sender = sender;
         self.readByUser = NO;
         self.protocolCommand = MOKProtocolMessage;
         self.protocolType = MOKFile;
         self.monkeyType = 0;
-        self.needsResend = NO;
         self.props = [@{@"str":@"0",
                         @"old_id": self.messageId,
                         @"device":@"ios"} mutableCopy];
@@ -172,7 +176,7 @@
         self.readBy = [@[] mutableCopy];
         
         //file stuff
-        self.text = filename;
+        self.plainText = filename;
         self.encryptedText = filename;
         
         self.props[@"filename"] = filename;
@@ -205,20 +209,21 @@
 }
 
 - (BOOL)isGroupMessage {
-    return ([self.userIdTo rangeOfString:@"G:"].location!=NSNotFound || [self.userIdFrom rangeOfString:@"G:"].location!=NSNotFound);
+    return ([self.recipient rangeOfString:@"G:"].location!=NSNotFound || [self.sender rangeOfString:@"G:"].location!=NSNotFound);
 }
 - (BOOL)isBroadCastMessage {
-    return ([self.userIdTo rangeOfString:@","].location!=NSNotFound || [self.userIdFrom rangeOfString:@","].location!=NSNotFound);
+    return ([self.recipient rangeOfString:@","].location!=NSNotFound || [self.sender rangeOfString:@","].location!=NSNotFound);
 }
 
 -(id) mutableCopyWithZone: (NSZone *) zone
 {
     MOKMessage *messCopy = [[MOKMessage allocWithZone: zone] init];
     
-    messCopy.userIdTo=self.userIdTo;
-    messCopy.userIdFrom=self.userIdFrom;
+    messCopy.recipient=self.recipient;
+    messCopy.sender=self.sender;
     messCopy.messageId=self.messageId;
-    messCopy.text=self.messageText;
+    messCopy.plainText = self.plainText;
+    messCopy.encryptedText = self.encryptedText;
     messCopy.timestampCreated=self.timestampCreated;
     messCopy.timestampOrder = self.timestampOrder;
     messCopy.protocolType=self.protocolType;
@@ -264,6 +269,23 @@ NSString* mok_fileMIMEType(NSString * extension) {
     return [self.props[@"encr"] intValue] ==1;
 }
 
+- (BOOL)needsResend{
+    if ([self wasSent]) {
+        return false;
+    }
+    double seconds = [[NSDate date] timeIntervalSince1970] - self.timestampOrder;
+    
+    if (seconds > 15) {
+        return true;
+    }
+    
+    return false;
+}
+
+- (BOOL)wasSent{
+    return ![self.messageId hasPrefix:@"-"];
+}
+
 - (void)setCompression:(BOOL)shouldCompress{
     if (shouldCompress) {
         self.props[@"cmpr"] = @"gzip";
@@ -287,19 +309,52 @@ NSString* mok_fileMIMEType(NSString * extension) {
         return false;
     }
     
-    if (self.text == nil) {
+    if (self.plainText == nil) {
         return true;
     }
     
     return false;
 }
 
-- (BOOL)isMedia{
-    if (self.protocolType == MOKFile) {
+-(NSDate *)date{
+    return [NSDate dateWithTimeIntervalSince1970:self.timestampCreated];
+}
+
+- (NSString *)relativeDate{
+    if (self.dateFormatter == nil) {
+        self.dateFormatter = [[NSDateFormatter alloc] init];
+    }
+    double seconds = [[NSDate date] timeIntervalSince1970] - self.timestampCreated;
+    
+    if (seconds <= 86400) {
+        self.dateFormatter.timeStyle = NSDateFormatterShortStyle;
+        self.dateFormatter.dateStyle = NSDateFormatterNoStyle;
+    }else{
+        self.dateFormatter.timeStyle = NSDateFormatterNoStyle;
+        self.dateFormatter.dateStyle = NSDateFormatterShortStyle;
+    }
+    
+    if (seconds > 86400 && seconds < 172800) {
+        return @"Yesterday";
+    }
+    return [self.dateFormatter stringFromDate:self.date];
+    
+}
+
+- (BOOL)isMediaMessage{
+    if (self.protocolCommand == MOKProtocolMessage && self.protocolType == MOKFile) {
         return true;
     }
     
     return false;
+}
+
+- (NSInteger)mediaType{
+    if ([self isMediaMessage]) {
+        return self.params[@"file_type"] ?: self.props[@"file_type"];
+    }
+    
+    return -1;
 }
 
 - (BOOL)isInTransit{
@@ -316,6 +371,9 @@ NSString* mok_fileMIMEType(NSString * extension) {
     MOKMessage *otherMsg = object;
     if ([self.messageId isEqualToString:otherMsg.messageId]) {
         return true;
+    }
+    if ([self.oldMessageId isEqualToString:@""]) {
+        return false;
     }
     if ([self.oldMessageId isEqualToString:otherMsg.oldMessageId]) {
         return true;
