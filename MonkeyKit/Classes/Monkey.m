@@ -483,7 +483,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
                             filename:(NSString *)filename
                            encrypted:(BOOL)shouldEncrypt
                           compressed:(BOOL)shouldCompress
-                              toUser:(nonnull NSString *)monkeyId
+                                  to:(nonnull NSString *)monkeyId
                               params:(nullable NSDictionary *)params
                                 push:(nullable id)push
                              success:(void (^)(MOKMessage * _Nonnull message))success
@@ -503,7 +503,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
                                     filename:filename
                                    encrypted:shouldEncrypt
                                   compressed:shouldCompress
-                                      toUser:monkeyId
+                                          to:monkeyId
                                       params:params
                                         push:push
                                      success:success
@@ -521,7 +521,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
                        filename:(NSString *)filename
                       encrypted:(BOOL)shouldEncrypt
                      compressed:(BOOL)shouldCompress
-                         toUser:(nonnull NSString *)monkeyId
+                             to:(nonnull NSString *)monkeyId
                          params:(nullable NSDictionary *)params
                            push:(nullable id)push
                         success:(void (^)(MOKMessage * _Nonnull message))success
@@ -572,7 +572,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
     return message;
 }
 
--(MOKMessage *)sendNotificationToUser:(NSString *)monkeyId withParams:(NSDictionary *)params andPush:(NSString *)push{
+-(MOKMessage *)sendNotificationTo:(NSString *)monkeyId params:(NSDictionary *)params push:(NSString *)push{
     MOKMessage *message = [[MOKMessage alloc] initTextMessage:@"" sender:_session[@"monkeyId"] recipient:monkeyId];
     message.protocolCommand = MOKProtocolMessage;
     message.protocolType = MOKNotif;
@@ -583,7 +583,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
     return message;
 }
 
--(MOKMessage *)sendTemporalNotificationToUser:(NSString *)monkeyId withParams:(NSDictionary *)params andPush:(NSString *)push{
+-(MOKMessage *)sendTemporalNotificationTo:(NSString *)monkeyId params:(NSDictionary *)params push:(NSString *)push{
     MOKMessage *message = [[MOKMessage alloc] initTextMessage:@"" sender:_session[@"monkeyId"] recipient:monkeyId];
     message.protocolCommand = MOKProtocolMessage;
     message.protocolType = MOKTempNote;
@@ -614,7 +614,8 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 -(void)sendCloseCommandToUser:(NSString *)sessionId{
     [self sendCommand:MOKProtocolClose WithArgs:@{@"rid": sessionId}];
 }
--(void)sendDeleteCommandForMessage:(NSString *)messageId ToUser:(NSString *)monkeyId{
+-(void)deleteMessage:(NSString *)messageId
+              notify:(NSString *)monkeyId{
     
     
     [self sendCommand:MOKProtocolDelete WithArgs:@{@"id": messageId,

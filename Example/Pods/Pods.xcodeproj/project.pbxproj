@@ -214,7 +214,7 @@
 		E7988678C81F7CCB95D239375FC6986D /* AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E6405A1104E4C573E87CE01205FA90 /* AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EC7CADE416A78A1CD6936018A6695126 /* AFNetworking-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 372CEDD2338A02228C7E6F7F77A3F30A /* AFNetworking-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		ED13663A3A8F1CAA4A822D821E2551BB /* MOKSBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 992816BA38D61122A8A186B329A839AC /* MOKSBJsonBase.h */; };
-		F00FB2D019A1A76A3278398874DCB6E3 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA7C5052F45AB72B5D289DF281C10B0 /* MonkeyKit.h */; };
+		F00FB2D019A1A76A3278398874DCB6E3 /* MonkeyKit.h in Headers */ = {isa = PBXBuildFile; fileRef = DAA7C5052F45AB72B5D289DF281C10B0 /* MonkeyKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F06376E391695BCBC7D4C9026F8B5EB0 /* RLMObjectSchema.mm in Sources */ = {isa = PBXBuildFile; fileRef = C6F322FB9A52432E91DC0CBA7851BF5B /* RLMObjectSchema.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"1.0.0\"' -D__ASSERTMACROS__"; }; };
 		F5F066253FD552DFAE16F92BBA0F5936 /* Monkey.h in Headers */ = {isa = PBXBuildFile; fileRef = 175F5FE4D878128C64B5FD4C3EACFA76 /* Monkey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8CD5A2FF8F332D69BA09DBF1D284418 /* RLMObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6262A106371EBD3A5387EAC46CD3C30A /* RLMObject.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"1.0.0\"' -D__ASSERTMACROS__"; }; };
