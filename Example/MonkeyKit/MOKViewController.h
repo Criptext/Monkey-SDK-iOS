@@ -14,7 +14,7 @@
 @import Photos;
 @import UIKit;
 
-@interface MOKViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, MOKMessageReceiver, UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface MOKViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *messageTextField;
 @property (weak, nonatomic) IBOutlet UITextField *recipientTextField;
 @property (weak, nonatomic) IBOutlet UISwitch *encryptedSwitch;

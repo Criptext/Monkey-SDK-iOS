@@ -9,7 +9,7 @@
 #import "MOKMessage.h"
 #import "MOKJSON.h"
 #import "NSString+Random.h"
-#import "MOKutils.h"
+
 @interface MOKMessage()
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @end
@@ -96,7 +96,7 @@
                           params:nil];
 }
 
-- (id)initWithMessage:(NSString*)messageText
+- (id)initWithMessage:(NSString*)text
       protocolCommand:(MOKProtocolCommand)cmd
          protocolType:(int)protocolType
            monkeyType:(int)monkeyType
@@ -110,7 +110,7 @@
                params:(NSMutableDictionary *)params
 {
     if (self = [super init]) {
-        self.plainText = messageText;
+        self.plainText = text;
         self.encryptedText = @"";
         self.timestampCreated = timestampCreated;
         self.timestampOrder = timestampOrder;

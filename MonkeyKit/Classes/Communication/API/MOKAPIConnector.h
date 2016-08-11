@@ -8,37 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <AFNetworking/AFHTTPSessionManager.h>
-#import "MOKutils.h"
+
 @class MOKMessage;
 @class MOKSBJsonWriter;
-
-@protocol MOKAPIConnectorDelegate <NSObject>
-@optional
-/**
- * These callbacks must be
- * @callback
- */
-
--(void)onDownloadFileOK;
--(void)onDownloadFileDecryptionWrong;
--(void)onDownloadFileFail:( NSString * _Nullable)error;
-
--(void)onUploadFileOK:(MOKMessage * _Nullable)message;
--(void)onUploadFileFail:(MOKMessage * _Nullable)message;
-
--(void)onCreateGroupOK:(NSString * _Nullable)groupId;
--(void)onCreateGroupFail:(NSString * _Nullable)descriptionError;
-
--(void)onAddMemberToGroupOK:(NSString * _Nullable)newMemberId;
--(void)onAddMemberToGroupFail:(NSString * _Nullable)descriptionError;
-
--(void)onRemoveMemberFromGroupOK:(NSString * _Nullable)ok;
--(void)onRemoveMemberFromGroupFail:(NSString * _Nullable)descriptionError;
-
--(void)onGetGroupInfoOK:(NSDictionary * _Nullable)groupInfo andMembers:(NSArray * _Nullable)members;
--(void)onGetGroupInfoFail:(NSString * _Nullable)descriptionError;
-
-@end
 
 @interface MOKAPIConnector : AFHTTPSessionManager
 @property (nonatomic, strong) MOKSBJsonWriter * _Nullable jsonWriter;
@@ -212,7 +184,7 @@ andPushToAllMembers:(nullable NSString *)pushAllMembers
              success:(nullable void (^)(NSDictionary * _Nonnull groupData))success
              failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
--(void)getGroupInfo:(NSString * _Nonnull)groupId delegate:(id <MOKAPIConnectorDelegate> _Nullable)delegate;
+//-(void)getGroupInfo:(NSString * _Nonnull)groupId delegate:(id <MOKAPIConnectorDelegate> _Nullable)delegate;
 
 - (NSString* _Nullable)postBodyForMethod:(NSString* _Nonnull)method data:(id _Nonnull)dataAsJsonComparableObject;
 

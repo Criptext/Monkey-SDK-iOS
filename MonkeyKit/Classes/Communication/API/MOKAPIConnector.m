@@ -460,29 +460,29 @@ andPushToAllMembers:(NSString *)pushAllMembers
     } failure:failure];
 }
 
--(void)getGroupInfo:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate{
-    
-    #ifdef DEBUG
-    NSLog(@"MONKEY - getGroupinfo parameters: %@", groupId);
-	#endif
-    
-    NSString *urlSufix = [NSString stringWithFormat:@"/group/info/%@", groupId];
-    [self GET:[self.baseurl stringByAppendingPathComponent:urlSufix] parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        #ifdef DEBUG
-        NSLog(@"MONKEY - get group response: %@", responseObject);
-		#endif
-        NSDictionary *responseDict = responseObject[@"data"];
-        
-        NSArray *members=responseDict[@"members"];
-        NSDictionary *groupinfo=(NSDictionary *)responseDict[@"info"];
-        
-        [delegate onGetGroupInfoOK:groupinfo andMembers:members];
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        NSLog(@"MONKEY - get group error: %@", error);
-        [delegate onGetGroupInfoFail:@"error"];
-    }];
-    
-}
+//-(void)getGroupInfo:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate{
+//    
+//    #ifdef DEBUG
+//    NSLog(@"MONKEY - getGroupinfo parameters: %@", groupId);
+//	#endif
+//    
+//    NSString *urlSufix = [NSString stringWithFormat:@"/group/info/%@", groupId];
+//    [self GET:[self.baseurl stringByAppendingPathComponent:urlSufix] parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+//        #ifdef DEBUG
+//        NSLog(@"MONKEY - get group response: %@", responseObject);
+//		#endif
+//        NSDictionary *responseDict = responseObject[@"data"];
+//        
+//        NSArray *members=responseDict[@"members"];
+//        NSDictionary *groupinfo=(NSDictionary *)responseDict[@"info"];
+//        
+//        [delegate onGetGroupInfoOK:groupinfo andMembers:members];
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        NSLog(@"MONKEY - get group error: %@", error);
+//        [delegate onGetGroupInfoFail:@"error"];
+//    }];
+//    
+//}
 #pragma mark - --- General ---
 static MOKAPIConnector *apiConnectorInstance = nil;
 + (MOKAPIConnector *)sharedInstance

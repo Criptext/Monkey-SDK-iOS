@@ -742,7 +742,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 }
 - (void)processMOKProtocolMessage:(MOKMessage *)msg {
 #ifdef DEBUG
-    NSLog(@"MONKEY - Message in process: %@, %@, %d", msg.messageText,msg.messageId, msg.protocolType);
+    NSLog(@"MONKEY - Message in process: %@, %@, %d", msg.encryptedText,msg.messageId, msg.protocolType);
 #endif
     switch (msg.protocolType) {
         case MOKText:{

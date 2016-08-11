@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'MonkeyKit'
-  s.version          = '0.9.6'
+  s.version          = '0.9.7'
   s.summary          = 'iOS SDK to access Monkey secure channel'
 
 # This description is used to generate tags and improve search results.
@@ -24,7 +24,7 @@ MonkeyKit makes encryption easier for developers.
   s.homepage         = 'https://criptext.com'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'Apache 2.0', :file => 'LICENSE' }
-  s.author           = { 'Gianni Carlo' => 'gianni@criptext.com' }
+  s.author           = { 'Criptext, Inc.' => 'gianni@criptext.com' }
   s.source           = { :git => 'https://github.com/Criptext/iOS-MonkeySDK.git', :tag => s.version.to_s }
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
