@@ -1,0 +1,3 @@
+[submodule "MonkeyKit"]
+	path = MonkeyKit
+	url = https://github.com/Criptext/Monkey-SDK-iOS
