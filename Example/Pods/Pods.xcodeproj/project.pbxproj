@@ -122,7 +122,7 @@
 		81B617F8D26BB10C5726D75E85D21EB7 /* UIButton+AFNetworking.h in Headers */ = {isa = PBXBuildFile; fileRef = 676ADCD22A180FCF8B6D984D59716847 /* UIButton+AFNetworking.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		83A23EA6F514F5951E2046738E0A1CB8 /* NSData+Conversion.h in Headers */ = {isa = PBXBuildFile; fileRef = 6CC88AE27FF83C3E41618D6F5B4A0CE5 /* NSData+Conversion.h */; };
 		84DE3A435A9BBD4F4EF09379E6344C2E /* MOKComServerConnection.h in Headers */ = {isa = PBXBuildFile; fileRef = 84C5E27D379E66A6CA0B145E3CF45924 /* MOKComServerConnection.h */; };
-		84E77FA69E01FB238155BB9155F39249 /* MOKAPIConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 82CF21B83507F99040160A07833A67A8 /* MOKAPIConnector.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		84E77FA69E01FB238155BB9155F39249 /* MOKAPIConnector.h in Headers */ = {isa = PBXBuildFile; fileRef = 82CF21B83507F99040160A07833A67A8 /* MOKAPIConnector.h */; };
 		85AE1AED0071217AEA34EEC6711BFA2A /* list_notifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A3976ED0A463409AA1BC11B6ED745A64 /* list_notifier.cpp */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"1.0.0\"' -D__ASSERTMACROS__"; }; };
 		85C2CAA14F8FE261D26301900662F70C /* MOKSGSContext.h in Headers */ = {isa = PBXBuildFile; fileRef = CE858FF67FCDD50DA849507D8A3A019F /* MOKSGSContext.h */; };
 		871F711505D7F818F27E0076F8D6E4EE /* MOKSGSSession.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C54D7FEBE46E8428BA9585186BC2A0 /* MOKSGSSession.m */; };
