@@ -1,0 +1,2169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Monkey Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/objc/Class/Monkey" class="dashAnchor"></a>
+    <a title="Monkey Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">MonkeyKit Docs</a> (50% documented)</p>
+        <p class="header-right"><a href="https://github.com/Criptext/Monkey-SDK-iOS"><img src="../img/gh.png"/>View on GitHub</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">MonkeyKit Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Monkey Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/MOKConversation.html">MOKConversation</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MOKDictionaryBasedObject.html">MOKDictionaryBasedObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MOKMessage.html">MOKMessage</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Monkey.html">Monkey</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Constants.html">Constants</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyAcknowledgeNotification">MonkeyAcknowledgeNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyCloseNotification">MonkeyCloseNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyConversationStatusNotification">MonkeyConversationStatusNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyGroupAddNotification">MonkeyGroupAddNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyGroupCreateNotification">MonkeyGroupCreateNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyGroupListNotification">MonkeyGroupListNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyGroupRemoveNotification">MonkeyGroupRemoveNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyKitVersionNumber">MonkeyKitVersionNumber</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyKitVersionString">MonkeyKitVersionString</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyMessageDeleteNotification">MonkeyMessageDeleteNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyMessageNotification">MonkeyMessageNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyMessageStoreNotification">MonkeyMessageStoreNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyNotificationNotification">MonkeyNotificationNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeyOpenNotification">MonkeyOpenNotification</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Constants.html#/c:@MonkeySocketStatusChangeNotification">MonkeySocketStatusChangeNotification</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Enums.html">Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/MOKActionType.html">MOKActionType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MOKFileType.html">MOKFileType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MOKGetType.html">MOKGetType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MOKMessageType.html">MOKMessageType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/MOKProtocolCommand.html">MOKProtocolCommand</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Monkey</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="k">@interface</span> <span class="nc">Monkey</span> <span class="p">:</span> <span class="nc">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>The <code>Monkey</code> class is a singleton through which you can send messages and files and interact with Criptext&rsquo;s servers.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    The first action of the singleton should always be <code>initWithApp:secret:user:ignoredParams:expireSession:debugging:autoSync:lastTimestamp:success:failure:</code>
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(cm)sharedInstance"></a>
+                    <a name="//apple_ref/objc/Method/+sharedInstance" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(cm)sharedInstance">+sharedInstance</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Returns the instance of the singleton.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">+</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n">instancetype</span><span class="p">)</span><span class="n">sharedInstance</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">class</span> <span class="kd">func</span> <span class="nf">sharedInstance</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(py)appId"></a>
+                    <a name="//apple_ref/objc/Property/appId" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(py)appId">appId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>String that identifies your App Id.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appId</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(py)appKey"></a>
+                    <a name="//apple_ref/objc/Property/appKey" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(py)appKey">appKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>String that identifies your App Key.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">appKey</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">appKey</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(py)domain"></a>
+                    <a name="//apple_ref/objc/Property/domain" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(py)domain">domain</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>String that identifies the Monkey domain.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">domain</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">domain</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(py)port"></a>
+                    <a name="//apple_ref/objc/Property/port" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(py)port">port</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>String that identifies the Monkey port.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSString</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">port</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">port</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(py)mediaTypes"></a>
+                    <a name="//apple_ref/objc/Property/mediaTypes" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(py)mediaTypes">mediaTypes</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>String that identifies the Monkey domain.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSArray</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">mediaTypes</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="k">var</span> <span class="nv">mediaTypes</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(py)session"></a>
+                    <a name="//apple_ref/objc/Property/session" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(py)session">session</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Dictionary which holds session params:
+- id -&gt; Monkey Id
+- user -&gt; User metadata
+- lastTimestamp -&gt; Timestamp of last sync of messages
+- expireSession -&gt; Boolean that determines if this monkey id expires with time on server
+- debuggingMode -&gt; Boolean that determines development and production environments
+- autoSync -&gt; Boolean that determines if the sync of messages should be automatic everytime the socket connects.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">@property</span> <span class="p">(</span><span class="n">readonly</span><span class="p">,</span> <span class="n">copy</span><span class="p">,</span> <span class="n">nonatomic</span><span class="p">)</span> <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span> <span class="n">session</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@NSCopying</span> <span class="k">var</span> <span class="nv">session</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)initWithApp:secret:user:ignoredParams:expireSession:debugging:autoSync:lastTimestamp:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-initWithApp:secret:user:ignoredParams:expireSession:debugging:autoSync:lastTimestamp:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)initWithApp:secret:user:ignoredParams:expireSession:debugging:autoSync:lastTimestamp:success:failure:">-initWithApp:secret:user:ignoredParams:expireSession:debugging:autoSync:lastTimestamp:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <pre class="highlight plaintext"><code>Initializes the session with MOnkey
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">initWithApp</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appId</span>
+             <span class="nf">secret</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">appKey</span>
+               <span class="nf">user</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">user</span>
+      <span class="nf">ignoredParams</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSArray</span><span class="o">&lt;</span><span class="n">NSString</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">params</span>
+      <span class="nf">expireSession</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">shouldExpire</span>
+          <span class="nf">debugging</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">isDebugging</span>
+           <span class="nf">autoSync</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">autoSync</span>
+      <span class="nf">lastTimestamp</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSNumber</span> <span class="o">*</span><span class="p">)</span><span class="nv">lastTimestamp</span>
+            <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+            <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                       <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">initWithApp</span><span class="p">(</span><span class="nv">appId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">secret</span> <span class="nv">appKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">user</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="n">ignoredParams</span> <span class="nv">params</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="n">expireSession</span> <span class="nv">shouldExpire</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">debugging</span> <span class="nv">isDebugging</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">autoSync</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">lastTimestamp</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>appId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Monkey App&rsquo;s Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>appKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Monkey App&rsquo;s secret</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>User metadata</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shouldExpire</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the newly created Monkey Id should expire</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isDebugging</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the app is in Development or Production</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>autoSync</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if it should request pending messages upon connection</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>lastTimestamp</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional timestamp value from which pending messages will be fetched</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when Monkey was initialized successfully</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when Monkey failed to initialize</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)monkeyId"></a>
+                    <a name="//apple_ref/objc/Method/-monkeyId" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)monkeyId">-monkeyId</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get session&rsquo;s Monkey Id</p>
+
+<pre class="highlight plaintext"><code>- returns: The Monkey Id for the current session.
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="n">monkeyId</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">monkeyId</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The Monkey Id for the current session.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)getPendingMessages"></a>
+                    <a name="//apple_ref/objc/Method/-getPendingMessages" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)getPendingMessages">-getPendingMessages</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Request pending messages</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">getPendingMessages</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getPendingMessages</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)getPendingMessagesWithGroups"></a>
+                    <a name="//apple_ref/objc/Method/-getPendingMessagesWithGroups" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)getPendingMessagesWithGroups">-getPendingMessagesWithGroups</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Request pending messages and request groups to which this monkey id belongs</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">getPendingMessagesWithGroups</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getPendingMessagesWithGroups</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)openConversation:"></a>
+                    <a name="//apple_ref/objc/Method/-openConversation:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)openConversation:">-openConversation:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send open notification to a conversation</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">openConversation</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">openConversation</span><span class="p">(</span><span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)sendText:encrypted:to:params:push:"></a>
+                    <a name="//apple_ref/objc/Method/-sendText:encrypted:to:params:push:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)sendText:encrypted:to:params:push:">-sendText:encrypted:to:params:push:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a text to a user</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">sendText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span>
+                       <span class="nf">encrypted</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">shouldEncrypt</span>
+                              <span class="nf">to</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+                          <span class="nf">params</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalParams</span>
+                            <span class="nf">push</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">optionalPush</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendText</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">encrypted</span> <span class="nv">shouldEncrypt</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">to</span> <span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">params</span> <span class="nv">optionalParams</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="n">push</span> <span class="nv">optionalPush</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Plain text to send</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shouldEncrypt</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the message should be encrypted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conversationId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Conversation Id, it can be a Monkey Id or a Group Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>params</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional params determined by the developer</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>push</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional push that goes with the message</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The message generated by Monkey</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)sendEncryptedText:to:params:push:"></a>
+                    <a name="//apple_ref/objc/Method/-sendEncryptedText:to:params:push:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)sendEncryptedText:to:params:push:">-sendEncryptedText:to:params:push:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a encrypted text to a user or group</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">sendEncryptedText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span>
+                                       <span class="nf">to</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+                                   <span class="nf">params</span><span class="p">:</span>
+                                       <span class="p">(</span><span class="n">nullable</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalParams</span>
+                                     <span class="nf">push</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">optionalPush</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendEncryptedText</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">params</span> <span class="nv">optionalParams</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="n">push</span> <span class="nv">optionalPush</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Plain text to send</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shouldEncrypt</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the message should be encrypted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conversationId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Conversation Id, it can be a Monkey Id or a Group Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalParams</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional params determined by the developer</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalPush</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional push that goes with the message</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The message generated by Monkey</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)sendText:to:params:push:"></a>
+                    <a name="//apple_ref/objc/Method/-sendText:to:params:push:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)sendText:to:params:push:">-sendText:to:params:push:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a plain text to a user or group</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">sendText</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">text</span>
+                              <span class="nf">to</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+                          <span class="nf">params</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalParams</span>
+                            <span class="nf">push</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">optionalPush</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendText</span><span class="p">(</span><span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">params</span> <span class="nv">optionalParams</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="n">push</span> <span class="nv">optionalPush</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Plain text to send</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shouldEncrypt</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the message should be encrypted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conversationId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Conversation Id, it can be a Monkey Id or a Group Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalParams</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional params determined by the developer</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalPush</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional push that goes with the message</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The message generated by Monkey</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)sendNotificationTo:params:push:"></a>
+                    <a name="//apple_ref/objc/Method/-sendNotificationTo:params:push:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)sendNotificationTo:params:push:">-sendNotificationTo:params:push:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a notification to a user</p>
+
+<pre class="highlight plaintext"><code>@param  conversationId  Conversation Id, it can be a Monkey Id or a Group Id
+@param  optionalParams  Optional params determined by the developer
+@param  optionalPush    Optional push that goes with the notification
+
+- returns: The message generated by Monkey
+
+@discussion The push type is expected to be either `NSString` or `NSDictionary`.
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nf">sendNotificationTo</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+                                    <span class="nf">params</span><span class="p">:</span>
+                                        <span class="p">(</span><span class="n">nullable</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalParams</span>
+                                      <span class="nf">push</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalPush</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendNotificationTo</span><span class="p">(</span><span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">params</span> <span class="nv">optionalParams</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="n">push</span> <span class="nv">optionalPush</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conversationId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Conversation Id, it can be a Monkey Id or a Group Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalParams</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional params determined by the developer</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalPush</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional push that goes with the notification</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The message generated by Monkey</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)sendTemporalNotificationTo:params:push:"></a>
+                    <a name="//apple_ref/objc/Method/-sendTemporalNotificationTo:params:push:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)sendTemporalNotificationTo:params:push:">-sendTemporalNotificationTo:params:push:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a temporal notification to a user</p>
+
+<pre class="highlight plaintext"><code>@param  conversationId  Conversation Id, it can be a Monkey Id or a Group Id
+@param  optionalParams  Optional params determined by the developer
+@param  optionalPush    Optional push that goes with the notification
+
+- returns: The message generated by Monkey
+
+@discussion The push type is expected to be either `NSString` or `NSDictionary`
+
+- warning: This type of notification only works for messages received in real time.
+If the recipient is not online, he will never get this message.
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span>
+<span class="nf">sendTemporalNotificationTo</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+                    <span class="nf">params</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalParams</span>
+                      <span class="nf">push</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalPush</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendTemporalNotificationTo</span><span class="p">(</span><span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">params</span> <span class="nv">optionalParams</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="n">push</span> <span class="nv">optionalPush</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span><span class="o">!</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conversationId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Conversation Id, it can be a Monkey Id or a Group Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalParams</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional params determined by the developer</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalPush</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional push that goes with the notification</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The message generated by Monkey</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)deleteMessage:notify:"></a>
+                    <a name="//apple_ref/objc/Method/-deleteMessage:notify:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)deleteMessage:notify:">-deleteMessage:notify:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Delete a message from the server and notify conversation members</p>
+
+<pre class="highlight plaintext"><code>@param  messageId       The Id of the message to be deleted
+@param  conversationId  Conversation to be notified, it can be a Monkey Id or a Group Id
+
+@discussion Deleted messages won't arrive when requesting pending messages
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">messageId</span>
+               <span class="nf">notify</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">deleteMessage</span><span class="p">(</span><span class="nv">messageId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">notify</span> <span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>messageId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Id of the message to be deleted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conversationId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Conversation to be notified, it can be a Monkey Id or a Group Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)sendFile:type:filename:encrypted:compressed:to:params:push:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-sendFile:type:filename:encrypted:compressed:to:params:push:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)sendFile:type:filename:encrypted:compressed:to:params:push:success:failure:">-sendFile:type:filename:encrypted:compressed:to:params:push:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a file from memory</p>
+
+<pre class="highlight plaintext"><code>@param  data            The data of the file
+@param  type            File type
+@param  filename        name of the file
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span>
+  <span class="nf">sendFile</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSData</span> <span class="o">*</span><span class="p">)</span><span class="nv">data</span>
+      <span class="nf">type</span><span class="p">:(</span><span class="n"><a href="../Enums/MOKFileType.html">MOKFileType</a></span><span class="p">)</span><span class="nv">type</span>
+  <span class="nf">filename</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">filename</span>
+ <span class="nf">encrypted</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">shouldEncrypt</span>
+<span class="nf">compressed</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">shouldCompress</span>
+        <span class="nf">to</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+    <span class="nf">params</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalParams</span>
+      <span class="nf">push</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">optionalPush</span>
+   <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+   <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                              <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendFile</span><span class="p">(</span><span class="nv">data</span><span class="p">:</span> <span class="kt">NSData</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="nv">filename</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">encrypted</span> <span class="nv">shouldEncrypt</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">compressed</span> <span class="nv">shouldCompress</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">to</span> <span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">params</span> <span class="nv">optionalParams</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="n">push</span> <span class="nv">optionalPush</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">((</span><span class="kt">UnsafeMutablePointer</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The data of the file</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>File type</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filename</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>name of the file</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shouldEncrypt</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the file should be encrypted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shouldCompress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the file should be compressed using GZIP</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conversationId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Conversation Id, it can be a Monkey Id or a Group Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalParams</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional params determined by the developer</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalPush</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional push that goes with the file message</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when the file was sent successfully</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when the file failed to send</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The message generated by Monkey which represents the file</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)sendFilePath:type:filename:encrypted:compressed:to:params:push:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-sendFilePath:type:filename:encrypted:compressed:to:params:push:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)sendFilePath:type:filename:encrypted:compressed:to:params:push:success:failure:">-sendFilePath:type:filename:encrypted:compressed:to:params:push:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Send a file from a local path</p>
+
+<pre class="highlight plaintext"><code>@param  filePath        The path to your file
+@param  type            File type
+@param  filename        name of the file
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">nullable</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span>
+<span class="nf">sendFilePath</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">filePath</span>
+        <span class="nf">type</span><span class="p">:(</span><span class="n"><a href="../Enums/MOKFileType.html">MOKFileType</a></span><span class="p">)</span><span class="nv">type</span>
+    <span class="nf">filename</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">filename</span>
+   <span class="nf">encrypted</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">shouldEncrypt</span>
+  <span class="nf">compressed</span><span class="p">:(</span><span class="n">BOOL</span><span class="p">)</span><span class="nv">shouldCompress</span>
+          <span class="nf">to</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+      <span class="nf">params</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalParams</span>
+        <span class="nf">push</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">optionalPush</span>
+     <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+     <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">sendFilePath</span><span class="p">(</span><span class="nv">filePath</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="nv">filename</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">encrypted</span> <span class="nv">shouldEncrypt</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">compressed</span> <span class="nv">shouldCompress</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="n">to</span> <span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">params</span> <span class="nv">optionalParams</span><span class="p">:</span> <span class="p">[</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">]?,</span> <span class="n">push</span> <span class="nv">optionalPush</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">((</span><span class="kt">UnsafeMutablePointer</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filePath</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The path to your file</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>type</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>File type</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>filename</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>name of the file</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shouldEncrypt</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the file should be encrypted</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>shouldCompress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Flag that determines if the file should be compressed using GZIP</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>conversationId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Conversation Id, it can be a Monkey Id or a Group Id</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalParams</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional params determined by the developer</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>optionalPush</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional push that goes with the file message</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when the file was sent successfully</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when the file failed to send</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The message generated by Monkey which represents the file</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)downloadFileMessage:fileDestination:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-downloadFileMessage:fileDestination:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)downloadFileMessage:fileDestination:success:failure:">-downloadFileMessage:fileDestination:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Download file to specified folder.</p>
+
+<pre class="highlight plaintext"><code>- parameter:    message             Message that represents the file
+@param  fileDestination     Path where the file will be stored
+</code></pre>
+
+<p>@param    success             Completion block when the file was downloaded successfully
+  @param    failure             Completion block when the file failed to download</p>
+
+<pre class="highlight plaintext"><code>@discussion The file will be decrypted and decompressed before being stored
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">downloadFileMessage</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span>
+            <span class="nf">fileDestination</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">fileDestination</span>
+                    <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSData</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+                    <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                               <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">downloadFileMessage</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">,</span> <span class="nv">fileDestination</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSData</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>message</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Message that represents the file</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>fileDestination</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Path where the file will be stored</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when the file was downloaded successfully</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when the file failed to download</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)getConversationsSince:quantity:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-getConversationsSince:quantity:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)getConversationsSince:quantity:success:failure:">-getConversationsSince:quantity:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get conversations for my Monkey Id.</p>
+
+<pre class="highlight plaintext"><code>@param  timestamp   Timestamp from which to request the next badge of conversations
+@param  qty         Quantity of conversations to fetch
+</code></pre>
+
+<p>@param    success     Completion block when the conversations were fetched successfully
+  @param    failure     Completion block when the conversations failed to fetch</p>
+
+<pre class="highlight plaintext"><code>@discussion a Conversation
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">getConversationsSince</span><span class="p">:(</span><span class="kt">double</span><span class="p">)</span><span class="nv">timestamp</span>
+                     <span class="nf">quantity</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">qty</span>
+                      <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSArray</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+                      <span class="nf">failure</span><span class="p">:</span>
+                          <span class="p">(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                             <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getConversationsSince</span><span class="p">(</span><span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Double</span><span class="p">,</span> <span class="n">quantity</span> <span class="nv">qty</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>timestamp</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Timestamp from which to request the next badge of conversations</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>qty</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Quantity of conversations to fetch</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>success</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when the conversations were fetched successfully</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>failure</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion block when the conversations failed to fetch</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)getConversationMessages:since:quantity:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-getConversationMessages:since:quantity:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)getConversationMessages:since:quantity:success:failure:">-getConversationMessages:since:quantity:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get messages of a conversation</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="nf">getConversationMessages</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+                  <span class="nf">since</span><span class="p">:(</span><span class="n">NSInteger</span><span class="p">)</span><span class="nv">timestamp</span>
+               <span class="nf">quantity</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">qty</span>
+                <span class="nf">success</span><span class="p">:</span>
+                    <span class="p">(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*&gt;</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+                <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                           <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getConversationMessages</span><span class="p">(</span><span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">since</span> <span class="nv">timestamp</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="n">quantity</span> <span class="nv">qty</span><span class="p">:</span> <span class="kt">Int32</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)createGroup:members:info:push:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-createGroup:members:info:push:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)createGroup:members:info:push:success:failure:">-createGroup:members:info:push:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create group with me and members</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">createGroup</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">optionalId</span>
+            <span class="nf">members</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">members</span>
+               <span class="nf">info</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">NSMutableDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">info</span>
+               <span class="nf">push</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">optionalPush</span>
+            <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+            <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                       <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">createGroup</span><span class="p">(</span><span class="nv">optionalId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">members</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">],</span> <span class="nv">info</span><span class="p">:</span> <span class="kt">NSMutableDictionary</span><span class="p">?,</span> <span class="n">push</span> <span class="nv">optionalPush</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)addMember:group:pushNewMember:pushMembers:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-addMember:group:pushNewMember:pushMembers:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)addMember:group:pushNewMember:pushMembers:success:failure:">-addMember:group:pushNewMember:pushMembers:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add member to existing group</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">addMember</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">newMonkeyId</span>
+            <span class="nf">group</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">groupId</span>
+    <span class="nf">pushNewMember</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">optionalPushNewMember</span>
+      <span class="nf">pushMembers</span><span class="p">:(</span><span class="n">nullable</span> <span class="n">id</span><span class="p">)</span><span class="nv">optionalPushMembers</span>
+          <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+          <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                     <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">addMember</span><span class="p">(</span><span class="nv">newMonkeyId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">group</span> <span class="nv">groupId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">pushNewMember</span> <span class="nv">optionalPushNewMember</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="n">pushMembers</span> <span class="nv">optionalPushMembers</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)removeMember:group:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-removeMember:group:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)removeMember:group:success:failure:">-removeMember:group:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Remove member from existing group</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">removeMember</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">monkeyId</span>
+               <span class="nf">group</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">groupId</span>
+             <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+             <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                        <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">removeMember</span><span class="p">(</span><span class="nv">monkeyId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">group</span> <span class="nv">groupId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)deleteConversation:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-deleteConversation:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)deleteConversation:success:failure:">-deleteConversation:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Delete conversation from my history of conversations</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">deleteConversation</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">conversationId</span>
+                   <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+                   <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                              <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">deleteConversation</span><span class="p">(</span><span class="nv">conversationId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)getInfoById:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-getInfoById:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)getInfoById:success:failure:">-getInfoById:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get info of user or group, whichever is the case</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">getInfoById</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">monkeyId</span>
+            <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+            <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                       <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getInfoById</span><span class="p">(</span><span class="nv">monkeyId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)getInfoByIds:success:failure:"></a>
+                    <a name="//apple_ref/objc/Method/-getInfoByIds:success:failure:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)getInfoByIds:success:failure:">-getInfoByIds:success:failure:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get info of a list of monkey ids</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">getInfoByIds</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n">NSArray</span> <span class="o">*</span><span class="p">)</span><span class="nv">idList</span>
+             <span class="nf">success</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="nv">success</span>
+             <span class="nf">failure</span><span class="p">:(</span><span class="n">nullable</span> <span class="kt">void</span> <span class="p">(</span><span class="o">^</span><span class="p">)(</span><span class="n">NSURLSessionDataTask</span> <span class="o">*</span><span class="n">_Nullable</span><span class="p">,</span>
+                                        <span class="n">NSError</span> <span class="o">*</span><span class="n">_Nonnull</span><span class="p">))</span><span class="n">failure</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">getInfoByIds</span><span class="p">(</span><span class="nv">idList</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">],</span> <span class="nv">success</span><span class="p">:</span> <span class="p">(([</span><span class="kt">NSObject</span> <span class="p">:</span> <span class="kt">AnyObject</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?,</span> <span class="nv">failure</span><span class="p">:</span> <span class="p">((</span><span class="kt">NSURLSessionDataTask</span><span class="p">?,</span> <span class="kt">NSError</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:objc(cs)Monkey(im)isMessageOutgoing:"></a>
+                    <a name="//apple_ref/objc/Method/-isMessageOutgoing:" class="dashAnchor"></a>
+                    <a class="token" href="#/c:objc(cs)Monkey(im)isMessageOutgoing:">-isMessageOutgoing:</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Check if the message is outgoing</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Objective-C</p>
+                          <pre class="highlight"><code><span class="k">-</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="nf">isMessageOutgoing</span><span class="p">:(</span><span class="n">nonnull</span> <span class="n"><a href="../Classes/MOKMessage.html">MOKMessage</a></span> <span class="o">*</span><span class="p">)</span><span class="nv">message</span><span class="p">;</span></code></pre>
+
+                        </div>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">isMessageOutgoing</span><span class="p">(</span><span class="nv">message</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="o">!</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="https://criptext.com" target="_blank" rel="external">Criptext, Inc.</a>. All rights reserved. (Last updated: 2016-08-12)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

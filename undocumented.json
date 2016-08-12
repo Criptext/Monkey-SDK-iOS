@@ -1,0 +1,565 @@
+{
+  "warnings": [
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/Example/Pods/Target Support Files/MonkeyKit/MonkeyKit.h",
+      "line": 9,
+      "symbol": "MonkeyKitVersionNumber",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/Example/Pods/Target Support Files/MonkeyKit/MonkeyKit.h",
+      "line": 10,
+      "symbol": "MonkeyKitVersionString",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKConversation.h",
+      "line": 11,
+      "symbol": "MOKConversation",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKDictionaryBasedObject.h",
+      "line": 12,
+      "symbol": "MOKDictionaryBasedObject",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKDictionaryBasedObject.h",
+      "line": 16,
+      "symbol": "MOKDictionaryBasedObject.-integerFromDictionary:key:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKDictionaryBasedObject.h",
+      "line": 17,
+      "symbol": "MOKDictionaryBasedObject.-floatFromDictionary:key:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKDictionaryBasedObject.h",
+      "line": 18,
+      "symbol": "MOKDictionaryBasedObject.-booleanFromDictionary:key:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKDictionaryBasedObject.h",
+      "line": 19,
+      "symbol": "MOKDictionaryBasedObject.-doubleFromDictionary:key:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKDictionaryBasedObject.h",
+      "line": 20,
+      "symbol": "MOKDictionaryBasedObject.-stringFromDictionary:key:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKDictionaryBasedObject.h",
+      "line": 21,
+      "symbol": "MOKDictionaryBasedObject.-stringIntFromDictionary:key:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 12,
+      "symbol": "MOKProtocolCommand",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 12,
+      "symbol": "MOKProtocolCommand",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 12,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 13,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolMessage",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 13,
+      "symbol": "MOKProtocolCommand.MOKProtocolMessage",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 14,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolGet",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 14,
+      "symbol": "MOKProtocolCommand.MOKProtocolGet",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 15,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolTransaction",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 15,
+      "symbol": "MOKProtocolCommand.MOKProtocolTransaction",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 16,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolOpen",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 16,
+      "symbol": "MOKProtocolCommand.MOKProtocolOpen",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 17,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolSet",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 17,
+      "symbol": "MOKProtocolCommand.MOKProtocolSet",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 18,
+      "symbol": "MOKProtocolCommand.MOKProtocolACK",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 18,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolACK",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 19,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolPublish",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 19,
+      "symbol": "MOKProtocolCommand.MOKProtocolPublish",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 20,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolDelete",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 20,
+      "symbol": "MOKProtocolCommand.MOKProtocolDelete",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 21,
+      "symbol": "MOKProtocolCommand.MOKProtocolClose",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 21,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolClose",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 22,
+      "symbol": "MOKProtocolCommand.MOKProtocolCommand.MOKProtocolSync",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 22,
+      "symbol": "MOKProtocolCommand.MOKProtocolSync",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 25,
+      "symbol": "MOKMessageType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 25,
+      "symbol": "MOKMessageType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 25,
+      "symbol": "MOKMessageType.MOKMessageType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 26,
+      "symbol": "MOKMessageType.MOKMessageType.MOKText",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 26,
+      "symbol": "MOKMessageType.MOKText",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 27,
+      "symbol": "MOKMessageType.MOKFile",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 27,
+      "symbol": "MOKMessageType.MOKMessageType.MOKFile",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 28,
+      "symbol": "MOKMessageType.MOKMessageType.MOKTempNote",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 28,
+      "symbol": "MOKMessageType.MOKTempNote",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 29,
+      "symbol": "MOKMessageType.MOKMessageType.MOKNotif",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 29,
+      "symbol": "MOKMessageType.MOKNotif",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 30,
+      "symbol": "MOKMessageType.MOKAlert",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 30,
+      "symbol": "MOKMessageType.MOKMessageType.MOKAlert",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 33,
+      "symbol": "MOKFileType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 33,
+      "symbol": "MOKFileType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 33,
+      "symbol": "MOKFileType.MOKFileType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 34,
+      "symbol": "MOKFileType.MOKAudio",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 34,
+      "symbol": "MOKFileType.MOKFileType.MOKAudio",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 35,
+      "symbol": "MOKFileType.MOKFileType.MOKVideo",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 35,
+      "symbol": "MOKFileType.MOKVideo",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 36,
+      "symbol": "MOKFileType.MOKFileType.MOKPhoto",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 36,
+      "symbol": "MOKFileType.MOKPhoto",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 37,
+      "symbol": "MOKFileType.MOKArchive",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 37,
+      "symbol": "MOKFileType.MOKFileType.MOKArchive",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 40,
+      "symbol": "MOKGetType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 40,
+      "symbol": "MOKGetType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 40,
+      "symbol": "MOKGetType.MOKGetType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 41,
+      "symbol": "MOKGetType.MOKGetType.MOKMessagesHistory",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 41,
+      "symbol": "MOKGetType.MOKMessagesHistory",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 42,
+      "symbol": "MOKGetType.MOKGetType.MOKGroupsString",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 42,
+      "symbol": "MOKGetType.MOKGroupsString",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 45,
+      "symbol": "MOKActionType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 45,
+      "symbol": "MOKActionType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.typedef",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 45,
+      "symbol": "MOKActionType.MOKActionType",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enum",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 46,
+      "symbol": "MOKActionType.MOKActionType.MOKGroupCreate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 46,
+      "symbol": "MOKActionType.MOKGroupCreate",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 47,
+      "symbol": "MOKActionType.MOKActionType.MOKGroupDelete",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 47,
+      "symbol": "MOKActionType.MOKGroupDelete",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 48,
+      "symbol": "MOKActionType.MOKActionType.MOKGroupNewMember",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 48,
+      "symbol": "MOKActionType.MOKGroupNewMember",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 49,
+      "symbol": "MOKActionType.MOKActionType.MOKGroupRemoveMember",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 49,
+      "symbol": "MOKActionType.MOKGroupRemoveMember",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 50,
+      "symbol": "MOKActionType.MOKActionType.MOKGroupList",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 50,
+      "symbol": "MOKActionType.MOKGroupList",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.enumcase",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 53,
+      "symbol": "MOKMessage",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 238,
+      "symbol": "MOKMessage.-updateMessageIdFromACK",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKMessage.h",
+      "line": 251,
+      "symbol": "MOKMessage.+generatePushFrom:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/Gianni/Workspace/Monkey-SDK-iOS"
+}
