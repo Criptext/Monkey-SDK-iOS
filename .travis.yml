@@ -44,3 +44,11 @@ script:
 #       xcodebuild test -project Example/Example.xcodeproj -scheme Example -sdk "$SDK" -destination "$DESTINATION" -configuration Debug ONLY_ACTIVE_ARCH=NO | xcpretty -c;
 #   fi
 #- set -o pipefail && xcodebuild test -workspace Example/MonkeyKit.xcworkspace -scheme MonkeyKit-Example -sdk iphonesimulator9.3 ONLY_ACTIVE_ARCH=NO | xcpretty
+
+# Build for reporting test coverage
+- if [ $RUN_TESTS == "YES" ]; then
+      xcodebuild test -workspace "Example.MonkeyKit.xcworkspace" -scheme MonkeyKit-Example -sdk iphonesimulator GCC_INSTRUMENT_PROGRAM_FLOW_ARCS=YES GCC_GENERATE_TEST_COVERAGE_FILES=YES;
+  fi
+
+after_success:
+- bash <(curl -s https://codecov.io/bash);

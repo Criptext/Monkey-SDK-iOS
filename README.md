@@ -1,6 +1,6 @@
 # MonkeyKit
 
-[![CI Status](http://img.shields.io/travis/Gianni Carlo/MonkeyKit.svg?style=flat)](https://travis-ci.org/Gianni Carlo/MonkeyKit)
+[![CI Status](http://img.shields.io/travis/Criptext/Monkey-SDK-iOS.svg?style=flat)](https://travis-ci.org/Criptext/Monkey-SDK-iOS)
 [![Version](https://img.shields.io/cocoapods/v/MonkeyKit.svg?style=flat)](http://cocoapods.org/pods/MonkeyKit)
 [![License](https://img.shields.io/cocoapods/l/MonkeyKit.svg?style=flat)](http://cocoapods.org/pods/MonkeyKit)
 [![Platform](https://img.shields.io/cocoapods/p/MonkeyKit.svg?style=flat)](http://cocoapods.org/pods/MonkeyKit)
