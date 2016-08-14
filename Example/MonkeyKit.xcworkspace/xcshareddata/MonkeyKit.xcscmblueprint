@@ -1,14 +1,20 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3BB1634752BAA7E4E9876C51CC817FFF97705BC5",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++533E0C3",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
 
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "3BB1634752BAA7E4E9876C51CC817FFF97705BC5" : 0
+    "5C84ACBA53EF6100BE4EBCC4B711EBD1AC5AF552+++0B31D10" : 0,
+    "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++2B881D1" : 0,
+    "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++3A40E11" : 0,
+    "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++533E0C3" : 0
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "EC10FDF3-4EF5-4F69-B74A-484109009862",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "3BB1634752BAA7E4E9876C51CC817FFF97705BC5" : "Monkey-SDK-iOS\/MonkeyKit\/"
+    "5C84ACBA53EF6100BE4EBCC4B711EBD1AC5AF552+++0B31D10" : "",
+    "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++2B881D1" : "Monkey-SDK-iOS\/MonkeyKit\/",
+    "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++3A40E11" : "Monkey-SDK-iOS\/MonkeyKit\/",
+    "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++533E0C3" : "MonkeyKit\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "MonkeyKit",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -17,12 +23,22 @@
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Criptext\/Monkey-SDK-iOS",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3BB1634752BAA7E4E9876C51CC817FFF97705BC5"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++2B881D1"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Criptext\/Monkey-SDK-iOS",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3BB1634752BAA7E4E9876C51CC817FFF97705BC5"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++3A40E11"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Criptext\/Monkey-SDK-iOS",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "3BB1634752BAA7E4E9876C51CC817FFF97705BC5+++533E0C3"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/Criptext\/Monkey-SDK-iOS",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "5C84ACBA53EF6100BE4EBCC4B711EBD1AC5AF552+++0B31D10"
     }
   ]
 }

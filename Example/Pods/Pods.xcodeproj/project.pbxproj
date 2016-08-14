@@ -218,7 +218,7 @@
 		F06376E391695BCBC7D4C9026F8B5EB0 /* RLMObjectSchema.mm in Sources */ = {isa = PBXBuildFile; fileRef = C6F322FB9A52432E91DC0CBA7851BF5B /* RLMObjectSchema.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"1.0.0\"' -D__ASSERTMACROS__"; }; };
 		F5F066253FD552DFAE16F92BBA0F5936 /* Monkey.h in Headers */ = {isa = PBXBuildFile; fileRef = 175F5FE4D878128C64B5FD4C3EACFA76 /* Monkey.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		F8CD5A2FF8F332D69BA09DBF1D284418 /* RLMObject.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6262A106371EBD3A5387EAC46CD3C30A /* RLMObject.mm */; settings = {COMPILER_FLAGS = "-DREALM_HAVE_CONFIG -DREALM_COCOA_VERSION='@\"1.0.0\"' -D__ASSERTMACROS__"; }; };
-		F942FF93F14C7A9C9021799289448129 /* MOKSecurityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 104763DA864CFC34FA7AF65632805690 /* MOKSecurityManager.h */; };
+		F942FF93F14C7A9C9021799289448129 /* MOKSecurityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 104763DA864CFC34FA7AF65632805690 /* MOKSecurityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC8C947C8D87A94CF54E55BC1F12902B /* RLMRealmConfiguration.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = B29A1C56395843327A702571C67841B0 /* RLMRealmConfiguration.h */; };
 		FCA0D06B67275C924A9D93113A1599B2 /* RLMRealm.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = C8CDC8BF4BF3E5FBA091BD83FA493100 /* RLMRealm.h */; };
 /* End PBXBuildFile section */
