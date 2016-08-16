@@ -2,21 +2,21 @@
   "warnings": [
     {
       "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/Example/Pods/Target Support Files/MonkeyKit/MonkeyKit.h",
-      "line": 9,
+      "line": 11,
       "symbol": "MonkeyKitVersionNumber",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/Example/Pods/Target Support Files/MonkeyKit/MonkeyKit.h",
-      "line": 10,
+      "line": 12,
       "symbol": "MonkeyKitVersionString",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.constant",
       "warning": "undocumented"
     },
     {
       "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Model/MOKConversation.h",
-      "line": 11,
+      "line": 12,
       "symbol": "MOKConversation",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
       "warning": "undocumented"
@@ -558,6 +558,146 @@
       "line": 251,
       "symbol": "MOKMessage.+generatePushFrom:",
       "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 12,
+      "symbol": "MOKSecurityManager",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 13,
+      "symbol": "MOKSecurityManager.+sharedInstance",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.class",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 15,
+      "symbol": "MOKSecurityManager.-logout",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 18,
+      "symbol": "MOKSecurityManager.-storeObject:withIdentifier:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 19,
+      "symbol": "MOKSecurityManager.-getObjectForIdentifier:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 24,
+      "symbol": "MOKSecurityManager.-generateKeyPairRSA",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 26,
+      "symbol": "MOKSecurityManager.-exportPublicKeyRSA",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 27,
+      "symbol": "MOKSecurityManager.-rsaEncryptString:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 29,
+      "symbol": "MOKSecurityManager.-rsaDecryptString:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 31,
+      "symbol": "MOKSecurityManager.-rsaEncryptString:publicKey:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 35,
+      "symbol": "MOKSecurityManager.-generateAESKeyAndIV",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 36,
+      "symbol": "MOKSecurityManager.-aesEncryptText:fromUser:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 37,
+      "symbol": "MOKSecurityManager.-aesDecryptText:fromUser:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 39,
+      "symbol": "MOKSecurityManager.-aesEncryptData:fromUser:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 40,
+      "symbol": "MOKSecurityManager.-aesDecryptData:fromUser:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 43,
+      "symbol": "MOKSecurityManager.-aesDecryptKeyAndClean:fromUser:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 47,
+      "symbol": "MOKSecurityManager.-getAESbase64forUser:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 48,
+      "symbol": "MOKSecurityManager.-getIVbase64forUser:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 51,
+      "symbol": "MOKSecurityManager.-decodeBase64:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/Gianni/Workspace/Monkey-SDK-iOS/MonkeyKit/MonkeyKit/Classes/Security/MOKSecurityManager.h",
+      "line": 52,
+      "symbol": "MOKSecurityManager.-encodeBase64:",
+      "symbol_kind": "sourcekitten.source.lang.objc.decl.method.instance",
       "warning": "undocumented"
     }
   ],
