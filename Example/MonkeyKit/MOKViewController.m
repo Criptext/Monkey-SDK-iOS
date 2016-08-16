@@ -9,8 +9,8 @@
 #import "MOKViewController.h"
 
 
-NSString * const MonkeyAppId = @"";
-NSString * const MonkeyAppSecret = @"";
+NSString * const MonkeyAppId = @"<placeholder>";
+NSString * const MonkeyAppSecret = @"<placeholder>";
 NSString * const MyMonkeyId = @"";
 @interface MOKViewController ()
 @property (strong, nonatomic) MOKUser *me;

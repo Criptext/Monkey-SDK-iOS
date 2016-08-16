@@ -14,6 +14,7 @@
 #import "MOKWatchdog.h"
 #import "NSData+GZIP.h"
 #import "NSData+Base64.h"
+#import "MOKConversation.h"
 
 NSString * const MonkeySocketStatusChangeNotification = @"com.criptext.networking.socket.status";
 
@@ -242,12 +243,83 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 
 -(void)getConversationsSince:(double)timestamp
                     quantity:(int)qty
-                     success:(nullable void (^)(NSArray * _Nonnull conversations))success
+                     success:(nullable void (^)(NSArray<MOKConversation *> * _Nonnull conversations))success
                      failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
     [self checkSession];
     [[MOKAPIConnector sharedInstance] getConversationsOf:_session[@"monkeyId"] since:timestamp quantity:qty success:^(NSArray * _Nonnull conversations) {
-        [self processConversationList:conversations completion:success];
+        
+        [self processConversationList:conversations completion:^(NSMutableArray * _Nonnull conversations) {
+            NSMutableArray *conversationArray = [@[] mutableCopy];
+            
+            for (NSDictionary *conversation in conversations) {
+                MOKConversation *conv = [[MOKConversation alloc] initWithId:conversation[@"id"]];
+                conv.info = conversation[@"info"] ?: @{};
+                conv.members = conversation[@"members"] ?: @[];
+                conv.lastMessage = conversation[@"last_message"];
+                conv.lastSeen = [conversation[@"last_seen"] doubleValue];
+                conv.lastModified = [conversation[@"last_modified"] doubleValue];
+                conv.unread = conversation[@"unread"];
+            }
+            
+            success(conversationArray);
+        }];
     } failure:failure];
+}
+
+-(void)processConversationList:(NSArray *)conversationList
+                    completion:(nullable void (^)(NSMutableArray * _Nonnull conversations))completion{
+    NSMutableArray *processedList = [@[]mutableCopy];
+    
+    for (NSMutableDictionary *conversation in conversationList) {
+        NSDictionary *lastMessage = conversation[@"last_message"];
+        if(lastMessage == nil){
+            continue;
+        }
+        
+        MOKMessage *message = [[MOKMessage alloc] initWithArgs:lastMessage];
+        message.protocolCommand = MOKProtocolMessage;
+        
+        NSMutableDictionary *mutableConversation = [conversation mutableCopy];
+        mutableConversation[@"last_message"] = message;
+        
+        [processedList addObject:mutableConversation];
+        
+        //check if encrypted
+        if ([message isEncrypted] && ![message isMediaMessage]) {
+            @try {
+                message.plainText= [[MOKSecurityManager sharedInstance] aesDecryptText:message.encryptedText fromUser:message.sender];
+            }
+            @catch (NSException *exception) {
+                NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
+                [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
+                    //retry this message
+                    message.plainText= [[MOKSecurityManager sharedInstance] aesDecryptText:message.encryptedText fromUser:message.sender];
+                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                    NSLog(@"Error decrypting last message: %@", error);
+                }];
+                continue;
+            }
+            
+            if (message.plainText== nil) {
+                NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
+                [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
+                    //retry this message
+                    message.plainText= [[MOKSecurityManager sharedInstance] aesDecryptText:message.encryptedText fromUser:message.sender];
+                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                    NSLog(@"Error decrypting last message: %@", error);
+                }];
+                continue;
+            }
+        }else{
+            message.plainText= message.encryptedText;
+            
+            if (message.props[@"encoding"] != nil && ![message.props[@"encoding"] isEqualToString:@"utf8"]) {
+                message.plainText= [[MOKSecurityManager sharedInstance] decodeBase64:message.encryptedText];
+            }
+        }
+    }
+    
+    completion(processedList);
 }
 
 -(void)getConversationMessages:(NSString *)conversationId
@@ -313,62 +385,6 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
     
     [decryptedArray addObject:message];
     [self decryptBulkMessages:messageArray decryptedMessages:decryptedArray completion:completion];
-}
-
--(void)processConversationList:(NSArray *)conversationList
-                    completion:(nullable void (^)(NSMutableArray * _Nonnull conversations))completion{
-    NSMutableArray *processedList = [@[]mutableCopy];
-    
-    for (NSMutableDictionary *conversation in conversationList) {
-        NSDictionary *lastMessage = conversation[@"last_message"];
-        if(lastMessage == nil){
-            continue;
-        }
-        
-        MOKMessage *message = [[MOKMessage alloc] initWithArgs:lastMessage];
-        message.protocolCommand = MOKProtocolMessage;
-        
-        NSMutableDictionary *mutableConversation = [conversation mutableCopy];
-        mutableConversation[@"last_message"] = message;
-        
-        [processedList addObject:mutableConversation];
-        
-        //check if encrypted
-        if ([message isEncrypted] && ![message isMediaMessage]) {
-            @try {
-                message.plainText= [[MOKSecurityManager sharedInstance] aesDecryptText:message.encryptedText fromUser:message.sender];
-            }
-            @catch (NSException *exception) {
-                NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
-                [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
-                    //retry this message
-                    message.plainText= [[MOKSecurityManager sharedInstance] aesDecryptText:message.encryptedText fromUser:message.sender];
-                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    NSLog(@"Error decrypting last message: %@", error);
-                }];
-                continue;
-            }
-            
-            if (message.plainText== nil) {
-                NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
-                [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
-                    //retry this message
-                    message.plainText= [[MOKSecurityManager sharedInstance] aesDecryptText:message.encryptedText fromUser:message.sender];
-                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    NSLog(@"Error decrypting last message: %@", error);
-                }];
-                continue;
-            }
-        }else{
-            message.plainText= message.encryptedText;
-            
-            if (message.props[@"encoding"] != nil && ![message.props[@"encoding"] isEqualToString:@"utf8"]) {
-                message.plainText= [[MOKSecurityManager sharedInstance] decodeBase64:message.encryptedText];
-            }
-        }
-    }
-    
-    completion(processedList);
 }
 
 #pragma mark - Group stuff
@@ -439,14 +455,14 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 
 #pragma mark - Messaging manager
 
--(MOKMessage *)sendText:(NSString *)text
+-(nonnull MOKMessage *)sendText:(NSString *)text
                      to:(NSString *)monkeyId
                  params:(NSDictionary *)optionalParams
                    push:(id)optionalPush{
     return [self sendText:text encrypted:false to:monkeyId params:optionalParams push:optionalPush];
 }
 
--(MOKMessage *)sendEncryptedText:(NSString *)text
+-(nonnull MOKMessage *)sendEncryptedText:(NSString *)text
                               to:(NSString *)monkeyId
                           params:(NSDictionary *)optionalParams
                             push:(id)optionalPush{

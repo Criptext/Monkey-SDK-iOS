@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+@class MOKMessage;
 
 @interface MOKConversation : NSObject
 
@@ -16,8 +17,56 @@
 @property (nonatomic, copy) NSString *conversationId;
 
 /**
- *	The metadata 
+ *	The metadata of the conversation (Group or user Info)
  */
-@property (nonatomic, copy) NSDictionary *info;
+@property (nonatomic, strong) NSDictionary *info;
 
+/**
+ *	Array of Monkey Ids
+ */
+@property (nonatomic, strong) NSArray *members;
+
+/**
+ *	Last message of the conversation
+ */
+@property (nullable, nonatomic, strong) MOKMessage *lastMessage;
+
+/**
+ *	Last time I've seen this conversation
+ */
+@property (nonatomic) NSTimeInterval lastSeen;
+
+/**
+ *	Number of unread messages
+ */
+@property (nonatomic) uint unread;
+
+/**
+ *	Last time the conversation was altered
+ */
+@property (nonatomic) NSTimeInterval lastModified;
+
+/**
+ *  Initialize a conversation with an Id
+ *
+ *  @param conversationId Id of the conversation
+ *
+ *  @return Instance of MOKConversation
+ */
+-(instancetype)initWithId:(NSString *)conversationId;
+
+/**
+ *  Get avatar URL for the conversation
+ */
+-(nonnull NSURL *)getAvatarURL;
+
+/**
+ *	Boolean that determines if the conversation is a group or not
+ */
+-(BOOL)isGroup;
+
+/**
+ *  Not a valid initializer.
+ */
+- (id)init NS_UNAVAILABLE;
 @end

@@ -10,4 +10,23 @@
 
 @implementation MOKConversation
 
+-(instancetype)initWithId:(NSString *)conversationId{
+    
+    if (self = [super init]) {
+        _conversationId = conversationId;
+    }
+    
+    return self;
+}
+
+-(NSURL *)getAvatarURL{
+    NSString *path = self.info[@"avatar"] ?: [@"https://monkey.criptext.com/user/icon/default/" stringByAppendingString:self.conversationId];
+    
+    return [[NSURL alloc] initWithString:path];
+}
+
+-(BOOL)isGroup{
+    return [self.conversationId rangeOfString:@"G:"].location != NSNotFound;
+}
+
 @end

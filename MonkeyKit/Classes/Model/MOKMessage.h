@@ -250,5 +250,10 @@ typedef enum{
 
 +(NSString *)generatePushFrom:(id)thing;
 
+/**
+ *  Not a valid initializer.
+ */
+- (id)init NS_UNAVAILABLE;
+
 @end
 

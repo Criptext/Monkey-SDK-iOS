@@ -61,7 +61,7 @@
     
     NSString *providedMonkeyId = nil;
     
-    if (user[@"monkeyId"] != nil) {
+    if (user[@"monkeyId"] != nil && ![user[@"monkeyId"] isEqualToString:@""]) {
         providedMonkeyId = user[@"monkeyId"];
         requestObject[@"monkey_id"] = providedMonkeyId;
         requestObject[@"public_key"] = [[MOKSecurityManager sharedInstance] exportPublicKeyRSA];

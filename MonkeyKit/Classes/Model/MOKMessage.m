@@ -81,21 +81,6 @@
 	
 }
 
-- (id)init {
-    return [self initWithMessage:nil
-                 protocolCommand:MOKProtocolMessage
-                    protocolType:MOKText
-                      monkeyType:0
-                       messageId:[self generateRandomId]
-                    oldMessageId:@"0"
-                       timestampCreated:[[NSDate date] timeIntervalSince1970]
-                  timestampOrder:[[NSDate date] timeIntervalSince1970]
-                        fromUser:nil
-                          toUser:nil
-                    mkProperties:[@{@"encr": @"1"} mutableCopy]
-                          params:nil];
-}
-
 - (id)initWithMessage:(NSString*)text
       protocolCommand:(MOKProtocolCommand)cmd
          protocolType:(int)protocolType
@@ -217,12 +202,10 @@
 
 -(id) mutableCopyWithZone: (NSZone *) zone
 {
-    MOKMessage *messCopy = [[MOKMessage allocWithZone: zone] init];
     
-    messCopy.recipient=self.recipient;
-    messCopy.sender=self.sender;
+    MOKMessage *messCopy = [[MOKMessage alloc] initTextMessage:self.plainText sender:self.sender recipient:self.recipient];
+    
     messCopy.messageId=self.messageId;
-    messCopy.plainText = self.plainText;
     messCopy.encryptedText = self.encryptedText;
     messCopy.timestampCreated=self.timestampCreated;
     messCopy.timestampOrder = self.timestampOrder;

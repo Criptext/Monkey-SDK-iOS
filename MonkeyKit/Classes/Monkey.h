@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "MOKMessage.h"
+@class MOKConversation;
 
 /**
  *	The `Monkey` class is a singleton through which you can send messages and files and interact with Criptext's servers.
@@ -288,16 +289,25 @@
  *  @param	success		Completion block when the conversations were fetched successfully
  *  @param	failure		Completion block when the conversations failed to fetch
  *
- *	@discussion	a Conversation
+ *	@discussion	A conversation can be a group or between 2 Monkey Ids
  */
 -(void)getConversationsSince:(double)timestamp
                     quantity:(int)qty
-                     success:(nullable void (^)(NSArray * _Nonnull conversations))success
+                     success:(nullable void (^)(NSArray<MOKConversation *> * _Nonnull conversations))success
                      failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
- *	Get messages of a conversation
  */
+/**
+ *	Get messages of a conversation
+ *
+ *  @param conversationId Id of the conversation
+ *  @param timestamp      Timestamp from which to request the next badge of messages
+ *  @param qty            Quantity of messages to fetch
+ *  @param success        Completion block when the messages were fetched successfully
+ *  @param failure        Completion block when the messages failed to fetch
+ */
+
 -(void)getConversationMessages:(nonnull NSString *)conversationId
                          since:(NSInteger)timestamp
                       quantity:(int)qty
@@ -305,7 +315,16 @@
                        failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
- *	Create group with me and members
+ *  Create group with me and members
+ *
+ *  @param	optionalId   	Optional Id for the group
+ *  @param	members      	Array of Monkey Ids
+ *  @param	info         	Metadata defined by the developer
+ *	@param	optionalPush	Optional push that goes with the file message
+ *  @param	success       	Completion block when the group was created successfully
+ *  @param	failure       	Completion block when the group failed to be created
+ *
+ *	@discussion	asdf
  */
 -(void)createGroup:(nullable NSString *)optionalId
            members:(nonnull NSArray *)members
@@ -315,7 +334,14 @@
            failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
- *	Add member to existing group
+ *  Add member to existing group
+ *
+ *  @param newMonkeyId           Monkey Id of the new member
+ *  @param groupId               Id of the group
+ *  @param optionalPushNewMember Push for the new member
+ *  @param optionalPushMembers   Push for existing members
+ *  @param success               Completion block when the member was added successfully
+ *  @param failure               Completion block when the request failed
  */
 -(void)addMember:(nonnull NSString *)newMonkeyId
            group:(nonnull NSString *)groupId
@@ -325,7 +351,12 @@
          failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
- *	Remove member from existing group
+ *  Remove member from existing group
+ *
+ *  @param monkeyId Monkey Id of the member to be deleted
+ *  @param groupId  Id of the group
+ *  @param success  Completion block when the member was removed successfully
+ *  @param failure  Completion block when the request failed
  */
 -(void)removeMember:(nonnull NSString *)monkeyId
               group:(nonnull NSString *)groupId
@@ -333,14 +364,22 @@
             failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
- *	Delete conversation from my history of conversations
+ *  Delete conversation from my history of conversations
+ *
+ *  @param conversationId	Id of the conversation
+ *  @param success			Completion block when the conversation was deleted successfully
+ *  @param failure			Completion block when the request failed
  */
 -(void)deleteConversation:(nonnull NSString *)conversationId
                   success:(nullable void (^)(NSDictionary * _Nonnull data))success
                   failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
- *	Get info of user or group, whichever is the case
+ *  Get info of user or group, whichever is the case
+ *
+ *  @param monkeyId	Id of the group or user to request info
+ *  @param success	Completion block when the conversation was deleted successfully
+ *  @param failure  Completion block when the request failed
  */
 -(void)getInfoById:(nonnull NSString *)monkeyId
            success:(nullable void (^)(NSDictionary * _Nonnull data))success
@@ -348,6 +387,10 @@
 
 /**
  *	Get info of a list of monkey ids
+ *
+ *  @param idList	Array os Monkey Ids
+ *  @param success	Completion block when the metadata was fetched successfully
+ *  @param failure	Completion block when the request failed
  */
 -(void)getInfoByIds:(nonnull NSArray *)idList
            success:(nullable void (^)(NSDictionary * _Nonnull data))success
@@ -369,66 +412,66 @@
 ///--------------------
 
 /**
- Posted when the socket connection status is changed.
+ *	Posted when the socket connection status is changed.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeySocketStatusChangeNotification;
 
 /**
- Posted when a message arrives through the socket.
+ *	Posted when a message arrives through the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyMessageNotification;
 
 /**
- Posted when a notification arrives through the socket.
+ *	Posted when a notification arrives through the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyNotificationNotification;
 
 /**
- Posted when an acknowledgement to a message I sent, arrives throught the socket.
+ *	Posted when an acknowledgement to a message I sent, arrives throught the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyAcknowledgeNotification;
 
 /**
- Posted when a group creation notification arrives through the socket.
+ *	Posted when a group creation notification arrives through the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyGroupCreateNotification;
 
 /**
- Posted when a group member removal notification arrives through the socket.
+ *	Posted when a group member removal notification arrives through the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyGroupRemoveNotification;
 
 /**
- Posted when a group add member notification arrives through the socket.
+ *	Posted when a group add member notification arrives through the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyGroupAddNotification;
 
 /**
- Posted when the list of group (ids) that I belong to, arrives through the socket.
+ *	Posted when the list of group (ids) that I belong to, arrives through the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyGroupListNotification;
 
 /**
- Posted when an open notification arrives through the socket.
+ *	Posted when an open notification arrives through the socket.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyOpenNotification;
 
 /**
- Posted as a response to an open I did, or when the status of a relevant conversation changes
+ *	Posted as a response to an open I did, or when the status of a relevant conversation changes
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyConversationStatusNotification;
 
 /**
- Posted when someone closes a conversation with me.
+ *	Posted when someone closes a conversation with me.
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyCloseNotification;
 
 /**
- Posted when the app should store the message
+ *	Posted when the app should store the message
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyMessageStoreNotification;
 
 /**
- Posted when the app should delete the message
+ *	Posted when the app should delete the message
  */
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyMessageDeleteNotification;

@@ -10,6 +10,7 @@
 #import <AFNetworking/AFHTTPSessionManager.h>
 
 @class MOKMessage;
+@class MOKConversation;
 @class MOKSBJsonWriter;
 
 @interface MOKAPIConnector : AFHTTPSessionManager
@@ -72,7 +73,7 @@ withPendingMessage:(nullable MOKMessage *)message
 -(void)getConversationsOf:(nonnull NSString *)monkeyId
                     since:(double)timestamp
                  quantity:(int)qty
-                  success:(nullable void (^)(NSArray * _Nonnull conversations))success
+                  success:(nullable void (^)(NSArray<MOKConversation *> * _Nonnull conversations))success
                   failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
