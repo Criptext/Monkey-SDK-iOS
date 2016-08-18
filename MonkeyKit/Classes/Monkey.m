@@ -259,6 +259,8 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
                 conv.lastSeen = [conversation[@"last_seen"] doubleValue];
                 conv.lastModified = [conversation[@"last_modified"] doubleValue];
                 conv.unread = conversation[@"unread"];
+                
+                [conversationArray addObject:conv];
             }
             
             success(conversationArray);

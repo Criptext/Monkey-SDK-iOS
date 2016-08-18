@@ -14,12 +14,12 @@
 /**
  *	The identifier for a conversation, this can be a Monkey Id or a Group Id
  */
-@property (nonatomic, copy) NSString *conversationId;
+@property (nonatomic, copy) NSString * _Nonnull conversationId;
 
 /**
  *	The metadata of the conversation (Group or user Info)
  */
-@property (nonatomic, strong) NSDictionary *info;
+@property (nonatomic, strong) NSMutableDictionary *info;
 
 /**
  *	Array of Monkey Ids
@@ -53,7 +53,7 @@
  *
  *  @return Instance of MOKConversation
  */
--(instancetype)initWithId:(NSString *)conversationId;
+-(nonnull instancetype)initWithId:(nonnull NSString *)conversationId;
 
 /**
  *  Get avatar URL for the conversation
@@ -68,5 +68,5 @@
 /**
  *  Not a valid initializer.
  */
-- (id)init NS_UNAVAILABLE;
+- (nullable id)init NS_UNAVAILABLE;
 @end

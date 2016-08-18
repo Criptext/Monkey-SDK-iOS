@@ -65,6 +65,8 @@
 		3D2789FC760A97301909F0B1201626CD /* AFNetworking-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 139DB438B8CC78447D31AD80BB2BECE0 /* AFNetworking-dummy.m */; };
 		3F1BC9BAFFEEABB1ABC7614DF0FC97D5 /* AFAutoPurgingImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CACB2CE54012082DC62D4233621088C /* AFAutoPurgingImageCache.m */; };
 		402E5B0CAEBB2DFC5D6983F5DF68E855 /* RLMRealmConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = B29A1C56395843327A702571C67841B0 /* RLMRealmConfiguration.h */; };
+		41155B4E1D6525520080B66E /* MOKUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 41155B4C1D6525520080B66E /* MOKUser.h */; };
+		41155B4F1D6525520080B66E /* MOKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 41155B4D1D6525520080B66E /* MOKUser.m */; };
 		41EF848E1D5B9074006F59E8 /* MOKConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EF848B1D5B906D006F59E8 /* MOKConversation.m */; };
 		41EF848F1D5B9078006F59E8 /* MOKConversation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EF848A1D5B906D006F59E8 /* MOKConversation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		44143F31F3C2DC803622D4FFF7414890 /* RLMObject.h in Copy . Public Headers */ = {isa = PBXBuildFile; fileRef = 8BF0B5AADADFA7EB1BE41EA1567099A6 /* RLMObject.h */; };
@@ -372,6 +374,8 @@
 		3E9DE691A4E6C2F874D60A1B99777E0B /* librealm-ios.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = "librealm-ios.a"; path = "core/librealm-ios.a"; sourceTree = "<group>"; };
 		3FD8B03B93AD81B2852C23F0439DD7E0 /* AFURLSessionManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = AFURLSessionManager.m; path = AFNetworking/AFURLSessionManager.m; sourceTree = "<group>"; };
 		407730B607E141C78262BB08271D2A64 /* Pods-MonkeyKit_Tests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-MonkeyKit_Tests.modulemap"; sourceTree = "<group>"; };
+		41155B4C1D6525520080B66E /* MOKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKUser.h; sourceTree = "<group>"; };
+		41155B4D1D6525520080B66E /* MOKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKUser.m; sourceTree = "<group>"; };
 		415C6FEDD487722B806926EF323BCDED /* AFNetworkReachabilityManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = AFNetworkReachabilityManager.h; path = AFNetworking/AFNetworkReachabilityManager.h; sourceTree = "<group>"; };
 		41EF848A1D5B906D006F59E8 /* MOKConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKConversation.h; sourceTree = "<group>"; };
 		41EF848B1D5B906D006F59E8 /* MOKConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKConversation.m; sourceTree = "<group>"; };
@@ -974,6 +978,8 @@
 				BA96AA59D95F25A13D04F5F6C60B86AD /* MOKMessage.m */,
 				41EF848A1D5B906D006F59E8 /* MOKConversation.h */,
 				41EF848B1D5B906D006F59E8 /* MOKConversation.m */,
+				41155B4C1D6525520080B66E /* MOKUser.h */,
+				41155B4D1D6525520080B66E /* MOKUser.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1145,6 +1151,7 @@
 				CF4C3AA75182EE103C2B31E2CDECC640 /* MOKSGSId.h in Headers */,
 				5DEA7CCD02718D3010A54775E1A480FB /* MOKSGSMessage.h in Headers */,
 				1C4C533093FC0E311AB8A8F082804B2F /* MOKSGSProtocol.h in Headers */,
+				41155B4E1D6525520080B66E /* MOKUser.h in Headers */,
 				67683DC7F2FA65AFAF4E3864D3899628 /* MOKSGSSession.h in Headers */,
 				8114DCBE41BCA3CBD3D3F2B712325BF4 /* MOKWatchdog.h in Headers */,
 				F5F066253FD552DFAE16F92BBA0F5936 /* Monkey.h in Headers */,
@@ -1420,6 +1427,7 @@
 				1DF381F95124B257E09586EB6C8E5883 /* NSData+GZIP.m in Sources */,
 				A3D6935DD84EBAD9BF89F3F9FF31A345 /* NSObject+SBJSON.m in Sources */,
 				8B11CDD9E103E532313C6170A963A18B /* NSString+Random.m in Sources */,
+				41155B4F1D6525520080B66E /* MOKUser.m in Sources */,
 				B28C736B180978CE400F107AC34570B9 /* NSString+SBJSON.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
