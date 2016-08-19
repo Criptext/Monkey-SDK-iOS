@@ -4,7 +4,9 @@
 
 #import "MOKMessage.h"
 #import "MOKDictionaryBasedObject.h"
+
 #import "MOKConversation.h"
+#import "MOKUser.h"
 
 #import "MOKSecurityManager.h"
 

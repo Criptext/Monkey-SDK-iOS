@@ -18,7 +18,7 @@
 /**
  *	The metadata of the user
  */
-@property (nonatomic, strong) NSMutableDictionary *info;
+@property (nonatomic, strong) NSMutableDictionary * _Nullable info;
 
 /**
  *  Initialize a user with an Id

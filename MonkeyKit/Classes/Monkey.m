@@ -478,9 +478,10 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
                            push:(nullable id)push{
     
     MOKMessage *message = [[MOKMessage alloc] initTextMessage:text sender:_session[@"monkeyId"] recipient:monkeyId];
+    [message setEncrypted:shouldEncrypt];
+    
     if (shouldEncrypt) {
         message.encryptedText = [[MOKSecurityManager sharedInstance] aesEncryptText:message.plainText fromUser:message.sender];
-        [message setEncrypted:true];
     }
     
     if (params != nil) {
@@ -848,6 +849,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
                                                                  @"oldId": message.props[@"old_id"],
                                                                  @"sender": message.sender,
                                                                  @"recipient": message.recipient,
+                                                                 @"conversationId": [message conversationId:_session[@"monkeyId"]],
                                                                  @"status": message.props[@"status"]}];
 }
 

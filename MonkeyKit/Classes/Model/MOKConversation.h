@@ -19,12 +19,12 @@
 /**
  *	The metadata of the conversation (Group or user Info)
  */
-@property (nonatomic, strong) NSMutableDictionary *info;
+@property (nonnull, nonatomic, strong) NSMutableDictionary *info;
 
 /**
  *	Array of Monkey Ids
  */
-@property (nonatomic, strong) NSArray *members;
+@property (nonnull, nonatomic, strong) NSArray *members;
 
 /**
  *	Last message of the conversation

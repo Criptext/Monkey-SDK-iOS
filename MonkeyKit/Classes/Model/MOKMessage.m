@@ -25,8 +25,9 @@
     return self.encryptedText;
 }
 
-- (NSString *)conversationId{
-    if ([self isGroupMessage]) {
+- (NSString *)conversationId:(NSString *)myMonkeyId{
+
+    if ([self isGroupMessage] || (myMonkeyId != nil && [myMonkeyId isEqualToString:self.sender])) {
         return self.recipient;
     }
     
@@ -334,7 +335,7 @@ NSString* mok_fileMIMEType(NSString * extension) {
 
 - (uint)mediaType{
     if ([self isMediaMessage]) {
-        return self.params[@"file_type"] ?: self.props[@"file_type"];
+        return self.params[@"file_type"] ? [self.params[@"file_type"] unsignedIntegerValue]: [self.props[@"file_type"] unsignedIntegerValue];
     }
     
     return -1;

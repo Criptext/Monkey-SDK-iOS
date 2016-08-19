@@ -14,6 +14,8 @@
     
     if (self = [super init]) {
         _conversationId = conversationId;
+        _info = @{};
+        _members = @[];
     }
     
     return self;

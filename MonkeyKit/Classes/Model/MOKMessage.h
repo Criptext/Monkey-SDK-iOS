@@ -57,22 +57,22 @@ typedef enum{
  *	The string identifier that uniquely identifies the current message.
  *	If the message is still sending, then the message will have the prefix `-`.
  */
-@property (nonatomic, copy) NSString *messageId;
+@property (nonnull, nonatomic, copy) NSString * messageId;
 
 /**
  *	If the message is already sent, this field contains the old message Id, otherwise it's an empty string
  */
-@property (nonatomic, copy) NSString *oldMessageId;
+@property (nullable, nonatomic, copy) NSString *oldMessageId;
 
 /**
  *	Returns the encrypted text of the message
  */
-@property (nonatomic, copy) NSString *encryptedText;
+@property (nullable, nonatomic, copy) NSString *encryptedText;
 
 /**
  *	Returns the plain text of the message
  */
-@property (nonatomic, copy) NSString *plainText;
+@property (nonnull, nonatomic, copy) NSString *plainText;
 
 /**
  *	Timestamp that refers to when the message was created.
@@ -90,23 +90,23 @@ typedef enum{
  *	Monkey id of the recipient.
  *	This could be a string of monkey ids separated by commas (Broadcast) or a Group Id
  */
-@property (nonatomic, copy) NSString * recipient;
+@property (nonnull, nonatomic, copy) NSString * recipient;
 
 /**
  *	Monkey id of the sender.
  *	This could be a string of monkey ids separated by commas (Broadcast) or a Group Id
  */
-@property (nonatomic, copy) NSString * sender;
+@property (nonnull, nonatomic, copy) NSString * sender;
 
 /**
  *	Monkey-reserved parameters
  */
-@property (nonatomic, readonly) NSMutableDictionary *props;
+@property (nonnull, nonatomic, readonly) NSMutableDictionary *props;
 
 /**
  *	Dictionary for the use of developers
  */
-@property (nonatomic, strong) NSMutableDictionary * params;
+@property (nullable, nonatomic, strong) NSMutableDictionary * params;
 
 /**
  *	Specifies whether the message has been read or not
@@ -122,7 +122,7 @@ typedef enum{
 /**
  *	Protocol type of the message
  */
-@property (nonatomic, assign) int protocolType;
+@property (nonatomic, assign) uint protocolType;
 
 /**
  *	Int reserved for some specific monkey actions
@@ -133,57 +133,57 @@ typedef enum{
 /**
  *	Push represented with a JSON string
  */
-@property (nonatomic, copy) NSString *pushMessage;
+@property (nullable, nonatomic, copy) NSString *pushMessage;
 
 /**
  *	List of users that have read the message
  */
-@property (nonatomic, strong) NSMutableArray *readBy;
+@property (nullable, nonatomic, strong) NSMutableArray *readBy;
 
 /**
  *	Used to maintain a reference to a media object.
  */
-@property (nonatomic, strong) id cachedMedia;
+@property (nullable, nonatomic, strong) id cachedMedia;
 
 /**
  *	Returns date of the message
  */
-- (NSDate *)date;
+- (nonnull NSDate *)date;
 
 /**
  *	Returns the relative date of the message
  */
-- (NSString *)relativeDate;
+- (nonnull NSString *)relativeDate;
 
 /**
  *  Returns the encrypted text if it's encrypted, and plain text if it's not
  */
-- (NSString *)messageText;
+- (nonnull NSString *)messageText;
 
 /**
  *  Returns the conversation Id of the message
  */
-- (NSString *)conversationId;
+- (nonnull NSString *)conversationId:(nullable NSString *)myMonkeyId;
 
 /**
  *  Initialize a text message
  */
-- (MOKMessage *)initTextMessage:(NSString*)text sender:(NSString *)sender recipient:(NSString *)recipient;
+- (nonnull instancetype)initTextMessage:(nonnull NSString*)text sender:(nonnull NSString *)sender recipient:(nonnull NSString *)recipient;
 
 /**
  *  Initialize a file message
  */
-- (MOKMessage *)initFileMessage:(NSString *)filename type:(MOKFileType)type sender:(NSString *)sender recipient:(NSString *)recipient;
+- (nonnull instancetype)initFileMessage:(nonnull NSString *)filename type:(MOKFileType)type sender:(nonnull NSString *)sender recipient:(nonnull NSString *)recipient;
 
 /**
  *  Initialize message from the socket
  */
-- (id)initWithArgs:(NSDictionary*)dictionary;
+- (nonnull instancetype)initWithArgs:(nonnull NSDictionary*)dictionary;
 
 /**
  *  Set file size in message props
  */
-- (void)setFileSize:(NSString *)size;
+- (void)setFileSize:(nonnull NSString *)size;
 
 /**
  *  Set encrypted parameter in message props
@@ -248,12 +248,12 @@ typedef enum{
 - (BOOL)isBroadCastMessage;
 
 
-+(NSString *)generatePushFrom:(id)thing;
++(nonnull NSString *)generatePushFrom:(nonnull id)thing;
 
 /**
  *  Not a valid initializer.
  */
-- (id)init NS_UNAVAILABLE;
+- (nullable id)init NS_UNAVAILABLE;
 
 @end
 
