@@ -9,6 +9,7 @@
 #import "MOKMessage.h"
 #import "MOKJSON.h"
 #import "NSString+Random.h"
+#import <MobileCoreServices/MobileCoreServices.h>
 
 @interface MOKMessage()
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
@@ -23,6 +24,28 @@
     }
     
     return self.encryptedText;
+}
+
+-(NSString *)filePath {
+    if (![self isMediaMessage]) {
+        return nil;
+    }
+    NSString *documentDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    documentDirectory = [documentDirectory stringByAppendingPathComponent:self.plainText];
+    documentDirectory = [[documentDirectory stringByDeletingPathExtension] stringByAppendingPathExtension:self.props[@"ext"]];
+    
+    return documentDirectory;
+}
+
+-(NSURL *)fileURL {
+    if (![self isMediaMessage]) {
+        return nil;
+    }
+    NSString *documentDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    documentDirectory = [documentDirectory stringByAppendingPathComponent:self.plainText];
+    documentDirectory = [[documentDirectory stringByDeletingPathExtension] stringByAppendingPathExtension:self.props[@"ext"]];
+    
+    return [[NSURL alloc] initFileURLWithPath:documentDirectory];
 }
 
 - (NSString *)conversationId:(NSString *)myMonkeyId{
@@ -387,7 +410,7 @@ NSString* mok_fileMIMEType(NSString * extension) {
     NSError * err;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object options:0 error:&err];
     
-    NSAssert(err, @"");
+    NSAssert(err == nil, @"Failed JSON serialization");
     NSString *pushString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
     return pushString;

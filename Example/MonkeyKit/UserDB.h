@@ -8,7 +8,7 @@
 
 #import <Realm/Realm.h>
 
-@interface MOKUser : RLMObject
+@interface UserDB : RLMObject
 @property NSString *monkeyId;
 @property NSString *name;
 @end

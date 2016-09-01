@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "MOKMessage.h"
 @class MOKConversation;
+@class MOKUser;
 
 /**
  *	The `Monkey` class is a singleton through which you can send messages and files and interact with Criptext's servers.
@@ -377,13 +378,13 @@
 /**
  *  Get info of user or group, whichever is the case
  *
- *  @param monkeyId	Id of the group or user to request info
- *  @param success	Completion block when the conversation was deleted successfully
- *  @param failure  Completion block when the request failed
+ *  @param conversationId	Id of the group or user to request info
+ *  @param success			Completion block when the conversation was deleted successfully
+ *  @param failure  		Completion block when the request failed
  */
--(void)getInfoById:(nonnull NSString *)monkeyId
-           success:(nullable void (^)(NSDictionary * _Nonnull data))success
-           failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+-(void)getInfo:(nonnull NSString *)conversationId
+       success:(nullable void (^)(NSDictionary * _Nonnull data))success
+       failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
  *	Get info of a list of monkey ids
@@ -393,7 +394,7 @@
  *  @param failure	Completion block when the request failed
  */
 -(void)getInfoByIds:(nonnull NSArray *)idList
-           success:(nullable void (^)(NSDictionary * _Nonnull data))success
+           success:(nullable void (^)(NSArray <MOKUser *> * _Nonnull data))success
            failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**

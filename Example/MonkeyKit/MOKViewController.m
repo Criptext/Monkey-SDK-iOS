@@ -9,11 +9,11 @@
 #import "MOKViewController.h"
 
 
-NSString * const MonkeyAppId = @"<placeholder>";
-NSString * const MonkeyAppSecret = @"<placeholder>";
+NSString * const MonkeyAppId = @"";
+NSString * const MonkeyAppSecret = @"";
 NSString * const MyMonkeyId = @"";
 @interface MOKViewController ()
-@property (strong, nonatomic) MOKUser *me;
+@property (strong, nonatomic) UserDB *me;
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) NSString *folderDestination;
 @end
@@ -28,7 +28,7 @@ NSString * const MyMonkeyId = @"";
     self.folderDestination = [[NSString alloc] initWithFormat:@"%@/MonkeyFiles", documentDirectory];
     
     self.messages = [[NSMutableArray alloc] init];
-    self.me = [MOKUser allObjects].firstObject;
+    self.me = [UserDB allObjects].firstObject;
 
     //listen to incoming messages
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(messageReceived:) name:MonkeyMessageNotification object:nil];
@@ -60,7 +60,7 @@ NSString * const MyMonkeyId = @"";
                            lastTimestamp:nil
                                  success:^(NSDictionary * _Nonnull session) {
                                      NSLog(@"Success initializing Monkey!");
-                                     MOKUser *user = [[MOKUser alloc] init];
+                                     UserDB *user = [[UserDB alloc] init];
                                      user.monkeyId = session[@"monkeyId"];
                                      
                                      NSDictionary *metadata = session[@"user"];

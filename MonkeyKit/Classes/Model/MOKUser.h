@@ -30,6 +30,11 @@
 -(nonnull instancetype)initWithId:(nonnull NSString *)monkeyId;
 
 /**
+ *  Get avatar URL for the user
+ */
+-(nonnull NSURL *)getAvatarURL;
+
+/**
  *  Not a valid initializer.
  */
 - (nullable id)init NS_UNAVAILABLE;

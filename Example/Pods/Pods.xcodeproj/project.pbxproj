@@ -65,7 +65,7 @@
 		3D2789FC760A97301909F0B1201626CD /* AFNetworking-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 139DB438B8CC78447D31AD80BB2BECE0 /* AFNetworking-dummy.m */; };
 		3F1BC9BAFFEEABB1ABC7614DF0FC97D5 /* AFAutoPurgingImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 7CACB2CE54012082DC62D4233621088C /* AFAutoPurgingImageCache.m */; };
 		402E5B0CAEBB2DFC5D6983F5DF68E855 /* RLMRealmConfiguration.h in Headers */ = {isa = PBXBuildFile; fileRef = B29A1C56395843327A702571C67841B0 /* RLMRealmConfiguration.h */; };
-		41155B4E1D6525520080B66E /* MOKUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 41155B4C1D6525520080B66E /* MOKUser.h */; };
+		41155B4E1D6525520080B66E /* MOKUser.h in Headers */ = {isa = PBXBuildFile; fileRef = 41155B4C1D6525520080B66E /* MOKUser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		41155B4F1D6525520080B66E /* MOKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 41155B4D1D6525520080B66E /* MOKUser.m */; };
 		41EF848E1D5B9074006F59E8 /* MOKConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 41EF848B1D5B906D006F59E8 /* MOKConversation.m */; };
 		41EF848F1D5B9078006F59E8 /* MOKConversation.h in Headers */ = {isa = PBXBuildFile; fileRef = 41EF848A1D5B906D006F59E8 /* MOKConversation.h */; settings = {ATTRIBUTES = (Public, ); }; };

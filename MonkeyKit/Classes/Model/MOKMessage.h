@@ -191,6 +191,16 @@ typedef enum{
 - (void)setEncrypted:(BOOL)encrypted;
 
 /**
+ *  @return File path if it's a media, nil if it's not
+ */
+-(nullable NSString *)filePath;
+
+/**
+ *  @return File URL if it's a media, nil if it's not
+ */
+-(nullable NSURL *)fileURL;
+
+/**
  *  Boolean that determines whether or not the message is decrypted
  */
 - (BOOL)isEncrypted;

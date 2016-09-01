@@ -7,7 +7,7 @@
 //
 
 #import "MOKMessageViewCell.h"
-#import "MOKUser.h"
+#import "UserDB.h"
 #import <MonkeyKit/MonkeyKit.h>
 
 #import <AssetsLibrary/AssetsLibrary.h>

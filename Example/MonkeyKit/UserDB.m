@@ -6,9 +6,9 @@
 //  Copyright © 2016 Gianni Carlo. All rights reserved.
 //
 
-#import "MOKUser.h"
+#import "UserDB.h"
 
-@implementation MOKUser
+@implementation UserDB
 + (NSString *)primaryKey {
     return @"monkeyId";
 }

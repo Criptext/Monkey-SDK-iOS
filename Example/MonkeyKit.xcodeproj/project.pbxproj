@@ -12,7 +12,7 @@
 		41432EDA1D085EF6002242BF /* MOKMessageTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432ED91D085EF6002242BF /* MOKMessageTests.m */; };
 		41432EDC1D085FA7002242BF /* MOKSecurityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432EDB1D085FA7002242BF /* MOKSecurityTests.m */; };
 		41432EDF1D08A012002242BF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 41432EDE1D08A012002242BF /* LaunchScreen.storyboard */; };
-		41432EE21D08B6BB002242BF /* MOKUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432EE11D08B6BB002242BF /* MOKUser.m */; };
+		41432EE21D08B6BB002242BF /* UserDB.m in Sources */ = {isa = PBXBuildFile; fileRef = 41432EE11D08B6BB002242BF /* UserDB.m */; };
 		6003F58E195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
 		6003F590195388D20070C39A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58F195388D20070C39A /* CoreGraphics.framework */; };
 		6003F592195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
@@ -48,8 +48,8 @@
 		41432ED91D085EF6002242BF /* MOKMessageTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKMessageTests.m; sourceTree = "<group>"; };
 		41432EDB1D085FA7002242BF /* MOKSecurityTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKSecurityTests.m; sourceTree = "<group>"; };
 		41432EDE1D08A012002242BF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		41432EE01D08B6BB002242BF /* MOKUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOKUser.h; sourceTree = "<group>"; };
-		41432EE11D08B6BB002242BF /* MOKUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MOKUser.m; sourceTree = "<group>"; };
+		41432EE01D08B6BB002242BF /* UserDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDB.h; sourceTree = "<group>"; };
+		41432EE11D08B6BB002242BF /* UserDB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDB.m; sourceTree = "<group>"; };
 		519682E86A5872FCD27EEB86 /* Pods_MonkeyKit_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MonkeyKit_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58A195388D20070C39A /* MonkeyKit_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MonkeyKit_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -149,8 +149,8 @@
 				41432ED61D07DADB002242BF /* MOKMessageViewCell.m */,
 				6003F5A5195388D20070C39A /* MOKViewController.h */,
 				6003F5A6195388D20070C39A /* MOKViewController.m */,
-				41432EE01D08B6BB002242BF /* MOKUser.h */,
-				41432EE11D08B6BB002242BF /* MOKUser.m */,
+				41432EE01D08B6BB002242BF /* UserDB.h */,
+				41432EE11D08B6BB002242BF /* UserDB.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
 				41432EDE1D08A012002242BF /* LaunchScreen.storyboard */,
@@ -414,7 +414,7 @@
 				6003F5A7195388D20070C39A /* MOKViewController.m in Sources */,
 				41432ED71D07DADB002242BF /* MOKMessageViewCell.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
-				41432EE21D08B6BB002242BF /* MOKUser.m in Sources */,
+				41432EE21D08B6BB002242BF /* UserDB.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

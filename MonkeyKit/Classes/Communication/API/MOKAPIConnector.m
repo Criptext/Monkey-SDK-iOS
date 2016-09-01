@@ -21,6 +21,12 @@
 #define SYNC_PUBKEY                 @"mok_sync_pubKey"
 #define SYNC_PRIVKEY                @"mok_sync_privKey"
 
+NSString * const MonkeyErrorFileDownloading = @"com.criptext.networking.file.downloading";
+
+@interface MOKAPIConnector ()
+@property (strong, nonatomic) NSMutableDictionary *downloadHash;
+@end
+
 @implementation MOKAPIConnector
 
 #pragma mark - Subscribe to Push
@@ -151,9 +157,15 @@ withPendingMessage:(MOKMessage *)message
 		#endif
         
         NSString *currentKey = [[MOKSecurityManager sharedInstance] getObjectForIdentifier:responseDict[@"session_to"]];
-        
-        NSString *decryptedKey = [[MOKSecurityManager sharedInstance]aesDecryptKeyAndClean:responseDict[@"convKey"] fromUser:me];
-        [[MOKSecurityManager sharedInstance] storeObject:decryptedKey withIdentifier:responseDict[@"session_to"]];
+        NSString *decryptedKey = nil;
+        @try {
+             decryptedKey = [[MOKSecurityManager sharedInstance]aesDecryptKeyAndClean:responseDict[@"convKey"] fromUser:me];
+            [[MOKSecurityManager sharedInstance] storeObject:decryptedKey withIdentifier:responseDict[@"session_to"]];
+        } @catch (NSException *exception) {
+            failure(nil, [NSError errorWithDomain:@"Error decrypting text"
+                                             code:-57
+                                         userInfo:nil]);
+        }
         
         if (currentKey == nil) {
             success(responseDict);
@@ -352,6 +364,13 @@ withPendingMessage:(MOKMessage *)message
            fileDestination:(NSString *)fileDestination
                    success:(void (^)(NSURL * _Nonnull filePath))success
                    failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+
+    NSURLSessionDownloadTask *cachedTask = self.downloadHash[message.messageId];
+    if (cachedTask != nil) {
+        return failure(nil, [NSError errorWithDomain:@"File already downloading"
+                                                code:-60
+                                            userInfo:nil]);
+    }
     NSString *name = [message.messageText lastPathComponent];
     NSURL *URL = [NSURL URLWithString:[NSString stringWithFormat:[self.baseurl stringByAppendingPathComponent:@"/file/open/%@"],[name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]];
     #ifdef DEBUG
@@ -372,9 +391,11 @@ withPendingMessage:(MOKMessage *)message
         NSURL *fileDestinationURL = [NSURL fileURLWithPath:fileDestination];
         [[NSFileManager defaultManager] createDirectoryAtURL:fileDestinationURL withIntermediateDirectories:YES attributes:nil error:nil];
         
-        return [fileDestinationURL URLByAppendingPathComponent:name];
+        return [fileDestinationURL URLByAppendingPathComponent:[name stringByAppendingPathExtension:message.props[@"ext"]]];
         
     } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        
+        [self.downloadHash removeObjectForKey:message.messageId];
         
         if (error) {
             NSLog(@"MONKEY - Error: %@", error);
@@ -385,10 +406,47 @@ withPendingMessage:(MOKMessage *)message
         NSLog(@"MONKEY - File downloaded to: %@", filePath);
 #endif
         success(filePath);
-//        [self decryptDownloadedFile:[filePath path] fromUser:userIdFrom encrypted:encrypted compressed:compressed device:device props:props withDelegate:delegate];
     }];
     
+    self.downloadHash[message.messageId] = downloadTask;
     [downloadTask resume];
+}
+
+-(void)stopDownload:(nonnull NSString *)identifier
+         resumeData:(void (^)(NSData * _Nullable resumeData))resumeData{
+    NSURLSessionDownloadTask *downloadTask = self.downloadHash[identifier];
+    
+    if (downloadTask != nil) {
+        [downloadTask cancelByProducingResumeData:resumeData];
+    }
+}
+
+-(void)resumeDownload:(nonnull NSData *)resumeData
+      fileDestination:(NSString *)fileDestination
+              success:(void (^)(NSURL * _Nonnull filePath))success
+              failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+    
+    [self downloadTaskWithResumeData:resumeData progress:nil destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+        
+        if (fileDestination == nil) {
+            return targetPath;
+        }
+        NSURL *fileDestinationURL = [NSURL fileURLWithPath:fileDestination];
+        [[NSFileManager defaultManager] createDirectoryAtURL:fileDestinationURL withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        return fileDestinationURL;
+        
+    } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+        if (error) {
+            NSLog(@"MONKEY - Error: %@", error);
+            failure(nil, error);
+            return;
+        }
+#ifdef DEBUG
+        NSLog(@"MONKEY - File downloaded to: %@", filePath);
+#endif
+        success(filePath);
+    }];
 }
 
 #pragma mark - Groups
@@ -460,6 +518,41 @@ andPushToAllMembers:(NSString *)pushAllMembers
     } failure:failure];
 }
 
+- (void)getInfo:(NSString *)conversationId
+        success:(nullable void (^)(NSDictionary * _Nonnull info))success
+        failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+    
+    NSMutableString *endpoint = [NSMutableString new];
+    [endpoint appendString:conversationId];
+    
+    if ([conversationId rangeOfString:@"G:"].location != NSNotFound) {
+        [endpoint appendString:@"/group/info/"];
+    }else{
+        [endpoint appendString:@"/user/info/"];
+    }
+    
+    [endpoint appendString:conversationId];
+    
+    [self GET:[self.baseurl stringByAppendingPathComponent:endpoint] parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *responseDict = responseObject[@"data"];
+        success(responseDict);
+    } failure:failure];
+}
+
+- (void)getInfoByIds:(NSArray *)idList
+        success:(nullable void (^)(NSDictionary * _Nonnull infos))success
+        failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+    NSDictionary *requestObject = @{@"monkey_ids" : [idList componentsJoinedByString:@","]
+                                    };
+    
+    NSDictionary *parameters = @{@"data": [self.jsonWriter stringWithObject:requestObject]};
+    
+    [self POST:[self.baseurl stringByAppendingPathComponent:@"/users/info"] parameters:parameters progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *responseDict = responseObject[@"data"];
+        success(responseDict);
+    } failure:failure];
+}
+
 //-(void)getGroupInfo:(NSString *)groupId delegate:(id <MOKAPIConnectorDelegate>)delegate{
 //    
 //    #ifdef DEBUG
@@ -514,6 +607,8 @@ static MOKAPIConnector *apiConnectorInstance = nil;
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
 //        self.requestSerializer setAuthorizationHeaderFieldWithUsername:<#(nonnull NSString *)#> password:<#(nonnull NSString *)#>
         self.jsonWriter = [MOKSBJsonWriter new];
+        
+        self.downloadHash = [@{} mutableCopy];
     }
     
     return self;

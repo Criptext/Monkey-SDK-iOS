@@ -126,6 +126,31 @@ withPendingMessage:(nullable MOKMessage *)message
                    failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
+ *  Stop ongoing download operation
+ *
+ *  @param identifier	Id of the message which the file belongs to.
+ *	@param resumeData	Data to resume downloading at a later date
+ *
+ *	@discussion If there's no operation for the given identifier, nothing will happen
+ */
+-(void)stopDownload:(nonnull NSString *)identifier
+         resumeData:(nullable void (^)(NSData * _Nullable resumeData))resumeData;
+
+
+/**
+ *  Resume previous download operation
+ *
+ *  @param resumeData      Data already downloaded
+ *  @param fileDestination NSURL pointing to folder destination
+ *  @param success         Completion block when the request was completed successfully
+ *  @param failure         Completion block when the request failed
+ */
+-(void)resumeDownload:(nonnull NSData *)resumeData
+      fileDestination:(nonnull NSString *)fileDestination
+              success:(nullable void (^)(NSURL * _Nonnull filePath))success
+              failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+
+/**
  *  Delete the conversation between two monkey ids or a group
  *  @param monkeyId1	Dictionary containing the group metadata
  *  @param monkeyId2	Dictionary or String containing the push info
@@ -185,7 +210,27 @@ andPushToAllMembers:(nullable NSString *)pushAllMembers
              success:(nullable void (^)(NSDictionary * _Nonnull groupData))success
              failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
-//-(void)getGroupInfo:(NSString * _Nonnull)groupId delegate:(id <MOKAPIConnectorDelegate> _Nullable)delegate;
+/**
+ *  Get the metadata of a group or a user
+ *
+ *  @param conversationId Monkey Id or a Group Id
+ *  @param success        Completion block when the request was completed successfully
+ *  @param failure        Completion block when the request failed
+ */
+- (void)getInfo:(nonnull NSString *)conversationId
+        success:(nullable void (^)(NSDictionary * _Nonnull info))success
+        failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+
+/**
+ *  Get info of multiple users
+ *
+ *  @param idList  Array of monkey Ids
+ *  @param success Completion block when the request was completed successfully
+ *  @param failure Completion block when the request failed
+ */
+- (void)getInfoByIds:(nonnull NSArray *)idList
+             success:(nullable void (^)(NSDictionary * _Nonnull infos))success
+             failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 - (NSString* _Nullable)postBodyForMethod:(NSString* _Nonnull)method data:(id _Nonnull)dataAsJsonComparableObject;
 
