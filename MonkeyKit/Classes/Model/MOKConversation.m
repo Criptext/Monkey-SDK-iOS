@@ -14,8 +14,8 @@
     
     if (self = [super init]) {
         _conversationId = conversationId;
-        _info = @{};
-        _members = @[];
+        _info = [@{} mutableCopy];
+        _members = [@[] mutableCopy];
     }
     
     return self;

@@ -82,11 +82,7 @@
         self.timestampOrder = [[NSDate date] timeIntervalSince1970];
 		
 		self.sender = [self stringFromDictionary:dictionary key:@"sid"];
-        self.recipient = nil;
-        
-		if([dictionary objectForKey:@"rid"]!=nil){
-            self.recipient=[self stringFromDictionary:dictionary key:@"rid"];
-        }
+        self.recipient = [self stringFromDictionary:dictionary key:@"rid"];
 		
         if ([self stringFromDictionary:dictionary key:@"readBy"] != nil) {
             self.readBy = [[[self stringFromDictionary:dictionary key:@"readBy"] componentsSeparatedByString:@","] mutableCopy];

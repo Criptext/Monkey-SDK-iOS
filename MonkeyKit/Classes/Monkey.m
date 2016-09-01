@@ -461,7 +461,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 #pragma mark - Metadata
 
--(void)getInfoId:(nonnull NSString *)conversationId
+-(void)getInfo:(nonnull NSString *)conversationId
            success:(nullable void (^)(NSDictionary * _Nonnull data))success
            failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
     [self checkSession];
@@ -479,7 +479,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
         NSMutableArray *userList = [@[] mutableCopy];
         for (NSDictionary *info in infos) {
             MOKUser *user = [[MOKUser alloc] initWithId:info[@"monkey_id"]];
-            user.info = info;
+            user.info = [info mutableCopy];
             
             [userList addObject:user];
         }
@@ -869,7 +869,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
             break;
     }
     
-    NSMutableDictionary *ackParams = [@{} mutableCopy];
+//    NSMutableDictionary *ackParams = [@{} mutableCopy];
     
     if (message.protocolType == MOKProtocolOpen) {
         NSMutableDictionary *params = [@{@"online": message.props[@"online"],
