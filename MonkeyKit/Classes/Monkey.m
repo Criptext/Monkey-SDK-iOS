@@ -181,6 +181,10 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     return _session[@"monkeyId"];
 }
 
+-(NSDictionary *)user{
+    return _session[@"user"];
+}
+
 -(void)getPendingMessages{
     [self getMessages:@"15" sinceTimestamp:_session[@"lastTimestamp"] andGetGroups:false];
 }

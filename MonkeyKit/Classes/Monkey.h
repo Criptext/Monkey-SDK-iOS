@@ -50,7 +50,7 @@
 
 /**
  *  Dictionary which holds session params:
- *  - id -> Monkey Id
+ *  - monkeyId -> Monkey Id
  *  - user -> User metadata
  *  - lastTimestamp -> Timestamp of last sync of messages
  *  - expireSession -> Boolean that determines if this monkey id expires with time on server
@@ -60,7 +60,7 @@
 @property (copy, nonatomic, readonly) NSMutableDictionary * _Nonnull session;
 
 /**
- *	Initializes the session with MOnkey
+ *	Initializes the session with Monkey
  *
  *  @param appId			Monkey App's Id
  *  @param appKey			Monkey App's secret
@@ -93,6 +93,13 @@
  *	@return The Monkey Id for the current session.
  */
 -(nullable NSString *)monkeyId;
+
+/**
+ *  Get session's User object
+ *
+ *  @return The user object with which Monkey was initialized.
+ */
+-(nullable NSDictionary *)user;
 
 /**
  *  Request pending messages
