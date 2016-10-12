@@ -102,6 +102,13 @@
 -(nullable NSDictionary *)user;
 
 /**
+ *  Close session's User object
+ *
+ *  @return boolean value of result.
+ */
+-(BOOL)close;
+
+/**
  *  Request pending messages
  */
 -(void)getPendingMessages;
