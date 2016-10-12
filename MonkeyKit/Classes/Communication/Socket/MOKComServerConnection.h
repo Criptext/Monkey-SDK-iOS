@@ -40,9 +40,9 @@
 	MOKSGSConnection *connection;
 	BOOL connected;
     
-    NSTimeInterval timeSentPack;
-    NSTimeInterval timeRecievePack;
-    int id_package_test;
+  NSTimeInterval timeSentPack;
+  NSTimeInterval timeRecievePack;
+  int id_package_test;
 }
 
 

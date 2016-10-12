@@ -71,8 +71,8 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
         _jsonParser = [MOKSBJsonParser new];
         _appId = nil;
         _appKey = nil;
-        _domain = @"monkey.criptext.com";
-        _port = @"1139";
+        _domain = @"channel.criptext.com";
+        _port = @"80";
         _session = [@{
                      @"monkeyId":@"",
                      @"user": @{},
@@ -185,6 +185,12 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     return _session[@"user"];
 }
 
+-(BOOL)close{
+  _session[@"monkeyId"] = @""
+  [[MOKComServerConnection sharedInstance] logOut];
+  
+}
+
 -(void)getPendingMessages{
     [self getMessages:@"15" sinceTimestamp:_session[@"lastTimestamp"] andGetGroups:false];
 }
@@ -233,8 +239,11 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 - (void) disconnected{
     NSLog(@"Monkey - Disconnect");
+  
+  if(![_session[@"monkeyId"] isEqualToString:@""]){
     [[NSNotificationCenter defaultCenter]postNotificationName:MonkeySocketStatusChangeNotification object:self userInfo:@{@"status": @(MOKConnectionStateDisconnected)}];
     [self connect];
+  }
 }
 
 -(void)reachabilityDidChange:(AFNetworkReachabilityStatus)reachabilityStatus {

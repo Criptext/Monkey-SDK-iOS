@@ -601,7 +601,7 @@ static MOKAPIConnector *apiConnectorInstance = nil;
     self = [super initWithBaseURL:url];
     
     if (self) {
-        self.baseurl = @"http://sandbox.monkey.criptext.com";
+        self.baseurl = @"http://secure.criptext.com";
         self.responseSerializer = [AFJSONResponseSerializer serializer];
         self.responseSerializer.acceptableContentTypes = [self.responseSerializer.acceptableContentTypes setByAddingObject:@"application/octet-stream"];
         self.requestSerializer = [AFHTTPRequestSerializer serializer];
