@@ -71,8 +71,8 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
         _jsonParser = [MOKSBJsonParser new];
         _appId = nil;
         _appKey = nil;
-        _domain = @"monkey.criptext.com";
-        _port = @"1139";
+        _domain = @"channel.criptext.com";
+        _port = @"80";
         _session = [@{
                      @"monkeyId":@"",
                      @"user": @{},
