@@ -106,7 +106,7 @@
  *
  *  @return boolean value of result.
  */
--(BOOL)close;
+-(void)close;
 
 /**
  *  Request pending messages

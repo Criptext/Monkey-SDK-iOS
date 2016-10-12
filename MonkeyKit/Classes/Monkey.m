@@ -185,10 +185,9 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     return _session[@"user"];
 }
 
--(BOOL)close{
-  _session[@"monkeyId"] = @""
+-(void)close{
+  _session[@"monkeyId"] = @"";
   [[MOKComServerConnection sharedInstance] logOut];
-  
 }
 
 -(void)getPendingMessages{
