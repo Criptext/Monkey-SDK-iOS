@@ -252,6 +252,29 @@ withPendingMessage:(MOKMessage *)message
     
 }
 
+-(void)getMessagesOf:(NSString *)monkeyId
+               since:(NSString *)timestamp
+            quantity:(int)qty
+             success:(void (^)(NSDictionary * _Nonnull data))success
+             failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+  
+  NSString *path = [NSString stringWithFormat:@"/user/messages/%@/%@/%d", monkeyId, timestamp, qty];
+  
+#ifdef DEBUG
+  NSLog(@"MONKEY - parameters get messages of: %@", path);
+#endif
+  
+  [self GET:[self.baseurl stringByAppendingPathComponent:path] parameters:nil progress:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSDictionary *responseDict = responseObject[@"data"];
+    success(responseDict);
+    
+  } failure:^(NSURLSessionDataTask *task, NSError *error) {
+    NSLog(@"MONKEY - Error: %@", error);
+    failure(task, error);
+  }];
+  
+}
+
 -(void)getMessagesBetween:(NSString *)monkeyId1
                       and:(NSString *)monkeyId2
                     since:(NSInteger)timestamp

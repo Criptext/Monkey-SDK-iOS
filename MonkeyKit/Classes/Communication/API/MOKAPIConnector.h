@@ -77,6 +77,20 @@ withPendingMessage:(nullable MOKMessage *)message
                   failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
+ *  Request get messages from all conversations since a given timestamp
+ *  @param monkeyId   My Monkey Id
+ *  @param since      Timestamp from which the next sync of messages will be pulled
+ *  @param quantity   Number of messages to bring
+ *  @param success    Completion block when the request was completed successfully
+ *  @param failure    Completion block when the request failed
+ */
+-(void)getMessagesOf:(nonnull NSString *)monkeyId
+               since:(nonnull NSString *)timestamp
+            quantity:(int)qty
+             success:(void (^)(NSDictionary * _Nonnull data))success
+             failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+
+/**
  *  Request my conversation messages since a given timestamp
  *  @param monkeyId1	My Monkey Id
  *  @param monkeyId2	Recipient Monkey Id

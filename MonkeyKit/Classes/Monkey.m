@@ -191,12 +191,14 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 }
 
 -(void)getPendingMessages{
-    [self getMessages:@"15" sinceTimestamp:_session[@"lastTimestamp"] andGetGroups:false];
+  [self checkSession];
+  [[MOKAPIConnector sharedInstance] getMessagesOf:_session[@"monkeyId"] since:_session[@"lastTimestamp"] quantity:50 success:^(NSDictionary * _Nonnull data) {
+    [[MOKWatchdog sharedInstance] updateFinished];
+    [self processSyncMessages:data[@"messages"] withRemaining:[data[@"remaining"] stringValue]];
+    
+  } failure:nil];
 }
 
--(void)getPendingMessagesWithGroups{
-    [self getMessages:@"15" sinceTimestamp:_session[@"lastTimestamp"] andGetGroups:true];
-}
 #pragma mark - MOKComServerConnection Delegate
 -(void)connect {
     if([MOKComServerConnection sharedInstance].networkStatus == AFNetworkReachabilityStatusNotReachable) {
@@ -1157,20 +1159,6 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 //            break;
 //    }
 //    
-}
-
--(void)getMessages:(NSString *)quantity sinceTimestamp:(NSString *)lastTimestamp andGetGroups:(BOOL)flag{
-    [self checkSession];
-    NSDictionary *args = flag?
-    //ask for groups
-    @{@"since" : lastTimestamp,
-      @"qty" : quantity,
-      @"groups" : @"1"} :
-    //don't ask for groups
-    @{@"since" : lastTimestamp,
-      @"qty" : quantity};
-    
-    [self sendCommand:MOKProtocolSync WithArgs:args];
 }
 
 -(void)sendOpenCommandToUser:(NSString *)sessionId{

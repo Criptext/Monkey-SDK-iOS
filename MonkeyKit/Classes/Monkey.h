@@ -113,10 +113,6 @@
  */
 -(void)getPendingMessages;
 
-/**
- *  Request pending messages and request groups to which this monkey id belongs
- */
--(void)getPendingMessagesWithGroups;
 
 /**
  *	Send open notification to a conversation
