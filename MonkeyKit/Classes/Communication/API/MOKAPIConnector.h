@@ -80,9 +80,9 @@ withPendingMessage:(nullable MOKMessage *)message
  *  Request get messages from all conversations since a given timestamp
  *  @param monkeyId   My Monkey Id
  *  @param since      Timestamp from which the next sync of messages will be pulled
- *  @param quantity 	Number of messages to bring
- *  @param success		Completion block when the request was completed successfully
- *  @param failure		Completion block when the request failed
+ *  @param quantity   Number of messages to bring
+ *  @param success    Completion block when the request was completed successfully
+ *  @param failure    Completion block when the request failed
  */
 -(void)getMessagesOf:(nonnull NSString *)monkeyId
                since:(nonnull NSString *)timestamp
