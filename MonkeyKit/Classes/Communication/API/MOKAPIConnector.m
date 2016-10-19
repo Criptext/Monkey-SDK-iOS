@@ -30,16 +30,13 @@ NSString * const MonkeyErrorFileDownloading = @"com.criptext.networking.file.dow
 @implementation MOKAPIConnector
 
 #pragma mark - Subscribe to Push
-- (void)pushSubscribeDevice:(NSData *)deviceToken
+- (void)pushSubscribeDevice:(NSString *)deviceToken
                 forMonkeyId:(NSString *)monkeyId
                inProduction:(BOOL)flag
                     success:(void (^)(NSURLSessionDataTask * _Nonnull, id _Nullable))success
                     failure:(void (^)(NSURLSessionDataTask * _Nullable, NSError * _Nonnull))failure{
-    
-    NSString *tokenStr = [deviceToken description];
-    NSString *pushToken = [[[[tokenStr stringByReplacingOccurrencesOfString:@"" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""]stringByReplacingOccurrencesOfString:@"<" withString:@""]stringByReplacingOccurrencesOfString:@">" withString:@""];
 
-    NSDictionary *requestObject = @{@"token": pushToken,
+    NSDictionary *requestObject = @{@"token": deviceToken,
                                     @"device": @"ios",
                                     @"mode": flag? @"1" : @"0",
                                     @"userid": monkeyId

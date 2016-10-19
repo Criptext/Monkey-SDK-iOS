@@ -20,16 +20,16 @@
 /**
  *  Register device token in push server
  *  @param deviceToken	Token of the device
- *  @param monkeyId		Password provided by Criptext
+ *  @param monkeyId		Identifier provided by Criptext
  *  @param flag		    Boolean that determines if this token is for production or development environment
  *  @param success		Completion block when the request was completed successfully
  *  @param failure		Completion block when the request failed
  */
-- (void)pushSubscribeDevice:(nonnull NSData *)deviceToken
+- (void)pushSubscribeDevice:(nonnull NSString *)deviceToken
                 forMonkeyId:(nonnull NSString *)monkeyId
                inProduction:(BOOL)flag
                     success:(nullable void (^)(NSURLSessionDataTask * _Nullable task, id _Nullable responseObject))success
-                    failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;;
+                    failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
  *  Authenticate with Monkey Server
