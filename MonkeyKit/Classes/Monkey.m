@@ -495,9 +495,11 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 -(void)getInfo:(nonnull NSString *)conversationId
            success:(nullable void (^)(NSDictionary * _Nonnull data))success
            failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
-    [self checkSession];
+  [self checkSession];
     
-    [[MOKAPIConnector sharedInstance] getInfo:conversationId success:success failure:failure];
+  [[MOKAPIConnector sharedInstance] getInfo:conversationId success:^(NSDictionary * _Nonnull info){
+    success(info);
+  }failure:failure];
 //    [[MOKAPIConnector sharedInstance] getGroupInfo:monkeyId delegate:self];
 }
 
@@ -1064,77 +1066,76 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
                  filePath:(NSURL *)filePath
                   success:(void (^)(NSData * _Nonnull data))success
                   failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
-    @autoreleasepool {
-        NSData *decryptedData = nil;
-        //check if should decrypt
-        if([message isEncrypted]){
-            
-            
-            //check if we
+  @autoreleasepool {
+    NSData *decryptedData = nil;
+    //check if should decrypt
+    if([message isEncrypted]){
+      
+      
+      //check if we
 #ifdef DEBUG
-            NSLog(@"MONKEY - decrypting file");
-            NSLog(@"MONKEY - filePath: %@", filePath);
+      NSLog(@"MONKEY - decrypting file");
+      NSLog(@"MONKEY - filePath: %@", filePath);
 #endif
-            @try {
-                NSData *data = [[NSFileManager defaultManager] contentsAtPath:[filePath path]];
-                
-                decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptData:data fromUser:message.sender];
-                
-                if ([message.props[@"device"] isEqualToString:@"web"]) {
-                    NSString *mediabase64 = [[NSString alloc]initWithData:decryptedData encoding:NSUTF8StringEncoding];
-                    NSArray *realmediabase64 = [mediabase64 componentsSeparatedByString:@","];
-                    decryptedData = [NSData mok_dataFromBase64String:[realmediabase64 lastObject]];
-                }
-            }
-            @catch (NSException *exception) {
-                [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
-                    [self decryptFileMessage:message filePath:filePath success:success failure:failure];
-                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    
-                }];
-                //                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-                return;
-            }
-            
-            if (decryptedData == nil) {
-                //                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
-                [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
-                    [self decryptFileMessage:message filePath:filePath success:success failure:failure];
-                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    
-                }];
-                
-                return;
-            }
-            
-            //check for file compression
-            if ([message isCompressed]) {
-                decryptedData = [decryptedData gunzippedData];
-#ifdef DEBUG
-                NSLog(@"MONKEY - compressedData: %lu",(unsigned long)[decryptedData length]);
-#endif
-            }
-            
-            if (message.props[@"size"] != nil &&  [message.props[@"size"] longLongValue] != [decryptedData length]) {
-                [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
-                failure(nil, [NSError errorWithDomain:@"File decryption failed"
-                                                 code:-57
-                                             userInfo:nil]);
-                return;
-            }
-            
-            if (decryptedData != nil) {
-                [decryptedData writeToFile:[filePath path] atomically:YES];
-            }
-            
-            //success completion block here
+      @try {
+        NSData *data = [[NSFileManager defaultManager] contentsAtPath:[filePath path]];
+        
+        decryptedData = [[MOKSecurityManager sharedInstance]aesDecryptData:data fromUser:message.sender];
+        
+        if ([message.props[@"device"] isEqualToString:@"web"]) {
+          NSString *mediabase64 = [[NSString alloc]initWithData:decryptedData encoding:NSUTF8StringEncoding];
+          NSArray *realmediabase64 = [mediabase64 componentsSeparatedByString:@","];
+          decryptedData = [NSData mok_dataFromBase64String:[realmediabase64 lastObject]];
         }
-        success(decryptedData);
+      }
+      @catch (NSException *exception) {
+        [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
+          [self decryptFileMessage:message filePath:filePath success:success failure:failure];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+          
+        }];
+        //                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        return;
+      }
+      
+      if (decryptedData == nil) {
+        //                [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
+          [self decryptFileMessage:message filePath:filePath success:success failure:failure];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+          
+        }];
+        
+        return;
+      }
+      
+    }else{
+      decryptedData = [[NSFileManager defaultManager] contentsAtPath:[filePath path]];
     }
     
-    //    message.messageText = [message.messageText lastPathComponent];
+    //check for file compression
+    if ([message isCompressed]) {
+      decryptedData = [decryptedData gunzippedData];
+#ifdef DEBUG
+      NSLog(@"MONKEY - compressedData: %lu",(unsigned long)[decryptedData length]);
+#endif
+    }
+    
+    if (message.props[@"size"] != nil &&  [message.props[@"size"] longLongValue] != [decryptedData length]) {
+      [[NSFileManager defaultManager] removeItemAtPath:[filePath path] error:nil];
+      failure(nil, [NSError errorWithDomain:@"File decryption failed"
+                                       code:-57
+                                   userInfo:nil]);
+      return;
+    }
+    
+    if (decryptedData != nil) {
+      [decryptedData writeToFile:[filePath path] atomically:YES];
+    }
     
     
+    success(decryptedData);
+  }
 }
 
 -(void)onUploadFileOK:(MOKMessage *)message{
