@@ -199,6 +199,23 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
   } failure:nil];
 }
 
+#pragma mark - Push
+- (void)pushSubscribeDevice:(nonnull NSData *)deviceToken
+                    success:(nullable void (^)(NSURLSessionDataTask * _Nullable task, id _Nullable responseObject))success
+                    failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+    [self checkSession];
+    
+    NSString *tokenStr = [deviceToken description];
+    NSString *pushToken = [[[[tokenStr stringByReplacingOccurrencesOfString:@"" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""]stringByReplacingOccurrencesOfString:@"<" withString:@""]stringByReplacingOccurrencesOfString:@">" withString:@""];
+    BOOL isProduction = true;
+#ifdef DEBUG
+    isProduction = false;
+#endif
+    
+    
+    [[MOKAPIConnector sharedInstance] pushSubscribeDevice:pushToken forMonkeyId:_session[@"monkeyId"] inProduction:isProduction success:success failure:failure];
+}
+
 #pragma mark - MOKComServerConnection Delegate
 -(void)connect {
     if([MOKComServerConnection sharedInstance].networkStatus == AFNetworkReachabilityStatusNotReachable) {
@@ -538,7 +555,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     }
     
     if (push != nil) {
-//        message.pushMessage = 
+        message.pushMessage = [MOKMessage generatePushFrom:push];
     }
     
     [self sendMessageCommandFromMessage:message];

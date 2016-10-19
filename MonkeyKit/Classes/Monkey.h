@@ -408,6 +408,16 @@
            failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
+ *  Register device token in push server
+ *  @param deviceToken	Token of the device
+ *  @param success		Completion block when the request was completed successfully
+ *  @param failure		Completion block when the request failed
+ */
+- (void)pushSubscribeDevice:(nonnull NSData *)deviceToken
+                    success:(nullable void (^)(NSURLSessionDataTask * _Nullable task, id _Nullable responseObject))success
+                    failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+
+/**
  *	Utils functions
  */
 
