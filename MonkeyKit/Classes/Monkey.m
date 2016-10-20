@@ -497,10 +497,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
            failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
   [self checkSession];
     
-  [[MOKAPIConnector sharedInstance] getInfo:conversationId success:^(NSDictionary * _Nonnull info){
-    success(info);
-  }failure:failure];
-//    [[MOKAPIConnector sharedInstance] getGroupInfo:monkeyId delegate:self];
+  [[MOKAPIConnector sharedInstance] getInfo:conversationId success:success failure:failure];
 }
 
 -(void)getInfoByIds:(nonnull NSArray *)idList
