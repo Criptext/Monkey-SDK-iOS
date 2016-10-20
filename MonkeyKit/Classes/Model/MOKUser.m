@@ -13,10 +13,21 @@
 -(instancetype)initWithId:(NSString *)monkeyId{
     
     if (self = [super init]) {
-        _monkeyId = monkeyId;
+      _monkeyId = monkeyId;
+      _info = [@{} mutableCopy];
     }
     
     return self;
+}
+
+-(MOKUser *)initWithId:(NSString *)monkeyId
+           info:(NSMutableDictionary *)info{
+  if (self = [super init]) {
+    _monkeyId = monkeyId;
+    _info = info;
+  }
+  
+  return self;
 }
 
 -(NSURL *)getAvatarURL{

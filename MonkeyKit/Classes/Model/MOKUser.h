@@ -30,6 +30,16 @@
 -(nonnull instancetype)initWithId:(nonnull NSString *)monkeyId;
 
 /**
+ *  Initialize a user with an Id
+ *
+ *  @param monkeyId Id of the user
+ *  @param info     info of the user
+ *  @return Instance of MOKUser
+ */
+-(nonnull instancetype)initWithId:(nonnull NSString *)monkeyId
+                             info:(nullable NSMutableDictionary *)info;
+
+/**
  *  Get avatar URL for the user
  */
 -(nonnull NSURL *)getAvatarURL;

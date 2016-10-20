@@ -543,7 +543,6 @@ andPushToAllMembers:(NSString *)pushAllMembers
         failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
     
     NSMutableString *endpoint = [NSMutableString new];
-    [endpoint appendString:conversationId];
     
     if ([conversationId rangeOfString:@"G:"].location != NSNotFound) {
         [endpoint appendString:@"/group/info/"];
