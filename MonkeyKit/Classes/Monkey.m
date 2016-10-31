@@ -278,14 +278,6 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     [self sendCommand:MOKProtocolOpen WithArgs:@{@"rid" : conversationId}];
 }
 
--(BOOL)isMessageOutgoing:(MOKMessage *)message{
-    if ([message.sender isEqualToString: _session[@"monkeyId"]]) {
-        return true;
-    }
-    
-    return false;
-}
-
 -(void)deleteConversation:(nonnull NSString *)conversationId
                   success:(nullable void (^)(NSDictionary * _Nonnull data))success
                   failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
@@ -1213,6 +1205,18 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 - (void)logout {
     [[MOKWatchdog sharedInstance]logout];
+}
+
+/**
+ *	Utils functions
+ */
+
+-(BOOL)isMessageOutgoing:(MOKMessage *)message{
+  if ([message.sender isEqualToString: _session[@"monkeyId"]]) {
+    return true;
+  }
+  
+  return false;
 }
 
 @end
