@@ -432,6 +432,7 @@ NSString* mok_fileMIMEType(NSString * extension) {
     NSAssert(err == nil, @"Failed JSON serialization");
     NSString *pushString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     
-    return pushString;
+    
+    return [[[NSString alloc]initWithData:[pushString dataUsingEncoding:NSNonLossyASCIIStringEncoding] encoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"\\\\" withString:@"\\"];
 }
 @end
