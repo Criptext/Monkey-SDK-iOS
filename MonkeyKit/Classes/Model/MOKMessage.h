@@ -10,44 +10,44 @@
 #import "MOKDictionaryBasedObject.h"
 
 typedef enum{
-    MOKProtocolMessage = 200,
-    MOKProtocolGet = 201,
-    MOKProtocolTransaction = 202,
-    MOKProtocolOpen = 203,
-    MOKProtocolSet = 204,
-    MOKProtocolACK = 205,
-    MOKProtocolPublish = 206,
-    MOKProtocolDelete = 207,
-    MOKProtocolClose = 208,
-    MOKProtocolSync = 209
+    ProtocolMessage = 200,
+    ProtocolGet = 201,
+    ProtocolTransaction = 202,
+    ProtocolOpen = 203,
+    ProtocolSet = 204,
+    ProtocolACK = 205,
+    ProtocolPublish = 206,
+    ProtocolDelete = 207,
+    ProtocolClose = 208,
+    ProtocolSync = 209
 } MOKProtocolCommand;
 
 typedef enum{
-    MOKText = 1,
-    MOKFile = 2,
-    MOKTempNote = 3,
-    MOKNotif = 4,
-    MOKAlert = 5
+    Text = 1,
+    File = 2,
+    TempNote = 3,
+    Notif = 4,
+    Alert = 5
 } MOKMessageType;
 
 typedef enum{
-    MOKAudio = 1,
-    MOKVideo = 2,
-    MOKPhoto = 3,
-    MOKArchive = 4
+    Audio = 1,
+    Video = 2,
+    Image = 3,
+    Archive = 4
 } MOKFileType;
 
 typedef enum{
-    MOKMessagesHistory = 1,
-    MOKGroupsString = 2
+    MessagesHistory = 1,
+    GroupsString = 2
 } MOKGetType;
 
 typedef enum{
-    MOKGroupCreate = 1,
-    MOKGroupDelete = 2,
-    MOKGroupNewMember = 3,
-    MOKGroupRemoveMember = 4,
-    MOKGroupList = 5
+    GroupCreate = 1,
+    GroupDelete = 2,
+    GroupNewMember = 3,
+    GroupRemoveMember = 4,
+    GroupList = 5
 }MOKActionType;
 
 @interface MOKMessage : MOKDictionaryBasedObject

@@ -293,7 +293,7 @@ withPendingMessage:(MOKMessage *)message
         
         for (NSDictionary *message in messagesDict) {
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:message];
-            msg.protocolCommand = MOKProtocolMessage;
+            msg.protocolCommand = ProtocolMessage;
             
             [messageArray addObject:msg];
         }
