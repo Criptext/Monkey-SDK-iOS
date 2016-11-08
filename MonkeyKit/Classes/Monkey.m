@@ -833,7 +833,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     switch (msg.protocolType) {
         case Text:{
             //Check if we have the user key
-            [self incomingMessage:msg];
+            [self incomingMessage:msg secondTime:false];
             
             break;
         }
@@ -950,7 +950,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     }
 }
 
-- (void)incomingMessage:(MOKMessage *)message {
+- (void)incomingMessage:(MOKMessage *)message secondTime:(BOOL)secondTime{
     
     //check if encrypted
     if ([message isEncrypted]) {
@@ -959,23 +959,26 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
         }
         @catch (NSException *exception) {
             NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
-            [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
-                [self incomingMessage:message];
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self incomingMessage:message];
-                });
-            }];
-            return;
+            
+            if (!secondTime) {
+                [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
+                    [self incomingMessage:message secondTime:true];
+                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        [self incomingMessage:message secondTime:true];
+                    });
+                }];
+                return;
+            }
         }
         
-        if (message.plainText== nil || [message.plainText isEqualToString:@""]) {
+        if (!secondTime && (message.plainText== nil || [message.plainText isEqualToString:@""])) {
             NSLog(@"MONKEY - couldn't decrypt with current key, retrieving new keys");
             [[MOKAPIConnector sharedInstance] keyExchange:_session[@"monkeyId"] with:message.sender withPendingMessage:message success:^(NSDictionary * _Nonnull data) {
-                [self incomingMessage:message];
+                [self incomingMessage:message secondTime:true];
             } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [self incomingMessage:message];
+                    [self incomingMessage:message secondTime:true];
                 });
             }];
             return;

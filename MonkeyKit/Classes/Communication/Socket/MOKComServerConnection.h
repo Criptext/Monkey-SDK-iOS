@@ -18,7 +18,7 @@
 
 @protocol MOKComServerConnectionDelegate
 - (void) parseMessage:(NSDictionary *)dictionary;
-- (void) incomingMessage:(MOKMessage *)message;
+- (void) incomingMessage:(MOKMessage *)message secondTime:(BOOL)secondTime;
 - (void) fileReceivedNotification:(MOKMessage *)message;
 - (void) getPendingMessages;
 
