@@ -66,6 +66,11 @@
 -(BOOL)isGroup;
 
 /**
+ *	Get lastSeen as format date
+ */
+- (nonnull NSString *)getLastSeenDate;
+
+/**
  *  Not a valid initializer.
  */
 - (_Nullable id)init NS_UNAVAILABLE;

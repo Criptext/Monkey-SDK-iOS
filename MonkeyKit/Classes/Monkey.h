@@ -308,8 +308,6 @@
                      failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
- */
-/**
  *	Get messages of a conversation
  *
  *  @param conversationId Id of the conversation

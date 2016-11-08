@@ -243,7 +243,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
     //if the app is active, set online
     if([UIApplication sharedApplication].applicationState != UIApplicationStateBackground){
-        [self sendCommand:MOKProtocolSet WithArgs:@{@"online" : @"1"}];
+        [self sendCommand:ProtocolSet WithArgs:@{@"online" : @"1"}];
     }
     
     if ([_session[@"autoSync"] boolValue]) {
@@ -275,15 +275,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 #pragma mark - Conversation stuff
 -(void)openConversation:(nonnull NSString *)conversationId{
-    [self sendCommand:MOKProtocolOpen WithArgs:@{@"rid" : conversationId}];
-}
-
--(BOOL)isMessageOutgoing:(MOKMessage *)message{
-    if ([message.sender isEqualToString: _session[@"monkeyId"]]) {
-        return true;
-    }
-    
-    return false;
+    [self sendCommand:ProtocolOpen WithArgs:@{@"rid" : conversationId}];
 }
 
 -(void)deleteConversation:(nonnull NSString *)conversationId
@@ -332,7 +324,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
         }
         
         MOKMessage *message = [[MOKMessage alloc] initWithArgs:lastMessage];
-        message.protocolCommand = MOKProtocolMessage;
+        message.protocolCommand = ProtocolMessage;
         
         NSMutableDictionary *mutableConversation = [conversation mutableCopy];
         mutableConversation[@"last_message"] = message;
@@ -656,7 +648,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
         message.encryptedText = [[MOKSecurityManager sharedInstance] aesEncryptText:message.plainText fromUser:message.sender];
     }
     
-    message.protocolCommand = MOKProtocolMessage;
+    message.protocolCommand = ProtocolMessage;
     
     [[MOKWatchdog sharedInstance]messageInTransit:message];
     [self sendMessageCommandFromMessage:message];
@@ -666,8 +658,8 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 -(MOKMessage *)sendNotificationTo:(NSString *)monkeyId params:(NSDictionary *)params push:(NSString *)push{
     MOKMessage *message = [[MOKMessage alloc] initTextMessage:@"" sender:_session[@"monkeyId"] recipient:monkeyId];
-    message.protocolCommand = MOKProtocolMessage;
-    message.protocolType = MOKNotif;
+    message.protocolCommand = ProtocolMessage;
+    message.protocolType = Notif;
     message.pushMessage = push;
     message.params = [params mutableCopy];
     [self sendMessageCommandFromMessage:message];
@@ -677,8 +669,8 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 -(MOKMessage *)sendTemporalNotificationTo:(NSString *)monkeyId params:(NSDictionary *)params push:(NSString *)push{
     MOKMessage *message = [[MOKMessage alloc] initTextMessage:@"" sender:_session[@"monkeyId"] recipient:monkeyId];
-    message.protocolCommand = MOKProtocolMessage;
-    message.protocolType = MOKTempNote;
+    message.protocolCommand = ProtocolMessage;
+    message.protocolType = TempNote;
     message.pushMessage = push;
     message.params = [params mutableCopy];
     [self sendMessageCommandFromMessage:message];
@@ -688,8 +680,8 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 -(MOKMessage *)sendAlertToUser:(NSString *)monkeyId withParams:(NSDictionary *)params andPush:(NSString *)push{
     MOKMessage *message = [[MOKMessage alloc] initTextMessage:@"" sender:_session[@"monkeyId"] recipient:monkeyId];
-    message.protocolCommand = MOKProtocolMessage;
-    message.protocolType = MOKAlert;
+    message.protocolCommand = ProtocolMessage;
+    message.protocolType = Alert;
     message.pushMessage = push;
     message.params = [params mutableCopy];
     [self sendMessageCommandFromMessage:message];
@@ -704,13 +696,13 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     [[MOKComServerConnection sharedInstance] sendMessage:[self.jsonWriter stringWithObject:messCom]];
 }
 -(void)sendCloseCommandToUser:(NSString *)sessionId{
-    [self sendCommand:MOKProtocolClose WithArgs:@{@"rid": sessionId}];
+    [self sendCommand:ProtocolClose WithArgs:@{@"rid": sessionId}];
 }
 -(void)deleteMessage:(NSString *)messageId
               notify:(NSString *)monkeyId{
     
     
-    [self sendCommand:MOKProtocolDelete WithArgs:@{@"id": messageId,
+    [self sendCommand:ProtocolDelete WithArgs:@{@"id": messageId,
                                                    @"rid":monkeyId}];
 }
 
@@ -725,19 +717,19 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     }
     
     switch (cmd) {
-        case MOKProtocolMessage: case MOKProtocolPublish:{
+        case ProtocolMessage: case ProtocolPublish:{
             if (![MOKWatchdog sharedInstance].isUpdateFinished) {
                 return;
             }
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
-            msg.protocolCommand = MOKProtocolMessage;
+            msg.protocolCommand = ProtocolMessage;
             
             [self processMOKProtocolMessage:msg];
             break;
         }
-        case MOKProtocolACK:{
+        case ProtocolACK:{
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
-            msg.protocolCommand = MOKProtocolACK;
+            msg.protocolCommand = ProtocolACK;
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self processMOKProtocolACK:msg];
@@ -745,10 +737,10 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
             
             break;
         }
-        case MOKProtocolGet:{
+        case ProtocolGet:{
             [[MOKWatchdog sharedInstance] updateFinished];
             
-            if([args[@"type"] intValue] == MOKGroupsString) {
+            if([args[@"type"] intValue] == GroupsString) {
 #ifdef DEBUG
                 NSLog(@"MONKEY - ******** GET Command Groups ********");
 #endif
@@ -761,12 +753,12 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
             
             break;
         }
-        case MOKProtocolSync:{
+        case ProtocolSync:{
             [[MOKWatchdog sharedInstance] updateFinished];
             
             NSDecimalNumber *type = args[@"type"];
             
-            if([type intValue] == MOKMessagesHistory) {
+            if([type intValue] == MessagesHistory) {
 #ifdef DEBUG
                 NSLog(@"MONKEY - ******** SYNC Command Message History ********");
 #endif
@@ -777,7 +769,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
             
             break;
         }
-        case MOKProtocolOpen:{
+        case ProtocolOpen:{
 #ifdef DEBUG
             NSLog(@"MONKEY - ******** OPEN Command ********");
 #endif
@@ -788,7 +780,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
             
             break;
         }
-        case MOKProtocolDelete:{
+        case ProtocolDelete:{
 #ifdef DEBUG
             NSLog(@"MONKEY - ******** DELETE Command ********");
 #endif
@@ -801,7 +793,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
             
             break;
         }
-        case MOKProtocolClose:{
+        case ProtocolClose:{
 #ifdef DEBUG
             NSLog(@"MONKEY - ******** CLOSE Command ********");
 #endif
@@ -826,7 +818,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 - (void)processSyncMessages:(NSArray *)messages withRemaining:(NSString *)numberOfRemaining{
     for (NSDictionary *msgdict in messages) {
         MOKMessage *msg = [[MOKMessage alloc] initWithArgs:msgdict];
-        msg.protocolCommand = MOKProtocolMessage;
+        msg.protocolCommand = ProtocolMessage;
         [self processMOKProtocolMessage:msg];
     }
     //check if there are still pending messages
@@ -839,18 +831,18 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     NSLog(@"MONKEY - Message in process: %@, %@, %d", msg.encryptedText,msg.messageId, msg.protocolType);
 #endif
     switch (msg.protocolType) {
-        case MOKText:{
+        case Text:{
             //Check if we have the user key
             [self incomingMessage:msg];
             
             break;
         }
-        case MOKFile:{
+        case File:{
             msg.plainText = msg.encryptedText;
             [self fileReceivedNotification:msg];
             break;
         }
-        case MOKTempNote:{
+        case TempNote:{
             [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyNotificationNotification
                                                                 object:self
                                                               userInfo:@{@"sender": msg.sender,
@@ -858,7 +850,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
                                                                          @"params": msg.params}];
             break;
         }
-        case MOKProtocolDelete:{
+        case ProtocolDelete:{
             [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyMessageDeleteNotification
                                                                 object:self
                                                               userInfo:@{@"id": msg.props[@"message_id"],
@@ -888,11 +880,11 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     //FIXME: Crash on acknowledge of unsend
     
     switch (message.protocolType) {
-        case MOKProtocolMessage: case MOKText:
+        case ProtocolMessage: case Text:
             [message updateMessageIdFromACK];
             
             break;
-        case MOKProtocolOpen:
+        case ProtocolOpen:
             
             break;
         default:
@@ -901,7 +893,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     
 //    NSMutableDictionary *ackParams = [@{} mutableCopy];
     
-    if (message.protocolType == MOKProtocolOpen) {
+    if (message.protocolType == ProtocolOpen) {
         NSMutableDictionary *params = [@{@"online": message.props[@"online"],
                                          @"monkeyId": message.sender} mutableCopy];
         
@@ -931,20 +923,20 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 - (void)dispatchGroupNotification:(MOKMessage *)msg{
 
     switch ([msg.props[@"monkey_action"] intValue]) {
-        case MOKGroupCreate:
+        case GroupCreate:
             [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyGroupCreateNotification
                                                                 object:self
                                                               userInfo:@{@"id": msg.props[@"group_id"],
                                                                          @"members": [((NSString *)msg.props[@"members"]) componentsSeparatedByString:@","],
                                                                          @"info": msg.props[@"info"]}];
             break;
-        case MOKGroupDelete:
+        case GroupDelete:
             [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyGroupRemoveNotification
                                                                 object:self
                                                               userInfo:@{@"id": msg.recipient,
                                                                          @"member": msg.sender}];
             break;
-        case MOKGroupNewMember:
+        case GroupNewMember:
             [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyGroupAddNotification
                                                                 object:self
                                                               userInfo:@{@"id": msg.recipient,
@@ -1178,12 +1170,12 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 -(void)sendOpenCommandToUser:(NSString *)sessionId{
     
-    [self sendCommand:MOKProtocolOpen WithArgs:@{@"rid" : sessionId}];
+    [self sendCommand:ProtocolOpen WithArgs:@{@"rid" : sessionId}];
     
 }
 -(void)sendSetCommandWithArgs:(NSDictionary *)args{
     
-    [self sendCommand:MOKProtocolSet WithArgs:args];
+    [self sendCommand:ProtocolSet WithArgs:args];
 }
 - (void) sendMessageCommandFromMessage:(MOKMessage *)message{
     [self checkSession];
@@ -1213,6 +1205,18 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 
 - (void)logout {
     [[MOKWatchdog sharedInstance]logout];
+}
+
+/**
+ *	Utils functions
+ */
+
+-(BOOL)isMessageOutgoing:(MOKMessage *)message{
+  if ([message.sender isEqualToString: _session[@"monkeyId"]]) {
+    return true;
+  }
+  
+  return false;
 }
 
 @end

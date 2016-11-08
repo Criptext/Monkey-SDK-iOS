@@ -163,13 +163,13 @@
         self.recipient = recipient;
         self.sender = sender;
         self.readByUser = NO;
-        self.protocolCommand = MOKProtocolMessage;
-        self.protocolType = MOKText;
+        self.protocolCommand = ProtocolMessage;
+        self.protocolType = Text;
         self.monkeyType = 0;
         self.props = props;
         
         if (self.props[@"file_type"] != nil) {
-            self.protocolType = MOKFile;
+            self.protocolType = File;
         }
         
         self.params = params;
@@ -189,8 +189,8 @@
         self.recipient = recipient;
         self.sender = sender;
         self.readByUser = NO;
-        self.protocolCommand = MOKProtocolMessage;
-        self.protocolType = MOKFile;
+        self.protocolCommand = ProtocolMessage;
+        self.protocolType = File;
         self.monkeyType = 0;
         self.props = [@{@"str":@"0",
                         @"old_id": self.messageId,
@@ -364,7 +364,7 @@ NSString* mok_fileMIMEType(NSString * extension) {
 }
 
 - (BOOL)isMediaMessage{
-    if (self.protocolCommand == MOKProtocolMessage && self.protocolType == MOKFile) {
+    if (self.protocolCommand == ProtocolMessage && self.protocolType == File) {
         return true;
     }
     
