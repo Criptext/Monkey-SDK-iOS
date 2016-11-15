@@ -628,12 +628,14 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     }
     
     [[MOKAPIConnector sharedInstance] sendFile:finalData message:fileMessage success:^(NSDictionary * _Nonnull data) {
-        if([data[@"messageId"] isKindOfClass:[NSString class]]){
-            fileMessage.messageId = data[@"messageId"];
-        }else{
-            fileMessage.messageId = [data[@"messageId"] stringValue];
-        }
-        success(fileMessage);
+      fileMessage.oldMessageId = fileMessage.messageId;
+      if([data[@"messageId"] isKindOfClass:[NSString class]]){
+        fileMessage.messageId = data[@"messageId"];
+      }else{
+        fileMessage.messageId = [data[@"messageId"] stringValue];
+      }
+      
+      success(fileMessage);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(task, error);
     }];
@@ -894,7 +896,15 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 //    NSMutableDictionary *ackParams = [@{} mutableCopy];
     
     if (message.protocolType == ProtocolOpen) {
-        NSMutableDictionary *params = [@{@"online": message.props[@"online"],
+      NSString *online = nil;
+      if (message.props[@"online"] != nil ) {
+        if ([message.props[@"online"] isKindOfClass:[NSString class]]) {
+          online = message.props[@"online"];
+        }else if([message.props[@"online"] longValue] == 0 || [message.props[@"online"] longValue] == 1) {
+          online = [NSString stringWithFormat:@"%lld", [message.props[@"online"] longValue]];
+        }
+      }
+        NSMutableDictionary *params = [@{@"online": online,
                                          @"monkeyId": message.sender} mutableCopy];
         
         if (message.props[@"last_seen"] != nil) {
