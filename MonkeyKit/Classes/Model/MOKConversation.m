@@ -45,19 +45,24 @@ static const int DAY = 86400 ;
   if (self.dateFormatter == nil) {
     self.dateFormatter = [[NSDateFormatter alloc] init];
   }
+  
+  NSDate *currentDate = [NSDate date];
+  NSDate *lastSeenDate = [NSDate dateWithTimeIntervalSince1970:self.lastSeen];
+  
+  unsigned flags = NSCalendarUnitDay;
+  NSInteger *difference = [[[NSCalendar currentCalendar] components:flags fromDate:lastSeenDate toDate:currentDate options:0] day];
 
-  double diffTime = [[NSDate date] timeIntervalSince1970] - self.lastSeen;
-  if (diffTime <= DAY) {
+  if(difference == 0) {
     [self.dateFormatter setDateFormat:@"HH:mm"];
-  }else{
+  }else if(difference == 1) {
+    return @"Yesterday";
+  }else if (difference < 7) {
+    [self.dateFormatter setDateFormat:@"EEEE"];
+  }else {
     [self.dateFormatter setDateFormat:@"dd/MM/yyyy"];
   }
-  
-  if (diffTime > DAY && diffTime < 2*DAY) {
-    return @"Yesterday";
-  }
+
   return [self.dateFormatter stringFromDate:self.date];
-  
 }
 
 -(NSDate *)date{
