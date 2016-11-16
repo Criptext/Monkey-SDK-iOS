@@ -47,6 +47,11 @@
 @property (nonatomic) NSTimeInterval lastModified;
 
 /**
+ *	Last time the conversation was read
+ */
+@property (nonatomic) NSTimeInterval lastRead;
+
+/**
  *  Initialize a conversation with an Id
  *
  *  @param conversationId Id of the conversation
