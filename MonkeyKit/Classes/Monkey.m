@@ -20,7 +20,7 @@
 NSString * const MonkeySocketStatusChangeNotification = @"com.criptext.networking.socket.status";
 
 NSString * const MonkeyMessageNotification = @"com.criptext.networking.message.received";
-NSString * const MonkeyMessageDeleteNotification = @"com.criptext.networking.message.delete";
+NSString * const MonkeyMessageUnsendNotification = @"com.criptext.networking.message.unsend";
 NSString * const MonkeyNotificationNotification = @"com.criptext.networking.notification";
 NSString * const MonkeyAcknowledgeNotification = @"com.criptext.networking.acknowledge";
 
@@ -29,9 +29,9 @@ NSString * const MonkeyGroupRemoveNotification = @"com.criptext.networking.group
 NSString * const MonkeyGroupAddNotification = @"com.criptext.networking.group.add";
 NSString * const MonkeyGroupListNotification = @"com.criptext.group.list";
 
-NSString * const MonkeyOpenNotification = @"com.criptext.networking.open.received";
+NSString * const MonkeyConversationOpenNotification = @"com.criptext.networking.conversation.open";
 NSString * const MonkeyConversationStatusNotification = @"com.criptext.networking.conversation.status";
-NSString * const MonkeyCloseNotification = @"com.criptext.networking.close";
+NSString * const MonkeyConversationCloseNotification = @"com.criptext.networking.conversation.close";
 
 NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.store";
 
@@ -775,7 +775,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 #ifdef DEBUG
             NSLog(@"MONKEY - ******** OPEN Command ********");
 #endif
-            [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyOpenNotification
+            [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyConversationOpenNotification
                                                                 object:self
                                                               userInfo:@{@"sender": args[@"sid"],
                                                                          @"recipient": args[@"rid"]}];
@@ -787,7 +787,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
             NSLog(@"MONKEY - ******** DELETE Command ********");
 #endif
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
-            [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyMessageDeleteNotification
+            [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyMessageUnsendNotification
                                                                 object:self
                                                               userInfo:@{@"id": msg.props[@"message_id"],
                                                                          @"sender": msg.sender,
@@ -799,7 +799,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
 #ifdef DEBUG
             NSLog(@"MONKEY - ******** CLOSE Command ********");
 #endif
-            [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyCloseNotification
+            [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyConversationCloseNotification
                                                                 object:self
                                                               userInfo:@{@"sender": args[@"sid"],
                                                                          @"recipient": args[@"rid"]}];
@@ -853,7 +853,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
             break;
         }
         case ProtocolDelete:{
-            [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyMessageDeleteNotification
+            [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyMessageUnsendNotification
                                                                 object:self
                                                               userInfo:@{@"id": msg.props[@"message_id"],
                                                                          @"sender": msg.sender,
@@ -901,7 +901,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
         if ([message.props[@"online"] isKindOfClass:[NSString class]]) {
           online = message.props[@"online"];
         }else if([message.props[@"online"] longValue] == 0 || [message.props[@"online"] longValue] == 1) {
-          online = [NSString stringWithFormat:@"%lld", [message.props[@"online"] longValue]];
+          online = [NSString stringWithFormat:@"%@", message.props[@"online"]];
         }
       }
         NSMutableDictionary *params = [@{@"online": online,
