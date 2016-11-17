@@ -158,8 +158,8 @@
         self.encryptedText = nil;
         self.messageId = [self generateRandomId];
         self.oldMessageId = self.messageId;
-        self.timestampCreated = [[NSDate date] timeIntervalSince1970];
-        self.timestampOrder = self.timestampCreated;
+        self.timestampOrder = [[NSDate date] timeIntervalSince1970];
+        self.timestampCreated = floor(self.timestampOrder);
         self.recipient = recipient;
         self.sender = sender;
         self.readByUser = NO;
