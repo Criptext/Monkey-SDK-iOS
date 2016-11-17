@@ -473,7 +473,7 @@ FOUNDATION_EXPORT NSString * __nonnull const MonkeyGroupListNotification;
 /**
  *	Posted when an open notification arrives through the socket.
  */
-FOUNDATION_EXPORT NSString * __nonnull const MonkeyOpenNotification;
+FOUNDATION_EXPORT NSString * __nonnull const MonkeyConversationOpenNotification;
 
 /**
  *	Posted as a response to an open I did, or when the status of a relevant conversation changes
@@ -483,7 +483,7 @@ FOUNDATION_EXPORT NSString * __nonnull const MonkeyConversationStatusNotificatio
 /**
  *	Posted when someone closes a conversation with me.
  */
-FOUNDATION_EXPORT NSString * __nonnull const MonkeyCloseNotification;
+FOUNDATION_EXPORT NSString * __nonnull const MonkeyConversationCloseNotification;
 
 /**
  *	Posted when the app should store the message
@@ -491,6 +491,6 @@ FOUNDATION_EXPORT NSString * __nonnull const MonkeyCloseNotification;
 FOUNDATION_EXPORT NSString * __nonnull const MonkeyMessageStoreNotification;
 
 /**
- *	Posted when the app should delete the message
+ *	Posted when the app should unsend the message
  */
-FOUNDATION_EXPORT NSString * __nonnull const MonkeyMessageDeleteNotification;
+FOUNDATION_EXPORT NSString * __nonnull const MonkeyMessageUnsendNotification;
