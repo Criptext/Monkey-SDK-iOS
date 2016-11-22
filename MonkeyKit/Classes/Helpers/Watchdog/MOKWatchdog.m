@@ -12,8 +12,6 @@
 #import "MOKSGSConnection.h"
 
 @interface MOKWatchdog ()
-@property (nonatomic, strong) NSMutableArray *messagesInTransit;
-@property (nonatomic, strong) NSMutableDictionary *mediasInTransit;
 @property (nonatomic) BOOL isCheckingConnectivity;
 @property (nonatomic) BOOL isLogout;
 @end
@@ -89,7 +87,7 @@ static MOKWatchdog *watchdogInstance = nil;
     @synchronized(self.messagesInTransit){
         [self.messagesInTransit addObject:message];
     }
-//    [self.messagesInTransit addObject:message];
+  
     [self performSelector:@selector(checkMessages) withObject:nil afterDelay:5.0];
 }
 
@@ -98,17 +96,17 @@ static MOKWatchdog *watchdogInstance = nil;
         if (self.messagesInTransit.count == 0) {
             return;
         }
-        
+      
         MOKMessage *message = [self.messagesInTransit objectAtIndex:0];
 //        MOKMessage *msg = [[MOKDBManager sharedInstance]getMessageById:message.messageId];
-        
-//        if (msg == nil) {
+      
+        if (message == nil) {
 //            [self.messagesInTransit removeObjectAtIndex:0];
-//            //            NSLog(@"MONKEY - Todo tuenti en el watchdog!");
-//            return;
-//        }
-        
-        [self.messagesInTransit removeAllObjects];
+            //            NSLog(@"MONKEY - Todo tuenti en el watchdog!");
+            return;
+        }
+      
+//        [self.messagesInTransit removeAllObjects];
         
         //logout and let Monkey handle reconnect
         [[MOKComServerConnection sharedInstance] resetByWatchdog];

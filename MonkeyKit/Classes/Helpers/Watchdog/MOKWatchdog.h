@@ -11,6 +11,8 @@
 @class MOKMessage;
 @interface MOKWatchdog : NSObject
 @property (nonatomic) BOOL isUpdateFinished;
+@property (nonatomic, strong) NSMutableArray *messagesInTransit;
+@property (nonatomic, strong) NSMutableDictionary *mediasInTransit;
 
 +(instancetype)sharedInstance;
 

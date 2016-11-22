@@ -548,7 +548,8 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     if (push != nil) {
         message.pushMessage = [MOKMessage generatePushFrom:push];
     }
-    
+  
+    [[MOKWatchdog sharedInstance]messageInTransit:message];
     [self sendMessageCommandFromMessage:message];
     
     return message;
@@ -732,6 +733,22 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
         case ProtocolACK:{
             MOKMessage *msg = [[MOKMessage alloc] initWithArgs:args];
             msg.protocolCommand = ProtocolACK;
+          
+          if ([MOKWatchdog sharedInstance].messagesInTransit.count > 0) {
+            __block BOOL shouldResendMessages = false;
+            [MOKWatchdog sharedInstance].messagesInTransit = [[[MOKWatchdog sharedInstance].messagesInTransit filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(MOKMessage * _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+              //discard message from array if it has same message id
+              if ([evaluatedObject.messageId isEqualToString:msg.messageId] || [evaluatedObject.messageId isEqualToString:msg.oldMessageId]) {
+                shouldResendMessages = true;
+                return false;
+              }
+              return true;
+            }]] mutableCopy];
+            
+            if (shouldResendMessages) {
+              [self sendMessagesAgain];
+            }
+          }
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self processMOKProtocolACK:msg];
@@ -1151,34 +1168,21 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     NSLog(@"MONKEY - Upload Fail");
 }
 - (void)sendMessagesAgain {
-//    if (!self.shouldResendAutomatically) {
-//        return;
-//    }
-//    
-//    MOKMessage *message= [[MOKDBManager sharedInstance] getOldestMessageNotSent];
-//    
-//    if (message == nil) {
-//        return;
-//    }
-//    message.timestampCreated = [[NSDate date] timeIntervalSince1970];
-//    message.timestampOrder = message.timestampCreated;
-//    
-//    switch (message.protocolType) {
-//        case MOKText:
-//            [self sendMessage:message];
-//            break;
-//        case MOKFile:
-//#ifdef DEBUG
-//            NSLog(@"MONKEY - file type resend: %@",[message.props objectForKey:@"file_type"]);
-//#endif
-//            [self sendFile:message ofType:[message.props objectForKey:@"file_type"]];
-//            //            [self sendFileWithURL:[NSURL fileURLWithPath:message.encryptedText] ofType:(MOKFileType)[message.params objectForKey:@"file_type"] toUser:message.userIdTo andParams:message.params];
-//            break;
-//            
-//        default:
-//            break;
-//    }
-//    
+  
+  if ([MOKWatchdog sharedInstance].messagesInTransit.count == 0) {
+    return;
+  }
+    
+    MOKMessage *message= [MOKWatchdog sharedInstance].messagesInTransit[0];
+    
+    if (message == nil) {
+        return;
+    }
+    message.timestampCreated = [[NSDate date] timeIntervalSince1970];
+    message.timestampOrder = message.timestampCreated;
+  
+  [self sendMessageCommandFromMessage:message];
+    
 }
 
 -(void)sendOpenCommandToUser:(NSString *)sessionId{
