@@ -987,9 +987,15 @@ failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull erro
         return;
     }
     
+    if([message.props[@"new_id"] isKindOfClass:[NSString class]]){
+      message.props[@"new_id"] = message.props[@"new_id"];
+    }else{
+      message.props[@"new_id"] = [message.props[@"new_id"] stringValue];
+    }
+  
     [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyAcknowledgeNotification
                                                         object:self
-                                                      userInfo:@{@"newId": [message.props[@"new_id"] stringValue],
+                                                      userInfo:@{@"newId": message.props[@"new_id"],
                                                                  @"oldId": message.props[@"old_id"],
                                                                  @"sender": message.sender,
                                                                  @"recipient": message.recipient,
