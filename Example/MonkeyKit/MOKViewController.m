@@ -245,7 +245,7 @@ NSString * const MyMonkeyId = @"";
             recipient = self.recipientTextField.text;
         }
         
-        MOKMessage *message = [[Monkey sharedInstance] sendFilePath:selectedPhotoPath type:MOKPhoto filename:@"myphoto.png" encrypted:true compressed:true to:recipient params:nil push:nil success:^(MOKMessage * _Nonnull message) {
+        MOKMessage *message = [[Monkey sharedInstance] sendFilePath:selectedPhotoPath type:Image filename:@"myphoto.png" encrypted:true compressed:true to:recipient params:nil push:nil success:^(MOKMessage * _Nonnull message) {
             NSLog(@"success uploading");
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             NSLog(@"fail to upload");
