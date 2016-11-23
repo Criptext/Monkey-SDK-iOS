@@ -989,7 +989,7 @@ failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull erro
     
     [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyAcknowledgeNotification
                                                         object:self
-                                                      userInfo:@{@"newId": message.props[@"new_id"],
+                                                      userInfo:@{@"newId": [message.props[@"new_id"] stringValue],
                                                                  @"oldId": message.props[@"old_id"],
                                                                  @"sender": message.sender,
                                                                  @"recipient": message.recipient,
