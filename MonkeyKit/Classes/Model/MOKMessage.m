@@ -50,7 +50,15 @@
 
 - (NSString *)conversationId:(NSString *)myMonkeyId{
 
-    if ([self isGroupMessage] || (myMonkeyId != nil && [myMonkeyId isEqualToString:self.sender])) {
+  if ([self.recipient rangeOfString:@"G:"].location!=NSNotFound){
+    return self.recipient;
+  }
+  
+  if( [self.sender rangeOfString:@"G:"].location!=NSNotFound){
+    return self.sender;
+  }
+  
+    if (myMonkeyId != nil && [myMonkeyId isEqualToString:self.sender]) {
         return self.recipient;
     }
     
