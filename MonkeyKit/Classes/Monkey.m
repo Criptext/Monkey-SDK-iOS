@@ -555,6 +555,19 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     return message;
 }
 
+-(void)sendTextMessage:(nonnull MOKMessage *)message{
+  
+  if (message.protocolType != Text) {
+    NSLog(@"Monkey - Message is not a text message");
+    return;
+  }
+  
+  message.timestampOrder = [[NSDate date] timeIntervalSince1970];
+  
+  [[MOKWatchdog sharedInstance]messageInTransit:message];
+  [self sendMessageCommandFromMessage:message];
+}
+
 -(nullable MOKMessage *)sendFilePath:(NSString *)filePath
                                 type:(MOKFileType)type
                             filename:(NSString *)filename
@@ -642,6 +655,43 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     }];
     
     return fileMessage;
+}
+
+-(void)sendFileMessage:(nonnull MOKMessage *)message
+success:(void (^)(MOKMessage * _Nonnull message))success
+failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
+  
+  if (message.protocolType != File) {
+    NSLog(@"Monkey - Message is not a file message");
+    return;
+  }
+  
+  NSString *documentDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+  documentDirectory = [documentDirectory stringByAppendingPathComponent:message.messageText];
+  NSData *fileData = [[NSFileManager defaultManager] contentsAtPath:documentDirectory];
+  
+  if (fileData == nil) {
+    NSLog(@"Monkey - Local file data not available");
+    
+    failure(nil, [[NSError alloc] initWithDomain:NSURLErrorDomain code:-1 userInfo:@{NSURLErrorFailingURLErrorKey: documentDirectory}]);
+    return;
+  }
+  
+  message.timestampOrder = [[NSDate date] timeIntervalSince1970];
+  
+  [[MOKAPIConnector sharedInstance] sendFile:fileData message:message success:^(NSDictionary * _Nonnull data) {
+    message.oldMessageId = message.messageId;
+    if([data[@"messageId"] isKindOfClass:[NSString class]]){
+      message.messageId = data[@"messageId"];
+    }else{
+      message.messageId = [data[@"messageId"] stringValue];
+    }
+    
+    success(message);
+  } failure:failure];
+  
+//  [[MOKWatchdog sharedInstance]mediaInTransit:message];
+//  [self sendMessageCommandFromMessage:message];
 }
 
 -(MOKMessage *)sendMessage:(MOKMessage *)message{

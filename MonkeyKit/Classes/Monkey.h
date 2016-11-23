@@ -176,6 +176,15 @@
                            push:(nullable id)optionalPush;
 
 /**
+ *  Send a existing Text MOKMessage
+ *
+ *  @param  message		Message to send
+ *
+ *	@discussion This is intended for resend purposes, this won't create a new MOKMessage
+ */
+-(void)sendTextMessage:(nonnull MOKMessage *)message;
+
+/**
  *  Send a notification to a user
  *
  *	@param	conversationId	Conversation Id, it can be a Monkey Id or a Group Id
@@ -276,6 +285,19 @@
                                 push:(nullable id)optionalPush
                              success:(nullable void (^)(MOKMessage * _Nonnull message))success
                              failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+
+/**
+ *  Send a existing File MOKMessage
+ *
+ *  @param  message		Message to send
+ *  @param	success			Completion block when the file was sent successfully
+ *  @param	failure			Completion block when the file failed to send
+ *
+ *	@discussion This is intended for resend purposes, this won't create a new MOKMessage. If the data is not available locally this will fail
+ */
+-(void)sendFileMessage:(nonnull MOKMessage *)message
+               success:(void (^)(MOKMessage * _Nonnull message))success
+               failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
  *  Download file to specified folder.
