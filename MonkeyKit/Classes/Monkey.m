@@ -539,6 +539,9 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     
     if (shouldEncrypt) {
         message.encryptedText = [[MOKSecurityManager sharedInstance] aesEncryptText:message.plainText fromUser:message.sender];
+        message.props[@"encoding"] = @"utf8";
+    }else{
+        message.props[@"encoding"] = @"base64";
     }
     
     if (params != nil) {
@@ -551,7 +554,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
   
     [[MOKWatchdog sharedInstance]messageInTransit:message];
     [self sendMessageCommandFromMessage:message];
-    
+  
     return message;
 }
 
@@ -563,7 +566,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
   }
   
   message.timestampOrder = [[NSDate date] timeIntervalSince1970];
-  
+
   [[MOKWatchdog sharedInstance]messageInTransit:message];
   [self sendMessageCommandFromMessage:message];
 }
@@ -1069,7 +1072,7 @@ failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull erro
     }else{
         message.plainText= message.encryptedText;
         
-        if (message.props[@"encoding"] != nil && ![message.props[@"encoding"] isEqualToString:@"utf8"]) {
+        if (message.props[@"encoding"] != nil && [message.props[@"encoding"] isEqualToString:@"base64"]) {
             message.plainText= [[MOKSecurityManager sharedInstance] decodeBase64:message.encryptedText];
         }
     }
@@ -1251,29 +1254,35 @@ failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull erro
     [self sendCommand:ProtocolSet WithArgs:args];
 }
 - (void) sendMessageCommandFromMessage:(MOKMessage *)message{
-    [self checkSession];
-    NSDictionary *args;
-    
-    if ([message.pushMessage isEqualToString:@""] || message.pushMessage == nil) {
-        args = @{@"id": message.messageId,
-                 @"rid": message.recipient,
-                 @"msg": [message isEncrypted]? message.encryptedText : message.plainText,
-                 @"type": [NSNumber numberWithInt:message.protocolType],
-                 @"props": [self.jsonWriter stringWithObject:message.props],
-                 @"params": [self.jsonWriter stringWithObject:message.params]
-                 };
-    }else{
-        args = @{@"id": message.messageId,
-                 @"rid": message.recipient,
-                 @"msg": [message isEncrypted]? message.encryptedText : message.plainText,
-                 @"type": [NSNumber numberWithInt:message.protocolType],
-                 @"props": [self.jsonWriter stringWithObject:message.props],
-                 @"params": [self.jsonWriter stringWithObject:message.params],
-                 @"push": message.pushMessage? message.pushMessage : @""
-                 };
-    }
-    
-    [self sendCommand:message.protocolCommand WithArgs:args];
+  [self checkSession];
+  NSDictionary *args;
+  
+  NSString *text = message.encryptedText;
+  
+  if (![message isEncrypted]) {
+    text = [[MOKSecurityManager sharedInstance] encodeBase64:message.plainText];
+  }
+  
+  if ([message.pushMessage isEqualToString:@""] || message.pushMessage == nil) {
+    args = @{@"id": message.messageId,
+             @"rid": message.recipient,
+             @"msg": text,
+             @"type": [NSNumber numberWithInt:message.protocolType],
+             @"props": [self.jsonWriter stringWithObject:message.props],
+             @"params": [self.jsonWriter stringWithObject:message.params]
+             };
+  }else{
+    args = @{@"id": message.messageId,
+             @"rid": message.recipient,
+             @"msg": text,
+             @"type": [NSNumber numberWithInt:message.protocolType],
+             @"props": [self.jsonWriter stringWithObject:message.props],
+             @"params": [self.jsonWriter stringWithObject:message.params],
+             @"push": message.pushMessage? message.pushMessage : @""
+             };
+  }
+  
+  [self sendCommand:message.protocolCommand WithArgs:args];
 }
 
 - (void)logout {
