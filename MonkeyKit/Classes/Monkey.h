@@ -296,8 +296,8 @@
  *	@discussion This is intended for resend purposes, this won't create a new MOKMessage. If the data is not available locally this will fail
  */
 -(void)sendFileMessage:(nonnull MOKMessage *)message
-               success:(void (^)(MOKMessage * _Nonnull message))success
-               failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
+               success:(nullable void (^)(MOKMessage * _Nonnull message))success
+               failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**
  *  Download file to specified folder.

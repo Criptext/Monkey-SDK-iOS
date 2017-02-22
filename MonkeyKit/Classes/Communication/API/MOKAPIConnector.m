@@ -222,7 +222,7 @@ withPendingMessage:(MOKMessage *)message
 -(void)getConversationsOf:(NSString *)monkeyId
                     since:(double)timestamp
                  quantity:(int)qty
-                  success:(nullable void (^)(NSArray * _Nonnull conversations))success
+                  success:(nullable void (^)(NSArray<MOKConversation *> * _Nonnull conversations))success
                   failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure{
     
     NSMutableDictionary *requestObject = [@{@"monkeyId": monkeyId,

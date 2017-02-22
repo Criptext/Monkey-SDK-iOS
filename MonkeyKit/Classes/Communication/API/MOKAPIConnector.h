@@ -87,7 +87,7 @@ withPendingMessage:(nullable MOKMessage *)message
 -(void)getMessagesOf:(nonnull NSString *)monkeyId
                since:(nonnull NSString *)timestamp
             quantity:(int)qty
-             success:(void (^)(NSDictionary * _Nonnull data))success
+             success:(nullable void (^)(NSDictionary * _Nonnull data))success
              failure:(nullable void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error))failure;
 
 /**

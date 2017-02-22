@@ -285,7 +285,7 @@ typedef enum{
 /**
  *  Not a valid initializer.
  */
-- (nullable id)init NS_UNAVAILABLE;
+- (nonnull id)init NS_UNAVAILABLE;
 
 @end
 
