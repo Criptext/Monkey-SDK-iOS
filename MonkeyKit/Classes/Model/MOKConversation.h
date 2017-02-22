@@ -78,5 +78,5 @@
 /**
  *  Not a valid initializer.
  */
-- (_Nullable id)init NS_UNAVAILABLE;
+- (nonnull id)init NS_UNAVAILABLE;
 @end

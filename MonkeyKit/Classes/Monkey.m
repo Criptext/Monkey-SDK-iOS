@@ -37,6 +37,7 @@ NSString * const MonkeyMessageStoreNotification = @"com.criptext.db.message.stor
 
 NSString * const MonkeyDomainKey = @"com.criptext.keychain.domain";
 NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
+NSString * const MonkeyTimestampKey = @"com.criptext.keychain.lastTimestamp";
 
 @interface Monkey () <MOKComServerConnectionDelegate>
 @property (nonatomic, strong) MOKSBJsonWriter *jsonWriter;
@@ -110,8 +111,6 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     user = user ? [user mutableCopy] : [@{} mutableCopy];
     _session[@"user"] = user;
     
-    _session[@"lastTimestamp"] = lastTimestamp ? [lastTimestamp stringValue] : @"0";
-    
     NSString *myKeys = nil;
     NSString *myDomain = nil;
     NSString *myPort = nil;
@@ -120,6 +119,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     
     if (providedMonkeyId != nil && ![providedMonkeyId isEqualToString:@""]) {
         _session[@"monkeyId"] = providedMonkeyId;
+      
         myKeys = [[MOKSecurityManager sharedInstance]getAESbase64forUser:_session[@"monkeyId"]];
         myDomain = [[MOKSecurityManager sharedInstance] getObjectForIdentifier:MonkeyDomainKey];
         myPort = [[MOKSecurityManager sharedInstance] getObjectForIdentifier:MonkeyPortKey];
@@ -130,6 +130,10 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     if (myKeys != nil && myDomain != nil && myPort != nil) {
         _domain = myDomain;
         _port = myPort;
+      
+        NSString *storedTimestamp = [[MOKSecurityManager sharedInstance] getObjectForIdentifier:MonkeyTimestampKey];
+      
+        _session[@"lastTimestamp"] = lastTimestamp ? [lastTimestamp stringValue] : storedTimestamp? : @"0";
         // connect and be done with it
         success([_session copy]);
         [self connect];
@@ -163,6 +167,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     
         if ([storedLastTimeSynced intValue] > [_session[@"lastTimestamp"] intValue]) {
             _session[@"lastTimestamp"] = storedLastTimeSynced;
+            [[MOKSecurityManager sharedInstance] storeObject:storedLastTimeSynced withIdentifier:MonkeyTimestampKey];
         }
                                                                 
         [[MOKSecurityManager sharedInstance] storeObject:self.domain withIdentifier:MonkeyDomainKey];
@@ -303,7 +308,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
                 conv.lastMessage = conversation[@"last_message"];
                 conv.lastSeen = [conversation[@"last_seen"] doubleValue];
                 conv.lastModified = [conversation[@"last_modified"] doubleValue];
-                conv.unread = [conversation[@"unread"] longLongValue];
+                conv.unread = [conversation[@"unread"] intValue];
                 
                 [conversationArray addObject:conv];
             }
@@ -637,7 +642,7 @@ NSString * const MonkeyPortKey = @"com.criptext.keychain.port";
     }
     
     if (params != nil) {
-        fileMessage.params = params;
+        fileMessage.params = [params mutableCopy];
     }
     
     if (push != nil) {
@@ -932,7 +937,9 @@ failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull erro
         }
         default:
             if (![msg.messageId isEqualToString:@"0"] && msg.timestampCreated > [_session[@"lastTimestamp"] longLongValue]) {
-                _session[@"lastTimestamp"] = [@(msg.timestampCreated) stringValue];
+                NSString *timestamp = [@(msg.timestampCreated) stringValue];
+                _session[@"lastTimestamp"] = timestamp;
+                [[MOKSecurityManager sharedInstance] storeObject:timestamp withIdentifier:MonkeyTimestampKey];
             }
             if(msg.props.count > 0 && msg.props[@"monkey_action"] != nil){
                 [self dispatchGroupNotification:msg];
@@ -1078,7 +1085,9 @@ failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull erro
     }
     
     if (![message.messageId isEqualToString:@"0"] && message.timestampCreated > [_session[@"lastTimestamp"] intValue]) {
-        _session[@"lastTimestamp"] = [@(message.timestampCreated) stringValue];
+        NSString *timestamp = [@(message.timestampCreated) stringValue];
+        _session[@"lastTimestamp"] = timestamp;
+        [[MOKSecurityManager sharedInstance] storeObject:timestamp withIdentifier:MonkeyTimestampKey];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:MonkeyMessageNotification
@@ -1089,7 +1098,9 @@ failure:(void (^)(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull erro
 - (void)fileReceivedNotification:(MOKMessage *)message {
     
     if (message.timestampCreated > [_session[@"lastTimestamp"] intValue]) {
-        _session[@"lastTimestamp"] = [@(message.timestampCreated) stringValue];
+        NSString *timestamp = [@(message.timestampCreated) stringValue];
+        _session[@"lastTimestamp"] = timestamp;
+        [[MOKSecurityManager sharedInstance] storeObject:timestamp withIdentifier:MonkeyTimestampKey];
     }
     
     //NOTE: check if it's necessary

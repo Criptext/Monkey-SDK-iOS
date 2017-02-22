@@ -8,8 +8,6 @@
 
 #import "MOKConversation.h"
 
-static const int DAY = 86400 ;
-
 @interface MOKConversation()
 @property (nonatomic, strong) NSDateFormatter *dateFormatter;
 @end
@@ -50,7 +48,7 @@ static const int DAY = 86400 ;
   NSDate *lastSeenDate = [NSDate dateWithTimeIntervalSince1970:self.lastSeen];
   
   unsigned flags = NSCalendarUnitDay;
-  NSInteger *difference = [[[NSCalendar currentCalendar] components:flags fromDate:lastSeenDate toDate:currentDate options:0] day];
+  NSInteger difference = [[[NSCalendar currentCalendar] components:flags fromDate:lastSeenDate toDate:currentDate options:0] day];
 
   if(difference == 0) {
     [self.dateFormatter setDateFormat:@"HH:mm"];

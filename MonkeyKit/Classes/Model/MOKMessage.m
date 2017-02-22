@@ -145,7 +145,7 @@
 
 
 - (MOKMessage *)initTextMessage:(NSString*)text sender:(NSString *)sender recipient:(NSString *)recipient {
-    return [self initMessage:text sender:sender recipient:recipient params:[@{} mutableCopy] props:[@{} mutableCopy]];
+    return [self initMessage:text sender:sender recipient:recipient params:@{} props:@{}];
 }
 
 - (MOKMessage *)initTextMessage:(NSString*)text
@@ -153,7 +153,7 @@
                       recipient:(NSString *)recipient
                          params:(NSDictionary *)params{
     
-    return [self initMessage:text sender:sender recipient:recipient params:params props:[@{} mutableCopy]];
+    return [self initMessage:text sender:sender recipient:recipient params:params props:@{}];
 }
 
 - (MOKMessage *)initMessage:(NSString*)text
@@ -174,13 +174,13 @@
         self.protocolCommand = ProtocolMessage;
         self.protocolType = Text;
         self.monkeyType = 0;
-        self.props = props;
+        self.props = [props mutableCopy];
         
         if (self.props[@"file_type"] != nil) {
             self.protocolType = File;
         }
         
-        self.params = params;
+        self.params = [params mutableCopy];
         self.pushMessage = @"";
         self.readBy = [@[] mutableCopy];
     }
@@ -381,7 +381,7 @@ NSString* mok_fileMIMEType(NSString * extension) {
 
 - (uint)mediaType{
     if ([self isMediaMessage]) {
-        return self.params[@"file_type"] ? [self.params[@"file_type"] unsignedIntegerValue]: [self.props[@"file_type"] unsignedIntegerValue];
+        return self.params[@"file_type"] ? [self.params[@"file_type"] unsignedIntValue]: [self.props[@"file_type"] unsignedIntValue];
     }
     
     return -1;
