@@ -804,8 +804,18 @@ static NSData *base64_decode(NSString *str){
     return [[self aesEncryptData:[text dataUsingEncoding:NSUTF8StringEncoding] withKey:aesdata andIV:ivdata] mok_base64EncodedString];
 }
 
+-(NSString *)aesEncryptText:(NSString *)text withKey:(NSString *)aes andIV:(NSString *)iv{
+    NSData *ivdata = [[NSData alloc]initWithBase64EncodedString:iv options:0];
+    
+    return [[self aesEncryptData:[text dataUsingEncoding:NSUTF8StringEncoding] withKey:[NSData mok_dataFromBase64String:aes] andIV:ivdata] mok_base64EncodedString];
+}
+
 -(NSString *)aesDecryptText:(NSString *)text fromUser:(NSString *)userId{
     return [[NSString alloc]initWithData:[self aesDecryptData:[NSData mok_dataFromBase64String:text] withKey:[NSData mok_dataFromBase64String:[self getAESbase64forUser:userId]] andIV:[NSData mok_dataFromBase64String:[self getIVbase64forUser:userId]]] encoding:NSUTF8StringEncoding];
+}
+
+-(NSString *)aesDecryptText:(NSString *)text withKey:(NSString *)aes andIV:(NSString *)iv{
+    return [[NSString alloc]initWithData:[self aesDecryptData:[NSData mok_dataFromBase64String:text] withKey:[NSData mok_dataFromBase64String:aes] andIV:[NSData mok_dataFromBase64String:iv]] encoding:NSUTF8StringEncoding];
 }
 
 -(NSString *)aesDecryptKeyAndClean:(NSString *)encryptedString fromUser:(NSString *)userId{

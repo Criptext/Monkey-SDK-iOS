@@ -39,6 +39,13 @@
 -(NSData *)aesEncryptData:(NSData *)data fromUser:(NSString *)userId;
 -(NSData *)aesDecryptData:(NSData *)data fromUser:(NSString *)userId;
 
+-(NSString *)aesEncryptText:(NSString *)text withKey:(NSString *)aes andIV:(NSString *)iv;
+-(NSString *)aesDecryptText:(NSString *)text withKey:(NSString *)aes andIV:(NSString *)iv;
+
+-(NSData *)aesEncryptData:(NSData *)data withKey:(NSData *)key andIV:(NSData *)iv;
+-(NSData *)aesDecryptData:(NSData *)data withKey:(NSData *)key andIV:(NSData *)iv;
+
+
 //for open
 -(NSString *)aesDecryptKeyAndClean:(NSString *)encryptedString fromUser:(NSString *)userId;
 
